@@ -6,42 +6,51 @@ import com.metsci.glimpse.painter.info.CursorTextPainter;
 import com.metsci.glimpse.painter.plot.XYLinePainter;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
+import com.metsci.laproc.plotting.Axis;
+import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphableData;
 
 /**
  * Created by malinocr on 9/20/2016.
  */
 public class ROCCurvePlot implements GlimpseLayoutProvider
 {
+    Graph graph;
+
+    ROCCurvePlot (Graph graph ){
+        this.graph = graph;
+    }
 
     public static int NUM_POINTS = 100;
 
-    public SimplePlot2D getLayout( )
+    public SimplePlot2D getLayout()
     {
         // create a plot frame
         SimplePlot2D plot = new SimplePlot2D( );
 
+        Axis xAxis = graph.getXAxis();
+        Axis yAxis = graph.getYAxis();
+
         // set axis labels and chart title
         plot.setTitle( "ROC Curve Example" );
-        plot.setAxisLabelX( "x axis" );
-        plot.setAxisLabelY( "y axis" );
+        plot.setAxisLabelX( xAxis.getName() );
+        plot.setAxisLabelY( yAxis.getName() );
 
         // set the x, y initial axis bounds
-        plot.setMinX( -0.1 );
-        plot.setMaxX( 1.1 );
+        plot.setMinX( xAxis.getMin() );
+        plot.setMaxX( xAxis.getMax() );
 
-        plot.setMinY( -0.1 );
-        plot.setMaxY( 1.1 );
+        plot.setMinY( yAxis.getMin() );
+        plot.setMaxY( yAxis.getMax() );
 
         // don't show the square selection box, only the x and y crosshairs
         plot.getCrosshairPainter( ).showSelectionBox( false );
 
-        // creating a data series painter, passing it the lineplot frame
-        // this constructor will have the painter draw according to the lineplot x and y axis
-        XYLinePainter series1 = createXYLinePainter1( );
-        plot.addPainter( series1 );
-
-        XYLinePainter series2 = createXYLinePainter2( );
-        plot.addPainter( series2 );
+        // draws a line for each set of graphable data
+        for(GraphableData g : graph.getData()){
+            XYLinePainter series = createXYLinePainter( g );
+            plot.addPainter( series );
+        }
 
         // add a painter to display the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter( );
@@ -63,20 +72,16 @@ public class ROCCurvePlot implements GlimpseLayoutProvider
         return plot;
     }
 
-    public static XYLinePainter createXYLinePainter1( )
+    public static XYLinePainter createXYLinePainter( GraphableData data )
     {
-        // add two data series to the plot
-        float[] dataX = new float[NUM_POINTS];
-        float[] dataY = new float[NUM_POINTS];
 
-        XYLinePainter series1 = new XYLinePainter( );
-        generateData1( dataX, dataY, NUM_POINTS );
-        series1.setData( dataX, dataY );
-        series1.setLineColor( GlimpseColor.fromColorRgba( 1.0f, 0.0f, 0.0f, 0.8f ) );
-        series1.setLineThickness( 1.5f );
-        series1.showPoints( false );
+        XYLinePainter series = new XYLinePainter( );
+        series.setData( data.getXValues(), data.getYValues() );
+        series.setLineColor( GlimpseColor.fromColorRgba( 1.0f, 0.0f, 0.0f, 0.8f ) );
+        series.setLineThickness( 1.5f );
+        series.showPoints( false );
 
-        return series1;
+        return series;
     }
 
     public static XYLinePainter createXYLinePainter2( )
