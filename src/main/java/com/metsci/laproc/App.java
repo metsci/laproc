@@ -20,8 +20,8 @@ public class App
         JTabbedPane tabbedPane = new JTabbedPane();
         frame.add(tabbedPane);
         NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas( );
-        canvas.addLayout(new ScatterPlot().getLayout());
+        canvas.addLayout(new ROCCurvePlot().getLayout());
         new FPSAnimator( canvas.getGLDrawable( ), 120 ).start( );
-        tabbedPane.add("ScatterPlot",canvas);
+        tabbedPane.add("ROCCurvePlot",canvas);
     }
 }
