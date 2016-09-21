@@ -103,8 +103,6 @@ public class ROCCurvePlot implements GlimpseLayoutProvider
 
             dataX[i] = x;
             dataY[i] = ( float ) (Math.sqrt( x ) * 0.9);
-            System.out.println(dataX[i]);
-            System.out.println(dataY[i]);
         }
     }
 
