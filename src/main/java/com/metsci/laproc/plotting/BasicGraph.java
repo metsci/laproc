@@ -73,4 +73,12 @@ public class BasicGraph implements Graph {
     public Iterable<GraphableData> getData() {
         return this.data;
     }
+
+    /**
+     * Adds a graphable data item
+     * @param dat The data to add
+     */
+    public void addData(GraphableData dat) {
+        this.data.add(dat);
+    }
 }
