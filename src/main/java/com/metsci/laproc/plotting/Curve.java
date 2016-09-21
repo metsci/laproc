@@ -14,7 +14,8 @@ public class Curve implements GraphableData {
     /** The name of this set of data */
     private String name;
     /** All of the points in this set of data */
-    private Set<GraphPoint> data;
+    private double[] xValues;
+    private double[] yValues;
 
     /**
      * Constructor
@@ -22,7 +23,9 @@ public class Curve implements GraphableData {
      */
     public Curve(String name) {
         this.name = name;
-        this.data = new TreeSet<GraphPoint>();
+        //this.data = new TreeSet<GraphPoint>();
+        this.xValues = new double[]{0, 0.3, 0.4, 0.5};
+        this.yValues = new double[]{0.4, 0.1, 0.2, 0.7};
     }
 
     /**
@@ -43,9 +46,18 @@ public class Curve implements GraphableData {
 
     /**
      * Returns a set of points with double precision
-     * @return This set of data points
+     * @return The set of x values
      */
-    public Collection<GraphPoint> getPoints() {
-        return Collections.unmodifiableSet(data);
+    public double[] getXValues() {
+        return this.xValues;
     }
+
+    /**
+     * Returns a set of points with double precision
+     * @return The set of y values
+     */
+    public double[] getYValues() {
+        return this.yValues;
+    }
+
 }
