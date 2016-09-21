@@ -22,7 +22,13 @@ public interface GraphableData {
 
     /**
      * Returns a set of points with double precision
-     * @return The set of the points
+     * @return The set of x values
      */
-    Collection<GraphPoint> getPoints();
+    public double[] getXValues();
+
+    /**
+     * Returns a set of points with double precision
+     * @return The set of y values
+     */
+    public double[] getYValues();
 }
