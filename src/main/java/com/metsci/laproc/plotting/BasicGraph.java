@@ -1,5 +1,6 @@
 package com.metsci.laproc.plotting;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -17,6 +18,10 @@ public class BasicGraph implements Graph {
 
     /** All data sets that can be plotted on this graph */
     private Collection<GraphableData> data;
+
+    public BasicGraph (){
+        data = new ArrayList<GraphableData>();
+    }
 
     /**
      * Getter for the graph's X axis
