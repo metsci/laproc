@@ -24,6 +24,11 @@ public class ROCCurve implements GraphableFunction {
      * @return The plottable data set representing this curve
      */
     public GraphableData compute() {
-        return new Curve("ROC");
+        GraphableData d = new Curve("ROC");
+        d.addPoint(0.1, 0.4);
+        d.addPoint(0.3, 0.4);
+        d.addPoint(0.5, 0.5);
+        d.addPoint(0.7, 0.8);
+        return d;
     }
 }

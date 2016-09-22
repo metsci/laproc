@@ -1,9 +1,8 @@
 package com.metsci.laproc;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
-import com.metsci.laproc.plotting.Axis;
-import com.metsci.laproc.plotting.BasicGraph;
-import com.metsci.laproc.plotting.Curve;
+import com.metsci.laproc.data.ClassifierDataSet;
+import com.metsci.laproc.plotting.*;
 
 import javax.swing.*;
 
@@ -20,18 +19,9 @@ public class App
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        Axis xAxis = new Axis();
-        xAxis.setName("x axis");
-        xAxis.setBounds(0,1);
-
-        Axis yAxis = new Axis();
-        yAxis.setName("y axis");
-        yAxis.setBounds(0,1);
-
-        BasicGraph graph = new BasicGraph();
-        graph.setXAxis(xAxis);
-        graph.setYAxis(yAxis);
-        graph.addData( new Curve("Curve 1"));
+        BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
+        GraphableFunction func = new ROCCurve(new ClassifierDataSet());
+        graph.addData( func.compute());
 
         JTabbedPane tabbedPane = new JTabbedPane();
         frame.add(tabbedPane);
