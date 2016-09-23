@@ -19,8 +19,34 @@ public class BasicGraph implements Graph {
     /** All data sets that can be plotted on this graph */
     private Collection<GraphableData> data;
 
-    public BasicGraph (){
-        data = new ArrayList<GraphableData>();
+    /**
+     * Default constructor
+     */
+    public BasicGraph() {
+        this(new Axis(0, 1), new Axis(0, 1), new Axis(0, 1));
+    }
+
+    /**
+     * Constructor
+     * @param xAxis The x axis
+     * @param yAxis The y axis
+     */
+    public BasicGraph(Axis xAxis, Axis yAxis) {
+        this(xAxis, yAxis, null);
+    }
+
+    /**
+     * Constructor
+     * @param xAxis The x axis
+     * @param yAxis The y axis
+     * @param zAxis The z axis
+     */
+    public BasicGraph(Axis xAxis, Axis yAxis, Axis zAxis) {
+        this.xAxis = xAxis;
+        this.yAxis = yAxis;
+        this.zAxis = zAxis;
+
+        this.data = new ArrayList<GraphableData>();
     }
 
     /**
