@@ -11,17 +11,17 @@ import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 
 /**
+ * Creates a Glimpse plot for a graph object
  * Created by malinocr on 9/20/2016.
  */
 public class GraphDisplayer implements GlimpseLayoutProvider
 {
     Graph graph;
 
-    public GraphDisplayer(Graph graph ){
+    public GraphDisplayer(Graph graph )
+    {
         this.graph = graph;
     }
-
-    public static int NUM_POINTS = 100;
 
     public SimplePlot2D getLayout()
     {
@@ -32,7 +32,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         Axis yAxis = graph.getYAxis();
 
         // set axis labels and chart title
-        plot.setTitle( "ROC Curve Example" );
+        plot.setTitle( graph.getTitle() );
         plot.setAxisLabelX( xAxis.getName() );
         plot.setAxisLabelY( yAxis.getName() );
 
@@ -74,7 +74,6 @@ public class GraphDisplayer implements GlimpseLayoutProvider
 
     public static XYLinePainter createXYLinePainter( GraphableData data )
     {
-
         XYLinePainter series = new XYLinePainter( );
         series.setData( data.getXValues(), data.getYValues() );
         series.setLineColor( GlimpseColor.fromColorRgba( 1.0f, 0.0f, 0.0f, 0.8f ) );
@@ -82,43 +81,5 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         series.showPoints( false );
 
         return series;
-    }
-
-    public static XYLinePainter createXYLinePainter2( )
-    {
-        // add two data series to the plot
-        float[] dataX = new float[NUM_POINTS];
-        float[] dataY = new float[NUM_POINTS];
-
-        XYLinePainter series2 = new XYLinePainter( );
-        generateData2( dataX, dataY, NUM_POINTS );
-        series2.setData( dataX, dataY );
-        series2.setLineColor( GlimpseColor.fromColorRgba( 0.0f, 0.0f, 1.0f, 0.8f ) );
-        series2.setLineThickness( 1.5f );
-        series2.showPoints( false );
-
-        return series2;
-    }
-
-    public static void generateData1( float[] dataX, float[] dataY, int size )
-    {
-        for ( int i = 0; i < size; i++ )
-        {
-            float x = (float)((1.0/size) * i);
-
-            dataX[i] = x;
-            dataY[i] = ( float ) (Math.sqrt( x ) * 0.9);
-        }
-    }
-
-    public static void generateData2( float[] dataX, float[] dataY, int size )
-    {
-        for ( int i = 0; i < size; i++ )
-        {
-            float x = (float)((1.0/size) * i);;
-
-            dataX[i] = x;
-            dataY[i] = ( float ) Math.sqrt( x );
-        }
     }
 }

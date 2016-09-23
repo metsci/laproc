@@ -9,6 +9,12 @@ import java.util.Collection;
 public interface Graph {
 
     /**
+     * Getter for the graph's title
+     * @return the title
+     */
+    public String getTitle();
+
+    /**
      * Getter for the graph's X axis
      * @return the X axis
      */
@@ -25,6 +31,12 @@ public interface Graph {
      * @return the Z axis
      */
     public Axis getZAxis();
+
+    /**
+     * Setter for the graph's title
+     * @param title the title to set
+     */
+    public void setTitle(String title);
 
     /**
      * Setter for the graph's X axis
