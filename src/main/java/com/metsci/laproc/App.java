@@ -29,5 +29,10 @@ public class App
         canvas.addLayout(new GraphDisplayer(graph).getLayout());
         new FPSAnimator( canvas.getGLDrawable( ), 120 ).start( );
         tabbedPane.add("GraphDisplayer",canvas);
+
+        NewtSwingGlimpseCanvas canvas2 = new NewtSwingGlimpseCanvas( );
+        canvas2.addLayout(new GraphDisplayer(graph).getLayout());
+        new FPSAnimator( canvas2.getGLDrawable( ), 120 ).start( );
+        tabbedPane.add("GraphDisplayer2",canvas2);
     }
 }
