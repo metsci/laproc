@@ -10,6 +10,9 @@ import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 /**
  * Creates a Glimpse plot for a Graph
  * Created by malinocr on 9/20/2016.
@@ -53,10 +56,15 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         legend.setLegendItemWidth( 60 );
 
         // Draws a line for each set of graphable data
+        HashSet<float[]> usedColors = new HashSet<float[]>();
         for(GraphableData lineData : graph.getData()){
-            XYLinePainter linePainter = createXYLinePainter( lineData );
+            float[] color = null;
+            do {
+                color = GlimpseColor.fromColorRgb( (float)Math.random(), (float)Math.random(), (float)Math.random() );
+            } while (usedColors.contains(color));
+            XYLinePainter linePainter = createXYLinePainter( lineData , color);
             plot.addPainter( linePainter );
-            legend.addItem( lineData.getName() , GlimpseColor.fromColorRgba( 1.0f, 0.0f, 0.0f, 0.8f ) );
+            legend.addItem( lineData.getName() , color );
         }
 
         // Add a painter to display the x and y position of the cursor
@@ -72,11 +80,11 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         return plot;
     }
 
-    public static XYLinePainter createXYLinePainter( GraphableData data )
+    public static XYLinePainter createXYLinePainter( GraphableData data , float[] color)
     {
         XYLinePainter linePainter = new XYLinePainter( );
         linePainter.setData( data.getXValues(), data.getYValues() );
-        linePainter.setLineColor( GlimpseColor.fromColorRgba( 1.0f, 0.0f, 0.0f, 0.8f ) );
+        linePainter.setLineColor( color );
         linePainter.setLineThickness( 1.5f );
         linePainter.showPoints( false );
 
