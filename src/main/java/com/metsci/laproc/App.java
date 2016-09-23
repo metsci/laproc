@@ -26,8 +26,8 @@ public class App
         JTabbedPane tabbedPane = new JTabbedPane();
         frame.add(tabbedPane);
         NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas( );
-        canvas.addLayout(new ROCCurvePlot(graph).getLayout());
+        canvas.addLayout(new GraphDisplayer(graph).getLayout());
         new FPSAnimator( canvas.getGLDrawable( ), 120 ).start( );
-        tabbedPane.add("ROCCurvePlot",canvas);
+        tabbedPane.add("GraphDisplayer",canvas);
     }
 }

@@ -1,4 +1,4 @@
-package com.metsci.laproc;
+package com.metsci.laproc.plotting;
 
 import com.metsci.glimpse.layout.GlimpseLayoutProvider;
 import com.metsci.glimpse.painter.decoration.LegendPainter.*;
@@ -13,11 +13,11 @@ import com.metsci.laproc.plotting.GraphableData;
 /**
  * Created by malinocr on 9/20/2016.
  */
-public class ROCCurvePlot implements GlimpseLayoutProvider
+public class GraphDisplayer implements GlimpseLayoutProvider
 {
     Graph graph;
 
-    ROCCurvePlot (Graph graph ){
+    public GraphDisplayer(Graph graph ){
         this.graph = graph;
     }
 
