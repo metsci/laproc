@@ -16,9 +16,9 @@ import java.awt.*;
  * Created by porterjc on 9/22/2016.
  */
 public class BasicWindow implements Window{
-    private NewtSwingGlimpseCanvas canvas;
+    private GraphPanel graphPanel = new GraphPanel();
 
-    public void display(Graph graph) {
+    public void display() {
        // MultiSplitPane pane = new MultiSplitPane(50);
 
         DockingGroup group = new DockingGroup(DockingThemes.defaultDockingTheme, DockingGroup.DockingFrameCloseOperation.DISPOSE_CLOSED_FRAME);
@@ -35,20 +35,18 @@ public class BasicWindow implements Window{
         //pane.addInitialLeaf(tabbedPane);
 
         JPanel spreadpanel = new JPanel();
-        JPanel graphpanel = new JPanel();
         JPanel keyPanel = new JPanel();
 
         spreadpanel.setBackground(Color.blue);
-        graphpanel.setBackground(Color.gray);
         keyPanel.setBackground(Color.GREEN);
 
         DockingFrame frame = group.addNewFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        canvas = showGraph(graph);
+        //canvas = showGraph(graph);
 
         View sView = new View("Data", spreadpanel, "Data");
-        View gView = new View("Graph", canvas, "Graph");
+        View gView = new View("Graph", graphPanel.getCanvas(), "Graph");
         View kView = new View("WIP", keyPanel, "WIP");
 
         Tile spreadTile = tileFactory.newTile();
@@ -63,25 +61,23 @@ public class BasicWindow implements Window{
         MultiSplitPane docker = frame.docker;
 
         docker.addInitialLeaf(graphTile);
-        docker.addNeighborLeaf(spreadTile, graphTile, Side.LEFT, 0.3);
-        docker.addEdgeLeaf(keyTile, Side.BOTTOM, 0.3);
+        docker.addNeighborLeaf(keyTile, graphTile, Side.BOTTOM, 0.2);
+        docker.addEdgeLeaf(spreadTile, Side.LEFT, 0.2);
 
-        //frame.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
 
+
 //
-        new FPSAnimator(canvas.getGLDrawable(), 120).start();
+//        new FPSAnimator(canvas.getGLDrawable(), 120).start();
 //        tabbedPane.add("ROCCurvePlot",canvas);
     }
 
-    public NewtSwingGlimpseCanvas showGraph(Graph graph) {
-        NewtSwingGlimpseCanvas canv = new NewtSwingGlimpseCanvas();
-
-        canv.addLayout(new ROCCurvePlot(graph).getLayout());
-        return canv;
+    public void showGraph(Graph graph) {
+        this.graphPanel.addGraphToCanvas(graph);
+        this.graphPanel.animateGraph();
     }
 
     public void showSpreadsheet() {

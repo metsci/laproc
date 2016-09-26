@@ -8,9 +8,9 @@ import com.metsci.laproc.plotting.Graph;
  */
 public interface Window {
 
-    public void display(Graph graph);
+    public void display();
 
-    public NewtSwingGlimpseCanvas showGraph(Graph graph);
+    public void showGraph(Graph graph);
 
     public void showSpreadsheet();
 }
