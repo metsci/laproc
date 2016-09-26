@@ -81,7 +81,6 @@ public class GraphDisplayer implements GlimpseLayoutProvider
             if(currentColor != possibleColors.length){
                 currentColor++;
             }
-            currentColor++;
             XYLinePainter linePainter = createXYLinePainter(lineData,color);
             plot.addPainter(linePainter);
             legend.addItem(lineData.getName(),color);
