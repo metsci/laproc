@@ -1,20 +1,33 @@
 package com.metsci.laproc;
 
-import java.io.InputStream;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
+import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Reads a CSV file into a format usable by the laproc library
+ * A reader for CSV files
  * Created by malinocr on 9/25/2016.
  */
 public class CSVReader {
-    InputStream in;
-    String filePath;
-    ArrayList<String> instanceString;
-    ArrayList<Instance> instances;
+    BufferedReader reader;
 
-    public Instance buildInstance(InputStream is, String filePath){
-        return null;
+    /**
+     * Construtor for the CSV Reader
+     * @param filePath file of the CSV
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public CSVReader(String filePath) throws FileNotFoundException, IOException{
+        this.reader = new BufferedReader(new FileReader(filePath));
     }
 
+    /**
+     * Gets a row of the CSV
+     * @return A string array where the collumn index of a cell matches the index in the array
+     * @throws IOException
+     */
+    public String[] getLine() throws IOException{
+        return reader.readLine().split(",");
+    }
 }
