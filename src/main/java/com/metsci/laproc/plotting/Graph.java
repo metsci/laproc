@@ -1,7 +1,5 @@
 package com.metsci.laproc.plotting;
 
-import com.metsci.glimpse.axis.Axis1D;
-
 import java.util.Collection;
 
 /**
@@ -11,45 +9,57 @@ import java.util.Collection;
 public interface Graph {
 
     /**
+     * Getter for the graph's title
+     * @return the title
+     */
+    public String getTitle();
+
+    /**
      * Getter for the graph's X axis
      * @return the X axis
      */
-    public Axis1D getXAxis();
+    public Axis getXAxis();
 
     /**
      * Getter for the graph's Y axis
      * @return the Y axis
      */
-    public Axis1D getYAxis();
+    public Axis getYAxis();
 
     /**
      * Getter for the graph's Z axis
      * @return the Z axis
      */
-    public Axis1D getZAxis();
+    public Axis getZAxis();
+
+    /**
+     * Setter for the graph's title
+     * @param title the title to set
+     */
+    public void setTitle(String title);
 
     /**
      * Setter for the graph's X axis
      * @param x the x axis to set
      */
-    public void setXAxis(Axis1D x);
+    public void setXAxis(Axis x);
 
     /**
      * Setter for the graph's Y axis
      * @param y the Y axis to set
      */
-    public void setYAxis(Axis1D y);
+    public void setYAxis(Axis y);
 
     /**
      * Setter for the graph's Z axis
      * @param z the Z axis to set
      */
-    public void setZAxis(Axis1D z);
+    public void setZAxis(Axis z);
 
     /**
      * Getter for all of the graphable data associated with this graph
      * @return The graphable data associated with this graph
      */
-    public Collection<GraphableData> getData();
+    public Iterable<GraphableData> getData();
 
 }

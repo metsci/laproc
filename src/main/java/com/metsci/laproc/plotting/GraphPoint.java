@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
+ * THIS CLASS WILL PROBABLY BE DELETED
  * A class representing a single point on the graph
  * Created by robinsat on 9/20/2016.
  */
