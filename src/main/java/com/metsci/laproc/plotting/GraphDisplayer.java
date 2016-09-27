@@ -63,13 +63,24 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         legend.setOffsetX(100);
         legend.setLegendItemWidth(60);
 
-        // Draws a line for each set of graphable data
-        HashSet<float[]> usedColors = new HashSet<float[]>();
+        //Sets up all possible line colors for graphable data
+        float[][] possibleColors = new float[8][4];
+        possibleColors[0] = GlimpseColor.fromColorRgb(0f,0f,0f);
+        possibleColors[1] = GlimpseColor.fromColorRgb(1f,0f,0f);
+        possibleColors[2] = GlimpseColor.fromColorRgb(0f,1f,0f);
+        possibleColors[3] = GlimpseColor.fromColorRgb(0f,0f,1f);
+        possibleColors[4] = GlimpseColor.fromColorRgb(0.2f,0.5f,0.5f);
+        possibleColors[5] = GlimpseColor.fromColorRgb(0.4f,0.4f,0f);
+        possibleColors[6] = GlimpseColor.fromColorRgb(1f,0f,1f);
+        possibleColors[7] = GlimpseColor.fromColorRgb(0.4f,0f,0.4f);
+
+        //Draws each graphable data
+        int currentColor = 0;
         for(GraphableData lineData : graph.getData()){
-            float[] color = null;
-            do {
-                color = GlimpseColor.fromColorRgb((float)Math.random(),(float)Math.random(),(float)Math.random());
-            } while (usedColors.contains(color));
+            float[] color = possibleColors[currentColor];
+            if(currentColor != possibleColors.length){
+                currentColor++;
+            }
             XYLinePainter linePainter = createXYLinePainter(lineData,color);
             plot.addPainter(linePainter);
             legend.addItem(lineData.getName(),color);
