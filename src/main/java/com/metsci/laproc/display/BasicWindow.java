@@ -18,21 +18,14 @@ import java.awt.*;
 public class BasicWindow implements Window{
     private GraphPanel graphPanel = new GraphPanel();
 
+    /**
+     *
+     * Creaded by porterjc on 9/22/2016
+     */
     public void display() {
-       // MultiSplitPane pane = new MultiSplitPane(50);
-
         DockingGroup group = new DockingGroup(DockingThemes.defaultDockingTheme, DockingGroup.DockingFrameCloseOperation.DISPOSE_CLOSED_FRAME);
 
         TileFactories.TileFactory tileFactory = new TileFactories.TileFactoryStandard(group);
-
-//        JFrame frame = new DockingFrame();
-//        frame.setSize(800, 800);
-//        frame.setVisible( true );
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//        JTabbedPane tabbedPane = new JTabbedPane();
-        //frame.add(tabbedPane);
-        //pane.addInitialLeaf(tabbedPane);
 
         JPanel spreadpanel = new JPanel();
         JPanel keyPanel = new JPanel();
@@ -42,8 +35,6 @@ public class BasicWindow implements Window{
 
         DockingFrame frame = group.addNewFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        //canvas = showGraph(graph);
 
         View sView = new View("Data", spreadpanel, "Data");
         View gView = new View("Graph", graphPanel.getCanvas(), "Graph");
@@ -68,18 +59,21 @@ public class BasicWindow implements Window{
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
-
-
-//
-//        new FPSAnimator(canvas.getGLDrawable(), 120).start();
-//        tabbedPane.add("ROCCurvePlot",canvas);
     }
 
+    /**
+     *
+     * Creaded by porterjc on 9/22/2016
+     */
     public void showGraph(Graph graph) {
         this.graphPanel.addGraphToCanvas(graph);
         this.graphPanel.animateGraph();
     }
 
+    /**
+     *
+     * Creaded by porterjc on 9/22/2016
+     */
     public void showSpreadsheet() {
 
     }
