@@ -13,7 +13,7 @@ public class BasicWindow implements Window{
     private GraphPanel graphPanel = new GraphPanel();
 
     /**
-     *
+     * Puts together a docking group and docks in default views
      * Creaded by porterjc on 9/22/2016
      */
     public void display() {
@@ -57,7 +57,7 @@ public class BasicWindow implements Window{
     }
 
     /**
-     *
+     * sets up the GraphPanel that will be added to the display
      * Creaded by porterjc on 9/22/2016
      */
     public void showGraph(Graph graph) {
@@ -66,7 +66,7 @@ public class BasicWindow implements Window{
     }
 
     /**
-     *
+     * Sets up a spreadsheet panel to be added to the display
      * Creaded by porterjc on 9/22/2016
      */
     public void showSpreadsheet() {
