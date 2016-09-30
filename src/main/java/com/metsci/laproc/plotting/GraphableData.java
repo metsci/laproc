@@ -1,7 +1,5 @@
 package com.metsci.laproc.plotting;
 
-import java.util.Collection;
-
 /**
  * Represents a set of data points to be plotted on a graph
  * Created by robinsat on 9/20/2016.
@@ -21,14 +19,28 @@ public interface GraphableData {
     public void setName(String name);
 
     /**
-     * Returns a set of points with double precision
+     * Gets an array representing the x values as doubles
      * @return The set of x values
      */
     public double[] getXValues();
 
     /**
-     * Returns a set of points with double precision
+     * Gets an array representing the y values as doubles
      * @return The set of y values
      */
     public double[] getYValues();
+
+    /**
+     * Adds a point to the set of values
+     * @param x The x value of the added point
+     * @param y The y value of the added point
+     */
+    public void addPoint(double x, double y);
+
+    /**
+     * Gets the number of points in this data set
+     * @return The number of points in this data set
+     */
+    public int getSize();
+
 }

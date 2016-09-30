@@ -36,9 +36,9 @@ public class BasicWindow implements Window{
         DockingFrame frame = group.addNewFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        View sView = new View("Data", spreadpanel, "Data");
-        View gView = new View("Graph", graphPanel.getCanvas(), "Graph");
-        View kView = new View("WIP", keyPanel, "WIP");
+        View sView = new View("Data", spreadpanel, "Data", true);
+        View gView = new View("Graph", graphPanel.getCanvas(), "Graph", true);
+        View kView = new View("WIP", keyPanel, "WIP", true);
 
         Tile spreadTile = tileFactory.newTile();
         spreadTile.addView(sView, 0);
@@ -55,6 +55,7 @@ public class BasicWindow implements Window{
         docker.addNeighborLeaf(keyTile, graphTile, Side.BOTTOM, 0.2);
         docker.addEdgeLeaf(spreadTile, Side.LEFT, 0.2);
 
+        frame.setTitle("Basic GUI");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.pack();
         frame.setLocationByPlatform(true);

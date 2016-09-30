@@ -1,31 +1,60 @@
 package com.metsci.laproc.plotting;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-import java.util.TreeSet;
-
 /**
  * Represents a continuous line that can be represented on a graph.
  * Created by robinsat on 9/20/2016.
  */
 public class Curve implements GraphableData {
 
+    //Fields
     /** The name of this set of data */
     private String name;
-    /** All of the points in this set of data */
+    /** The x values in this data set */
     private double[] xValues;
+    /** The y values in this data set */
     private double[] yValues;
+
+    //Internal use
+    /** Keeps track of the current size of the data set */
+    private int size;
+    /** The default size to initialize the array */
+    private static final int DEFAULT_SIZE = 100;
+
+    //Constructors
+
+    /**
+     * Default constructor
+     */
+     public Curve() {
+         this("", DEFAULT_SIZE);
+     }
 
     /**
      * Constructor
      * @param name The name to give to this graph data
      */
     public Curve(String name) {
+        this(name, DEFAULT_SIZE);
+    }
+
+    /**
+     * Constructor
+     * @param numPoints The number of points to initialize this data set with
+     */
+    public Curve(int numPoints) {
+        this("", numPoints);
+    }
+
+    /**
+     * Constructor
+     * @param name The name to give to this graph data
+     * @param numPoints The number of points to initialize this data set with
+     */
+    public Curve(String name, int numPoints) {
         this.name = name;
-        //this.data = new TreeSet<GraphPoint>();
-        this.xValues = new double[]{0, 0.3, 0.4, 0.5};
-        this.yValues = new double[]{0.4, 0.1, 0.2, 0.7};
+        this.size = 0;
+        this.xValues = new double[numPoints];
+        this.yValues = new double[numPoints];
     }
 
     /**
@@ -45,19 +74,64 @@ public class Curve implements GraphableData {
     }
 
     /**
-     * Returns a set of points with double precision
+     * Gets an array representing the x values as doubles
      * @return The set of x values
      */
     public double[] getXValues() {
+        if(this.xValues.length != size) {
+            this.xValues = resize(this.xValues, size);
+        }
         return this.xValues;
     }
 
     /**
-     * Returns a set of points with double precision
+     * Gets an array representing the y values as doubles
      * @return The set of y values
      */
     public double[] getYValues() {
+        if(this.yValues.length != size) {
+            this.yValues = resize(this.yValues, size);
+        }
         return this.yValues;
+    }
+
+    /**
+     * Adds a point to the set of values
+     * @param x The x value of the added point
+     * @param y The y value of the added point
+     */
+    public void addPoint(double x, double y) {
+        if(size >= this.xValues.length || size >= this.yValues.length) {
+            //Grow
+            this.xValues = resize(this.xValues, size * 2);
+            this.yValues = resize(this.yValues, size * 2);
+        }
+
+        this.xValues[size] = x;
+        this.yValues[size] = y;
+        size++;
+    }
+
+    /**
+     * Private helper method to resize an array
+     * @param original The original array
+     * @param newsize The capacity of the new array
+     * @return A new array with the elements copied over
+     */
+    private double[] resize(double[] original, int newsize) {
+        double[] newArray = new double[newsize];
+        for(int i = 0; i < original.length && i < newsize; i++) {
+            newArray[i] = original[i];
+        }
+        return newArray;
+    }
+
+    /**
+     * Gets the number of points in this data set
+     * @return The number of points in this data set
+     */
+    public int getSize() {
+        return this.size;
     }
 
 }

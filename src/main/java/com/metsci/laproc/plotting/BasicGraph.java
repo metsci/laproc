@@ -9,6 +9,8 @@ import java.util.Collection;
  */
 public class BasicGraph implements Graph {
 
+    /** The title of the graph */
+    private String title;
     /** The X axis of the graph */
     private Axis xAxis;
     /** The Y axis of the graph */
@@ -19,8 +21,44 @@ public class BasicGraph implements Graph {
     /** All data sets that can be plotted on this graph */
     private Collection<GraphableData> data;
 
-    public BasicGraph (){
-        data = new ArrayList<GraphableData>();
+    /**
+     * Default constructor
+     */
+    public BasicGraph() {
+        this("Default Title", new Axis(0, 1), new Axis(0, 1), new Axis(0, 1));
+    }
+
+    /**
+     * Constructor
+     * @param xAxis The x axis
+     * @param yAxis The y axis
+     */
+    public BasicGraph(Axis xAxis, Axis yAxis) {
+        this("Default Title", xAxis, yAxis, null);
+    }
+
+    /**
+     * Constructor
+     * @param title The title
+     * @param xAxis The x axis
+     * @param yAxis The y axis
+     * @param zAxis The z axis
+     */
+    public BasicGraph(String title, Axis xAxis, Axis yAxis, Axis zAxis) {
+        this.title = title;
+        this.xAxis = xAxis;
+        this.yAxis = yAxis;
+        this.zAxis = zAxis;
+
+        this.data = new ArrayList<GraphableData>();
+    }
+
+    /**
+     * Getter for the graph's title
+     * @return the title
+     */
+    public String getTitle() {
+        return this.title;
     }
 
     /**
@@ -45,6 +83,14 @@ public class BasicGraph implements Graph {
      */
     public Axis getZAxis() {
         return this.zAxis;
+    }
+
+    /**
+     * Setter for the graph's title
+     * @param title the title axis to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**

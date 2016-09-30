@@ -4,6 +4,7 @@ import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.laproc.ROCCurvePlot;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphDisplayer;
 
 import javax.swing.*;
 
@@ -26,7 +27,7 @@ public class GraphPanel extends JPanel{
      * Creaded by porterjc on 9/22/2016
      */
     public void addGraphToCanvas(Graph graph) {
-        canvas.addLayout(new ROCCurvePlot(graph).getLayout());
+        canvas.addLayout(new GraphDisplayer(graph).getLayout());
         //this.add(canvas);
     }
 
