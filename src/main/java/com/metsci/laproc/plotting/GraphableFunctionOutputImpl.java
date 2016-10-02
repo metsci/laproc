@@ -32,7 +32,6 @@ public class GraphableFunctionOutputImpl extends ObjectArraySet<GraphPoint> impl
             double x = p.get(xAxis);
             double y = p.get(yAxis);
             data.addPoint(x, y);
-            System.out.println(x + " " + y);
         }
         return data;
     }

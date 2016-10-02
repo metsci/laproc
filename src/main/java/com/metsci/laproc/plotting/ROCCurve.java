@@ -38,7 +38,6 @@ public class ROCCurve implements GraphableFunction {
      * @return The plottable data set representing this curve
      */
     public GraphableFunctionOutput compute() {
-        System.out.println("hi");
         GraphableFunctionOutput out = new GraphableFunctionOutputImpl();
 
         // Calculate the number of positive values and negative values in this data set
@@ -98,7 +97,6 @@ public class ROCCurve implements GraphableFunction {
             point.put(fnrString, falseNegativeRate);
             point.put(accuracyString, accuracy);
             out.add(point);
-            System.out.println("hey" + truePositiveRate + " " + falsePositiveRate);
         }
         return out;
     }
