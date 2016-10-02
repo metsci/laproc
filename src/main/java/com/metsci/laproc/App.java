@@ -1,6 +1,9 @@
 package com.metsci.laproc;
-import com.jogamp.opengl.util.FPSAnimator;
-import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
+
+import com.metsci.laproc.display.BasicWindow;
+import com.metsci.laproc.display.Window;
+import com.metsci.laproc.plotting.Axis;
+import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.data.DataPointImpl;
@@ -22,7 +25,7 @@ public class App
         frame.setSize( 800, 800 );
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        
+
         BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
         GraphableFunction func = new ROCCurve(importData());
         System.out.println("a");
@@ -31,17 +34,9 @@ public class App
         graph.addData( output.getGraphableData("True Positive Rate", "False Positive Rate"));
         System.out.println("c");
 
-        JTabbedPane tabbedPane = new JTabbedPane();
-        frame.add(tabbedPane);
-        NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas( );
-        canvas.addLayout(new GraphDisplayer(graph).getLayout());
-        new FPSAnimator( canvas.getGLDrawable( ), 120 ).start( );
-        tabbedPane.add("GraphDisplayer",canvas);
-
-        NewtSwingGlimpseCanvas canvas2 = new NewtSwingGlimpseCanvas( );
-        canvas2.addLayout(new GraphDisplayer(graph).getLayout());
-        new FPSAnimator( canvas2.getGLDrawable( ), 120 ).start( );
-        tabbedPane.add("GraphDisplayer2",canvas2);
+        Window window = new BasicWindow();
+        window.showGraph(graph);
+        window.display();
     }
 
     private static ClassifierDataSet importData() {
