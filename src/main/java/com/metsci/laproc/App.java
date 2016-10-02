@@ -17,14 +17,19 @@ public class App
 {
     public static void main( String[] args )
     {
+        System.out.println("beginning");
         final JFrame frame = new JFrame( "Glimpse Example" );
         frame.setSize( 800, 800 );
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
+        
         BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
         GraphableFunction func = new ROCCurve(importData());
-        graph.addData( func.compute());
+        System.out.println("a");
+        GraphableFunctionOutput output = func.compute();
+        System.out.println("b");
+        graph.addData( output.getGraphableData("True Positive Rate", "False Positive Rate"));
+        System.out.println("c");
 
         JTabbedPane tabbedPane = new JTabbedPane();
         frame.add(tabbedPane);
