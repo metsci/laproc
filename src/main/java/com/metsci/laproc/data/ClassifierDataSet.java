@@ -1,6 +1,7 @@
 package com.metsci.laproc.data;
 
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 import it.unimi.dsi.fastutil.objects.ReferenceArraySet;
 import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
 
@@ -11,7 +12,7 @@ import java.util.Iterator;
  * A class representing a set of data that has been classified
  * Created by robinsat on 9/20/2016.
  */
-public class ClassifierDataSet extends ObjectArraySet<DataPoint> {
+public class ClassifierDataSet extends ObjectOpenHashBigSet<DataPoint> {
 
     /** Represents the set of tags used to categorize this data */
     private Collection<TagHeader> tags;
