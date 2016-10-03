@@ -1,4 +1,4 @@
-package com.metsci.laproc.plotting;
+package com.metsci.laproc.display;
 
 import com.metsci.glimpse.layout.GlimpseLayoutProvider;
 import com.metsci.glimpse.painter.decoration.LegendPainter.*;
@@ -95,6 +95,9 @@ public class GraphDisplayer implements GlimpseLayoutProvider
 
         // Add the legend painter to the top of the center GlimpseLayout
         plot.getLayoutCenter().addPainter(legend);
+
+        // Add mouse listener
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph));
 
         return plot;
     }
