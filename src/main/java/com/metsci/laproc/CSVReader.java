@@ -28,6 +28,9 @@ public class CSVReader {
      * @throws IOException
      */
     public String[] getLine() throws IOException{
-        return reader.readLine().split(",");
+        String line = reader.readLine();
+        if(line != null)
+            return line.split(",");
+        return null;
     }
 }
