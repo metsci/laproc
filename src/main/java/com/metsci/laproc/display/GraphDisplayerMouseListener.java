@@ -14,6 +14,13 @@ import java.awt.geom.Point2D;
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     Graph graph;
 
+    long lastClickTime = 0;
+
+    boolean doubleClicked = false;
+    boolean displayDoubleClick = false;
+
+    GlimpseMouseEvent firstClick;
+
     public GraphDisplayerMouseListener(Graph graph){
         this.graph = graph;
     }
@@ -27,6 +34,35 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     }
 
     public void mousePressed(GlimpseMouseEvent glimpseMouseEvent) {
+        if(doubleClicked == true){
+            doubleClicked = false;
+            displayDoubleClick = true;
+        } else if(System.nanoTime() - lastClickTime < 500000000){
+            doubleClicked = true;
+        } else {
+            lastClickTime = System.nanoTime();
+        }
+    }
+
+    public void mouseReleased(GlimpseMouseEvent glimpseMouseEvent) {
+        if(displayDoubleClick){
+            System.out.println("Double Click: ");
+            displayClosestPoint(firstClick);
+            displayClosestPoint(glimpseMouseEvent);
+            displayDoubleClick = false;
+        } else if(doubleClicked){
+            firstClick = glimpseMouseEvent;
+        } else {
+            System.out.println("Single Click: ");
+            displayClosestPoint(glimpseMouseEvent);
+        }
+    }
+
+    /**
+     * Displays the closest point to a given mouse click
+     * @param glimpseMouseEvent mouse event for mouse click
+     */
+    private void displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         for(GraphableData data : graph.getData()){
             int index = findClosestIndex(data.getXValues(),
                     data.getYValues(),
@@ -34,9 +70,6 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
                     glimpseMouseEvent.getAxisCoordinatesY());
             System.out.println("X: " + data.getXValues()[index] + " Y: " + data.getYValues()[index]);
         }
-    }
-
-    public void mouseReleased(GlimpseMouseEvent glimpseMouseEvent) {
     }
 
     /**
