@@ -8,18 +8,43 @@ import java.util.Collection;
  */
 public class DataPointImpl implements DataPoint {
 
+    /** The truth value of this data point */
     private boolean truth;
+    /** The value(s) of this data point */
     private double[] values;
+    /** All tags associated with this data point */
     private Collection<String> tags;
 
+    /**
+     * Constructor
+     * @param truth The truth value for this data point
+     * @param vals The values associated with this data point
+     */
+    public DataPointImpl(boolean truth, double... vals) {
+        this.truth = truth;
+        this.values = vals;
+    }
+
+    /**
+     * Getter for the truth value for this data point
+     * @return The truth value
+     */
     public boolean getTruth() {
         return this.truth;
     }
 
+    /**
+     * Getter for the set of values associated with this datum
+     * @return The set of values associated with this datum
+     */
     public double[] getValues() {
         return this.values;
     }
 
+    /**
+     * Getter for the set of tags associated with this datum
+     * @return The set of tags associated with this datum
+     */
     public Collection<String> getTags() {
         return this.tags;
     }

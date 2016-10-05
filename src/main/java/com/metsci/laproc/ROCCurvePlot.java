@@ -17,7 +17,7 @@ public class ROCCurvePlot implements GlimpseLayoutProvider
 {
     Graph graph;
 
-    ROCCurvePlot (Graph graph ){
+    public ROCCurvePlot (Graph graph ){
         this.graph = graph;
     }
 

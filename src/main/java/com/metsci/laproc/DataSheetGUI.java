@@ -1,6 +1,9 @@
 package com.metsci.laproc;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -8,27 +11,39 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.table.TableColumn;
 
+import com.metsci.laproc.data.ClassifierDataSet;
+import com.metsci.laproc.data.DataPoint;
+
 public class DataSheetGUI {
 
-	public static JScrollPane GetDataSheet() {
-		int NUM_COLS = 100;
-		int NUM_ROWS = 1500;
-		JPanel dataPanel = new JPanel();
-		String[] columnNames = new String[NUM_COLS];
-		Object[][] data = new Object[NUM_ROWS][NUM_COLS];
-		TableColumn column = null;
-		for (int i = 0; i < NUM_COLS; i++) {
-			columnNames[i] = "Column Header " + i;
-			for (int j = 0; j < NUM_ROWS; j++) {
-				data[j][i] = "Row value " + (j * NUM_COLS + i);
+	public static JScrollPane GetDataSheet(ClassifierDataSet data) {
+		int sizeOfArray = data.getAllPoints().next().getValues().length + 1;
+		String[] columnNames = new String[sizeOfArray];
+		Object[][] dataList = new Object[100][100];
+		int tempCounter = 0;
+		for(DataPoint dataPoint : data){
+			if(tempCounter == dataList.length){
+				Object[][] newArray = new Object[dataList.length*2][sizeOfArray];
+				for(int i = 0; i < dataList.length; i++){
+					for(int j = 0; j < sizeOfArray; j++){
+						newArray[i][j] = dataList[i][j];
+					}
+				}
+				dataList = newArray;
 			}
+			Object[] datavals = new Object[sizeOfArray];
+			double[] getValTemp = dataPoint.getValues();
+			for(int i = 1; i < sizeOfArray; i++){
+				datavals[i] = getValTemp[i-1];
+			}
+			datavals[0] = dataPoint.getTruth();
+			dataList[tempCounter++] = datavals;
 		}
-		JTable table = new JTable(data, columnNames);
-		table.setAutoResizeMode(table.AUTO_RESIZE_OFF);
-		for (int i = 0; i < NUM_COLS; i++) {
-			column = table.getColumnModel().getColumn(i);
-			column.setPreferredWidth(150);
+		//TODO: Implement column headers
+		for(int i = 0; i < sizeOfArray; i++){
+			columnNames[i] = "Woohoo";
 		}
+		JTable table = new JTable(dataList, columnNames);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();

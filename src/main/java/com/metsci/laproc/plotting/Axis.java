@@ -16,6 +16,39 @@ public class Axis {
     private double max;
 
     /**
+     * Constructor
+     * @param min The lower bound of this axis
+     * @param max The upper bound of this axis
+     */
+    public Axis(double min, double max) {
+        this(min, max, "", "");
+    }
+
+    /**
+     * Constructor
+     * @param min The lower bound of this axis
+     * @param max The upper bound of this axis
+     * @param name The displayable name of this axis
+     */
+    public Axis(double min, double max, String name) {
+        this(min, max, name, "");
+    }
+
+    /**
+     * Constructor
+     * @param min The lower bound of this axis
+     * @param max The upper bound of this axis
+     * @param name The displayable name of this axis
+     * @param unit The unit to display for this axis
+     */
+    public Axis(double min, double max, String name, String unit) {
+        this.min = min;
+        this.max = max;
+        this.name = name;
+        this.unit = unit;
+    }
+
+    /**
      * Getter for the displayable name of this axis
      * @return The displayable name of this axis
      */
