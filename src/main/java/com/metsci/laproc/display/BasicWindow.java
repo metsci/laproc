@@ -1,7 +1,6 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.*;
-import com.metsci.laproc.DataSheetGUI;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
 
@@ -71,7 +70,7 @@ public class BasicWindow implements Window{
      * Creaded by porterjc on 9/22/2016
      */
     public void showSpreadsheet(ClassifierDataSet data) {
-        this.dataPanel = DataSheetGUI.GetDataSheet(data);
+        this.dataPanel = DataSheetPanel.GetDataSheet(data);
         
     }
 }

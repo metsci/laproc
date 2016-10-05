@@ -1,4 +1,4 @@
-package com.metsci.laproc;
+package com.metsci.laproc.display;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import javax.swing.table.TableColumn;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
 
-public class DataSheetGUI {
+public class DataSheetPanel {
 
 	public static JScrollPane GetDataSheet(ClassifierDataSet data) {
 		int sizeOfArray = data.getAllPoints().next().getValues().length + 1;
