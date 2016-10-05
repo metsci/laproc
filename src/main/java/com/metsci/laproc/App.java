@@ -42,7 +42,7 @@ public class App {
         new FPSAnimator( canvas.getGLDrawable( ), 120 ).start( );
         tabbedPane.add("ROCCurvePlot",canvas);
        
-        JPanel dataPanel = DataSheetGUI.GetDataSheet(); 
+        JScrollPane dataPanel = DataSheetGUI.GetDataSheet(); 
         tabbedPane.addTab("Datasheet", dataPanel);
     }
 }
