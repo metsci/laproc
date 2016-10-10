@@ -2,8 +2,12 @@ package com.metsci.laproc.display;
 
 import com.metsci.glimpse.event.mouse.GlimpseMouseEvent;
 import com.metsci.glimpse.event.mouse.GlimpseMouseListener;
+import com.metsci.glimpse.painter.shape.PolygonPainter;
+import com.metsci.glimpse.painter.shape.PolygonPainterSimple;
+import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
+import javafx.scene.shape.Circle;
 
 import java.awt.geom.Point2D;
 
@@ -13,6 +17,7 @@ import java.awt.geom.Point2D;
  */
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     Graph graph;
+    PolygonPainterSimple polygonPainter;
 
     long lastClickTime = 0;
 
@@ -21,8 +26,9 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
 
     GlimpseMouseEvent firstClick;
 
-    public GraphDisplayerMouseListener(Graph graph){
+    public GraphDisplayerMouseListener(Graph graph, PolygonPainterSimple polygonPainter){
         this.graph = graph;
+        this.polygonPainter = polygonPainter;
     }
 
     public void mouseEntered(GlimpseMouseEvent glimpseMouseEvent) {
@@ -34,6 +40,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     }
 
     public void mousePressed(GlimpseMouseEvent glimpseMouseEvent) {
+        polygonPainter.clear();
         if(doubleClicked == true){
             doubleClicked = false;
             displayDoubleClick = true;
@@ -45,11 +52,17 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     }
 
     public void mouseReleased(GlimpseMouseEvent glimpseMouseEvent) {
+        polygonPainter.clear();
         if(displayDoubleClick){
             System.out.println("Double Click: ");
-            displayClosestPoint(firstClick);
-            displayClosestPoint(glimpseMouseEvent);
+            float x1 = (float)displayClosestPoint(firstClick);
+            float x2 = (float)displayClosestPoint(glimpseMouseEvent);
             displayDoubleClick = false;
+
+            float[] testX = {x1,x1,x2,x2};
+            float[] testY = {0,1,1,0};
+            float[] testColor = GlimpseColor.fromColorRgb(0.5f,0.5f,0.5f);
+            polygonPainter.addPolygon(0,testX,testY,testColor);
         } else if(doubleClicked){
             firstClick = glimpseMouseEvent;
         } else {
@@ -61,15 +74,19 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     /**
      * Displays the closest point to a given mouse click
      * @param glimpseMouseEvent mouse event for mouse click
+     * @return the closest x value of the first line
      */
-    private void displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
+    private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
+        double ret = 0;
         for(GraphableData data : graph.getData()){
             int index = findClosestIndex(data.getXValues(),
                     data.getYValues(),
                     glimpseMouseEvent.getAxisCoordinatesX(),
                     glimpseMouseEvent.getAxisCoordinatesY());
             System.out.println("X: " + data.getXValues()[index] + " Y: " + data.getYValues()[index]);
+            ret = data.getXValues()[index];
         }
+        return ret;
     }
 
     /**
