@@ -40,6 +40,14 @@ public class ROCCurve implements GraphableFunction {
     public GraphableFunctionOutput compute() {
         GraphableFunctionOutput out = new GraphableFunctionOutputImpl();
 
+        // Add the attributes to the list
+        out.addAttribute(tprString);
+        out.addAttribute(fprString);
+        out.addAttribute(tnrString);
+        out.addAttribute(fnrString);
+        out.addAttribute(cutpointString);
+        out.addAttribute(accuracyString);
+
         // Calculate the number of positive values and negative values in this data set
         int numPositives = 0;
         int numNegatives = 0;
