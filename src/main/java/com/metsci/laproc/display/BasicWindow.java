@@ -1,6 +1,7 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.*;
+import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ import java.awt.*;
  */
 public class BasicWindow implements Window{
     private GraphPanel graphPanel = new GraphPanel();
+    private JScrollPane dataPanel = new JScrollPane();
 
     /**
      * Puts together a docking group and docks in default views
@@ -21,16 +23,14 @@ public class BasicWindow implements Window{
 
         TileFactories.TileFactory tileFactory = new TileFactories.TileFactoryStandard(group);
 
-        JPanel spreadpanel = new JPanel();
         JPanel keyPanel = new JPanel();
 
-        spreadpanel.setBackground(Color.blue);
         keyPanel.setBackground(Color.GREEN);
 
         DockingFrame frame = group.addNewFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        View sView = new View("Data", spreadpanel, "Data", true);
+        View sView = new View("Data", dataPanel, "Data", true);
         View gView = new View("Graph", graphPanel.getCanvas(), "Graph", true);
         View kView = new View("WIP", keyPanel, "WIP", true);
 
@@ -69,7 +69,8 @@ public class BasicWindow implements Window{
      * Sets up a spreadsheet panel to be added to the display
      * Creaded by porterjc on 9/22/2016
      */
-    public void showSpreadsheet() {
-
+    public void showSpreadsheet(ClassifierDataSet data) {
+        this.dataPanel = DataSheetPanel.GetDataSheet(data);
+        
     }
 }
