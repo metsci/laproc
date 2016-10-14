@@ -1,5 +1,6 @@
 package com.metsci.laproc;
 
+
 import com.metsci.laproc.display.BasicWindow;
 import com.metsci.laproc.display.Window;
 import com.metsci.laproc.plotting.Axis;
@@ -8,6 +9,8 @@ import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPointImpl;
 import com.metsci.laproc.plotting.*;
 
+import java.awt.*;
+
 import javax.swing.*;
 import java.io.IOException;
 
@@ -15,17 +18,18 @@ import java.io.IOException;
  * Hello world!
  *
  */
-public class App 
-{
-    public static void main( String[] args )
+public class App {
+	public static void main( String[] args )
     {
         BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
-        GraphableFunction func = new ROCCurve(importData());
+        ClassifierDataSet data = importData();
+        GraphableFunction func = new ROCCurve(data);
         GraphableFunctionOutput output = func.compute();
         graph.addData( output.getGraphableData("False Positive Rate", "True Positive Rate"));
-
+        
         Window window = new BasicWindow();
         window.showGraph(graph);
+        window.showSpreadsheet(data);
         window.display();
     }
 

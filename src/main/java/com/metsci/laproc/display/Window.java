@@ -1,5 +1,6 @@
 package com.metsci.laproc.display;
 
+import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
 
 /**
@@ -23,5 +24,5 @@ public interface Window {
      * adds a spreadsheet component to the display
      * Creaded by porterjc on 9/22/2016
      */
-    public void showSpreadsheet();
+    public void showSpreadsheet(ClassifierDataSet data);
 }
