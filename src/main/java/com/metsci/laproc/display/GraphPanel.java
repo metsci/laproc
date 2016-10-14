@@ -2,9 +2,7 @@ package com.metsci.laproc.display;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
-import com.metsci.laproc.ROCCurvePlot;
 import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphDisplayer;
 
 import javax.swing.*;
 
