@@ -11,8 +11,8 @@ import java.awt.*;
  * Created by porterjc on 9/22/2016.
  */
 public class BasicWindow implements Window{
-    private GraphPanel graphPanel = new GraphPanel();
-    private JScrollPane dataPanel = new JScrollPane();
+    private GraphPanel graphPanel = new GraphPanel(this);
+    private DataSheetPanel dataPanel = new DataSheetPanel(this);
 
     /**
      * Puts together a docking group and docks in default views
@@ -62,7 +62,6 @@ public class BasicWindow implements Window{
      */
     public void showGraph(Graph graph) {
         this.graphPanel.addGraphToCanvas(graph);
-        this.graphPanel.animateGraph();
     }
 
     /**
@@ -70,7 +69,7 @@ public class BasicWindow implements Window{
      * Creaded by porterjc on 9/22/2016
      */
     public void showSpreadsheet(ClassifierDataSet data) {
-        this.dataPanel = DataSheetPanel.GetDataSheet(data);
+        this.dataPanel.setDataSheet(data);
         
     }
 }

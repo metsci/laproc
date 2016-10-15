@@ -2,6 +2,7 @@ package com.metsci.laproc;
 
 
 import com.metsci.laproc.display.BasicWindow;
+import com.metsci.laproc.display.NewEvalSetAction;
 import com.metsci.laproc.display.Window;
 import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.BasicGraph;
