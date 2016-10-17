@@ -6,12 +6,17 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
+ * A JPanel that displays all created classifer data sets
  * Created by malinocr on 10/17/2016.
  */
 public class ClassifierSetPanel extends JPanel {
     private Window window;
     private ClassifierTable table;
 
+    /**
+     * Default constructor for the ClassifierSetPanel
+     * @param window the window that holds the ClassifierSetPanel
+     */
     public ClassifierSetPanel(Window window){
         this.window = window;
         String[] columnNames = new String[1];
@@ -30,10 +35,18 @@ public class ClassifierSetPanel extends JPanel {
         this.add(scrollPane);
     }
 
+    /**
+     * Clears the table in the panel
+     */
     public void clearTable(){
         this.table.clear();
     }
 
+    /**
+     * Adds a classifer to the table in the panel
+     * @param name name of the classifier to be added
+     * @param data classifier data
+     */
     public void addClassifierSetToTable(String name, ClassifierDataSet data){
         this.table.addClassifierDataSet(name, data);
     }

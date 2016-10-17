@@ -34,6 +34,7 @@ public interface Window {
 
     /**
      * adds classifier data set to classifier panel
+     * Created by malinocr on 10/17/2016
      */
     public void addDataToClass(String name, ClassifierDataSet data);
 }

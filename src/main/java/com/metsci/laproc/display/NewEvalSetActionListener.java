@@ -31,12 +31,6 @@ public class NewEvalSetActionListener implements ActionListener{
 			data.add(this.tableDisplayer.getDataPointAtIndex(i));
 		}
 		this.window.addDataToClass("New Data Set " + currentAddedIndex++,data);
-
-//		GraphableFunction func = new ROCCurve(data);
-//        GraphableFunctionOutput output = func.compute();
-//        BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
-//        graph.addData( output.getGraphableData("False Positive Rate", "True Positive Rate"));
-//        this.window.showGraph(graph);
 	}
 
 }
