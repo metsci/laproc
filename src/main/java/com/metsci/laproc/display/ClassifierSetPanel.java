@@ -21,6 +21,12 @@ public class ClassifierSetPanel extends JPanel {
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
+
+        JButton displaySetButton = new JButton("Display Set");
+        DisplayEvalSetActionListener listener = new DisplayEvalSetActionListener(this.window,this.table);
+        displaySetButton.addActionListener(listener);
+        this.add(displaySetButton);
+
         this.add(scrollPane);
     }
 
