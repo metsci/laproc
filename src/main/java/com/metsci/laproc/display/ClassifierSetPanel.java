@@ -28,7 +28,7 @@ public class ClassifierSetPanel extends JPanel {
         this.table.clear();
     }
 
-    public void addClassifierSetToTable(String classifierDataSetName, ClassifierDataSet classifierDataSet){
-        this.table.addClassifierDataSet(classifierDataSetName, classifierDataSet);
+    public void addClassifierSetToTable(String name, ClassifierDataSet data){
+        this.table.addClassifierDataSet(name, data);
     }
 }

@@ -2,7 +2,6 @@ package com.metsci.laproc;
 
 
 import com.metsci.laproc.display.BasicWindow;
-import com.metsci.laproc.display.NewEvalSetAction;
 import com.metsci.laproc.display.Window;
 import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.BasicGraph;
@@ -10,9 +9,6 @@ import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPointImpl;
 import com.metsci.laproc.plotting.*;
 
-import java.awt.*;
-
-import javax.swing.*;
 import java.io.IOException;
 
 /**

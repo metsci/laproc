@@ -79,4 +79,8 @@ public class BasicWindow implements Window{
         this.classPanel.clearTable();
         this.classPanel.addClassifierSetToTable("Initial Classifier Data Set",data);
     }
+
+    public void addDataToClass(String name, ClassifierDataSet data){
+        this.classPanel.addClassifierSetToTable(name, data);
+    }
 }

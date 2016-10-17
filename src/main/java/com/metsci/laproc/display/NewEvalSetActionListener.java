@@ -13,11 +13,12 @@ import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.plotting.GraphableFunctionOutput;
 import com.metsci.laproc.plotting.ROCCurve;
 
-public class NewEvalSetAction implements ActionListener{
+public class NewEvalSetActionListener implements ActionListener{
 	private Window window;
 	private TableDisplayer tableDisplayer;
+	private int currentAddedIndex = 1;
 
-	public NewEvalSetAction(Window window, TableDisplayer tableDisplayer) {
+	public NewEvalSetActionListener(Window window, TableDisplayer tableDisplayer) {
 		this.window = window;
 		this.tableDisplayer = tableDisplayer;
 	}
@@ -29,11 +30,13 @@ public class NewEvalSetAction implements ActionListener{
 		for(int i = 0; i < indexes.length; i++){
 			data.add(this.tableDisplayer.getDataPointAtIndex(i));
 		}
-		GraphableFunction func = new ROCCurve(data);
-        GraphableFunctionOutput output = func.compute();
-        BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
-        graph.addData( output.getGraphableData("False Positive Rate", "True Positive Rate"));
-        this.window.showGraph(graph);
+		this.window.addDataToClass("New Data Set " + currentAddedIndex++,data);
+
+//		GraphableFunction func = new ROCCurve(data);
+//        GraphableFunctionOutput output = func.compute();
+//        BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
+//        graph.addData( output.getGraphableData("False Positive Rate", "True Positive Rate"));
+//        this.window.showGraph(graph);
 	}
 
 }
