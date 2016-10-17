@@ -13,6 +13,7 @@ import java.awt.*;
 public class BasicWindow implements Window{
     private GraphPanel graphPanel = new GraphPanel(this);
     private DataSheetPanel dataPanel = new DataSheetPanel(this);
+    private ClassifierSetPanel classPanel = new ClassifierSetPanel(this);
 
     /**
      * Puts together a docking group and docks in default views
@@ -31,11 +32,13 @@ public class BasicWindow implements Window{
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         View sView = new View("Data", dataPanel, "Data", true);
+        View cView = new View("Sets", classPanel, "Sets", true);
         View gView = new View("Graph", graphPanel.getCanvas(), "Graph", true);
         View kView = new View("WIP", keyPanel, "WIP", true);
 
         Tile spreadTile = tileFactory.newTile();
         spreadTile.addView(sView, 0);
+        spreadTile.addView(cView, 1);
 
         Tile graphTile = tileFactory.newTile();
         graphTile.addView(gView, 0);
@@ -70,6 +73,10 @@ public class BasicWindow implements Window{
      */
     public void showSpreadsheet(ClassifierDataSet data) {
         this.dataPanel.setDataSheet(data);
-        
+    }
+
+    public void showClass(ClassifierDataSet data){
+        this.classPanel.clearTable();
+        this.classPanel.addClassifierSetToTable("Initial Classifier Data Set",data);
     }
 }
