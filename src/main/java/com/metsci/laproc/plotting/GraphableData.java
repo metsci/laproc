@@ -38,9 +38,23 @@ public interface GraphableData {
     public void addPoint(double x, double y);
 
     /**
+     * Adds a point to the set of values
+     * @param dp The point to add
+     */
+    public void addPoint(DataPoint dp);
+
+    /**
      * Gets the number of points in this data set
      * @return The number of points in this data set
      */
     public int getSize();
+
+    /**
+     * Gets the graph point closest to the given x/y value
+     * @param x The given x value
+     * @param y The given y value
+     * @return The closest graph point to the given values
+     */
+    public DataPoint getDataPoint(double x, double y);
 
 }

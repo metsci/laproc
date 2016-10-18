@@ -4,7 +4,7 @@ package com.metsci.laproc.plotting;
  * Represents a continuous line that can be represented on a graph.
  * Created by robinsat on 9/20/2016.
  */
-public class Curve implements GraphableData {
+public class SimpleGraphableData implements GraphableData {
 
     //Fields
     /** The name of this set of data */
@@ -25,7 +25,7 @@ public class Curve implements GraphableData {
     /**
      * Default constructor
      */
-     public Curve() {
+     public SimpleGraphableData() {
          this("", DEFAULT_SIZE);
      }
 
@@ -33,7 +33,7 @@ public class Curve implements GraphableData {
      * Constructor
      * @param name The name to give to this graph data
      */
-    public Curve(String name) {
+    public SimpleGraphableData(String name) {
         this(name, DEFAULT_SIZE);
     }
 
@@ -41,7 +41,7 @@ public class Curve implements GraphableData {
      * Constructor
      * @param numPoints The number of points to initialize this data set with
      */
-    public Curve(int numPoints) {
+    public SimpleGraphableData(int numPoints) {
         this("", numPoints);
     }
 
@@ -50,7 +50,7 @@ public class Curve implements GraphableData {
      * @param name The name to give to this graph data
      * @param numPoints The number of points to initialize this data set with
      */
-    public Curve(String name, int numPoints) {
+    public SimpleGraphableData(String name, int numPoints) {
         this.name = name;
         this.size = 0;
         this.xValues = new double[numPoints];
@@ -112,6 +112,10 @@ public class Curve implements GraphableData {
         size++;
     }
 
+    public void addPoint(DataPoint dataPoint) {
+        addPoint(dataPoint.getX(), dataPoint.getY());
+    }
+
     /**
      * Private helper method to resize an array
      * @param original The original array
@@ -132,6 +136,17 @@ public class Curve implements GraphableData {
      */
     public int getSize() {
         return this.size;
+    }
+
+    /**
+     * Returns a data point
+     * @param x The given x value
+     * @param y The given y value
+     * @return The closest graph point to the given values
+     */
+    public DataPoint getDataPoint(double x, double y) {
+        DataPoint dp = new DataPoint(x, y);
+        return dp;
     }
 
 }

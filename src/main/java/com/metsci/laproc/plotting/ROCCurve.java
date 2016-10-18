@@ -1,7 +1,6 @@
 package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.data.DataPoint;
 
 /**
  * The function to compute a ROC curve
@@ -37,21 +36,22 @@ public class ROCCurve implements GraphableFunction {
      * Compures the Receiver Operating Characteristic curve
      * @return The plottable data set representing this curve
      */
-    public GraphableFunctionOutput compute() {
-        GraphableFunctionOutput out = new GraphableFunctionOutputImpl();
+    public GraphableData compute() {
+        //GraphableFunctionOutput out = new GraphableFunctionOutputImpl();
+        GraphableDataWithStats out = new GraphableDataWithStats();
 
         // Add the attributes to the list
-        out.addAttribute(tprString);
+      /*  out.addAttribute(tprString);
         out.addAttribute(fprString);
         out.addAttribute(tnrString);
         out.addAttribute(fnrString);
         out.addAttribute(cutpointString);
-        out.addAttribute(accuracyString);
+        out.addAttribute(accuracyString); */
 
         // Calculate the number of positive values and negative values in this data set
         int numPositives = 0;
         int numNegatives = 0;
-        for(DataPoint p : input) {
+        for(com.metsci.laproc.data.DataPoint p : input) {
             if(p.getTruth())
                 numPositives++;
             else
@@ -74,7 +74,7 @@ public class ROCCurve implements GraphableFunction {
             falseNegatives = 0;
 
             cutpoint += interval;
-            for (DataPoint p : input) {
+            for (com.metsci.laproc.data.DataPoint p : input) {
                 double val = p.getValues()[0];
                 if(p.getTruth()) { // p is actually true
                     if(val >= cutpoint)
@@ -97,14 +97,14 @@ public class ROCCurve implements GraphableFunction {
             double accuracy = ((double) (truePositives + trueNegatives)) / ((double) (numPositives + numNegatives));
 
             // Construct a point with all of the data and add it to the output set
-            GraphPoint point = new GraphPoint();
+            DataPoint point = new DataPoint(falsePositiveRate, truePositiveRate);
             point.put(cutpointString, cutpoint);
             point.put(tprString, truePositiveRate);
             point.put(fprString, falsePositiveRate);
             point.put(tnrString, trueNegativeRate);
             point.put(fnrString, falseNegativeRate);
             point.put(accuracyString, accuracy);
-            out.add(point);
+            out.addPoint(point);
         }
         return out;
     }

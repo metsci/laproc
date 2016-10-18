@@ -7,6 +7,6 @@ package com.metsci.laproc.plotting;
 public interface GraphableFunction {
 
     /** Executes the function and returns the resulting data set */
-    public GraphableFunctionOutput compute();
+    public GraphableData compute();
 
 }
