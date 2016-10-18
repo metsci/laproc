@@ -37,7 +37,6 @@ public class ROCCurve implements GraphableFunction {
      * @return The plottable data set representing this curve
      */
     public GraphableData compute() {
-        //GraphableFunctionOutput out = new GraphableFunctionOutputImpl();
         GraphableDataWithStats out = new GraphableDataWithStats();
 
         // Add the attributes to the list
@@ -97,7 +96,7 @@ public class ROCCurve implements GraphableFunction {
             double accuracy = ((double) (truePositives + trueNegatives)) / ((double) (numPositives + numNegatives));
 
             // Construct a point with all of the data and add it to the output set
-            DataPoint point = new DataPoint(falsePositiveRate, truePositiveRate);
+            GraphPoint point = new GraphPoint(falsePositiveRate, truePositiveRate);
             point.put(cutpointString, cutpoint);
             point.put(tprString, truePositiveRate);
             point.put(fprString, falsePositiveRate);

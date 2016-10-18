@@ -6,6 +6,7 @@ import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.painter.shape.PolygonPainterSimple;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
 import javafx.scene.shape.Circle;
 
@@ -79,30 +80,11 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
         for(GraphableData data : graph.getData()){
-            int index = findClosestIndex(data.getXValues(),
-                    data.getYValues(),
-                    glimpseMouseEvent.getAxisCoordinatesX(),
-                    glimpseMouseEvent.getAxisCoordinatesY());
-            System.out.println("X: " + data.getXValues()[index] + " Y: " + data.getYValues()[index]);
-            ret = data.getXValues()[index];
+            GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+            System.out.println("X: " + point.getX() + " Y: " + point.getY());
+            ret = point.getX();
         }
         return ret;
     }
 
-    /**
-     * Find the index of the closest point given an x and y value
-     * @return index of the closest point
-     */
-    private static int findClosestIndex(double[] xValues, double[] yValues, double x, double y){
-        int closestIndex = 0;
-        double closestDistance = Point2D.distance(xValues[0],yValues[0],x,y);
-        for(int i = 1; i < xValues.length; i++){
-            double currentDistance = Point2D.distance(xValues[i],yValues[i],x,y);
-            if(currentDistance < closestDistance){
-                closestDistance = currentDistance;
-                closestIndex = i;
-            }
-        }
-        return closestIndex;
-    }
 }

@@ -112,7 +112,7 @@ public class SimpleGraphableData implements GraphableData {
         size++;
     }
 
-    public void addPoint(DataPoint dataPoint) {
+    public void addPoint(GraphPoint dataPoint) {
         addPoint(dataPoint.getX(), dataPoint.getY());
     }
 
@@ -144,8 +144,8 @@ public class SimpleGraphableData implements GraphableData {
      * @param y The given y value
      * @return The closest graph point to the given values
      */
-    public DataPoint getDataPoint(double x, double y) {
-        DataPoint dp = new DataPoint(x, y);
+    public GraphPoint getDataPoint(double x, double y) {
+        GraphPoint dp = new GraphPoint(x, y);
         return dp;
     }
 

@@ -2,12 +2,12 @@ package com.metsci.laproc.plotting;
 
 import java.util.HashMap;
 
-public class DataPoint extends HashMap<String, Double> {
+public class GraphPoint extends HashMap<String, Double> {
 
     private double xVal;
     private double yVal;
 
-    public DataPoint(double x, double y) {
+    public GraphPoint(double x, double y) {
         this.xVal = x;
         this.yVal = y;
     }

@@ -41,7 +41,7 @@ public interface GraphableData {
      * Adds a point to the set of values
      * @param dp The point to add
      */
-    public void addPoint(DataPoint dp);
+    public void addPoint(GraphPoint dp);
 
     /**
      * Gets the number of points in this data set
@@ -55,6 +55,6 @@ public interface GraphableData {
      * @param y The given y value
      * @return The closest graph point to the given values
      */
-    public DataPoint getDataPoint(double x, double y);
+    public GraphPoint getDataPoint(double x, double y);
 
 }

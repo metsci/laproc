@@ -1,5 +1,6 @@
 package com.metsci.laproc.plotting;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +14,11 @@ public class GraphableDataWithStats implements GraphableData {
     /** The name of this Graphable Data set */
     private String name;
     /** A list of all the data points in this set */
-    private List<DataPoint> data;
+    private List<GraphPoint> data;
 
     public GraphableDataWithStats() {
-        this.data = new ArrayList<DataPoint>();
+        this.name = "";
+        this.data = new ArrayList<GraphPoint>();
     }
 
     /**
@@ -66,14 +68,14 @@ public class GraphableDataWithStats implements GraphableData {
      * @param y The y value of the added point
      */
     public void addPoint(double x, double y) {
-        this.addPoint(new DataPoint(x, y));
+        this.addPoint(new GraphPoint(x, y));
     }
 
     /**
      * Adds a point to the set of values
      * @param dataPoint The point to add
      */
-    public void addPoint(DataPoint dataPoint) {
+    public void addPoint(GraphPoint dataPoint) {
         this.data.add(dataPoint);
     }
 
@@ -87,12 +89,23 @@ public class GraphableDataWithStats implements GraphableData {
 
     /**
      * Gets the graph point closest to the given x/y value
-     *
+     * TODO This can be more efficient.
      * @param x The given x value
      * @param y The given y value
      * @return The closest graph point to the given values
      */
-    public DataPoint getDataPoint(double x, double y) {
-        return null;
+    public GraphPoint getDataPoint(double x, double y) {
+        GraphPoint closest = data.get(0);
+        double closestDistance = Point2D.distance(closest.getX(), closest.getY(), x, y);
+        double currentDistance = 0;
+        for(int i = 1; i < data.size(); i++) {
+            currentDistance = Point2D.distance(data.get(i).getX(), data.get(i).getY(), x, y);
+            if(currentDistance < closestDistance) {
+                closestDistance = currentDistance;
+                closest = data.get(i);
+            }
+        }
+        return closest;
     }
+
 }

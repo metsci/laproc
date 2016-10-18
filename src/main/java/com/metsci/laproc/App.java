@@ -24,8 +24,7 @@ public class App {
         BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
         ClassifierDataSet data = importData();
         GraphableFunction func = new ROCCurve(data);
-        GraphableFunctionOutput output = func.compute();
-        graph.addData( output.getGraphableData("False Positive Rate", "True Positive Rate"));
+        graph.addData( func.compute());
         
         Window window = new BasicWindow();
         window.showGraph(graph);
