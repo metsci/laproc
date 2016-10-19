@@ -25,4 +25,16 @@ public interface Window {
      * Creaded by porterjc on 9/22/2016
      */
     public void showSpreadsheet(ClassifierDataSet data);
+
+    /**
+     * adds a classifier set component to the display
+     * Created by malinocr on 10/17/2016
+     */
+    public void showClass(ClassifierDataSet data);
+
+    /**
+     * adds classifier data set to classifier panel
+     * Created by malinocr on 10/17/2016
+     */
+    public void addDataToClass(String name, ClassifierDataSet data);
 }

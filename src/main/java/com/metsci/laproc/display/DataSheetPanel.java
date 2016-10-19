@@ -10,7 +10,7 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.data.DataPoint;
+
 /**
  * 
  * A datasheet panel creator.
@@ -39,7 +39,7 @@ public class DataSheetPanel extends JPanel{
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 		
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
-        NewEvalSetAction nesaInstance = new NewEvalSetAction(this.window, tableDisplayer);
+        NewEvalSetActionListener nesaInstance = new NewEvalSetActionListener(this.window, tableDisplayer);
 		newEvalSetButton.addActionListener(nesaInstance);
 		this.add(newEvalSetButton);
 		
