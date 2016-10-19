@@ -11,6 +11,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import javax.swing.table.TableModel;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 
@@ -49,16 +50,16 @@ public class DataSheetPanel extends JPanel{
 		newEvalSetButton.addActionListener(nesaInstance);
 		this.add(newEvalSetButton);
 		
-		JPanel filterPanel = new JPanel();
-		filterPanel.add(new JLabel("Truth"));
-		filterPanel.add(new JTextField(10));
-		filterPanel.add(new JLabel("Value"));
-		filterPanel.add(new JTextField(10));
-		
-		JButton applyFilterButton = new JButton("Apply Filter");
-		FilterActionListener filterActionListener = new FilterActionListener(this.window, tableDisplayer);
-		applyFilterButton.addActionListener(filterActionListener);
-		this.add(filterPanel);
+//		JPanel filterPanel = new JPanel();
+//		filterPanel.add(new JLabel("Truth"));
+//		filterPanel.add(new JTextField(10));
+//		filterPanel.add(new JLabel("Value"));
+//		filterPanel.add(new JTextField(10));
+//		
+//		JButton applyFilterButton = new JButton("Apply Filter");
+//		FilterActionListener filterActionListener = new FilterActionListener();
+//		applyFilterButton.addActionListener(filterActionListener);
+//		this.add(filterPanel);
 		
 		
 		
