@@ -3,6 +3,7 @@ package com.metsci.laproc.display;
 import com.metsci.glimpse.docking.*;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphableDataWithStats;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ import java.awt.*;
 public class BasicWindow implements Window{
     private GraphPanel graphPanel = new GraphPanel();
     private JScrollPane dataPanel = new JScrollPane();
+    private JPanel conmatrixPanel = new JPanel();
 
     /**
      * Puts together a docking group and docks in default views
@@ -32,7 +34,7 @@ public class BasicWindow implements Window{
 
         View sView = new View("Data", dataPanel, "Data", true);
         View gView = new View("Graph", graphPanel.getCanvas(), "Graph", true);
-        View kView = new View("WIP", keyPanel, "WIP", true);
+        View kView = new View("Analysis", conmatrixPanel, "Analysis", true);
 
         Tile spreadTile = tileFactory.newTile();
         spreadTile.addView(sView, 0);
@@ -49,7 +51,7 @@ public class BasicWindow implements Window{
         docker.addNeighborLeaf(keyTile, graphTile, Side.BOTTOM, 0.2);
         docker.addEdgeLeaf(spreadTile, Side.LEFT, 0.2);
 
-        frame.setTitle("Basic GUI");
+        frame.setTitle("ROC Curve");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.pack();
         frame.setLocationByPlatform(true);
@@ -73,4 +75,9 @@ public class BasicWindow implements Window{
         this.dataPanel = DataSheetPanel.GetDataSheet(data);
         
     }
+
+    public void showConfusionMatrix() {
+        this.conmatrixPanel = new ConfusionPanel(new int[]{0, 0}, new int[]{0, 0});
+    }
+
 }

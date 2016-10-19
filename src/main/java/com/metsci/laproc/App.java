@@ -8,10 +8,6 @@ import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPointImpl;
 import com.metsci.laproc.plotting.*;
-
-import java.awt.*;
-
-import javax.swing.*;
 import java.io.IOException;
 
 /**
@@ -29,6 +25,7 @@ public class App {
         Window window = new BasicWindow();
         window.showGraph(graph);
         window.showSpreadsheet(data);
+        window.showConfusionMatrix();
         window.display();
     }
 
