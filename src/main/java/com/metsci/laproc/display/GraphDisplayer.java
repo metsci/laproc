@@ -1,9 +1,11 @@
-package com.metsci.laproc.plotting;
+package com.metsci.laproc.display;
 
 import com.metsci.glimpse.layout.GlimpseLayoutProvider;
 import com.metsci.glimpse.painter.decoration.LegendPainter.*;
 import com.metsci.glimpse.painter.info.CursorTextPainter;
 import com.metsci.glimpse.painter.plot.XYLinePainter;
+import com.metsci.glimpse.painter.shape.PolygonPainter;
+import com.metsci.glimpse.painter.shape.PolygonPainterSimple;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Axis;
@@ -54,6 +56,13 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         plot.setMinY(yAxis.getMin());
         plot.setMaxY(yAxis.getMax());
 
+        // Add mouse listener
+        PolygonPainterSimple selectedAreaPainter = new PolygonPainterSimple();
+        selectedAreaPainter.setShowAll();
+        plot.addPainter(selectedAreaPainter);
+
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter));
+
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().showSelectionBox(false);
 
@@ -91,6 +100,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         plot.addPainter(cursorPainter);
 
         // Don't offset the text by the size of the selection box
+
         cursorPainter.setOffsetBySelectionSize(false);
 
         // Add the legend painter to the top of the center GlimpseLayout
