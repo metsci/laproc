@@ -1,0 +1,5 @@
+*        text=auto
+*.java   text
+*.bat    text eol=crlf
+*.sln    text eol=crlf
+*.vcproj text eol=crlf

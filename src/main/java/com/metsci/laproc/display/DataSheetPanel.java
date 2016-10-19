@@ -2,10 +2,13 @@ package com.metsci.laproc.display;
 
 import java.awt.Color;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 
@@ -29,6 +32,7 @@ public class DataSheetPanel extends JPanel{
 	 * @params: ClassifierDataSet
 	 */
 	public void setDataSheet(ClassifierDataSet data) {
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		TableDisplayer tableDisplayer = new TableDisplayer(data);
 		
 		JTable table = tableDisplayer.getTable();
@@ -38,12 +42,25 @@ public class DataSheetPanel extends JPanel{
 		if (defaults.get("Table.alternateRowColor") == null)
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 		
+		this.add(scrollPane);
+		
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
         NewEvalSetActionListener nesaInstance = new NewEvalSetActionListener(this.window, tableDisplayer);
 		newEvalSetButton.addActionListener(nesaInstance);
 		this.add(newEvalSetButton);
 		
-		this.add(scrollPane);
+		JPanel filterPanel = new JPanel();
+		filterPanel.add(new JLabel("Truth"));
+		filterPanel.add(new JTextField(10));
+		filterPanel.add(new JLabel("Value"));
+		filterPanel.add(new JTextField(10));
+		
+		JButton applyFilterButton = new JButton("Apply Filter");
+		FilterActionListener filterActionListener = new FilterActionListener(this.window, tableDisplayer);
+		applyFilterButton.addActionListener(filterActionListener);
+		this.add(filterPanel);
+		
+		
 		
 	}
 	
