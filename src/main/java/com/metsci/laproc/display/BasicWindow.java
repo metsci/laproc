@@ -3,6 +3,9 @@ package com.metsci.laproc.display;
 import com.metsci.glimpse.docking.*;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphableFunction;
+import com.metsci.laproc.plotting.GraphableFunctionOutput;
+import com.metsci.laproc.plotting.ROCCurve;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +16,7 @@ import java.awt.*;
 public class BasicWindow implements Window{
     private GraphPanel graphPanel = new GraphPanel(this);
     private DataSheetPanel dataPanel = new DataSheetPanel(this);
-    private ClassifierSetPanel classPanel = new ClassifierSetPanel(this);
+    private DataSetPanel classPanel = new DataSetPanel(this);
 
     /**
      * Puts together a docking group and docks in default views
@@ -77,10 +80,12 @@ public class BasicWindow implements Window{
 
     public void showClass(ClassifierDataSet data){
         this.classPanel.clearTable();
-        this.classPanel.addClassifierSetToTable("Initial Classifier Data Set",data);
+        GraphableFunction func = new ROCCurve(data);
+        GraphableFunctionOutput output = func.compute();
+        this.classPanel.addDataSetToTable("Initial Classifier Data Set",output);
     }
 
-    public void addDataToClass(String name, ClassifierDataSet data){
-        this.classPanel.addClassifierSetToTable(name, data);
+    public void addDataSetToClass(String name, GraphableFunctionOutput data){
+        this.classPanel.addDataSetToTable(name, data);
     }
 }

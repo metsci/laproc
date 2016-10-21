@@ -1,34 +1,35 @@
 package com.metsci.laproc.display;
 
 import com.metsci.laproc.data.ClassifierDataSet;
+import com.metsci.laproc.plotting.GraphableFunctionOutput;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * A JPanel that displays all created classifer data sets
+ * A JPanel that handles interacting with the created data sets
  * Created by malinocr on 10/17/2016.
  */
-public class ClassifierSetPanel extends JPanel {
+public class DataSetPanel extends JPanel {
     private Window window;
-    private ClassifierTable table;
+    private DataSetTable table;
 
     /**
-     * Default constructor for the ClassifierSetPanel
-     * @param window the window that holds the ClassifierSetPanel
+     * Default constructor for the DataSetPanel
+     * @param window the window that holds the DataSetPanel
      */
-    public ClassifierSetPanel(Window window){
+    public DataSetPanel(Window window){
         this.window = window;
         String[] columnNames = new String[1];
-        columnNames[0] = "Classifier Set";
-        this.table = new ClassifierTable();
+        columnNames[0] = "Data Set";
+        this.table = new DataSetTable();
         JScrollPane scrollPane = new JScrollPane(table);
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
         JButton displaySetButton = new JButton("Display Set");
-        DisplayEvalSetActionListener listener = new DisplayEvalSetActionListener(this.window,this.table);
+        DisplayDataSetActionListener listener = new DisplayDataSetActionListener(this.window,this.table);
         displaySetButton.addActionListener(listener);
         this.add(displaySetButton);
 
@@ -43,11 +44,11 @@ public class ClassifierSetPanel extends JPanel {
     }
 
     /**
-     * Adds a classifer to the table in the panel
-     * @param name name of the classifier to be added
-     * @param data classifier data
+     * Adds a data set to the table in the panel
+     * @param name name of the data set to be added
+     * @param data data set to be added
      */
-    public void addClassifierSetToTable(String name, ClassifierDataSet data){
-        this.table.addClassifierDataSet(name, data);
+    public void addDataSetToTable(String name, GraphableFunctionOutput data){
+        this.table.addDataSet(name, data);
     }
 }

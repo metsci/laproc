@@ -30,7 +30,9 @@ public class NewEvalSetActionListener implements ActionListener{
 		for(int i = 0; i < indexes.length; i++){
 			data.add(this.tableDisplayer.getDataPointAtIndex(i));
 		}
-		this.window.addDataToClass("New Data Set " + currentAddedIndex++,data);
+		GraphableFunction func = new ROCCurve(data);
+		GraphableFunctionOutput output = func.compute();
+		this.window.addDataSetToClass("New Data Set " + currentAddedIndex++, output);
 	}
 
 }
