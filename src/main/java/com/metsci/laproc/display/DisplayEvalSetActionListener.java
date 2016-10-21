@@ -26,13 +26,12 @@ public class DisplayEvalSetActionListener implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        Iterator<ClassifierDataSet> iterator = table.getSelectedValues().iterator();
-        if(iterator.hasNext()){
-            GraphableFunction func = new ROCCurve(iterator.next());
+        BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
+        for(ClassifierDataSet data : table.getSelectedValues()){
+            GraphableFunction func = new ROCCurve(data);
             GraphableFunctionOutput output = func.compute();
-            BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
             graph.addData( output.getGraphableData("False Positive Rate", "True Positive Rate"));
-            this.window.showGraph(graph);
         }
+        this.window.showGraph(graph);
     }
 }
