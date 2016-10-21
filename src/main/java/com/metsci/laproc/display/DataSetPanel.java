@@ -19,6 +19,7 @@ public class DataSetPanel extends JPanel {
      * @param window the window that holds the DataSetPanel
      */
     public DataSetPanel(Window window){
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.window = window;
         String[] columnNames = new String[1];
         columnNames[0] = "Data Set";
