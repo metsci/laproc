@@ -19,7 +19,10 @@ public class ROCCurve implements GraphableFunction {
     private static final String fnrString = "False Negative Rate";
     private static final String cutpointString = "Cutpoint";
     private static final String accuracyString = "Accuracy";
-
+    private static final String truePositiveString = "True Positives";
+    private static final String falsePositiveString = "False Positives";
+    private static final String trueNegativeString = "True Negatives";
+    private static final String falseNegativeString = "False Negatives";
 
     /** A classified data set to be displayed as a ROCCurve */
     private ClassifierDataSet input;
@@ -98,6 +101,10 @@ public class ROCCurve implements GraphableFunction {
             // Construct a point with all of the data and add it to the output set
             GraphPoint point = new GraphPoint(falsePositiveRate, truePositiveRate);
             point.put(cutpointString, cutpoint);
+            point.put(truePositiveString, (double) truePositives);
+            point.put(falsePositiveString, (double) falsePositives);
+            point.put(trueNegativeString, (double) trueNegatives);
+            point.put(falseNegativeString, (double) falseNegatives);
             point.put(tprString, truePositiveRate);
             point.put(fprString, falsePositiveRate);
             point.put(tnrString, trueNegativeRate);
