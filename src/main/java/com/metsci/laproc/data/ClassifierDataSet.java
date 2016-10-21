@@ -1,28 +1,47 @@
 package com.metsci.laproc.data;
 
-import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
-import it.unimi.dsi.fastutil.objects.ReferenceArraySet;
-import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
- * A class representing a set of data that has been classified
+ * A class wrapping a set of data that has been classified
  * Created by robinsat on 9/20/2016.
  */
-public class ClassifierDataSet extends ObjectOpenHashBigSet<DataPoint> {
+public class ClassifierDataSet implements Iterable<DataPoint> {
 
     /** Represents the set of tags used to categorize this data */
     private Collection<TagHeader> tags;
+
+    /** The actual data set */
+    private ObjectOpenHashBigSet<DataPoint> data;
+
+    public ClassifierDataSet() {
+        this.tags = new ArrayList<TagHeader>();
+        this.data = new ObjectOpenHashBigSet<DataPoint>();
+    }
+
+    /**
+     * Adds a point to the data set
+     * @param point The point to add
+     */
+    public void add(DataPoint point) {
+        this.data.add(point);
+    }
+
+    public Set<DataPoint> getAllPoints() {
+        return this.data;
+    }
 
     /**
      * Getter for an iterable set of points;
      * @return An iterable set of points;
      */
-    public Iterator<DataPoint> getAllPoints() {
-        return this.iterator();
+    public Iterator<DataPoint> iterator() {
+        return this.data.iterator();
     }
 
     /**
@@ -42,4 +61,5 @@ public class ClassifierDataSet extends ObjectOpenHashBigSet<DataPoint> {
     public Collection<TagHeader> getTags() {
         return this.tags;
     }
+
 }

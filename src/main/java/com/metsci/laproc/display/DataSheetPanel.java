@@ -27,7 +27,7 @@ public class DataSheetPanel {
 	 */
 	public static JScrollPane GetDataSheet(ClassifierDataSet data) {
 		//instantiate variables
-		int sizeOfArray = data.getAllPoints().next().getValues().length + 1;//+1 for truth column
+		int sizeOfArray = data.iterator().next().getValues().length + 1;//+1 for truth column
 		String[] columnNames = new String[sizeOfArray];
 		Object[][] dataList = new Object[100][100];
 		int tempCounter = 0;

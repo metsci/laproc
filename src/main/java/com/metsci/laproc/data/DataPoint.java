@@ -25,4 +25,10 @@ public interface DataPoint {
      * @return The set of tags associated with this datum
      */
     public Collection<String> getTags();
+
+    /**
+     * Adds a tag to the set of tags associated with this datum
+     * @param tag The tag to associate with this datum
+     */
+    public void addTag(String tag);
 }
