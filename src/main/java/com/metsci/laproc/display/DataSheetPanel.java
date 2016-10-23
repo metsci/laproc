@@ -23,7 +23,10 @@ import com.metsci.laproc.data.ClassifierDataSet;
  */
 public class DataSheetPanel extends JPanel{
 	private Window window;
-	
+	/**
+	 * Default constructor, requires a window for context
+	 * @param window
+	 */
 	public DataSheetPanel(Window window){
 		this.window = window;
 	}
@@ -44,7 +47,7 @@ public class DataSheetPanel extends JPanel{
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 		
 		this.add(scrollPane);
-		
+		//new eval set button to be put on DataSheetPanel, takes an action listener and 
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
         NewEvalSetActionListener nesaInstance = new NewEvalSetActionListener(this.window, tableDisplayer);
 		newEvalSetButton.addActionListener(nesaInstance);

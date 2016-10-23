@@ -12,7 +12,12 @@ import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.plotting.GraphableFunctionOutput;
 import com.metsci.laproc.plotting.ROCCurve;
-
+/**
+ * ActionListener that accepts the window and a table displayer to create a new 
+ * evaluation set based on the selected rows.
+ * @author patterjm
+ *
+ */
 public class NewEvalSetActionListener implements ActionListener{
 	private Window window;
 	private TableDisplayer tableDisplayer;

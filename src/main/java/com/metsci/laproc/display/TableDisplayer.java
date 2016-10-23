@@ -6,7 +6,12 @@ import javax.swing.table.TableModel;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
-
+/**
+ * Accepts an evaluation set and constructs the custom table model
+ * and table that uses the dataset
+ * @author patterjm
+ *
+ */
 public class TableDisplayer {
 	private JTable table;
 	private DataSheetTableModel dataSheetTableModel;

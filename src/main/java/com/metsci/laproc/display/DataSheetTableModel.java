@@ -10,8 +10,12 @@ import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
 
 /**
+ * Preface:
  * Lots of credit for this implementation goes to:
  * http://stackoverflow.com/questions/12559287/how-to-set-a-custom-object-in-a-jtable-row
+ * 
+ * This acts as a way to store dataPoints as the rows of a table, rather than using the default Object[][] JTable constructor.
+ * It also ensures the rows can't be edited, other such properties can be extended
  * @author patterjm
  *
  */
