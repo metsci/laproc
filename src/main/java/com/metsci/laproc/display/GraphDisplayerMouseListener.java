@@ -12,23 +12,34 @@ import javafx.scene.shape.Circle;
 import java.awt.geom.Point2D;
 
 /**
- *
+ * Mouse listener for selecting a set of points
  * Created by malinocr on 10/3/2016.
  */
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     Graph graph;
-    PolygonPainterSimple polygonPainter;
-
+    PolygonPainter polygonPainter;
     long lastClickTime = 0;
-
     boolean doubleClicked = false;
     boolean displayDoubleClick = false;
-
+    boolean isDisplayingPolygon = false;
     GlimpseMouseEvent firstClick;
 
-    public GraphDisplayerMouseListener(Graph graph, PolygonPainterSimple polygonPainter){
+    public static final int MOUSE_CLICK_NANOSECONDS = 500000000;
+
+    public GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
+
+        //Set up coloring for selected area
+        this.polygonPainter.setFill(0,true);
+        float[] fillColor = GlimpseColor.fromColorRgb(0.6f,0.6f,0.6f);
+        //Make polygon transparent
+        fillColor[3] = 0.5f;
+        this.polygonPainter.setFillColor(0,fillColor);
+        this.polygonPainter.setShowLines(0,true);
+        float[] lineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
+        this.polygonPainter.setLineColor(0,lineColor);
+        this.polygonPainter.setLineWidth(0,2);
     }
 
     public void mouseEntered(GlimpseMouseEvent glimpseMouseEvent) {
@@ -40,11 +51,14 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     }
 
     public void mousePressed(GlimpseMouseEvent glimpseMouseEvent) {
-        polygonPainter.clear();
+        if(isDisplayingPolygon){
+            polygonPainter.deletePolygon(0,0);
+            isDisplayingPolygon = false;
+        }
         if(doubleClicked == true){
             doubleClicked = false;
             displayDoubleClick = true;
-        } else if(System.nanoTime() - lastClickTime < 500000000){
+        } else if(System.nanoTime() - lastClickTime < MOUSE_CLICK_NANOSECONDS){ //This is based on the normal double click time
             doubleClicked = true;
         } else {
             lastClickTime = System.nanoTime();
@@ -52,17 +66,17 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     }
 
     public void mouseReleased(GlimpseMouseEvent glimpseMouseEvent) {
-        polygonPainter.clear();
         if(displayDoubleClick){
             System.out.println("Double Click: ");
             float x1 = (float)displayClosestPoint(firstClick);
             float x2 = (float)displayClosestPoint(glimpseMouseEvent);
             displayDoubleClick = false;
+            float[] xValues = {x1,x1,x2,x2};
 
-            float[] testX = {x1,x1,x2,x2};
-            float[] testY = {0,1,1,0};
-            float[] testColor = GlimpseColor.fromColorRgb(0.5f,0.5f,0.5f);
-            polygonPainter.addPolygon(0,testX,testY,testColor);
+            //Set to bigger than normal view so that edges are not seen
+            float[] yValues = {-1,2,2,-1};
+            this.polygonPainter.addPolygon(0,0,xValues,yValues,0);
+            isDisplayingPolygon = true;
         } else if(doubleClicked){
             firstClick = glimpseMouseEvent;
         } else {
