@@ -26,6 +26,11 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
 
     public static final int MOUSE_CLICK_NANOSECONDS = 500000000;
 
+    /**
+     * General constructor for GraphDisplayerMouseListener
+     * @param graph current graph that is being displayed
+     * @param polygonPainter polygon painter for selection area
+     */
     public GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
