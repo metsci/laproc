@@ -3,8 +3,6 @@ package com.metsci.laproc.display;
 import com.metsci.glimpse.docking.*;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphableDataWithStats;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,7 +12,12 @@ import java.awt.*;
 public class BasicWindow implements Window{
     private GraphPanel graphPanel = new GraphPanel();
     private JScrollPane dataPanel = new JScrollPane();
-    private JPanel conmatrixPanel = new JPanel();
+    private ConfusionPanel conmatrixPanel = new ConfusionPanel();
+    private PointInfoPanel pointInfoPanel = new PointInfoPanel();
+    private GraphDisplayer displayer;
+    private DockingFrame frame;
+    private MultiSplitPane docker;
+    private Tile analyticstiles;
 
     /**
      * Puts together a docking group and docks in default views
@@ -29,12 +32,13 @@ public class BasicWindow implements Window{
 
         keyPanel.setBackground(Color.GREEN);
 
-        DockingFrame frame = group.addNewFrame();
+        this.frame = group.addNewFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         View sView = new View("Data", dataPanel, "Data", true);
         View gView = new View("Graph", graphPanel.getCanvas(), "Graph", true);
-        View kView = new View("Analysis", conmatrixPanel, "Analysis", true);
+        View kView = new View("Confusion Matrix", conmatrixPanel, "Confusion Matrix", true);
+        View pointView = new View("Point Analysis", pointInfoPanel, "Point Analysis", true);
 
         Tile spreadTile = tileFactory.newTile();
         spreadTile.addView(sView, 0);
@@ -42,14 +46,16 @@ public class BasicWindow implements Window{
         Tile graphTile = tileFactory.newTile();
         graphTile.addView(gView, 0);
 
-        Tile keyTile = tileFactory.newTile();
-        keyTile.addView(kView, 0);
+        analyticstiles = tileFactory.newTile();
+        analyticstiles.addView(kView, 0);
+        analyticstiles.addView(pointView, 1);
 
-        MultiSplitPane docker = frame.docker;
+        this.docker = frame.docker;
 
         docker.addInitialLeaf(graphTile);
-        docker.addNeighborLeaf(keyTile, graphTile, Side.BOTTOM, 0.2);
+        docker.addNeighborLeaf(analyticstiles, graphTile, Side.BOTTOM, 0.2);
         docker.addEdgeLeaf(spreadTile, Side.LEFT, 0.2);
+
 
         frame.setTitle("ROC Curve");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -63,7 +69,8 @@ public class BasicWindow implements Window{
      * Creaded by porterjc on 9/22/2016
      */
     public void showGraph(Graph graph) {
-        this.graphPanel.addGraphToCanvas(graph);
+        this.displayer = new GraphDisplayer(graph, this);
+        this.graphPanel.addGraphToCanvas(this.displayer);
         this.graphPanel.animateGraph();
     }
 
@@ -77,7 +84,21 @@ public class BasicWindow implements Window{
     }
 
     public void showConfusionMatrix() {
-        this.conmatrixPanel = new ConfusionPanel(new int[]{0, 0}, new int[]{0, 0});
+        this.conmatrixPanel = new ConfusionPanel();
     }
 
+    public ConfusionPanel getConfusionMatrixPanel() {
+        return conmatrixPanel;
+    }
+
+    public PointInfoPanel getPointInfoPanel() {
+        return pointInfoPanel;
+    }
+
+    public void repaint(){
+
+        analyticstiles.revalidate();
+        analyticstiles.repaint();
+        frame.repaint();
+    }
 }

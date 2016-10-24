@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     Graph graph;
     PolygonPainterSimple polygonPainter;
+    private Window window;
 
     long lastClickTime = 0;
 
@@ -30,6 +31,12 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     public GraphDisplayerMouseListener(Graph graph, PolygonPainterSimple polygonPainter){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
+    }
+
+    public GraphDisplayerMouseListener(Graph graph, Window window, PolygonPainterSimple polygonPainter){
+        this.graph = graph;
+        this.polygonPainter = polygonPainter;
+        this.window = window;
     }
 
     public void mouseEntered(GlimpseMouseEvent glimpseMouseEvent) {
@@ -81,6 +88,11 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         double ret = 0;
         for(GraphableData data : graph.getData()){
             GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+            window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{point.get("True Positives"), point.get("False Positives")},
+                    new double[]{point.get("True Negatives"), point.get("False Negatives")});
+
+            window.getPointInfoPanel().update(point);
+            window.repaint();
             System.out.println("X: " + point.getX() + " Y: " + point.getY());
             ret = point.getX();
         }

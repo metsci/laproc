@@ -27,4 +27,8 @@ public interface Window {
     public void showSpreadsheet(ClassifierDataSet data);
 
     public void showConfusionMatrix();
+
+    public ConfusionPanel getConfusionMatrixPanel();
+    public PointInfoPanel getPointInfoPanel();
+    public void repaint();
 }
