@@ -57,10 +57,8 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         plot.setMaxY(yAxis.getMax());
 
         // Add mouse listener
-        PolygonPainterSimple selectedAreaPainter = new PolygonPainterSimple();
-        selectedAreaPainter.setShowAll();
+        PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
-
         plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter));
 
         // Only show the x and y crosshairs
