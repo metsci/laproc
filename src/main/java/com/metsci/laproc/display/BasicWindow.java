@@ -3,6 +3,9 @@ package com.metsci.laproc.display;
 import com.metsci.glimpse.docking.*;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphableFunction;
+import com.metsci.laproc.plotting.GraphableFunctionOutput;
+import com.metsci.laproc.plotting.ROCCurve;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,8 +14,9 @@ import java.awt.*;
  * Created by porterjc on 9/22/2016.
  */
 public class BasicWindow implements Window{
-    private GraphPanel graphPanel = new GraphPanel();
-    private JScrollPane dataPanel = new JScrollPane();
+    private GraphPanel graphPanel = new GraphPanel(this);
+    private DataSheetPanel dataPanel = new DataSheetPanel(this);
+    private DataSetPanel classPanel = new DataSetPanel(this);
 
     /**
      * Puts together a docking group and docks in default views
@@ -31,11 +35,13 @@ public class BasicWindow implements Window{
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         View sView = new View("Data", dataPanel, "Data", true);
+        View cView = new View("Sets", classPanel, "Sets", true);
         View gView = new View("Graph", graphPanel.getCanvas(), "Graph", true);
         View kView = new View("WIP", keyPanel, "WIP", true);
 
         Tile spreadTile = tileFactory.newTile();
         spreadTile.addView(sView, 0);
+        spreadTile.addView(cView, 1);
 
         Tile graphTile = tileFactory.newTile();
         graphTile.addView(gView, 0);
@@ -62,7 +68,6 @@ public class BasicWindow implements Window{
      */
     public void showGraph(Graph graph) {
         this.graphPanel.addGraphToCanvas(graph);
-        this.graphPanel.animateGraph();
     }
 
     /**
@@ -70,7 +75,17 @@ public class BasicWindow implements Window{
      * Creaded by porterjc on 9/22/2016
      */
     public void showSpreadsheet(ClassifierDataSet data) {
-        this.dataPanel = DataSheetPanel.GetDataSheet(data);
-        
+        this.dataPanel.setDataSheet(data);
+    }
+
+    public void showClass(ClassifierDataSet data){
+        this.classPanel.clearTable();
+        GraphableFunction func = new ROCCurve(data);
+        GraphableFunctionOutput output = func.compute();
+        this.classPanel.addDataSetToTable("Initial Classifier Data Set",output);
+    }
+
+    public void addDataSetToClass(String name, GraphableFunctionOutput data){
+        this.classPanel.addDataSetToTable(name, data);
     }
 }
