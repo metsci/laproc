@@ -40,7 +40,7 @@ public class ROCCurve implements GraphableFunction {
      * @return The plottable data set representing this curve
      */
     public GraphableData compute() {
-        GraphableDataWithStats out = new GraphableDataWithStats();
+       /* GraphableDataWithStats out = new GraphableDataWithStats();
 
         // Add the attributes to the list
       /*  out.addAttribute(tprString);
@@ -51,7 +51,7 @@ public class ROCCurve implements GraphableFunction {
         out.addAttribute(accuracyString); */
 
         // Calculate the number of positive values and negative values in this data set
-        int numPositives = 0;
+       /* int numPositives = 0;
         int numNegatives = 0;
         for(com.metsci.laproc.data.DataPoint p : input) {
             if(p.getTruth())
@@ -112,6 +112,7 @@ public class ROCCurve implements GraphableFunction {
             point.put(accuracyString, accuracy);
             out.addPoint(point);
         }
-        return out;
+        return out;*/
+        return null;
     }
 }

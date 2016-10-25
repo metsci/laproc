@@ -1,8 +1,6 @@
 package com.metsci.laproc.plotting;
 
-import java.util.HashMap;
-
-public class GraphPoint extends HashMap<String, Double> {
+public class GraphPoint {
 
     private double xVal;
     private double yVal;

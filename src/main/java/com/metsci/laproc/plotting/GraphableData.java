@@ -1,5 +1,7 @@
 package com.metsci.laproc.plotting;
 
+import java.util.List;
+
 /**
  * Represents a set of data points to be plotted on a graph
  * Created by robinsat on 9/20/2016.
@@ -57,4 +59,7 @@ public interface GraphableData {
      */
     public GraphPoint getDataPoint(double x, double y);
 
+    public List<Metric> getAnalytics();
+
+    public void useMetrics(Metric xAxis, Metric yAxis);
 }
