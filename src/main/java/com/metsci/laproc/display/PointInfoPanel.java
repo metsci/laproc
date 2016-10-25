@@ -41,7 +41,8 @@ public class PointInfoPanel extends JLabel{
      * @param point
      */
     public void update(GraphPoint point){
-        Map <String, Double> data = point;
+        //TODO fix
+       /* Map <String, Double> data = point;
         int i = 1;
         for(String key : point.keySet()) {
             if(i > this.getComponentCount())
@@ -50,7 +51,7 @@ public class PointInfoPanel extends JLabel{
             temp.setText(data.get(key) + "");
             temp.repaint();
             i += 2;
-        }
+        }*/
 
         this.revalidate();
         this.repaint();

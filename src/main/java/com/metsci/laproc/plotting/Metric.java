@@ -6,7 +6,9 @@ package com.metsci.laproc.plotting;
  */
 public interface Metric {
     //TODO acutally describe this better
-    public double getMetric();
+    public double getMetric(ClassifierSetPoint point);
 
     public String getDescriptor();
+
+
 }

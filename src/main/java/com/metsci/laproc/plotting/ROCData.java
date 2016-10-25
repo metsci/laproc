@@ -1,5 +1,7 @@
 package com.metsci.laproc.plotting;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,11 +13,9 @@ public class ROCData implements GraphableData{
     private String name;
     private Metric xAxisMetric;
     private Metric yAxisMetric;
+    private List<Metric> pointMetrics;
 
-    private int numPositives;
-    private int numNegatives;
-    private int truePositives;
-    private int trueNegatives;
+    private List<ClassifierSetPoint> points;
 
     public ROCData() {
         this("");
@@ -23,7 +23,13 @@ public class ROCData implements GraphableData{
 
     public ROCData(String name) {
         this.name = name;
+        this.pointMetrics = new ArrayList<Metric>();
+        this.points = new ArrayList<ClassifierSetPoint>();
 
+        this.xAxisMetric = new FalsePositiveRate();
+        this.yAxisMetric = new TruePositiveRate();
+        this.pointMetrics.add(this.xAxisMetric);
+        this.pointMetrics.add(this.yAxisMetric);
     }
 
     /**
@@ -47,7 +53,7 @@ public class ROCData implements GraphableData{
      * @return The set of x values
      */
     public double[] getXValues() {
-        return new double[0];
+        return getDataForMetric(this.xAxisMetric);
     }
 
     /**
@@ -56,35 +62,27 @@ public class ROCData implements GraphableData{
      * @return The set of y values
      */
     public double[] getYValues() {
-        return new double[0];
+        return getDataForMetric(this.yAxisMetric);
     }
 
-    /**
-     * Adds a point to the set of values
-     *
-     * @param x The x value of the added point
-     * @param y The y value of the added point
-     */
-    public void addPoint(double x, double y) {
-
+    private double[] getDataForMetric(Metric m) {
+        double[] values = new double[this.getSize()];
+        for(int i = 0; i < values.length; i++) {
+            values[i] = m.getMetric(points.get(i));
+        }
+        return values;
     }
 
-    /**
-     * Adds a point to the set of values
-     *
-     * @param dp The point to add
-     */
-    public void addPoint(GraphPoint dp) {
-
+    public void addClassifierSetPoint(ClassifierSetPoint pt) {
+        this.points.add(pt);
     }
 
     /**
      * Gets the number of points in this data set
-     *
      * @return The number of points in this data set
      */
     public int getSize() {
-        return 0;
+        return this.points.size();
     }
 
     /**
@@ -99,14 +97,12 @@ public class ROCData implements GraphableData{
     }
 
     public List<Metric> getAnalytics() {
-        return null;
+        return Collections.unmodifiableList(this.pointMetrics);
     }
 
     public void useMetrics(Metric xAxis, Metric yAxis) {
-
+        this.xAxisMetric = xAxis;
+        this.yAxisMetric = yAxis;
     }
 
-    public int getNumPositives() {
-
-    }
 }

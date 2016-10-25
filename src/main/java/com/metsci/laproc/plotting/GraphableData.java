@@ -33,19 +33,6 @@ public interface GraphableData {
     public double[] getYValues();
 
     /**
-     * Adds a point to the set of values
-     * @param x The x value of the added point
-     * @param y The y value of the added point
-     */
-    public void addPoint(double x, double y);
-
-    /**
-     * Adds a point to the set of values
-     * @param dp The point to add
-     */
-    public void addPoint(GraphPoint dp);
-
-    /**
      * Gets the number of points in this data set
      * @return The number of points in this data set
      */

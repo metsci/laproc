@@ -3,12 +3,12 @@ package com.metsci.laproc.plotting;
 /**
  * Created by robinsat on 10/25/2016.
  */
-public class TruePositiveRate implements Metric {
+public class FalsePositiveRate implements Metric {
     public double getMetric(ClassifierSetPoint point) {
-        return ((double) point.getTruePositives()) / point.getNumPositives();
+        return ((double) point.getFalsePositives()) / point.getNumNegatives();
     }
 
     public String getDescriptor() {
-        return "True Positive Rate";
+        return "False Positive Rate";
     }
 }

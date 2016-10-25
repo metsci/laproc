@@ -1,5 +1,7 @@
 package com.metsci.laproc.plotting;
 
+import java.util.Map;
+
 public class GraphPoint {
 
     private double xVal;
@@ -17,4 +19,5 @@ public class GraphPoint {
     public double getY() {
         return this.yVal;
     }
+
 }
