@@ -10,29 +10,31 @@ import java.util.Map;
  *
  * Created by porterjc on 10/21/2016.
  */
-public class PointInfoPanel extends JLabel{
+public class PointInfoPanel extends JPanel{
+    private JPanel panel;
 
     /**
      * Basic constructor for the PointInfoPanel
      */
     public PointInfoPanel() {
         GridLayout matri = new GridLayout(7, 2);
-        this.setName("Point Analytics");
-        this.setLayout(matri);
-        this.add(new JLabel("Classifier Score"));
-        this.add(new JLabel(""));
-        this.add(new JLabel("True Positive Rate"));
-        this.add(new JLabel(""));
-        this.add(new JLabel("False Positive Rate"));
-        this.add(new JLabel(""));
-        this.add(new JLabel("True Negative Rate"));
-        this.add(new JLabel(""));
-        this.add(new JLabel("False Negative Rate"));
-        this.add(new JLabel(""));
-        this.add(new JLabel("Cutpoint"));
-        this.add(new JLabel(""));
-        this.add(new JLabel("Accuracy"));
-        this.add(new JLabel(""));
+        this.panel = new JPanel();
+        setName("Point Analytics");
+        setLayout(matri);
+        add(new JLabel("Classifier Score"));
+        add(new JLabel(""));
+        add(new JLabel("True Positive Rate"));
+        add(new JLabel(""));
+        add(new JLabel("False Positive Rate"));
+        add(new JLabel(""));
+        add(new JLabel("True Negative Rate"));
+        add(new JLabel(""));
+        add(new JLabel("False Negative Rate"));
+        add(new JLabel(""));
+        add(new JLabel("Cutpoint"));
+        add(new JLabel(""));
+        add(new JLabel("Accuracy"));
+        add(new JLabel(""));
     }
 
     /**
@@ -42,14 +44,23 @@ public class PointInfoPanel extends JLabel{
      */
     public void update(GraphPoint point){
         Map <String, Double> data = point;
-        int i = 1;
+        int i = 0;
+        GridLayout matri = new GridLayout(data.size(), 2);
+        this.setLayout(matri);
         for(String key : point.keySet()) {
-            if(i > this.getComponentCount())
-                break;
-            JLabel temp = (JLabel) this.getComponent(i);
-            temp.setText(data.get(key) + "");
-            temp.repaint();
-            i += 2;
+            if(i >= this.getComponentCount()){
+                this.add(new JLabel(key));
+                this.add(new JLabel(data.get(key) + ""));
+                i += 2;
+            } else {
+                JLabel temp = (JLabel) this.getComponent(i);
+                temp.setText(key);
+                temp.repaint();
+                temp = (JLabel) this.getComponent(i + 1);
+                temp.setText(data.get(key) + "");
+                temp.repaint();
+                i += 2;
+            }
         }
 
         this.revalidate();
