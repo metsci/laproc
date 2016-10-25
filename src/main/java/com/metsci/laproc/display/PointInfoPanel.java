@@ -6,10 +6,15 @@ import java.awt.*;
 import java.util.Map;
 
 /**
+ * Panel with general data stored in a data point.
+ *
  * Created by porterjc on 10/21/2016.
  */
 public class PointInfoPanel extends JLabel{
 
+    /**
+     * Basic constructor for the PointInfoPanel
+     */
     public PointInfoPanel() {
         GridLayout matri = new GridLayout(7, 2);
         this.setName("Point Analytics");
@@ -30,6 +35,11 @@ public class PointInfoPanel extends JLabel{
         this.add(new JLabel(""));
     }
 
+    /**
+     * updates the rows of the point info panel
+     *
+     * @param point
+     */
     public void update(GraphPoint point){
         Map <String, Double> data = point;
         int i = 1;

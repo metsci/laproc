@@ -83,18 +83,33 @@ public class BasicWindow implements Window{
         
     }
 
+    /**
+     * Sets up a confusion matrix panel to be added to the display
+     * Creaded by porterjc on 9/22/2016
+     */
     public void showConfusionMatrix() {
         this.conmatrixPanel = new ConfusionPanel();
     }
 
+    /**
+     * returns confusion matrix panel
+     * Creaded by porterjc on 9/22/2016
+     */
     public ConfusionPanel getConfusionMatrixPanel() {
         return conmatrixPanel;
     }
 
+    /**
+     * returns returns point info panel
+     * Creaded by porterjc on 9/22/2016
+     */
     public PointInfoPanel getPointInfoPanel() {
         return pointInfoPanel;
     }
 
+    /**
+     * Repaints and revalidates the window.
+      */
     public void repaint(){
 
         analyticstiles.revalidate();

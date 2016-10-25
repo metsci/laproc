@@ -4,12 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
+ * Panel for displaying a confusion matrix
  *
  * Created by porterjc on 10/14/2016.
  */
 public class ConfusionPanel extends JPanel {
 
+    /**
+     * Basic constructor  for the confusion matrix panel
+     *
+     */
     public ConfusionPanel(){
         GridLayout matri = new GridLayout(3, 3);
         this.setName("Confusion Matrix");
@@ -25,6 +29,12 @@ public class ConfusionPanel extends JPanel {
         this.add(new JLabel(0 + ""));
     }
 
+    /**
+     * Updates the columns and rows of the confusion matrix
+     *
+     * @param positives
+     * @param negatives
+     */
     public void updateConfusionMatrix(double[] positives, double[] negatives) {
         JLabel temp = (JLabel) getComponent(4);
         temp.setText(positives[0]+ "");
