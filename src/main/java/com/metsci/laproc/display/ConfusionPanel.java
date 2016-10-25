@@ -26,14 +26,18 @@ public class ConfusionPanel extends JPanel {
     }
 
     public void updateConfusionMatrix(double[] positives, double[] negatives) {
-        getComponent(4).setName(positives[0]+ "");
-        getComponent(4).repaint();
-        getComponent(5).setName(negatives[0] + "");
-        getComponent(4).repaint();
-        getComponent(7).setName(positives[1]+ "");
-        getComponent(4).repaint();
-        getComponent(8).setName(negatives[1]+ "");
-        getComponent(4).repaint();
+        JLabel temp = (JLabel) getComponent(4);
+        temp.setText(positives[0]+ "");
+        temp.repaint();
+        temp = (JLabel) getComponent(5);
+        temp.setText(negatives[0] + "");
+        temp.repaint();
+        temp = (JLabel) getComponent(7);
+        temp.setText(positives[1]+ "");
+        temp.repaint();
+        temp = (JLabel) getComponent(8);
+        temp.setText(negatives[1]+ "");
+        temp.repaint();
         this.revalidate();
         this.repaint();
         this.getParent().repaint();

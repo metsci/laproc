@@ -36,8 +36,9 @@ public class PointInfoPanel extends JLabel{
         for(String key : point.keySet()) {
             if(i > this.getComponentCount())
                 break;
-            this.getComponent(i).setName(data.get(key) + "");
-            this.getComponent(i).repaint();
+            JLabel temp = (JLabel) this.getComponent(i);
+            temp.setText(data.get(key) + "");
+            temp.repaint();
             i += 2;
         }
 
