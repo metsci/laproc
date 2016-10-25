@@ -1,73 +1,71 @@
 package com.metsci.laproc.display;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Iterator;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
-import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.data.DataPoint;
+
 /**
  * 
  * A datasheet panel creator.
  * Created by patterjm on 10/5/2016.
  *
  */
-public class DataSheetPanel {
+public class DataSheetPanel extends JPanel{
+	private Window window;
+	/**
+	 * Default constructor, requires a window for context
+	 * @param window
+	 */
+	public DataSheetPanel(Window window){
+		this.window = window;
+	}
 	/**
 	 * Return DataSheet, composed of JTable
 	 * 
 	 * @params: ClassifierDataSet
 	 */
-	public static JScrollPane GetDataSheet(ClassifierDataSet data) {
-		//instantiate variables
-		int sizeOfArray = data.getAllPoints().next().getValues().length + 1;//+1 for truth column
-		String[] columnNames = new String[sizeOfArray];
-		Object[][] dataList = new Object[100][100];
-		int tempCounter = 0;
+	public void setDataSheet(ClassifierDataSet data) {
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		TableDisplayer tableDisplayer = new TableDisplayer(data);
 		
-		//write in all data into a 2D Object array, JTable requirement
-		for(DataPoint dataPoint : data){
-			//when at max length, double array size and copy contents over
-			if(tempCounter == dataList.length){
-				Object[][] newArray = new Object[dataList.length*2][sizeOfArray];
-				for(int i = 0; i < dataList.length; i++){
-					for(int j = 0; j < sizeOfArray; j++){
-						newArray[i][j] = dataList[i][j];
-					}
-				}
-				dataList = newArray;
-			}
-			
-			Object[] datavals = new Object[sizeOfArray];
-			double[] getValTemp = dataPoint.getValues();
-			
-			for(int i = 1; i < sizeOfArray; i++){
-				datavals[i] = getValTemp[i-1];
-			}
-			datavals[0] = dataPoint.getTruth();
-			dataList[tempCounter++] = datavals;
-		}
-		
-		//TODO: Implement column headers
-		for(int i = 0; i < sizeOfArray; i++){
-			columnNames[i] = "Woohoo";
-		}
-		
-		//Init Java Swing settings
-		JTable table = new JTable(dataList, columnNames);
+		JTable table = tableDisplayer.getTable();
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 		if (defaults.get("Table.alternateRowColor") == null)
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
-		return scrollPane;
+		
+		this.add(scrollPane);
+		//new eval set button to be put on DataSheetPanel, takes an action listener and 
+		JButton newEvalSetButton = new JButton("Create New Eval Set");
+        NewEvalSetActionListener nesaInstance = new NewEvalSetActionListener(this.window, tableDisplayer);
+		newEvalSetButton.addActionListener(nesaInstance);
+		this.add(newEvalSetButton);
+		
+//		JPanel filterPanel = new JPanel();
+//		filterPanel.add(new JLabel("Truth"));
+//		filterPanel.add(new JTextField(10));
+//		filterPanel.add(new JLabel("Value"));
+//		filterPanel.add(new JTextField(10));
+//		
+//		JButton applyFilterButton = new JButton("Apply Filter");
+//		FilterActionListener filterActionListener = new FilterActionListener();
+//		applyFilterButton.addActionListener(filterActionListener);
+//		this.add(filterPanel);
+		
+		
+		
 	}
-
+	
 }
