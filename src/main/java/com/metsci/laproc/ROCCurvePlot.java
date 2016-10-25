@@ -32,7 +32,7 @@ public class ROCCurvePlot implements GlimpseLayoutProvider
         Axis yAxis = graph.getYAxis();
 
         // set axis labels and chart title
-        plot.setTitle( "ROC SimpleGraphableData Example" );
+        plot.setTitle( "ROC Curve Example" );
         plot.setAxisLabelX( xAxis.getName() );
         plot.setAxisLabelY( yAxis.getName() );
 

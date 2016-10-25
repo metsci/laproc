@@ -1,6 +1,7 @@
 package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.data.ClassifierDataSet;
+import com.metsci.laproc.data.DataPoint;
 
 /**
  * The function to compute a ROC curve
@@ -42,18 +43,10 @@ public class ROCCurve implements GraphableFunction {
     public GraphableData compute() {
         GraphableDataWithStats out = new GraphableDataWithStats();
 
-        // Add the attributes to the list
-      /*  out.addAttribute(tprString);
-        out.addAttribute(fprString);
-        out.addAttribute(tnrString);
-        out.addAttribute(fnrString);
-        out.addAttribute(cutpointString);
-        out.addAttribute(accuracyString); */
-
         // Calculate the number of positive values and negative values in this data set
         int numPositives = 0;
         int numNegatives = 0;
-        for(com.metsci.laproc.data.DataPoint p : input) {
+        for(DataPoint p : input) {
             if(p.getTruth())
                 numPositives++;
             else
