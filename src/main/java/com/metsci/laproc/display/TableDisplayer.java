@@ -16,6 +16,11 @@ public class TableDisplayer {
 	private JTable table;
 	private DataSheetTableModel dataSheetTableModel;
 	
+	/**
+	 * Given a ClassifierDataSet, construct the custom table model
+	 * and apply said model to a new JTable
+	 * @param data
+	 */
 	public TableDisplayer(ClassifierDataSet data){
 		DataSheetTableModel dataSheetTableModel = new DataSheetTableModel(data);
 		this.dataSheetTableModel = dataSheetTableModel;
@@ -31,12 +36,20 @@ public class TableDisplayer {
 //		System.out.println("Table set row sorter" + table.getRowSorter().toString());
 	}
 	
-	
+	/**
+	 * Returns the JTable constructed within the TableDisplayer
+	 * @return
+	 */
 	public JTable getTable(){
 		return this.table;
 	}
 	
-	
+	/**
+	 * Calls the getDataPointAt method written in the custom TableModel class
+	 * returns the DataPoint at a given index
+	 * @param index
+	 * @return
+	 */
 	public DataPoint getDataPointAtIndex(int index){
 		return this.dataSheetTableModel.getDataPointAt(index);
 	}

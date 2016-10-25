@@ -10,6 +10,10 @@ import java.awt.event.ActionListener;
  */
 public class FilterActionListener implements ActionListener {
 
+	/**
+	 * Accepts the newly filtered rows of the JTable
+	 * and creates a new evaluation set
+	 */
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		

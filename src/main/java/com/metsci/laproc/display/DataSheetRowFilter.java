@@ -11,6 +11,10 @@ import javax.swing.RowFilter;
  */
 public class DataSheetRowFilter<DataSheetTableModel, Integer> extends RowFilter<DataSheetTableModel, Integer>{
 
+	/**
+	 * The purpose of the include method is to return true on records that will be included in the new subset,
+	 * false otherwise.
+	 */
 	@Override
 	public boolean include(javax.swing.RowFilter.Entry<? extends DataSheetTableModel, ? extends Integer> entry) {
 //		DataSheetTableModel dataSheetTableModel = entry.getModel();

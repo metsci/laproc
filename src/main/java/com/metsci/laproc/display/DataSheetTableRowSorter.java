@@ -11,6 +11,11 @@ import javax.swing.table.TableRowSorter;
  */
 public class DataSheetTableRowSorter<DataSheetTableModel extends TableModel> extends TableRowSorter<TableModel> {
 
+	/**
+	 * Would set the custom row filter given a table model
+	 * Accepts the custom filter as input
+	 * @param rowFilter
+	 */
 	public void setRowFilter(DataSheetRowFilter<DataSheetTableModel, Integer> rowFilter) {
 		// TODO Auto-generated method stub
 		

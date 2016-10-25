@@ -23,11 +23,23 @@ public class NewEvalSetActionListener implements ActionListener{
 	private TableDisplayer tableDisplayer;
 	private int currentAddedIndex = 1;
 
+	/**
+	 * Given a window and a TableDisplayer,
+	 * constructs a custom action listener
+	 * @param window
+	 * @param tableDisplayer
+	 */
 	public NewEvalSetActionListener(Window window, TableDisplayer tableDisplayer) {
 		this.window = window;
 		this.tableDisplayer = tableDisplayer;
 	}
 
+	/**
+	 * Iterates through the selected data points and
+	 * adds them to a new ClassifierDataSet, construction
+	 * a new GraphableFunction, finally passing along
+	 * the GraphableFunctionOutput to the window
+	 */
 	public void actionPerformed(ActionEvent e) {
 		JTable table = this.tableDisplayer.getTable();
 		int[] indexes = table.getSelectedRows();
