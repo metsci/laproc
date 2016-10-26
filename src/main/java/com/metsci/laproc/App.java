@@ -25,6 +25,7 @@ public class App {
         graph.addData( func.compute());
         
         Window window = new BasicWindow();
+        window.showGraphOptions(graph);
         window.showGraph(graph);
         window.showSpreadsheet(data);
         window.showClass(data);

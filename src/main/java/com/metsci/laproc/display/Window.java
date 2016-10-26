@@ -15,6 +15,8 @@ public interface Window {
      */
     public void display();
 
+    public void showGraphOptions(Graph graph);
+
     /**
      * adds a graphcomponent to the display
      * Creaded by porterjc on 9/22/2016

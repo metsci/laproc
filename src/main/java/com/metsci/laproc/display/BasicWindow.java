@@ -20,6 +20,7 @@ public class BasicWindow implements Window{
     private GraphPanel graphPanel = new GraphPanel(this);
     private DataSheetPanel dataPanel = new DataSheetPanel(this);
     private DataSetPanel classPanel = new DataSetPanel(this);
+    private GraphOptionsPanel optionsPanel = new GraphOptionsPanel();
 
     /**
      * Puts together a docking group and docks in default views
@@ -39,6 +40,7 @@ public class BasicWindow implements Window{
 
         View sView = new View("Data", dataPanel, "Data", true);
         View cView = new View("Sets", classPanel, "Sets", true);
+        View oView = new View("Options", optionsPanel, "Options", true);
         View gView = new View("Graph", graphPanel.getCanvas(), "Graph", true);
         View kView = new View("Confusion Matrix", conmatrixPanel, "Confusion Matrix", true);
         View pointView = new View("Point Analysis", pointInfoPanel, "Point Analysis", true);
@@ -46,6 +48,7 @@ public class BasicWindow implements Window{
         Tile spreadTile = tileFactory.newTile();
         spreadTile.addView(sView, 0);
         spreadTile.addView(cView, 1);
+        spreadTile.addView(oView, 2);
 
         Tile graphTile = tileFactory.newTile();
         graphTile.addView(gView, 0);
@@ -66,6 +69,11 @@ public class BasicWindow implements Window{
         frame.pack();
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
+    }
+
+    public void showGraphOptions(Graph graph) {
+        this.optionsPanel = new GraphOptionsPanel();
+        this.optionsPanel.populateOptions(graph);
     }
 
     /**
