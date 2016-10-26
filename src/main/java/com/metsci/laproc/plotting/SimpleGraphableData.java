@@ -1,5 +1,10 @@
 package com.metsci.laproc.plotting;
 
+import com.metsci.laproc.pointmetrics.Metric;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a continuous line that can be represented on a graph.
  * Created by robinsat on 9/20/2016.
@@ -143,10 +148,23 @@ public class SimpleGraphableData implements GraphableData {
      * @param x The given x value
      * @param y The given y value
      * @return The closest graph point to the given values
+     * //TODO fix
      */
     public GraphPoint getDataPoint(double x, double y) {
-        GraphPoint dp = new GraphPoint(x, y);
+        GraphPoint dp = new SimpleGraphPoint(x, y);
         return dp;
+    }
+
+    public List<Metric> getAnalytics() {
+        return new ArrayList<Metric>();
+    }
+
+    //TODO how should this be handled?
+    public void useMetrics(Metric xAxis, Metric yAxis) {
+       /* for(int i = 0; i < xValues.length; i++) {
+            xValues[i] = xAxis.getMetric(xValues[i].);
+            yValues[i] = yAxis.getMetric(yValues[i]);
+        } */
     }
 
 }

@@ -2,6 +2,7 @@ package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
+import com.metsci.laproc.pointmetrics.*;
 
 /**
  * The function to compute a ROC curve
@@ -9,21 +10,13 @@ import com.metsci.laproc.data.DataPoint;
  */
 public class ROCCurve implements GraphableFunction {
 
+    public static final String tpString = "True Positives";
+    public static final String fpString = "False Positives";
+    public static final String tnString = "True Negatives";
+    public static final String fnString = "False Negatives";
+
     /** The default number of points */
     private static final int NUMPOINTS = 100;
-
-    // String constants
-    private static final String scoreString = "Classifier Score";
-    private static final String tprString = "True Positive Rate";
-    private static final String fprString = "False Positive Rate";
-    private static final String tnrString = "True Negative Rate";
-    private static final String fnrString = "False Negative Rate";
-    private static final String cutpointString = "Cutpoint";
-    private static final String accuracyString = "Accuracy";
-    private static final String truePositiveString = "True Positives";
-    private static final String falsePositiveString = "False Positives";
-    private static final String trueNegativeString = "True Negatives";
-    private static final String falseNegativeString = "False Negatives";
 
     /** A classified data set to be displayed as a ROCCurve */
     private ClassifierDataSet input;
@@ -41,7 +34,7 @@ public class ROCCurve implements GraphableFunction {
      * @return The plottable data set representing this curve
      */
     public GraphableData compute() {
-        GraphableDataWithStats out = new GraphableDataWithStats();
+        GraphableDataWithMetrics out = new GraphableDataWithMetrics("ROC Curve");
 
         // Calculate the number of positive values and negative values in this data set
         int numPositives = 0;
@@ -83,28 +76,22 @@ public class ROCCurve implements GraphableFunction {
                         trueNegatives++;
                 }
             }
+            out.addClassifierSetPoint(new ClassifierSetPoint(cutpoint, truePositives, trueNegatives, falsePositives, falseNegatives));
 
-            // Calculate the rates at which the classifer is accurate
-            double truePositiveRate = ((double) truePositives) / numPositives;
-            double falsePositiveRate = ((double) falsePositives) / numNegatives;
-            double trueNegativeRate = ((double) trueNegatives) / numNegatives;
-            double falseNegativeRate = ((double) falseNegatives) / numPositives;
-            double accuracy = ((double) (truePositives + trueNegatives)) / ((double) (numPositives + numNegatives));
-
-            // Construct a point with all of the data and add it to the output set
-            GraphPoint point = new GraphPoint(falsePositiveRate, truePositiveRate);
-            point.put(cutpointString, cutpoint);
-            point.put(truePositiveString, (double) truePositives);
-            point.put(falsePositiveString, (double) falsePositives);
-            point.put(trueNegativeString, (double) trueNegatives);
-            point.put(falseNegativeString, (double) falseNegatives);
-            point.put(tprString, truePositiveRate);
-            point.put(fprString, falsePositiveRate);
-            point.put(tnrString, trueNegativeRate);
-            point.put(fnrString, falseNegativeRate);
-            point.put(accuracyString, accuracy);
-            out.addPoint(point);
         }
+
+        // Add extra metrics for display, in the order that they will be displayed
+        out.addMetric(new TrueNegativeRate());
+        out.addMetric(new FalseNegativeRate());
+        out.addMetric(new Precision());
+        out.addMetric(new Accuracy());
+        out.addMetric(new F1Score());
+        out.addMetric(new TruePositives());
+        out.addMetric(new FalsePositives());
+        out.addMetric(new TrueNegatives());
+        out.addMetric(new FalseNegatives());
+        out.addMetric(new Threshold());
+
         return out;
     }
 }
