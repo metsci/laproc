@@ -6,6 +6,7 @@ import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.painter.shape.PolygonPainterSimple;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
 import javafx.scene.shape.Circle;
 
@@ -18,6 +19,7 @@ import java.awt.geom.Point2D;
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     Graph graph;
     PolygonPainter polygonPainter;
+    private Window window;
     long lastClickTime = 0;
     boolean doubleClicked = false;
     boolean displayDoubleClick = false;
@@ -45,6 +47,12 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         float[] lineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
         this.polygonPainter.setLineColor(0,lineColor);
         this.polygonPainter.setLineWidth(0,2);
+    }
+
+    public GraphDisplayerMouseListener(Graph graph, Window window, PolygonPainter polygonPainter){
+        this.graph = graph;
+        this.polygonPainter = polygonPainter;
+        this.window = window;
     }
 
     public void mouseEntered(GlimpseMouseEvent glimpseMouseEvent) {
@@ -98,30 +106,16 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
         for(GraphableData data : graph.getData()){
-            int index = findClosestIndex(data.getXValues(),
-                    data.getYValues(),
-                    glimpseMouseEvent.getAxisCoordinatesX(),
-                    glimpseMouseEvent.getAxisCoordinatesY());
-            System.out.println("X: " + data.getXValues()[index] + " Y: " + data.getYValues()[index]);
-            ret = data.getXValues()[index];
+            GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+            window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{point.get("True Positives"), point.get("False Positives")},
+                    new double[]{point.get("True Negatives"), point.get("False Negatives")});
+
+            window.getPointInfoPanel().update(point);
+            window.repaint();
+            System.out.println("X: " + point.getX() + " Y: " + point.getY());
+            ret = point.getX();
         }
         return ret;
     }
 
-    /**
-     * Find the index of the closest point given an x and y value
-     * @return index of the closest point
-     */
-    private static int findClosestIndex(double[] xValues, double[] yValues, double x, double y){
-        int closestIndex = 0;
-        double closestDistance = Point2D.distance(xValues[0],yValues[0],x,y);
-        for(int i = 1; i < xValues.length; i++){
-            double currentDistance = Point2D.distance(xValues[i],yValues[i],x,y);
-            if(currentDistance < closestDistance){
-                closestDistance = currentDistance;
-                closestIndex = i;
-            }
-        }
-        return closestIndex;
-    }
 }

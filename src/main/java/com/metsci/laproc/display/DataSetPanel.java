@@ -1,7 +1,6 @@
 package com.metsci.laproc.display;
 
-import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.plotting.GraphableFunctionOutput;
+import com.metsci.laproc.plotting.GraphableData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,7 +48,7 @@ public class DataSetPanel extends JPanel {
      * @param name name of the data set to be added
      * @param data data set to be added
      */
-    public void addDataSetToTable(String name, GraphableFunctionOutput data){
+    public void addDataSetToTable(String name, GraphableData data){
         this.table.addDataSet(name, data);
     }
 }

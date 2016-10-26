@@ -22,6 +22,7 @@ import java.util.HashSet;
 public class GraphDisplayer implements GlimpseLayoutProvider
 {
     Graph graph;
+    private Window window;
 
     /**
      * Constructor for a given Graph
@@ -30,6 +31,15 @@ public class GraphDisplayer implements GlimpseLayoutProvider
     public GraphDisplayer(Graph graph)
     {
         this.graph = graph;
+    }
+
+    /**
+     * Constructor for a given graph and window
+     * @params graph, displayer
+     */
+    public GraphDisplayer(Graph graph, Window window) {
+        this.graph = graph;
+        this.window = window;
     }
 
     /**
@@ -59,7 +69,8 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         // Add mouse listener
         PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
-        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter));
+
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, window, selectedAreaPainter));
 
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().showSelectionBox(false);

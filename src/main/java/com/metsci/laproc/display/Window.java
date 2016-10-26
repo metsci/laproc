@@ -2,7 +2,8 @@ package com.metsci.laproc.display;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphableFunctionOutput;
+import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.plotting.GraphableDataWithStats;
 
 /**
  * Created by porterjc on 9/21/2016.
@@ -28,6 +29,23 @@ public interface Window {
     public void showSpreadsheet(ClassifierDataSet data);
 
     /**
+     * Returns the confusion matrix panel
+     * @return
+     */
+    public ConfusionPanel getConfusionMatrixPanel();
+
+    /**
+     * Returns the point info panel
+     * @return
+     */
+    public PointInfoPanel getPointInfoPanel();
+
+    /**
+     * Forces a repaint of the frame and docker utility
+     */
+    public void repaint();
+
+    /**
      * adds a data set component to the display
      * Created by malinocr on 10/17/2016
      */
@@ -37,5 +55,5 @@ public interface Window {
      * adds data set to classifier panel
      * Created by malinocr on 10/17/2016
      */
-    public void addDataSetToClass(String name, GraphableFunctionOutput data);
+    public void addDataSetToClass(String name, GraphableData data);
 }
