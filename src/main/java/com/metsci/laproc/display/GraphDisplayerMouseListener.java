@@ -6,29 +6,52 @@ import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.painter.shape.PolygonPainterSimple;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
 import javafx.scene.shape.Circle;
 
 import java.awt.geom.Point2D;
 
 /**
- *
+ * Mouse listener for selecting a set of points
  * Created by malinocr on 10/3/2016.
  */
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     Graph graph;
-    PolygonPainterSimple polygonPainter;
-
+    PolygonPainter polygonPainter;
+    private Window window;
     long lastClickTime = 0;
-
     boolean doubleClicked = false;
     boolean displayDoubleClick = false;
-
+    boolean isDisplayingPolygon = false;
     GlimpseMouseEvent firstClick;
 
-    public GraphDisplayerMouseListener(Graph graph, PolygonPainterSimple polygonPainter){
+    public static final int MOUSE_CLICK_NANOSECONDS = 500000000;
+
+    /**
+     * General constructor for GraphDisplayerMouseListener
+     * @param graph current graph that is being displayed
+     * @param polygonPainter polygon painter for selection area
+     */
+    public GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
+
+        configurePolygonPainter();
+    }
+
+    /**
+     * General constructor for GraphDisplayerMouseListener
+     * @param graph current graph that is being displayed
+     * @param polygonPainter polygon painter for selection area
+     * @param window window the graph is displayed on
+     */
+    public GraphDisplayerMouseListener(Graph graph, Window window, PolygonPainter polygonPainter){
+        this.graph = graph;
+        this.polygonPainter = polygonPainter;
+        this.window = window;
+
+        configurePolygonPainter();
     }
 
     public void mouseEntered(GlimpseMouseEvent glimpseMouseEvent) {
@@ -40,11 +63,14 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     }
 
     public void mousePressed(GlimpseMouseEvent glimpseMouseEvent) {
-        polygonPainter.clear();
+        if(isDisplayingPolygon){
+            polygonPainter.deletePolygon(0,0);
+            isDisplayingPolygon = false;
+        }
         if(doubleClicked == true){
             doubleClicked = false;
             displayDoubleClick = true;
-        } else if(System.nanoTime() - lastClickTime < 500000000){
+        } else if(System.nanoTime() - lastClickTime < MOUSE_CLICK_NANOSECONDS){ //This is based on the normal double click time
             doubleClicked = true;
         } else {
             lastClickTime = System.nanoTime();
@@ -52,17 +78,17 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     }
 
     public void mouseReleased(GlimpseMouseEvent glimpseMouseEvent) {
-        polygonPainter.clear();
         if(displayDoubleClick){
             System.out.println("Double Click: ");
             float x1 = (float)displayClosestPoint(firstClick);
             float x2 = (float)displayClosestPoint(glimpseMouseEvent);
             displayDoubleClick = false;
+            float[] xValues = {x1,x1,x2,x2};
 
-            float[] testX = {x1,x1,x2,x2};
-            float[] testY = {0,1,1,0};
-            float[] testColor = GlimpseColor.fromColorRgb(0.5f,0.5f,0.5f);
-            polygonPainter.addPolygon(0,testX,testY,testColor);
+            //Set to bigger than normal view so that edges are not seen
+            float[] yValues = {-1,2,2,-1};
+            this.polygonPainter.addPolygon(0,0,xValues,yValues,0);
+            isDisplayingPolygon = true;
         } else if(doubleClicked){
             firstClick = glimpseMouseEvent;
         } else {
@@ -79,30 +105,32 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
         for(GraphableData data : graph.getData()){
-            int index = findClosestIndex(data.getXValues(),
-                    data.getYValues(),
-                    glimpseMouseEvent.getAxisCoordinatesX(),
-                    glimpseMouseEvent.getAxisCoordinatesY());
-            System.out.println("X: " + data.getXValues()[index] + " Y: " + data.getYValues()[index]);
-            ret = data.getXValues()[index];
+            GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+            window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{point.get("True Positives"), point.get("False Positives")},
+                    new double[]{point.get("True Negatives"), point.get("False Negatives")});
+
+            window.getPointInfoPanel().update(point);
+            window.repaint();
+            System.out.println("X: " + point.getX() + " Y: " + point.getY());
+            ret = point.getX();
         }
         return ret;
     }
 
     /**
-     * Find the index of the closest point given an x and y value
-     * @return index of the closest point
+     * Configures the polygon painter to have the correct selection settings
      */
-    private static int findClosestIndex(double[] xValues, double[] yValues, double x, double y){
-        int closestIndex = 0;
-        double closestDistance = Point2D.distance(xValues[0],yValues[0],x,y);
-        for(int i = 1; i < xValues.length; i++){
-            double currentDistance = Point2D.distance(xValues[i],yValues[i],x,y);
-            if(currentDistance < closestDistance){
-                closestDistance = currentDistance;
-                closestIndex = i;
-            }
-        }
-        return closestIndex;
+    private void configurePolygonPainter(){
+        //Set up coloring for selected area
+        this.polygonPainter.setFill(0,true);
+        float[] fillColor = GlimpseColor.fromColorRgb(0.6f,0.6f,0.6f);
+        //Make polygon transparent
+        fillColor[3] = 0.5f;
+        this.polygonPainter.setFillColor(0,fillColor);
+        this.polygonPainter.setShowLines(0,true);
+        float[] lineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
+        this.polygonPainter.setLineColor(0,lineColor);
+        this.polygonPainter.setLineWidth(0,2);
     }
+
 }

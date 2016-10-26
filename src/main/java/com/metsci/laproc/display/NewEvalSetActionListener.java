@@ -6,11 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JTable;
 
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.data.DataPointImpl;
-import com.metsci.laproc.plotting.Axis;
-import com.metsci.laproc.plotting.BasicGraph;
+import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
-import com.metsci.laproc.plotting.GraphableFunctionOutput;
 import com.metsci.laproc.plotting.ROCCurve;
 /**
  * ActionListener that accepts the window and a table displayer to create a new 
@@ -48,7 +45,7 @@ public class NewEvalSetActionListener implements ActionListener{
 			data.add(this.tableDisplayer.getDataPointAtIndex(i));
 		}
 		GraphableFunction func = new ROCCurve(data);
-		GraphableFunctionOutput output = func.compute();
+		GraphableData output = func.compute();
 		this.window.addDataSetToClass("New Data Set " + currentAddedIndex++, output);
 	}
 

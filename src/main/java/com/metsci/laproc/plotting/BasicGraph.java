@@ -25,7 +25,7 @@ public class BasicGraph implements Graph {
      * Default constructor
      */
     public BasicGraph() {
-        this("Default Title", new Axis(0, 1), new Axis(0, 1), new Axis(0, 1));
+        this("ROCCurve", new Axis(0, 1), new Axis(0, 1), new Axis(0, 1));
     }
 
     /**
@@ -34,7 +34,7 @@ public class BasicGraph implements Graph {
      * @param yAxis The y axis
      */
     public BasicGraph(Axis xAxis, Axis yAxis) {
-        this("Default Title", xAxis, yAxis, null);
+        this("ROCCurve", xAxis, yAxis, null);
     }
 
     /**

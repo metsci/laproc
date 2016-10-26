@@ -1,5 +1,6 @@
 package com.metsci.laproc.data;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -23,6 +24,7 @@ public class DataPointImpl implements DataPoint {
     public DataPointImpl(boolean truth, double... vals) {
         this.truth = truth;
         this.values = vals;
+        this.tags = new ArrayList<String>();
     }
 
     /**
@@ -47,5 +49,13 @@ public class DataPointImpl implements DataPoint {
      */
     public Collection<String> getTags() {
         return this.tags;
+    }
+
+    /**
+     * Adds a tag to the set of tags associated with this datum
+     * @param tag The tag to associate with this datum
+     */
+    public void addTag(String tag) {
+        this.tags.add(tag);
     }
 }

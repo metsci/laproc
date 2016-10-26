@@ -3,6 +3,7 @@ package com.metsci.laproc.display;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -31,9 +32,9 @@ public class DataSheetTableModel extends AbstractTableModel {
 	 */
 	public DataSheetTableModel(ClassifierDataSet data){
 		ArrayList<DataPoint> dataPointsArray = new ArrayList<DataPoint>();
-		Iterator<DataPoint> iter = data.getAllPoints();
-		while(iter.hasNext()){
-			dataPointsArray.add(iter.next());
+		Set<DataPoint> dataset = data.getAllPoints();
+		for(DataPoint point: dataset) {
+			dataPointsArray.add(point);
 		}
 		this.dataPoints = dataPointsArray;
 	}

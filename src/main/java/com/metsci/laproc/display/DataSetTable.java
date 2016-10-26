@@ -1,7 +1,6 @@
 package com.metsci.laproc.display;
 
-import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.plotting.GraphableFunctionOutput;
+import com.metsci.laproc.plotting.GraphableData;
 import it.unimi.dsi.fastutil.objects.ObjectBigArrayBigList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 
@@ -13,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
  * Created by malinocr on 10/17/2016.
  */
 public class DataSetTable extends JTable{
-    private ObjectBigArrayBigList<GraphableFunctionOutput> classList;
+    private ObjectBigArrayBigList<GraphableData> classList;
     private DefaultTableModel model;
 
     /**
@@ -24,7 +23,7 @@ public class DataSetTable extends JTable{
         this.setTableHeader(null);
         this.model = new DefaultTableModel(0,1);
         this.setModel(this.model);
-        classList = new ObjectBigArrayBigList<GraphableFunctionOutput>();
+        classList = new ObjectBigArrayBigList<GraphableData>();
     }
 
     /**
@@ -40,7 +39,7 @@ public class DataSetTable extends JTable{
      * @param dataSetName name of the data set
      * @param dataSet data set to add
      */
-    public void addDataSet(String dataSetName, GraphableFunctionOutput dataSet){
+    public void addDataSet(String dataSetName, GraphableData dataSet){
         this.model.addRow(new Object[]{dataSetName});
         this.classList.add(dataSet);
     }
@@ -49,8 +48,8 @@ public class DataSetTable extends JTable{
      * Gets the selected data sets based on selected names
      * @return selected data sets
      */
-    public ObjectOpenHashBigSet<GraphableFunctionOutput> getSelectedValues(){
-        ObjectOpenHashBigSet<GraphableFunctionOutput> selectedValues = new ObjectOpenHashBigSet<GraphableFunctionOutput>();
+    public ObjectOpenHashBigSet<GraphableData> getSelectedValues(){
+        ObjectOpenHashBigSet<GraphableData> selectedValues = new ObjectOpenHashBigSet<GraphableData>();
         int[] selectedRows = this.getSelectedRows();
         for(int index : selectedRows) {
             selectedValues.add(classList.get(index));

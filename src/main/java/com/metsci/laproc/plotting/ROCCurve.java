@@ -20,7 +20,10 @@ public class ROCCurve implements GraphableFunction {
     private static final String fnrString = "False Negative Rate";
     private static final String cutpointString = "Cutpoint";
     private static final String accuracyString = "Accuracy";
-
+    private static final String truePositiveString = "True Positives";
+    private static final String falsePositiveString = "False Positives";
+    private static final String trueNegativeString = "True Negatives";
+    private static final String falseNegativeString = "False Negatives";
 
     /** A classified data set to be displayed as a ROCCurve */
     private ClassifierDataSet input;
@@ -37,16 +40,8 @@ public class ROCCurve implements GraphableFunction {
      * Compures the Receiver Operating Characteristic curve
      * @return The plottable data set representing this curve
      */
-    public GraphableFunctionOutput compute() {
-        GraphableFunctionOutput out = new GraphableFunctionOutputImpl();
-
-        // Add the attributes to the list
-        out.addAttribute(tprString);
-        out.addAttribute(fprString);
-        out.addAttribute(tnrString);
-        out.addAttribute(fnrString);
-        out.addAttribute(cutpointString);
-        out.addAttribute(accuracyString);
+    public GraphableData compute() {
+        GraphableDataWithStats out = new GraphableDataWithStats();
 
         // Calculate the number of positive values and negative values in this data set
         int numPositives = 0;
@@ -97,14 +92,18 @@ public class ROCCurve implements GraphableFunction {
             double accuracy = ((double) (truePositives + trueNegatives)) / ((double) (numPositives + numNegatives));
 
             // Construct a point with all of the data and add it to the output set
-            GraphPoint point = new GraphPoint();
+            GraphPoint point = new GraphPoint(falsePositiveRate, truePositiveRate);
             point.put(cutpointString, cutpoint);
+            point.put(truePositiveString, (double) truePositives);
+            point.put(falsePositiveString, (double) falsePositives);
+            point.put(trueNegativeString, (double) trueNegatives);
+            point.put(falseNegativeString, (double) falseNegatives);
             point.put(tprString, truePositiveRate);
             point.put(fprString, falsePositiveRate);
             point.put(tnrString, trueNegativeRate);
             point.put(fnrString, falseNegativeRate);
             point.put(accuracyString, accuracy);
-            out.add(point);
+            out.addPoint(point);
         }
         return out;
     }
