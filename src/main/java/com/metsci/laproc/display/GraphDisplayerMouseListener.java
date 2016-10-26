@@ -8,9 +8,11 @@ import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.plotting.ROCCurve;
 import javafx.scene.shape.Circle;
 
 import java.awt.geom.Point2D;
+import java.util.Map;
 
 /**
  * Mouse listener for selecting a set of points
@@ -107,10 +109,11 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         double ret = 0;
         for(GraphableData data : graph.getData()){
             GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+            Map<String, Double> values = point.getAnalytics();
             //TODO fix
-           /* window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{point.get("True Positives"), point.get("False Positives")},
-                    new double[]{point.get("True Negatives"), point.get("False Negatives")});
-*/
+           window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{values.get(ROCCurve.tpString), values.get(ROCCurve.fpString)},
+                    new double[]{values.get(ROCCurve.tnString), values.get(ROCCurve.fnString)});
+
             window.getPointInfoPanel().update(point);
             window.repaint();
             System.out.println("X: " + point.getX() + " Y: " + point.getY());

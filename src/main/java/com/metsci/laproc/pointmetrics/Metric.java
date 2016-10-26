@@ -1,4 +1,4 @@
-package com.metsci.laproc.plotting;
+package com.metsci.laproc.pointmetrics;
 
 /**
  * Computes a metric

@@ -1,5 +1,7 @@
 package com.metsci.laproc.plotting;
 
+import com.metsci.laproc.pointmetrics.Metric;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,7 +151,7 @@ public class SimpleGraphableData implements GraphableData {
      * //TODO fix
      */
     public GraphPoint getDataPoint(double x, double y) {
-        GraphPoint dp = new GraphPoint(x, y);
+        GraphPoint dp = new SimpleGraphPoint(x, y);
         return dp;
     }
 

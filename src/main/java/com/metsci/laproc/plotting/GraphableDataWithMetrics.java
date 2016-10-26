@@ -1,5 +1,11 @@
 package com.metsci.laproc.plotting;
 
+import com.metsci.laproc.pointmetrics.ClassifierSetPoint;
+import com.metsci.laproc.pointmetrics.FalsePositiveRate;
+import com.metsci.laproc.pointmetrics.Metric;
+import com.metsci.laproc.pointmetrics.TruePositiveRate;
+
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +14,7 @@ import java.util.List;
  * Represents data related to a ROC curve
  * Created by robinsat on 10/25/2016.
  */
-public class ROCData implements GraphableData{
+public class GraphableDataWithMetrics implements GraphableData{
 
     private String name;
     private Metric xAxisMetric;
@@ -17,15 +23,16 @@ public class ROCData implements GraphableData{
 
     private List<ClassifierSetPoint> points;
 
-    public ROCData() {
+    public GraphableDataWithMetrics() {
         this("");
     }
 
-    public ROCData(String name) {
+    public GraphableDataWithMetrics(String name) {
         this.name = name;
         this.pointMetrics = new ArrayList<Metric>();
         this.points = new ArrayList<ClassifierSetPoint>();
 
+        //TODO This is the default for a ROC curve. Eventually, the default behavior should be established in settings
         this.xAxisMetric = new FalsePositiveRate();
         this.yAxisMetric = new TruePositiveRate();
         this.pointMetrics.add(this.xAxisMetric);
@@ -73,7 +80,7 @@ public class ROCData implements GraphableData{
         return values;
     }
 
-    public void addClassifierSetPoint(ClassifierSetPoint pt) {
+    protected void addClassifierSetPoint(ClassifierSetPoint pt) {
         this.points.add(pt);
     }
 
@@ -93,11 +100,42 @@ public class ROCData implements GraphableData{
      * @return The closest graph point to the given values
      */
     public GraphPoint getDataPoint(double x, double y) {
-        return null;
+        //Find the closest point in the set
+        ClassifierSetPoint closest = points.get(0);
+        double closestDistance = findDistance(closest, x, y);
+        double currentDistance;
+        for(int i = 0; i < this.getSize(); i++) {
+            currentDistance = findDistance(points.get(i), x, y);
+            if(currentDistance < closestDistance) { // This point is closer than the last closest point
+                closestDistance = currentDistance;
+                closest = points.get(i);
+            }
+        }
+
+        // Now that the closest point has been found, construct a point object to pass back
+        SimpleGraphPoint graphPoint = new SimpleGraphPoint(xAxisMetric.getMetric(closest),
+                yAxisMetric.getMetric(closest));
+        // Add all additional statistics/analytics
+        for(Metric m : this.pointMetrics) {
+            graphPoint.addStatistic(m.getDescriptor(), m.getMetric(closest));
+        }
+
+        // Return the graph point
+        return graphPoint;
+    }
+
+    private double findDistance(ClassifierSetPoint point, double x, double y) {
+        double pointX = this.xAxisMetric.getMetric(point);
+        double pointY = this.yAxisMetric.getMetric(point);
+        return Point2D.distance(pointX, pointY, x, y);
     }
 
     public List<Metric> getAnalytics() {
         return Collections.unmodifiableList(this.pointMetrics);
+    }
+
+    protected void addMetric(Metric m) {
+        this.pointMetrics.add(m);
     }
 
     public void useMetrics(Metric xAxis, Metric yAxis) {

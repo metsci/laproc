@@ -1,4 +1,4 @@
-package com.metsci.laproc.plotting;
+package com.metsci.laproc.pointmetrics;
 
 /**
  * Created by robinsat on 10/25/2016.

@@ -1,5 +1,7 @@
 package com.metsci.laproc.plotting;
 
+import com.metsci.laproc.pointmetrics.Metric;
+
 import java.util.List;
 
 /**

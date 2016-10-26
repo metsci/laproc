@@ -1,4 +1,4 @@
-package com.metsci.laproc.plotting;
+package com.metsci.laproc.pointmetrics;
 
 /**
  * A data class that stores the classifer data for a single point on a curve
