@@ -37,22 +37,21 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         this.graph = graph;
         this.polygonPainter = polygonPainter;
 
-        //Set up coloring for selected area
-        this.polygonPainter.setFill(0,true);
-        float[] fillColor = GlimpseColor.fromColorRgb(0.6f,0.6f,0.6f);
-        //Make polygon transparent
-        fillColor[3] = 0.5f;
-        this.polygonPainter.setFillColor(0,fillColor);
-        this.polygonPainter.setShowLines(0,true);
-        float[] lineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
-        this.polygonPainter.setLineColor(0,lineColor);
-        this.polygonPainter.setLineWidth(0,2);
+        configurePolygonPainter();
     }
 
+    /**
+     * General constructor for GraphDisplayerMouseListener
+     * @param graph current graph that is being displayed
+     * @param polygonPainter polygon painter for selection area
+     * @param window window the graph is displayed on
+     */
     public GraphDisplayerMouseListener(Graph graph, Window window, PolygonPainter polygonPainter){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
         this.window = window;
+
+        configurePolygonPainter();
     }
 
     public void mouseEntered(GlimpseMouseEvent glimpseMouseEvent) {
@@ -116,6 +115,22 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
             ret = point.getX();
         }
         return ret;
+    }
+
+    /**
+     * Configures the polygon painter to have the correct selection settings
+     */
+    private void configurePolygonPainter(){
+        //Set up coloring for selected area
+        this.polygonPainter.setFill(0,true);
+        float[] fillColor = GlimpseColor.fromColorRgb(0.6f,0.6f,0.6f);
+        //Make polygon transparent
+        fillColor[3] = 0.5f;
+        this.polygonPainter.setFillColor(0,fillColor);
+        this.polygonPainter.setShowLines(0,true);
+        float[] lineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
+        this.polygonPainter.setLineColor(0,lineColor);
+        this.polygonPainter.setLineWidth(0,2);
     }
 
 }
