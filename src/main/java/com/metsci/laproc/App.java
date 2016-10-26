@@ -27,6 +27,7 @@ public class App {
         Window window = new BasicWindow();
         window.showGraph(graph);
         window.showSpreadsheet(data);
+        window.showClass(data);
         window.display();
     }
 

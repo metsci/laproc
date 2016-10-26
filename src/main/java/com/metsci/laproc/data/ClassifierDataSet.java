@@ -32,6 +32,10 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
         this.data.add(point);
     }
 
+    /**
+     * Returns the complete set of data points.
+     * @return
+     */
     public Set<DataPoint> getAllPoints() {
         return this.data;
     }
