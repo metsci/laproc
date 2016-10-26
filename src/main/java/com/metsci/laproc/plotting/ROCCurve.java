@@ -69,7 +69,7 @@ public class ROCCurve implements GraphableFunction {
             falseNegatives = 0;
 
             cutpoint += interval;
-            for (com.metsci.laproc.data.DataPoint p : input) {
+            for (DataPoint p : input) {
                 double val = p.getValues()[0];
                 if(p.getTruth()) { // p is actually true
                     if(val >= cutpoint)
