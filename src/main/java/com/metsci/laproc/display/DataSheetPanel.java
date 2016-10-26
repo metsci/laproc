@@ -47,22 +47,27 @@ public class DataSheetPanel extends JPanel{
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 		
 		this.add(scrollPane);
-		//new eval set button to be put on DataSheetPanel, takes an action listener and 
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
         NewEvalSetActionListener nesaInstance = new NewEvalSetActionListener(this.window, tableDisplayer);
 		newEvalSetButton.addActionListener(nesaInstance);
 		this.add(newEvalSetButton);
 		
-//		JPanel filterPanel = new JPanel();
-//		filterPanel.add(new JLabel("Truth"));
-//		filterPanel.add(new JTextField(10));
-//		filterPanel.add(new JLabel("Value"));
-//		filterPanel.add(new JTextField(10));
-//		
-//		JButton applyFilterButton = new JButton("Apply Filter");
-//		FilterActionListener filterActionListener = new FilterActionListener();
-//		applyFilterButton.addActionListener(filterActionListener);
-//		this.add(filterPanel);
+		JPanel filterPanel = new JPanel();
+		JTextField truthField = new JTextField(10);
+		filterPanel.add(new JLabel("Truth"));
+		filterPanel.add(truthField);
+		JTextField valueField = new JTextField(10);
+		filterPanel.add(new JLabel("Value"));
+		filterPanel.add(valueField);
+		
+		JButton applyFilterButton = new JButton("Apply Filter");
+		FilterActionListener filterActionListener = new FilterActionListener(table, 
+											tableDisplayer.getDataSheetTableModel(),
+											truthField,
+											valueField);
+		applyFilterButton.addActionListener(filterActionListener);
+		filterPanel.add(applyFilterButton);
+		this.add(filterPanel);
 		
 		
 		
