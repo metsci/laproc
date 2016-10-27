@@ -19,7 +19,8 @@ public class GraphableDataWithMetrics implements GraphableData{
     private String name;
     private Metric xAxisMetric;
     private Metric yAxisMetric;
-    private List<Metric> pointMetrics;
+    private List<Metric> axes;
+    private List<Metric> pointStatistics;
 
     private List<ClassifierSetPoint> points;
 
@@ -29,14 +30,15 @@ public class GraphableDataWithMetrics implements GraphableData{
 
     public GraphableDataWithMetrics(String name) {
         this.name = name;
-        this.pointMetrics = new ArrayList<Metric>();
+        this.axes = new ArrayList<Metric>();
+        this.pointStatistics = new ArrayList<Metric>();
         this.points = new ArrayList<ClassifierSetPoint>();
 
         //TODO This is the default for a ROC curve. Eventually, the default behavior should be established in settings
         this.xAxisMetric = new FalsePositiveRate();
         this.yAxisMetric = new TruePositiveRate();
-        this.pointMetrics.add(this.xAxisMetric);
-        this.pointMetrics.add(this.yAxisMetric);
+        this.axes.add(this.xAxisMetric);
+        this.axes.add(this.yAxisMetric);
     }
 
     /**
@@ -116,7 +118,7 @@ public class GraphableDataWithMetrics implements GraphableData{
         SimpleGraphPoint graphPoint = new SimpleGraphPoint(xAxisMetric.getMetric(closest),
                 yAxisMetric.getMetric(closest));
         // Add all additional statistics/analytics
-        for(Metric m : this.pointMetrics) {
+        for(Metric m : this.pointStatistics) {
             graphPoint.addStatistic(m.getDescriptor(), m.getMetric(closest));
         }
 
@@ -130,15 +132,19 @@ public class GraphableDataWithMetrics implements GraphableData{
         return Point2D.distance(pointX, pointY, x, y);
     }
 
-    public List<Metric> getAnalytics() {
-        return Collections.unmodifiableList(this.pointMetrics);
+    public List<Metric> getAxes() {
+        return Collections.unmodifiableList(this.axes);
     }
 
-    protected void addMetric(Metric m) {
-        this.pointMetrics.add(m);
+    protected void addAxisMetric(Metric m) {
+        this.axes.add(m);
     }
 
-    public void useMetrics(Metric xAxis, Metric yAxis) {
+    protected void addStatisticMetric(Metric m) {
+        this.pointStatistics.add(m);
+    }
+
+    public void useAxes(Metric xAxis, Metric yAxis) {
         this.xAxisMetric = xAxis;
         this.yAxisMetric = yAxis;
     }

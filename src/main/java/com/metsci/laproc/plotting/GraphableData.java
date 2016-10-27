@@ -48,7 +48,7 @@ public interface GraphableData {
      */
     public GraphPoint getDataPoint(double x, double y);
 
-    public List<Metric> getAnalytics();
+    public List<Metric> getAxes();
 
-    public void useMetrics(Metric xAxis, Metric yAxis);
+    public void useAxes(Metric xAxis, Metric yAxis);
 }

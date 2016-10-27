@@ -155,12 +155,12 @@ public class SimpleGraphableData implements GraphableData {
         return dp;
     }
 
-    public List<Metric> getAnalytics() {
+    public List<Metric> getAxes() {
         return new ArrayList<Metric>();
     }
 
     //TODO how should this be handled?
-    public void useMetrics(Metric xAxis, Metric yAxis) {
+    public void useAxes(Metric xAxis, Metric yAxis) {
        /* for(int i = 0; i < xValues.length; i++) {
             xValues[i] = xAxis.getMetric(xValues[i].);
             yValues[i] = yAxis.getMetric(yValues[i]);
