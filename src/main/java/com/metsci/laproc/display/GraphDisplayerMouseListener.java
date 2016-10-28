@@ -110,7 +110,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         for(GraphableData data : graph.getData()){
             GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
             Map<String, Double> values = point.getAnalytics();
-            //TODO fix
+            //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
            window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{values.get(ROCCurve.tpString), values.get(ROCCurve.fpString)},
                     new double[]{values.get(ROCCurve.tnString), values.get(ROCCurve.fnString)});
 

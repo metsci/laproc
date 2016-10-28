@@ -2,6 +2,7 @@ package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.pointmetrics.Metric;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,11 +149,23 @@ public class SimpleGraphableData implements GraphableData {
      * @param x The given x value
      * @param y The given y value
      * @return The closest graph point to the given values
-     * //TODO fix
      */
     public GraphPoint getDataPoint(double x, double y) {
-        GraphPoint dp = new SimpleGraphPoint(x, y);
-        return dp;
+        //Find the closest point in the set
+        int closestIndex = 0;
+        double closestDistance = Point2D.distance(xValues[0], yValues[0], x, y);
+        double currentDistance;
+        for(int i = 0; i < this.getSize(); i++) {
+            currentDistance = Point2D.distance(xValues[i], yValues[i], x, y);
+            if(currentDistance < closestDistance) { // This point is closer than the last closest point
+                closestDistance = currentDistance;
+                closestIndex = i;
+            }
+        }
+
+        // Now that the closest point has been found, construct a point object to pass back
+        SimpleGraphPoint graphPoint = new SimpleGraphPoint(xValues[closestIndex], yValues[closestIndex]);
+        return graphPoint;
     }
 
     /**
