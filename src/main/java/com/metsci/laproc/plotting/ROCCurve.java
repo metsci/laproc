@@ -49,35 +49,11 @@ public class ROCCurve implements GraphableFunction {
         // Metrics that must be calculated for each point in the data set
         double interval = 1.0 / NUMPOINTS;
         double cutpoint = 0;
-        int truePositives;
-        int trueNegatives;
-        int falsePositives;
-        int falseNegatives;
 
         //Iterate over all points in the set to compute the values for each point
         for(int i = 0; i < NUMPOINTS; i++) {
-            truePositives = 0;
-            trueNegatives = 0;
-            falsePositives = 0;
-            falseNegatives = 0;
-
             cutpoint += interval;
-            for (DataPoint p : input) {
-                double val = p.getValues()[0];
-                if(p.getTruth()) { // p is actually true
-                    if(val >= cutpoint)
-                        truePositives++;
-                    else
-                        falseNegatives++;
-                } else { // p is actually false
-                    if( val >= cutpoint)
-                        falsePositives++;
-                    else
-                        trueNegatives++;
-                }
-            }
-            out.addClassifierSetPoint(new ClassifierSetPoint(cutpoint, truePositives, trueNegatives, falsePositives, falseNegatives));
-
+            out.addClassifierSetPoint(createPointAtThreshold(input, cutpoint));
         }
 
         // Populate the list of metrics that can be used as axes
@@ -98,5 +74,37 @@ public class ROCCurve implements GraphableFunction {
         out.addStatisticMetric(new F1Score());
 
         return out;
+    }
+
+    /**
+     * Helper function to create a classifier set point at a given threshold using the given data
+     * @param in The data to use for this calculation
+     * @param threshold The threshold to use for this calculation
+     * @return A classifier set point storing the threshold, TP, FP, TN, and FN
+     */
+    private ClassifierSetPoint createPointAtThreshold(ClassifierDataSet in, double threshold) {
+        int truePositives = 0;
+        int trueNegatives = 0;
+        int falsePositives = 0;
+        int falseNegatives = 0;
+
+        // Iterate over all points in the input set
+        for (DataPoint p : in) {
+            double val = p.getValues()[0];
+            if(p.getTruth()) { // p is actually true
+                if(val >= threshold)
+                    truePositives++;
+                else
+                    falseNegatives++;
+            } else { // p is actually false
+                if( val >= threshold)
+                    falsePositives++;
+                else
+                    trueNegatives++;
+            }
+        }
+        // Create a point with the resulting values
+        return new ClassifierSetPoint(threshold, truePositives, trueNegatives, falsePositives, falseNegatives);
+
     }
 }
