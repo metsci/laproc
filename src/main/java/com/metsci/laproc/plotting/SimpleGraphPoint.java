@@ -2,7 +2,6 @@ package com.metsci.laproc.plotting;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.TreeMap;
 import java.util.Map;
 
 /**

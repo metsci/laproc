@@ -155,16 +155,21 @@ public class SimpleGraphableData implements GraphableData {
         return dp;
     }
 
+    /**
+     * Returns a list of axes on which this data may be plotted
+     * @return A list of axes on which this data may be plotted
+     */
     public List<Metric> getAxes() {
         return new ArrayList<Metric>();
     }
 
-    //TODO how should this be handled?
+    /**
+     * The next time getXValues and getYValues are called, the provided metrics are used to calculate these values
+     * @param xAxis The metric to use for the x axis
+     * @param yAxis The metric to use for the y axis
+     */
     public void useAxes(Metric xAxis, Metric yAxis) {
-       /* for(int i = 0; i < xValues.length; i++) {
-            xValues[i] = xAxis.getMetric(xValues[i].);
-            yValues[i] = yAxis.getMetric(yValues[i]);
-        } */
+       //For now, do nothing.
     }
 
 }

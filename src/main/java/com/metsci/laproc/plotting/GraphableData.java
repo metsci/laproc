@@ -48,7 +48,16 @@ public interface GraphableData {
      */
     public GraphPoint getDataPoint(double x, double y);
 
+    /**
+     * Gets the list of metrics that can be used as axes for this data
+     * @return The list of metrics that can be used as axes for this data
+     */
     public List<Metric> getAxes();
 
+    /**
+     * Sets the x axis and y axis to the specified metrics
+     * @param xAxis The metric to use for the x axis
+     * @param yAxis The metric to use for the y axis
+     */
     public void useAxes(Metric xAxis, Metric yAxis);
 }
