@@ -21,7 +21,7 @@ public class PointInfoPanel extends JPanel{
         this.panel = new JPanel();
         setName("Point Analytics");
         setLayout(matri);
-        add(new JLabel("Classifier Score"));
+       /* add(new JLabel("Classifier Score"));
         add(new JLabel(""));
         add(new JLabel("True Positive Rate"));
         add(new JLabel(""));
@@ -34,7 +34,7 @@ public class PointInfoPanel extends JPanel{
         add(new JLabel("Cutpoint"));
         add(new JLabel(""));
         add(new JLabel("Accuracy"));
-        add(new JLabel(""));
+        add(new JLabel("")); */
     }
 
     /**
@@ -43,11 +43,12 @@ public class PointInfoPanel extends JPanel{
      * @param point
      */
     public void update(GraphPoint point){
-        Map <String, Double> data = point;
+        Map<String, Double> data = point.getAnalytics();
+
         int i = 0;
         GridLayout matri = new GridLayout(data.size(), 2);
         this.setLayout(matri);
-        for(String key : point.keySet()) {
+        for(String key : data.keySet()) {
             if(i >= this.getComponentCount()){
                 this.add(new JLabel(key));
                 this.add(new JLabel(data.get(key) + ""));

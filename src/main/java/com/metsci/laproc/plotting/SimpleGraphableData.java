@@ -1,5 +1,11 @@
 package com.metsci.laproc.plotting;
 
+import com.metsci.laproc.pointmetrics.Metric;
+
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a continuous line that can be represented on a graph.
  * Created by robinsat on 9/20/2016.
@@ -145,8 +151,38 @@ public class SimpleGraphableData implements GraphableData {
      * @return The closest graph point to the given values
      */
     public GraphPoint getDataPoint(double x, double y) {
-        GraphPoint dp = new GraphPoint(x, y);
-        return dp;
+        //Find the closest point in the set
+        int closestIndex = 0;
+        double closestDistance = Point2D.distance(xValues[0], yValues[0], x, y);
+        double currentDistance;
+        for(int i = 0; i < this.getSize(); i++) {
+            currentDistance = Point2D.distance(xValues[i], yValues[i], x, y);
+            if(currentDistance < closestDistance) { // This point is closer than the last closest point
+                closestDistance = currentDistance;
+                closestIndex = i;
+            }
+        }
+
+        // Now that the closest point has been found, construct a point object to pass back
+        SimpleGraphPoint graphPoint = new SimpleGraphPoint(xValues[closestIndex], yValues[closestIndex]);
+        return graphPoint;
+    }
+
+    /**
+     * Returns a list of axes on which this data may be plotted
+     * @return A list of axes on which this data may be plotted
+     */
+    public List<Metric> getAxes() {
+        return new ArrayList<Metric>();
+    }
+
+    /**
+     * The next time getXValues and getYValues are called, the provided metrics are used to calculate these values
+     * @param xAxis The metric to use for the x axis
+     * @param yAxis The metric to use for the y axis
+     */
+    public void useAxes(Metric xAxis, Metric yAxis) {
+       //For now, do nothing.
     }
 
 }

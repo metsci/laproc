@@ -1,5 +1,9 @@
 package com.metsci.laproc.plotting;
 
+import com.metsci.laproc.pointmetrics.Metric;
+
+import java.util.List;
+
 /**
  * Represents a set of data points to be plotted on a graph
  * Created by robinsat on 9/20/2016.
@@ -31,19 +35,6 @@ public interface GraphableData {
     public double[] getYValues();
 
     /**
-     * Adds a point to the set of values
-     * @param x The x value of the added point
-     * @param y The y value of the added point
-     */
-    public void addPoint(double x, double y);
-
-    /**
-     * Adds a point to the set of values
-     * @param dp The point to add
-     */
-    public void addPoint(GraphPoint dp);
-
-    /**
      * Gets the number of points in this data set
      * @return The number of points in this data set
      */
@@ -57,4 +48,16 @@ public interface GraphableData {
      */
     public GraphPoint getDataPoint(double x, double y);
 
+    /**
+     * Gets the list of metrics that can be used as axes for this data
+     * @return The list of metrics that can be used as axes for this data
+     */
+    public List<Metric> getAxes();
+
+    /**
+     * Sets the x axis and y axis to the specified metrics
+     * @param xAxis The metric to use for the x axis
+     * @param yAxis The metric to use for the y axis
+     */
+    public void useAxes(Metric xAxis, Metric yAxis);
 }

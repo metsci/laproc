@@ -1,22 +1,29 @@
 package com.metsci.laproc.plotting;
 
-import java.util.HashMap;
+import java.util.Map;
 
-public class GraphPoint extends HashMap<String, Double> {
+/**
+ * Interface representing a point in a set of GraphableData
+ * Created by robinsat on 10/25/2016.
+ */
+public interface GraphPoint {
 
-    private double xVal;
-    private double yVal;
+    /**
+     * Getter for the x value
+     * @return The x value
+     */
+    public double getX();
 
-    public GraphPoint(double x, double y) {
-        this.xVal = x;
-        this.yVal = y;
-    }
+    /**
+     * Getter for the y value
+     * @return The y value
+     */
+    public double getY();
 
-    public double getX() {
-        return this.xVal;
-    }
+    /**
+     * Gets a map representing any additional data associated with this point
+     * @return A map representing any additional data associated with this point
+     */
+    public Map<String, Double> getAnalytics();
 
-    public double getY() {
-        return this.yVal;
-    }
 }

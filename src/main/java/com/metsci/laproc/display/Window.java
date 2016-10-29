@@ -3,7 +3,6 @@ package com.metsci.laproc.display;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.plotting.GraphableDataWithStats;
 
 /**
  * Created by porterjc on 9/21/2016.
