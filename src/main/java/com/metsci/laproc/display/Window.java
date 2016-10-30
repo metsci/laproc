@@ -48,7 +48,7 @@ public interface Window {
      * adds a data set component to the display
      * Created by malinocr on 10/17/2016
      */
-    public void showClass(ClassifierDataSet data);
+    public void showClass(GraphableData data);
 
     /**
      * adds data set to classifier panel
