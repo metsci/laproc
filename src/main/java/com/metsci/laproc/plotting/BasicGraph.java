@@ -122,8 +122,6 @@ public class BasicGraph implements Graph {
     }
 
     public void setSelectedData (GraphableData data) {
-        System.out.println(data);
-        System.out.println(this.data.iterator().next());
         if(!this.data.contains(data)){
             throw new IllegalArgumentException();
         }
