@@ -29,9 +29,14 @@ public class DataSetPanel extends JPanel {
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
         JButton displaySetButton = new JButton("Display Set");
-        DisplayDataSetActionListener listener = new DisplayDataSetActionListener(this.window,this.table);
-        displaySetButton.addActionListener(listener);
+        DisplayDataSetActionListener displayListener = new DisplayDataSetActionListener(this.window,this.table);
+        displaySetButton.addActionListener(displayListener);
         this.add(displaySetButton);
+
+        JButton selectSetButton = new JButton("Select Set");
+        SelectDataSetActionListener selectListenter = new SelectDataSetActionListener(this.window,this.table);
+        selectSetButton.addActionListener(selectListenter);
+        this.add(selectSetButton);
 
         this.add(scrollPane);
     }

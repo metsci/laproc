@@ -136,4 +136,12 @@ public class GraphDisplayer implements GlimpseLayoutProvider
 
         return linePainter;
     }
+
+    /**
+     * Sets selected data set
+     * @param data data set to set
+     */
+    public void setSelectedDataSet(GraphableData data){
+        this.graph.setSelectedData(data);
+    }
 }

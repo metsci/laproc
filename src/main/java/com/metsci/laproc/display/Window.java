@@ -55,4 +55,10 @@ public interface Window {
      * Created by malinocr on 10/17/2016
      */
     public void addDataSetToClass(String name, GraphableData data);
+
+    /**
+     * sets the selected data in the graph
+     * Created by malinocr on 10/17/2016
+     */
+    public void setSelectedDataSet(GraphableData data);
 }

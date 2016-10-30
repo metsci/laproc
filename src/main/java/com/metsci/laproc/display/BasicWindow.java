@@ -96,6 +96,10 @@ public class BasicWindow implements Window{
         this.classPanel.addDataSetToTable(name, data);
     }
 
+    public void setSelectedDataSet (GraphableData data) {
+        this.graphPanel.setSelectedDataSet(data);
+    }
+
     /**
      * Sets up a confusion matrix panel to be added to the display
      * Creaded by porterjc on 9/22/2016
