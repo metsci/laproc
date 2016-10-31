@@ -15,6 +15,14 @@ public class UpdateAxesActionListener implements ActionListener {
     private Graph graph;
     private Window window;
 
+    /**
+     * Contructor for this listener
+     *
+     * @param dat
+     * @param panel
+     * @param window
+     * @param graph
+     */
     public UpdateAxesActionListener(GraphableData dat, GraphOptionsPanel panel, Window window, Graph graph){
         this.window = window;
         this.data = dat;
@@ -22,6 +30,11 @@ public class UpdateAxesActionListener implements ActionListener {
         this.graph = graph;
     }
 
+    /**
+     * when an action happens update the axes and redraw the curve
+     *
+     * @param e
+     */
     public void actionPerformed(ActionEvent e) {
         this.data.useAxes(this.options.getSelectedXAxis(), this.options.getSelectedYAxis());
         this.window.getGraphPanel().getCanvas().removeAllLayouts();

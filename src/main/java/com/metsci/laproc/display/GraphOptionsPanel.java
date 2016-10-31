@@ -49,6 +49,10 @@ public class GraphOptionsPanel extends JPanel{
         this.add(updateButton);
     }
 
+    /**
+     * Updates the combo boxes with the metrics from graphable datas
+     * @param graph
+     */
     public void populateOptions(Graph graph) {
         Iterator<GraphableData> data = graph.getData().iterator();
         GraphableData selected = data.next();
@@ -73,10 +77,18 @@ public class GraphOptionsPanel extends JPanel{
         this.repaint();
     }
 
+    /**
+     * Gets the appropriate matric based on the currently selected item
+     * @return
+     */
     public Metric getSelectedXAxis() {
         return this.metricsMap.get(this.xaxis.getSelectedItem());
     }
 
+    /**
+     * Gets the appropriate matric based on the currently selected item
+     * @return
+     */
     public Metric getSelectedYAxis() {
         return this.metricsMap.get(this.yaxis.getSelectedItem());
     }

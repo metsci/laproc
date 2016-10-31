@@ -74,6 +74,9 @@ public class BasicWindow implements Window{
         frame.setVisible(true);
     }
 
+    /**
+     * sets up the GraphOptions that will be added to the display
+     */
     public void showGraphOptions(Graph graph) {
         this.optionsPanel = new GraphOptionsPanel(this, graph);
         this.optionsPanel.populateOptions(graph);
@@ -104,6 +107,10 @@ public class BasicWindow implements Window{
         return this.graphPanel;
     }
 
+    /**
+     * adds classifier dataset table to the window
+     * @param data
+     */
     public void showClass(ClassifierDataSet data){
         this.classPanel.clearTable();
         GraphableFunction func = new ROCCurve(data);
@@ -111,6 +118,11 @@ public class BasicWindow implements Window{
         this.classPanel.addDataSetToTable("Initial Classifier Data Set", output);
     }
 
+    /**
+     * adds the data to the classifier table
+     * @param name
+     * @param data
+     */
     public void addDataSetToClass(String name, GraphableData data){
         this.classPanel.addDataSetToTable(name, data);
     }

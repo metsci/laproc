@@ -15,6 +15,10 @@ public interface Window {
      */
     public void display();
 
+    /**
+     * Adds a graphoptions panel to the window
+     * @param graph
+     */
     public void showGraphOptions(Graph graph);
 
     /**
