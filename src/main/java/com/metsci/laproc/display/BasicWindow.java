@@ -2,7 +2,10 @@ package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.*;
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.plotting.*;
+import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.plotting.GraphableFunction;
+import com.metsci.laproc.plotting.ROCCurve;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +23,7 @@ public class BasicWindow implements Window{
     private GraphPanel graphPanel = new GraphPanel(this);
     private DataSheetPanel dataPanel = new DataSheetPanel(this);
     private DataSetPanel classPanel = new DataSetPanel(this);
-    private GraphOptionsPanel optionsPanel = new GraphOptionsPanel();
+    private GraphOptionsPanel optionsPanel;
 
     /**
      * Puts together a docking group and docks in default views
@@ -72,7 +75,7 @@ public class BasicWindow implements Window{
     }
 
     public void showGraphOptions(Graph graph) {
-        this.optionsPanel = new GraphOptionsPanel();
+        this.optionsPanel = new GraphOptionsPanel(this, graph);
         this.optionsPanel.populateOptions(graph);
     }
 
@@ -91,6 +94,14 @@ public class BasicWindow implements Window{
      */
     public void showSpreadsheet(ClassifierDataSet data) {
         this.dataPanel.setDataSheet(data);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public GraphPanel getGraphPanel() {
+        return this.graphPanel;
     }
 
     public void showClass(ClassifierDataSet data){

@@ -30,6 +30,11 @@ public interface Window {
     public void showSpreadsheet(ClassifierDataSet data);
 
     /**
+     * Returns the graph Panel
+     */
+    public GraphPanel getGraphPanel();
+
+    /**
      * Returns the confusion matrix panel
      * @return
      */
