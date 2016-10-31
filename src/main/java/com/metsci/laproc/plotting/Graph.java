@@ -1,7 +1,5 @@
 package com.metsci.laproc.plotting;
 
-import java.util.Collection;
-
 /**
  * This interface represents a graph with customizable axes that can be rendered with Glimpse.
  * Created by robinsat on 9/19/2016.

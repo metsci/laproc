@@ -1,7 +1,7 @@
 package com.metsci.laproc.plotting;
 
 import java.util.Collections;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -25,7 +25,7 @@ public class SimpleGraphPoint implements GraphPoint {
     public SimpleGraphPoint(double x, double y) {
         this.xVal = x;
         this.yVal = y;
-        this.analytics = new TreeMap<String, Double>();
+        this.analytics = new LinkedHashMap<String, Double>();
     }
 
     /**
