@@ -11,30 +11,13 @@ import java.util.Map;
  * Created by porterjc on 10/21/2016.
  */
 public class PointInfoPanel extends JPanel{
-    private JPanel panel;
-
     /**
      * Basic constructor for the PointInfoPanel
      */
     public PointInfoPanel() {
         GridLayout matri = new GridLayout(7, 2);
-        this.panel = new JPanel();
         setName("Point Analytics");
         setLayout(matri);
-       /* add(new JLabel("Classifier Score"));
-        add(new JLabel(""));
-        add(new JLabel("True Positive Rate"));
-        add(new JLabel(""));
-        add(new JLabel("False Positive Rate"));
-        add(new JLabel(""));
-        add(new JLabel("True Negative Rate"));
-        add(new JLabel(""));
-        add(new JLabel("False Negative Rate"));
-        add(new JLabel(""));
-        add(new JLabel("Cutpoint"));
-        add(new JLabel(""));
-        add(new JLabel("Accuracy"));
-        add(new JLabel("")); */
     }
 
     /**

@@ -32,13 +32,17 @@ public class GraphOptionsPanel extends JPanel{
         this.metricsMap = new HashMap<String, Metric>();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
+        this.xaxis.setName("X-Axis");
         this.yaxis = new JComboBox();
+        this.yaxis.setName("Y-Axis");
         this.xaxis.setMaximumRowCount(6);
         this.yaxis.setMaximumRowCount(6);
         this.xaxis.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
         this.yaxis.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
 
+        this.add(new JLabel("X-Axis"));
         this.add(xaxis);
+        this.add(new JLabel("Y-Axis"));
         this.add(yaxis);
 
         this.updateButton = new JButton("Update");
