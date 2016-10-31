@@ -26,5 +26,6 @@ public class SelectDataSetActionListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         this.window.setSelectedDataSet(table.getFirstSelectedValue());
+        this.window.repaintGraph();
     }
 }

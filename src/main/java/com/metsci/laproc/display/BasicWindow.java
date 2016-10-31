@@ -131,4 +131,8 @@ public class BasicWindow implements Window{
         analyticstiles.repaint();
         frame.repaint();
     }
+
+    public void repaintGraph(){
+        this.graphPanel.addGraphToCanvas(this.displayer);
+    }
 }

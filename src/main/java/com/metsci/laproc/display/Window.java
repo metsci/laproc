@@ -45,6 +45,11 @@ public interface Window {
     public void repaint();
 
     /**
+     * Forces graph panel to repaint based on current displayer
+     */
+    public void repaintGraph();
+
+    /**
      * adds a data set component to the display
      * Created by malinocr on 10/17/2016
      */
