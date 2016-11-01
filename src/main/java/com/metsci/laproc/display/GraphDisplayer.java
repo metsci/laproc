@@ -83,26 +83,33 @@ public class GraphDisplayer implements GlimpseLayoutProvider
 
         //Sets up all possible line colors for graphable data
         float[][] possibleColors = new float[8][4];
-        possibleColors[0] = GlimpseColor.fromColorRgb(0f,0f,0f);
-        possibleColors[1] = GlimpseColor.fromColorRgb(1f,0f,0f);
-        possibleColors[2] = GlimpseColor.fromColorRgb(0f,1f,0f);
-        possibleColors[3] = GlimpseColor.fromColorRgb(0f,0f,1f);
-        possibleColors[4] = GlimpseColor.fromColorRgb(0.2f,0.5f,0.5f);
-        possibleColors[5] = GlimpseColor.fromColorRgb(0.4f,0.4f,0f);
-        possibleColors[6] = GlimpseColor.fromColorRgb(1f,0f,1f);
-        possibleColors[7] = GlimpseColor.fromColorRgb(0.4f,0f,0.4f);
+        possibleColors[0] = GlimpseColor.fromColorRgb(1f,0f,0f);
+        possibleColors[1] = GlimpseColor.fromColorRgb(0f,1f,0f);
+        possibleColors[2] = GlimpseColor.fromColorRgb(0f,0f,1f);
+        possibleColors[3] = GlimpseColor.fromColorRgb(0.2f,0.5f,0.5f);
+        possibleColors[4] = GlimpseColor.fromColorRgb(0.4f,0.4f,0f);
+        possibleColors[5] = GlimpseColor.fromColorRgb(1f,0f,1f);
+        possibleColors[6] = GlimpseColor.fromColorRgb(0.4f,0f,0.4f);
 
         //Draws each graphable data
         int currentColor = 0;
         for(GraphableData lineData : graph.getData()){
-            float[] color = possibleColors[currentColor];
-            if(currentColor != possibleColors.length){
-                currentColor++;
+            if(!lineData.equals(graph.getSelectedData())) {
+                float[] color = possibleColors[currentColor];
+                if (currentColor != possibleColors.length) {
+                    currentColor++;
+                }
+                XYLinePainter linePainter = createXYLinePainter(lineData, color, 1.5f);
+                plot.addPainter(linePainter);
+                legend.addItem(lineData.getName(), color);
             }
-            XYLinePainter linePainter = createXYLinePainter(lineData,color);
-            plot.addPainter(linePainter);
-            legend.addItem(lineData.getName(),color);
         }
+
+        //Draw selected line
+        float[] selectedLineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
+        XYLinePainter linePainter = createXYLinePainter(graph.getSelectedData(), selectedLineColor, 2.5f);
+        plot.addPainter(linePainter);
+        legend.addItem(graph.getSelectedData().getName(), selectedLineColor);
 
         // Add a painter to display the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter();
@@ -122,18 +129,27 @@ public class GraphDisplayer implements GlimpseLayoutProvider
      * Creates a XYLinePainter for a set of GraphableData that connects them with a colored line
      * @param data data that the line painter should draw
      * @param lineColor color of the line drawn
+     * @param lineThickness thinkness of the line drawn
      * @return the XYLinePainter for the GraphableData
      */
-    public static XYLinePainter createXYLinePainter(GraphableData data,float[] lineColor)
+    public static XYLinePainter createXYLinePainter(GraphableData data, float[] lineColor, float lineThickness)
     {
         XYLinePainter linePainter = new XYLinePainter();
         linePainter.setData(data.getXValues(),data.getYValues());
         linePainter.setLineColor(lineColor);
-        linePainter.setLineThickness(1.5f);
+        linePainter.setLineThickness(lineThickness);
 
         //Don't show the actual points, just show the line connecting them
         linePainter.showPoints(false);
 
         return linePainter;
+    }
+
+    /**
+     * Sets selected data set
+     * @param data data set to set
+     */
+    public void setSelectedDataSet(GraphableData data){
+        this.graph.setSelectedData(data);
     }
 }

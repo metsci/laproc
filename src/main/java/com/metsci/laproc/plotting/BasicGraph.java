@@ -3,6 +3,8 @@ package com.metsci.laproc.plotting;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import java.lang.IllegalArgumentException;
+
 /**
  * A basic implementation of a graph
  * Created by robinsat on 9/20/2016.
@@ -18,6 +20,8 @@ public class BasicGraph implements Graph {
     /** The Z axis of the graph */
     private Axis zAxis;
 
+    /** Selected data set */
+    private GraphableData selectedData;
     /** All data sets that can be plotted on this graph */
     private Collection<GraphableData> data;
 
@@ -117,6 +121,17 @@ public class BasicGraph implements Graph {
         this.zAxis = z;
     }
 
+    public void setSelectedData (GraphableData data) {
+        if(!this.data.contains(data)){
+            throw new IllegalArgumentException();
+        }
+        this.selectedData = data;
+    }
+
+    public GraphableData getSelectedData(){
+        return this.selectedData;
+    }
+
     /**
      * Getter for all of the graphable data associated with this graph
      * @return The graphable data associated with this graph
@@ -131,5 +146,8 @@ public class BasicGraph implements Graph {
      */
     public void addData(GraphableData dat) {
         this.data.add(dat);
+        if(selectedData == null){
+            this.selectedData = dat;
+        }
     }
 }
