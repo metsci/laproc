@@ -1,9 +1,5 @@
 package com.metsci.laproc.display;
 
-import com.metsci.laproc.plotting.Axis;
-import com.metsci.laproc.plotting.BasicGraph;
-import com.metsci.laproc.plotting.GraphableData;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
