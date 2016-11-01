@@ -17,9 +17,9 @@ public interface Window {
 
     /**
      * Adds a graphoptions panel to the window
-     * @param graph
+     * @param data
      */
-    public void showGraphOptions(Graph graph);
+    public void showGraphOptions(GraphableData data);
 
     /**
      * adds a graphcomponent to the display

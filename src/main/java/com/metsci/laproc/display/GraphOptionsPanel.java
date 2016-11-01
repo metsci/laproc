@@ -18,7 +18,6 @@ public class GraphOptionsPanel extends JPanel{
     private JComboBox yaxis;
     private Map<String, Metric> metricsMap;
     private JButton updateButton;
-    private Graph graph;
     private Window window;
 
 
@@ -26,9 +25,8 @@ public class GraphOptionsPanel extends JPanel{
      * Default constructor for Graphoptions Panel
      * Created by porterjc on 10/26/2016.
      */
-    public GraphOptionsPanel(Window window, Graph graph) {
+    public GraphOptionsPanel(Window window) {
         this.window = window;
-        this.graph = graph;
         this.metricsMap = new HashMap<String, Metric>();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
@@ -51,22 +49,26 @@ public class GraphOptionsPanel extends JPanel{
 
     /**
      * Updates the combo boxes with the metrics from graphable datas
-     * @param graph
+     * @param data
      */
-    public void populateOptions(Graph graph) {
-        Iterator<GraphableData> data = graph.getData().iterator();
-        GraphableData selected = data.next();
-        List<Metric> metrics = selected.getAxes();
+    public void populateOptions(GraphableData data) {
+        List<Metric> metrics = data.getAxes();
 
-        UpdateAxesActionListener listener = new UpdateAxesActionListener(selected, this, window, graph);
+        if(updateButton.getActionListeners() != null) {
+            this.updateButton.removeAll();
+        }
+
+        UpdateAxesActionListener listener = new UpdateAxesActionListener(data, this, window);
         this.updateButton.addActionListener(listener);
 
         Iterator<Metric> metricIterator = metrics.iterator();
         while(metricIterator.hasNext()) {
             Metric temp = metricIterator.next();
+            if(!metricsMap.containsKey(temp.getDescriptor())) {
+                this.xaxis.addItem(temp.getDescriptor());
+                this.yaxis.addItem(temp.getDescriptor());
+            }
             this.metricsMap.put(temp.getDescriptor(), temp);
-            this.xaxis.addItem(temp.getDescriptor());
-            this.yaxis.addItem(temp.getDescriptor());
         }
 
         this.xaxis.revalidate();

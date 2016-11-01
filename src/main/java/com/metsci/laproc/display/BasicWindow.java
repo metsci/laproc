@@ -4,8 +4,6 @@ import com.metsci.glimpse.docking.*;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.plotting.GraphableFunction;
-import com.metsci.laproc.plotting.ROCCurve;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +18,7 @@ public class BasicWindow implements Window{
     private DockingFrame frame;
     private MultiSplitPane docker;
     private Tile analyticstiles;
-    private GraphPanel graphPanel = new GraphPanel(this);
+    private GraphPanel graphPanel = new GraphPanel();
     private DataSheetPanel dataPanel = new DataSheetPanel(this);
     private DataSetPanel classPanel = new DataSetPanel(this);
     private GraphOptionsPanel optionsPanel;
@@ -77,9 +75,9 @@ public class BasicWindow implements Window{
     /**
      * sets up the GraphOptions that will be added to the display
      */
-    public void showGraphOptions(Graph graph) {
-        this.optionsPanel = new GraphOptionsPanel(this, graph);
-        this.optionsPanel.populateOptions(graph);
+    public void showGraphOptions(GraphableData data) {
+        this.optionsPanel = new GraphOptionsPanel(this);
+        this.optionsPanel.populateOptions(data);
     }
 
     /**
@@ -100,7 +98,7 @@ public class BasicWindow implements Window{
     }
 
     /**
-     * 
+     *
      * @return
      */
     public GraphPanel getGraphPanel() {
@@ -126,7 +124,8 @@ public class BasicWindow implements Window{
     }
 
     public void setSelectedDataSet (GraphableData data){
-        this.graphPanel.setSelectedDataSet(data);
+        this.displayer.setSelectedDataSet(data);
+        this.optionsPanel.populateOptions(data);
     }
 
     /**

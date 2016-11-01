@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 public class UpdateAxesActionListener implements ActionListener {
     private GraphableData data;
     private GraphOptionsPanel options;
-    private Graph graph;
     private Window window;
 
     /**
@@ -21,13 +20,11 @@ public class UpdateAxesActionListener implements ActionListener {
      * @param dat
      * @param panel
      * @param window
-     * @param graph
      */
-    public UpdateAxesActionListener(GraphableData dat, GraphOptionsPanel panel, Window window, Graph graph){
+    public UpdateAxesActionListener(GraphableData dat, GraphOptionsPanel panel, Window window){
         this.window = window;
         this.data = dat;
         this.options = panel;
-        this.graph = graph;
     }
 
     /**
@@ -37,7 +34,6 @@ public class UpdateAxesActionListener implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         this.data.useAxes(this.options.getSelectedXAxis(), this.options.getSelectedYAxis());
-        this.window.getGraphPanel().getCanvas().removeAllLayouts();
-        this.window.getGraphPanel().getCanvas().addLayout(new GraphDisplayer(graph, window).getLayout());
+        this.window.repaintGraph();
     }
 }
