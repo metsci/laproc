@@ -23,16 +23,26 @@ public class DataSetPanel extends JPanel {
         String[] columnNames = new String[1];
         columnNames[0] = "Data Set";
         this.table = new DataSetTable();
-        JScrollPane scrollPane = new JScrollPane(table);
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
-        JButton displaySetButton = new JButton("Display Set");
-        DisplayDataSetActionListener listener = new DisplayDataSetActionListener(this.window,this.table);
-        displaySetButton.addActionListener(listener);
-        this.add(displaySetButton);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
+        JButton displaySetButton = new JButton("Display Set");
+        DisplayDataSetActionListener displayListener = new DisplayDataSetActionListener(this.window,this.table);
+        displaySetButton.addActionListener(displayListener);
+        buttonPanel.add(displaySetButton);
+
+        JButton selectSetButton = new JButton("Select Set");
+        SelectDataSetActionListener selectListenter = new SelectDataSetActionListener(this.window,this.table);
+        selectSetButton.addActionListener(selectListenter);
+        buttonPanel.add(selectSetButton);
+
+        this.add(buttonPanel);
+
+        JScrollPane scrollPane = new JScrollPane(table);
         this.add(scrollPane);
     }
 

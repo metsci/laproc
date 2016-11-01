@@ -55,6 +55,18 @@ public interface Graph {
     public void setZAxis(Axis z);
 
     /**
+     * Setter for selected graph data
+     * @param data the data to set
+     */
+    public void setSelectedData(GraphableData data);
+
+    /**
+     * Getter for selected graph data
+     * @return selected graph data
+     */
+    public GraphableData getSelectedData();
+
+    /**
      * Getter for all of the graphable data associated with this graph
      * @return The graphable data associated with this graph
      */

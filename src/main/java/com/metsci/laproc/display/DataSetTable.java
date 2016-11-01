@@ -56,4 +56,13 @@ public class DataSetTable extends JTable{
         }
         return selectedValues;
     }
+
+    /**
+     * Gets the first selected data set
+     * @return first selected data set
+     */
+    public GraphableData getFirstSelectedValue(){
+        int[] selectedRows = this.getSelectedRows();
+        return classList.get(selectedRows[0]);
+    }
 }

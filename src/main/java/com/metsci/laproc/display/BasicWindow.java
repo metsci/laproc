@@ -85,15 +85,17 @@ public class BasicWindow implements Window{
         this.dataPanel.setDataSheet(data);
     }
 
-    public void showClass(ClassifierDataSet data){
+    public void showClass(GraphableData data){
         this.classPanel.clearTable();
-        GraphableFunction func = new ROCCurve(data);
-        GraphableData output = func.compute();
-        this.classPanel.addDataSetToTable("Initial Classifier Data Set", output);
+        this.classPanel.addDataSetToTable("Initial Classifier Data Set", data);
     }
 
     public void addDataSetToClass(String name, GraphableData data){
         this.classPanel.addDataSetToTable(name, data);
+    }
+
+    public void setSelectedDataSet (GraphableData data){
+        this.graphPanel.setSelectedDataSet(data);
     }
 
     /**
@@ -128,5 +130,9 @@ public class BasicWindow implements Window{
         analyticstiles.revalidate();
         analyticstiles.repaint();
         frame.repaint();
+    }
+
+    public void repaintGraph(){
+        this.graphPanel.addGraphToCanvas(this.displayer);
     }
 }
