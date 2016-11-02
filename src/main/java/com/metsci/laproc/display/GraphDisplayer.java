@@ -5,15 +5,11 @@ import com.metsci.glimpse.painter.decoration.LegendPainter.*;
 import com.metsci.glimpse.painter.info.CursorTextPainter;
 import com.metsci.glimpse.painter.plot.XYLinePainter;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
-import com.metsci.glimpse.painter.shape.PolygonPainterSimple;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 /**
  * Creates a Glimpse plot for a Graph

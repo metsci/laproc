@@ -16,6 +16,12 @@ public interface Window {
     public void display();
 
     /**
+     * Adds a graphoptions panel to the window
+     * @param data
+     */
+    public void showGraphOptions(GraphableData data);
+
+    /**
      * adds a graphcomponent to the display
      * Creaded by porterjc on 9/22/2016
      */
@@ -26,6 +32,11 @@ public interface Window {
      * Creaded by porterjc on 9/22/2016
      */
     public void showSpreadsheet(ClassifierDataSet data);
+
+    /**
+     * Returns the graph Panel
+     */
+    public GraphPanel getGraphPanel();
 
     /**
      * Returns the confusion matrix panel

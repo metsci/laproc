@@ -26,6 +26,7 @@ public class App {
         graph.addData( graphableData);
         
         Window window = new BasicWindow();
+        window.showGraphOptions(graphableData);
         window.showGraph(graph);
         window.showSpreadsheet(importData);
         window.showClass(graphableData);
