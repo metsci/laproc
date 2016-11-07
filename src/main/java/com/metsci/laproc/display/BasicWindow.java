@@ -18,8 +18,8 @@ public class BasicWindow implements Window{
     private MultiSplitPane docker;
     private Tile analyticstiles;
     private GraphPanel graphPanel = new GraphPanel();
-    private DataSheetPanel dataPanel = new DataSheetPanel(this);
-    private DataSetPanel classPanel = new DataSetPanel(this);
+    private DataSheetPanel dataSheetPanel = new DataSheetPanel(this);
+    private DataSetPanel dataSetPanel = new DataSetPanel(this);
     private GraphOptionsPanel optionsPanel;
 
     /**
@@ -38,8 +38,8 @@ public class BasicWindow implements Window{
         this.frame = group.addNewFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        View sView = new View("Data", dataPanel, "Data", true);
-        View cView = new View("Sets", classPanel, "Sets", true);
+        View sView = new View("Data", dataSheetPanel, "Data", true);
+        View cView = new View("Sets", dataSetPanel, "Sets", true);
         View oView = new View("Options", optionsPanel, "Options", true);
         View gView = new View("Graph", graphPanel.getCanvas(), "Graph", true);
         View kView = new View("Confusion Matrix", conmatrixPanel, "Confusion Matrix", true);
@@ -92,7 +92,7 @@ public class BasicWindow implements Window{
      * Creaded by porterjc on 9/22/2016
      */
     public void showSpreadsheet(ClassifierDataSet data) {
-        this.dataPanel.setDataSheet(data);
+        this.dataSheetPanel.setDataSheet(data);
     }
 
     /**
@@ -108,8 +108,8 @@ public class BasicWindow implements Window{
      * @param data
      */
     public void showClass(GraphableData data){
-        this.classPanel.clearTable();
-        this.classPanel.addDataSetToTable(data);
+        this.dataSetPanel.clearTable();
+        this.dataSetPanel.addDataSetToTable(data);
     }
 
     /**
@@ -117,7 +117,7 @@ public class BasicWindow implements Window{
      * @param data
      */
     public void addDataSetToClass(GraphableData data){
-        this.classPanel.addDataSetToTable(data);
+        this.dataSetPanel.addDataSetToTable(data);
     }
 
     public void setSelectedDataSet (GraphableData data){
