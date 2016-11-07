@@ -2,7 +2,8 @@ package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.*;
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.plotting.*;
+import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphableData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,9 +18,10 @@ public class BasicWindow implements Window{
     private DockingFrame frame;
     private MultiSplitPane docker;
     private Tile analyticstiles;
-    private GraphPanel graphPanel = new GraphPanel(this);
+    private GraphPanel graphPanel = new GraphPanel();
     private DataSheetPanel dataPanel = new DataSheetPanel(this);
     private DataSetPanel classPanel = new DataSetPanel(this);
+    private GraphOptionsPanel optionsPanel;
 
     /**
      * Puts together a docking group and docks in default views
@@ -39,6 +41,7 @@ public class BasicWindow implements Window{
 
         View sView = new View("Data", dataPanel, "Data", true);
         View cView = new View("Sets", classPanel, "Sets", true);
+        View oView = new View("Options", optionsPanel, "Options", true);
         View gView = new View("Graph", graphPanel.getCanvas(), "Graph", true);
         View kView = new View("Confusion Matrix", conmatrixPanel, "Confusion Matrix", true);
         View pointView = new View("Point Analysis", pointInfoPanel, "Point Analysis", true);
@@ -46,6 +49,7 @@ public class BasicWindow implements Window{
         Tile spreadTile = tileFactory.newTile();
         spreadTile.addView(sView, 0);
         spreadTile.addView(cView, 1);
+        spreadTile.addView(oView, 2);
 
         Tile graphTile = tileFactory.newTile();
         graphTile.addView(gView, 0);
@@ -69,6 +73,14 @@ public class BasicWindow implements Window{
     }
 
     /**
+     * sets up the GraphOptions that will be added to the display
+     */
+    public void showGraphOptions(GraphableData data) {
+        this.optionsPanel = new GraphOptionsPanel(this);
+        this.optionsPanel.populateOptions(data);
+    }
+
+    /**
      * sets up the GraphPanel that will be added to the display
      * Creaded by porterjc on 9/22/2016
      */
@@ -85,15 +97,35 @@ public class BasicWindow implements Window{
         this.dataPanel.setDataSheet(data);
     }
 
-    public void showClass(ClassifierDataSet data){
-        this.classPanel.clearTable();
-        GraphableFunction func = new ROCCurve(data);
-        GraphableData output = func.compute();
-        this.classPanel.addDataSetToTable("Initial Classifier Data Set", output);
+    /**
+     *
+     * @return
+     */
+    public GraphPanel getGraphPanel() {
+        return this.graphPanel;
     }
 
+    /**
+     * adds classifier dataset table to the window
+     * @param data
+     */
+    public void showClass(GraphableData data){
+        this.classPanel.clearTable();
+        this.classPanel.addDataSetToTable("Initial Classifier Data Set", data);
+    }
+
+    /**
+     * adds the data to the classifier table
+     * @param name
+     * @param data
+     */
     public void addDataSetToClass(String name, GraphableData data){
         this.classPanel.addDataSetToTable(name, data);
+    }
+
+    public void setSelectedDataSet (GraphableData data){
+        this.displayer.setSelectedDataSet(data);
+        this.optionsPanel.populateOptions(data);
     }
 
     /**
@@ -128,5 +160,9 @@ public class BasicWindow implements Window{
         analyticstiles.revalidate();
         analyticstiles.repaint();
         frame.repaint();
+    }
+
+    public void repaintGraph(){
+        this.graphPanel.addGraphToCanvas(this.displayer);
     }
 }

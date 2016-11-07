@@ -11,30 +11,15 @@ import java.util.Map;
  * Created by porterjc on 10/21/2016.
  */
 public class PointInfoPanel extends JPanel{
-    private JPanel panel;
-
+    private JScrollPane pane;
     /**
      * Basic constructor for the PointInfoPanel
      */
     public PointInfoPanel() {
-        GridLayout matri = new GridLayout(7, 2);
-        this.panel = new JPanel();
         setName("Point Analytics");
-        setLayout(matri);
-       /* add(new JLabel("Classifier Score"));
-        add(new JLabel(""));
-        add(new JLabel("True Positive Rate"));
-        add(new JLabel(""));
-        add(new JLabel("False Positive Rate"));
-        add(new JLabel(""));
-        add(new JLabel("True Negative Rate"));
-        add(new JLabel(""));
-        add(new JLabel("False Negative Rate"));
-        add(new JLabel(""));
-        add(new JLabel("Cutpoint"));
-        add(new JLabel(""));
-        add(new JLabel("Accuracy"));
-        add(new JLabel("")); */
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        pane = new JScrollPane();
+        this.add(pane);
     }
 
     /**
@@ -45,25 +30,18 @@ public class PointInfoPanel extends JPanel{
     public void update(GraphPoint point){
         Map<String, Double> data = point.getAnalytics();
 
-        int i = 0;
+        JPanel panel = new JPanel();
         GridLayout matri = new GridLayout(data.size(), 2);
-        this.setLayout(matri);
+        panel.setLayout(matri);
         for(String key : data.keySet()) {
-            if(i >= this.getComponentCount()){
-                this.add(new JLabel(key));
-                this.add(new JLabel(data.get(key) + ""));
-                i += 2;
-            } else {
-                JLabel temp = (JLabel) this.getComponent(i);
-                temp.setText(key);
-                temp.repaint();
-                temp = (JLabel) this.getComponent(i + 1);
-                temp.setText(data.get(key) + "");
-                temp.repaint();
-                i += 2;
-            }
+            panel.add(new JLabel(key));
+            panel.add(new JLabel(Math.floor(data.get(key) * 10000) / 10000 + ""));
         }
 
+        this.remove(pane);
+        pane = new JScrollPane(panel);
+
+        this.add(pane);
         this.revalidate();
         this.repaint();
         this.getParent().repaint();
