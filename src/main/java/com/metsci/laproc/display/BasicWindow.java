@@ -14,7 +14,6 @@ import java.awt.*;
 public class BasicWindow implements Window{
     private ConfusionPanel conmatrixPanel = new ConfusionPanel();
     private PointInfoPanel pointInfoPanel = new PointInfoPanel();
-    private GraphDisplayer displayer;
     private DockingFrame frame;
     private MultiSplitPane docker;
     private Tile analyticstiles;
@@ -85,8 +84,7 @@ public class BasicWindow implements Window{
      * Creaded by porterjc on 9/22/2016
      */
     public void showGraph(Graph graph) {
-        this.displayer = new GraphDisplayer(graph, this);
-        this.graphPanel.addGraphToCanvas(this.displayer);
+        this.graphPanel.addGraphToCanvas(new GraphDisplayer(graph, this));
     }
 
     /**
@@ -124,7 +122,7 @@ public class BasicWindow implements Window{
     }
 
     public void setSelectedDataSet (GraphableData data){
-        this.displayer.setSelectedDataSet(data);
+        this.graphPanel.setSelectedDataSet(data);
         this.optionsPanel.populateOptions(data);
     }
 
@@ -163,6 +161,6 @@ public class BasicWindow implements Window{
     }
 
     public void repaintGraph(){
-        this.graphPanel.addGraphToCanvas(this.displayer);
+        this.graphPanel.updateGraph();
     }
 }
