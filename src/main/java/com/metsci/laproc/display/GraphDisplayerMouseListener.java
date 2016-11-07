@@ -34,18 +34,6 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      * General constructor for GraphDisplayerMouseListener
      * @param graph current graph that is being displayed
      * @param polygonPainter polygon painter for selection area
-     */
-    public GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter){
-        this.graph = graph;
-        this.polygonPainter = polygonPainter;
-
-        configurePolygonPainter();
-    }
-
-    /**
-     * General constructor for GraphDisplayerMouseListener
-     * @param graph current graph that is being displayed
-     * @param polygonPainter polygon painter for selection area
      * @param window window the graph is displayed on
      */
     public GraphDisplayerMouseListener(Graph graph, Window window, PolygonPainter polygonPainter){

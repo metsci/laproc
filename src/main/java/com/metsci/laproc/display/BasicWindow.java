@@ -95,10 +95,6 @@ public class BasicWindow implements Window{
         this.dataSheetPanel.setDataSheet(data);
     }
 
-    /**
-     *
-     * @return
-     */
     public GraphPanel getGraphPanel() {
         return this.graphPanel;
     }
@@ -153,7 +149,6 @@ public class BasicWindow implements Window{
      * Repaints and revalidates the window.
       */
     public void repaint(){
-
         analyticstiles.revalidate();
         analyticstiles.repaint();
         frame.repaint();
