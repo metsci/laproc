@@ -36,11 +36,10 @@ public class DataSetTable extends JTable{
 
     /**
      * Adds a data set
-     * @param dataSetName name of the data set
      * @param dataSet data set to add
      */
-    public void addDataSet(String dataSetName, GraphableData dataSet){
-        this.model.addRow(new Object[]{dataSetName});
+    public void addDataSet(GraphableData dataSet){
+        this.model.addRow(new Object[]{dataSet.getName()});
         this.classList.add(dataSet);
     }
 

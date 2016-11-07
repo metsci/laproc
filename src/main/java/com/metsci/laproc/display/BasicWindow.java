@@ -109,16 +109,15 @@ public class BasicWindow implements Window{
      */
     public void showClass(GraphableData data){
         this.classPanel.clearTable();
-        this.classPanel.addDataSetToTable("Initial Classifier Data Set", data);
+        this.classPanel.addDataSetToTable(data);
     }
 
     /**
      * adds the data to the classifier table
-     * @param name
      * @param data
      */
-    public void addDataSetToClass(String name, GraphableData data){
-        this.classPanel.addDataSetToTable(name, data);
+    public void addDataSetToClass(GraphableData data){
+        this.classPanel.addDataSetToTable(data);
     }
 
     public void setSelectedDataSet (GraphableData data){

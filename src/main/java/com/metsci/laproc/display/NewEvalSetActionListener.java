@@ -48,7 +48,7 @@ public class NewEvalSetActionListener implements ActionListener{
 		GraphableData output = func.compute();
 		String dataName = "New Data Set " + currentAddedIndex++;
 		output.setName(dataName);
-		this.window.addDataSetToClass(dataName, output);
+		this.window.addDataSetToClass(output);
 	}
 
 }
