@@ -55,10 +55,9 @@ public class DataSetPanel extends JPanel {
 
     /**
      * Adds a data set to the table in the panel
-     * @param name name of the data set to be added
      * @param data data set to be added
      */
-    public void addDataSetToTable(String name, GraphableData data){
-        this.table.addDataSet(name, data);
+    public void addDataSetToTable(GraphableData data){
+        this.table.addDataSet(data);
     }
 }

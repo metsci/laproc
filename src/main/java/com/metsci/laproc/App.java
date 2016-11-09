@@ -23,6 +23,7 @@ public class App {
         ClassifierDataSet importData = importData();
         GraphableFunction func = new ROCCurve(importData);
         GraphableData graphableData = func.compute();
+        graphableData.setName("Initial Classifier Data Set");
         graph.addData( graphableData);
         
         Window window = new BasicWindow();

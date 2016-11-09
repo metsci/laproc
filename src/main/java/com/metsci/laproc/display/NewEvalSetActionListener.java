@@ -46,7 +46,9 @@ public class NewEvalSetActionListener implements ActionListener{
 		}
 		GraphableFunction func = new ROCCurve(data);
 		GraphableData output = func.compute();
-		this.window.addDataSetToClass("New Data Set " + currentAddedIndex++, output);
+		String dataName = "New Data Set " + currentAddedIndex++;
+		output.setName(dataName);
+		this.window.addDataSetToClass(output);
 	}
 
 }

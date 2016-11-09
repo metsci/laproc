@@ -47,4 +47,12 @@ public class GraphPanel extends JPanel{
     public void setSelectedDataSet(GraphableData data) {
         this.graphDisplayer.setSelectedDataSet(data);
     }
+
+    /**
+     * Updates the displayed graph
+     */
+    public void updateGraph() {
+        canvas.removeAllLayouts();
+        canvas.addLayout(graphDisplayer.getLayout());
+    }
 }

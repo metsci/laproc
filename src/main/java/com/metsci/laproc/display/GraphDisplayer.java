@@ -21,15 +21,6 @@ public class GraphDisplayer implements GlimpseLayoutProvider
     private Window window;
 
     /**
-     * Constructor for a given Graph
-     * @param graph graph to display
-     */
-    public GraphDisplayer(Graph graph)
-    {
-        this.graph = graph;
-    }
-
-    /**
      * Constructor for a given graph and window
      * @params graph, displayer
      */

@@ -70,7 +70,7 @@ public interface Window {
      * adds data set to classifier panel
      * Created by malinocr on 10/17/2016
      */
-    public void addDataSetToClass(String name, GraphableData data);
+    public void addDataSetToClass(GraphableData data);
 
     /**
      * sets the selected data in the graph
