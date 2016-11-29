@@ -36,16 +36,6 @@ public class ROCCurve implements GraphableFunction {
     public GraphableData compute() {
         GraphableDataWithMetrics out = new GraphableDataWithMetrics("ROC Curve");
 
-        // Calculate the number of positive values and negative values in this data set
-        int numPositives = 0;
-        int numNegatives = 0;
-        for(DataPoint p : input) {
-            if(p.getTruth())
-                numPositives++;
-            else
-                numNegatives++;
-        }
-
         // Metrics that must be calculated for each point in the data set
         double interval = 1.0 / NUMPOINTS;
         double cutpoint = 0;
