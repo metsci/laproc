@@ -25,7 +25,7 @@ public class DisplayDataSetActionListener implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
+        BasicGraph graph = new BasicGraph(new AxisImpl(0, 1, "X Axis"), new AxisImpl(0, 1, "Y Axis"));
         for(GraphableData data : table.getSelectedValues()){
             graph.addData( data);
         }

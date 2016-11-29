@@ -25,7 +25,7 @@ public class BasicGraph implements Graph {
      * Default constructor
      */
     public BasicGraph() {
-        this("", new Axis(0, 1), new Axis(0, 1), new Axis(0, 1));
+        this("", new AxisImpl(0, 1), new AxisImpl(0, 1), new AxisImpl(0, 1));
     }
 
     /**
