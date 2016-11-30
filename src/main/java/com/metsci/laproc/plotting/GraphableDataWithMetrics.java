@@ -135,7 +135,7 @@ public class GraphableDataWithMetrics implements GraphableData{
         }
 
         // Now that the closest point has been found, construct a point object to pass back
-        SimpleGraphPoint graphPoint = new SimpleGraphPoint(xAxisMetric.compute(closest),
+        BasicGraphPoint graphPoint = new BasicGraphPoint(xAxisMetric.compute(closest),
                 yAxisMetric.compute(closest));
         // Add all additional statistics/analytics
         for(Metric m : this.pointStatistics) {

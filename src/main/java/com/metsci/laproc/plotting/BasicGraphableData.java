@@ -10,7 +10,7 @@ import java.util.List;
  * Represents a continuous line that can be represented on a graph.
  * Created by robinsat on 9/20/2016.
  */
-public class SimpleGraphableData implements GraphableData {
+public class BasicGraphableData implements GraphableData {
 
     //Fields
     /** The name of this set of data */
@@ -31,7 +31,7 @@ public class SimpleGraphableData implements GraphableData {
     /**
      * Default constructor
      */
-     public SimpleGraphableData() {
+     public BasicGraphableData() {
          this("", DEFAULT_SIZE);
      }
 
@@ -39,7 +39,7 @@ public class SimpleGraphableData implements GraphableData {
      * Constructor
      * @param name The name to give to this graph data
      */
-    public SimpleGraphableData(String name) {
+    public BasicGraphableData(String name) {
         this(name, DEFAULT_SIZE);
     }
 
@@ -47,7 +47,7 @@ public class SimpleGraphableData implements GraphableData {
      * Constructor
      * @param numPoints The number of points to initialize this data set with
      */
-    public SimpleGraphableData(int numPoints) {
+    public BasicGraphableData(int numPoints) {
         this("", numPoints);
     }
 
@@ -56,7 +56,7 @@ public class SimpleGraphableData implements GraphableData {
      * @param name The name to give to this graph data
      * @param numPoints The number of points to initialize this data set with
      */
-    public SimpleGraphableData(String name, int numPoints) {
+    public BasicGraphableData(String name, int numPoints) {
         this.name = name;
         this.size = 0;
         this.xValues = new double[numPoints];
@@ -164,7 +164,7 @@ public class SimpleGraphableData implements GraphableData {
         }
 
         // Now that the closest point has been found, construct a point object to pass back
-        SimpleGraphPoint graphPoint = new SimpleGraphPoint(xValues[closestIndex], yValues[closestIndex]);
+        BasicGraphPoint graphPoint = new BasicGraphPoint(xValues[closestIndex], yValues[closestIndex]);
         return graphPoint;
     }
 

@@ -4,7 +4,7 @@ package com.metsci.laproc.plotting;
  * Interface representing a single axis of a graph
  * Created by robinsat on 9/20/2016.
  */
-public class AxisImpl implements Axis{
+public class BasicAxis implements Axis{
 
     /** The displayable name of this axis */
     private String name;
@@ -20,7 +20,7 @@ public class AxisImpl implements Axis{
      * @param min The lower bound of this axis
      * @param max The upper bound of this axis
      */
-    public AxisImpl(double min, double max) {
+    public BasicAxis(double min, double max) {
         this(min, max, "", "");
     }
 
@@ -30,7 +30,7 @@ public class AxisImpl implements Axis{
      * @param max The upper bound of this axis
      * @param name The displayable name of this axis
      */
-    public AxisImpl(double min, double max, String name) {
+    public BasicAxis(double min, double max, String name) {
         this(min, max, name, "");
     }
 
@@ -41,7 +41,7 @@ public class AxisImpl implements Axis{
      * @param name The displayable name of this axis
      * @param unit The unit to display for this axis
      */
-    public AxisImpl(double min, double max, String name, String unit) {
+    public BasicAxis(double min, double max, String name, String unit) {
         this.min = min;
         this.max = max;
         this.name = name;

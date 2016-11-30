@@ -5,7 +5,6 @@ import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.display.BasicWindow;
 import com.metsci.laproc.display.Window;
-import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPointImpl;
@@ -19,7 +18,7 @@ import java.io.IOException;
 public class App {
 	public static void main( String[] args )
     {
-        BasicGraph graph = new BasicGraph(new AxisImpl(0, 1, "X Axis"), new AxisImpl(0, 1, "Y Axis"));
+        BasicGraph graph = new BasicGraph(new BasicAxis(0, 1, "X Axis"), new BasicAxis(0, 1, "Y Axis"));
         ClassifierDataSet data = importData();
         GraphableFunction func = new ROCCurve(data);
         graph.addData( func.compute());

@@ -5,7 +5,7 @@ package com.metsci.laproc.pointmetrics;
  * and false negatives.
  * Created by robinsat on 10/25/2016.
  */
-public interface Metric {
+public interface Metric extends ParametricFunction<ClassifierSetPoint> {
 
     /**
      * Computes some metric for this point based on the number of true positives, false positives, true negatives,
@@ -14,12 +14,5 @@ public interface Metric {
      * @return The calculated value
      */
     double compute(ClassifierSetPoint point);
-
-    /**
-     * Gets a string descriptor of what this metric represents
-     * @return A String descriptor of what this metric represents
-     */
-    String getDescriptor();
-
 
 }
