@@ -1,6 +1,7 @@
 package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.pointmetrics.Metric;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
 
 import java.util.List;
 
@@ -52,12 +53,12 @@ public interface GraphableData {
      * Gets the list of metrics that can be used as axes for this data
      * @return The list of metrics that can be used as axes for this data
      */
-    public List<Metric> getAxes();
+    public List<ParametricFunction> getAxes();
 
     /**
      * Sets the x axis and y axis to the specified metrics
      * @param xAxis The metric to use for the x axis
      * @param yAxis The metric to use for the y axis
      */
-    public void useAxes(Metric xAxis, Metric yAxis);
+    public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis);
 }

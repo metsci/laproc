@@ -1,9 +1,6 @@
 package com.metsci.laproc.plotting;
 
-import com.metsci.laproc.pointmetrics.ClassifierSetPoint;
-import com.metsci.laproc.pointmetrics.FalsePositiveRate;
-import com.metsci.laproc.pointmetrics.Metric;
-import com.metsci.laproc.pointmetrics.TruePositiveRate;
+import com.metsci.laproc.pointmetrics.*;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -19,13 +16,13 @@ public class GraphableDataWithMetrics implements GraphableData{
     /** The displayable name of this set of data */
     private String name;
     /** The metric to use for the x axis */
-    private Metric xAxisMetric;
+    private ParametricFunction xAxisMetric;
     /** The metric to use for the y axis */
-    private Metric yAxisMetric;
+    private ParametricFunction yAxisMetric;
     /** All possible metrics that may be used for this data set */
-    private List<Metric> axes;
+    private List<ParametricFunction> axes;
     /** All metrics that will be used to generate displayable statistics for each GraphPoint */
-    private List<Metric> pointStatistics;
+    private List<ParametricFunction> pointStatistics;
 
     /** Tha actual data, stored as ClassifierSetPoints. The x and y values can all be derived from this data */
     private List<ClassifierSetPoint> points;
@@ -43,8 +40,8 @@ public class GraphableDataWithMetrics implements GraphableData{
      */
     public GraphableDataWithMetrics(String name) {
         this.name = name;
-        this.axes = new ArrayList<Metric>();
-        this.pointStatistics = new ArrayList<Metric>();
+        this.axes = new ArrayList<ParametricFunction>();
+        this.pointStatistics = new ArrayList<ParametricFunction>();
         this.points = new ArrayList<ClassifierSetPoint>();
 
         //TODO This is the default for a ROC curve. Eventually, the default behavior should be established in settings
@@ -91,7 +88,7 @@ public class GraphableDataWithMetrics implements GraphableData{
      * @param m The metric to use for this data
      * @return A set of doubles based on the metrivc's calculations
      */
-    private double[] getDataForMetric(Metric m) {
+    private double[] getDataForMetric(ParametricFunction m) {
         double[] values = new double[this.getSize()];
         for(int i = 0; i < values.length; i++) {
             values[i] = m.compute(points.get(i));
@@ -138,7 +135,7 @@ public class GraphableDataWithMetrics implements GraphableData{
         BasicGraphPoint graphPoint = new BasicGraphPoint(xAxisMetric.compute(closest),
                 yAxisMetric.compute(closest));
         // Add all additional statistics/analytics
-        for(Metric m : this.pointStatistics) {
+        for(ParametricFunction m : this.pointStatistics) {
             graphPoint.addStatistic(m.getDescriptor(), m.compute(closest));
         }
 
@@ -163,7 +160,7 @@ public class GraphableDataWithMetrics implements GraphableData{
      * Returns a list of axes on which this data can be plotted
      * @return A list of axes on which this data can be plotted
      */
-    public List<Metric> getAxes() {
+    public List<ParametricFunction> getAxes() {
         return Collections.unmodifiableList(this.axes);
     }
 
@@ -171,7 +168,7 @@ public class GraphableDataWithMetrics implements GraphableData{
      * Adds a metric to this list of axis possibilities. Accessible within the package.
      * @param m The axis to add
      */
-    protected void addAxisMetric(Metric m) {
+    protected void addAxisMetric(ParametricFunction m) {
         this.axes.add(m);
     }
 
@@ -180,7 +177,7 @@ public class GraphableDataWithMetrics implements GraphableData{
      * This metrics are for display purposes only
      * @param m The metric to add
      */
-    protected void addStatisticMetric(Metric m) {
+    protected void addStatisticMetric(ParametricFunction m) {
         this.pointStatistics.add(m);
     }
 
@@ -189,7 +186,7 @@ public class GraphableDataWithMetrics implements GraphableData{
      * @param xAxis The metric to use for the x axis
      * @param yAxis The metric to use for the y axis
      */
-    public void useAxes(Metric xAxis, Metric yAxis) {
+    public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
         this.xAxisMetric = xAxis;
         this.yAxisMetric = yAxis;
     }

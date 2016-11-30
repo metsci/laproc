@@ -1,6 +1,7 @@
 package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.pointmetrics.Metric;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -172,8 +173,8 @@ public class BasicGraphableData implements GraphableData {
      * Returns a list of axes on which this data may be plotted
      * @return A list of axes on which this data may be plotted
      */
-    public List<Metric> getAxes() {
-        return new ArrayList<Metric>();
+    public List<ParametricFunction> getAxes() {
+        return new ArrayList<ParametricFunction>();
     }
 
     /**
@@ -181,7 +182,7 @@ public class BasicGraphableData implements GraphableData {
      * @param xAxis The metric to use for the x axis
      * @param yAxis The metric to use for the y axis
      */
-    public void useAxes(Metric xAxis, Metric yAxis) {
+    public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
        //For now, do nothing.
     }
 
