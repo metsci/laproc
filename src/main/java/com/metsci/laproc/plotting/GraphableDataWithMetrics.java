@@ -94,7 +94,7 @@ public class GraphableDataWithMetrics implements GraphableData{
     private double[] getDataForMetric(Metric m) {
         double[] values = new double[this.getSize()];
         for(int i = 0; i < values.length; i++) {
-            values[i] = m.getMetric(points.get(i));
+            values[i] = m.compute(points.get(i));
         }
         return values;
     }
@@ -135,11 +135,11 @@ public class GraphableDataWithMetrics implements GraphableData{
         }
 
         // Now that the closest point has been found, construct a point object to pass back
-        SimpleGraphPoint graphPoint = new SimpleGraphPoint(xAxisMetric.getMetric(closest),
-                yAxisMetric.getMetric(closest));
+        SimpleGraphPoint graphPoint = new SimpleGraphPoint(xAxisMetric.compute(closest),
+                yAxisMetric.compute(closest));
         // Add all additional statistics/analytics
         for(Metric m : this.pointStatistics) {
-            graphPoint.addStatistic(m.getDescriptor(), m.getMetric(closest));
+            graphPoint.addStatistic(m.getDescriptor(), m.compute(closest));
         }
 
         // Return the graph point
@@ -154,8 +154,8 @@ public class GraphableDataWithMetrics implements GraphableData{
      * @return The distance between the two points
      */
     private double findDistance(ClassifierSetPoint point, double x, double y) {
-        double pointX = this.xAxisMetric.getMetric(point);
-        double pointY = this.yAxisMetric.getMetric(point);
+        double pointX = this.xAxisMetric.compute(point);
+        double pointY = this.yAxisMetric.compute(point);
         return Point2D.distance(pointX, pointY, x, y);
     }
 

@@ -13,7 +13,7 @@ public class TrueNegatives implements Metric{
      * @param point The point for which to find the true negatives
      * @return The number of true negatives
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         return point.getTrueNegatives();
     }
 

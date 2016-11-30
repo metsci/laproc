@@ -13,7 +13,7 @@ public interface Metric {
      * @param point The point for which to calculate a metric
      * @return The calculated value
      */
-    double getMetric(ClassifierSetPoint point);
+    double compute(ClassifierSetPoint point);
 
     /**
      * Gets a string descriptor of what this metric represents

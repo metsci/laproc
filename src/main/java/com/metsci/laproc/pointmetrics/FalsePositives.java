@@ -13,7 +13,7 @@ public class FalsePositives implements Metric{
      * @param point The point for which to find the false positives
      * @return The number of false positives
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         return point.getFalsePositives();
     }
 
