@@ -17,22 +17,24 @@ public class BasicGraphableData implements GraphableData {
     /** The name of this set of data */
     private String name;
     /** The x values in this data set */
-    private double[] xValues;
+    //private double[] xValues;
     /** The y values in this data set */
-    private double[] yValues;
+    //private double[] yValues;
+
+    private List<GraphPoint> points;
 
     //Internal use
     /** Keeps track of the current size of the data set */
-    private int size;
+    //private int size;
     /** The default size to initialize the array */
-    private static final int DEFAULT_SIZE = 100;
+    //private static final int DEFAULT_SIZE = 100;
 
     //Constructors
 
     /**
      * Default constructor
      */
-     public BasicGraphableData() {
+   /*  public BasicGraphableData() {
          this("", DEFAULT_SIZE);
      }
 
@@ -40,15 +42,15 @@ public class BasicGraphableData implements GraphableData {
      * Constructor
      * @param name The name to give to this graph data
      */
-    public BasicGraphableData(String name) {
+    /**public BasicGraphableData(String name) {
         this(name, DEFAULT_SIZE);
     }
 
     /**
      * Constructor
-     * @param numPoints The number of points to initialize this data set with
+     * @param name The number of points to initialize this data set with
      */
-    public BasicGraphableData(int numPoints) {
+   /* public BasicGraphableData(int numPoints) {
         this("", numPoints);
     }
 
@@ -57,11 +59,13 @@ public class BasicGraphableData implements GraphableData {
      * @param name The name to give to this graph data
      * @param numPoints The number of points to initialize this data set with
      */
-    public BasicGraphableData(String name, int numPoints) {
+    public BasicGraphableData(String name) {
         this.name = name;
-        this.size = 0;
+        /*this.size = 0;
         this.xValues = new double[numPoints];
-        this.yValues = new double[numPoints];
+        this.yValues = new double[numPoints];*/
+        this.points = new ArrayList<GraphPoint>();
+
     }
 
     /**
@@ -85,10 +89,11 @@ public class BasicGraphableData implements GraphableData {
      * @return The set of x values
      */
     public double[] getXValues() {
-        if(this.xValues.length != size) {
-            this.xValues = resize(this.xValues, size);
+        double[] xVals = new double[points.size()];
+        for(int i = 0; i < points.size(); i++) {
+            xVals[i] = points.get(i).getX();
         }
-        return this.xValues;
+        return xVals;
     }
 
     /**
@@ -96,10 +101,11 @@ public class BasicGraphableData implements GraphableData {
      * @return The set of y values
      */
     public double[] getYValues() {
-        if(this.yValues.length != size) {
-            this.yValues = resize(this.yValues, size);
+        double[] yVals = new double[points.size()];
+        for(int i = 0; i < points.size(); i++) {
+            yVals[i] = points.get(i).getY();
         }
-        return this.yValues;
+        return yVals;
     }
 
     /**
@@ -108,15 +114,7 @@ public class BasicGraphableData implements GraphableData {
      * @param y The y value of the added point
      */
     public void addPoint(double x, double y) {
-        if(size >= this.xValues.length || size >= this.yValues.length) {
-            //Grow
-            this.xValues = resize(this.xValues, size * 2);
-            this.yValues = resize(this.yValues, size * 2);
-        }
-
-        this.xValues[size] = x;
-        this.yValues[size] = y;
-        size++;
+        this.points.add(new BasicGraphPoint(x, y));
     }
 
     public void addPoint(GraphPoint dataPoint) {
@@ -142,7 +140,7 @@ public class BasicGraphableData implements GraphableData {
      * @return The number of points in this data set
      */
     public int getSize() {
-        return this.size;
+        return this.points.size();
     }
 
     /**
@@ -154,6 +152,8 @@ public class BasicGraphableData implements GraphableData {
     public GraphPoint getDataPoint(double x, double y) {
         //Find the closest point in the set
         int closestIndex = 0;
+        double[] xValues = getXValues();
+        double[] yValues = getYValues();
         double closestDistance = Point2D.distance(xValues[0], yValues[0], x, y);
         double currentDistance;
         for(int i = 0; i < this.getSize(); i++) {
@@ -173,7 +173,7 @@ public class BasicGraphableData implements GraphableData {
      * Returns a list of axes on which this data may be plotted
      * @return A list of axes on which this data may be plotted
      */
-    public List<ParametricFunction> getAxes() {
+  /*  public List<ParametricFunction> getAxes() {
         return new ArrayList<ParametricFunction>();
     }
 
@@ -182,8 +182,8 @@ public class BasicGraphableData implements GraphableData {
      * @param xAxis The metric to use for the x axis
      * @param yAxis The metric to use for the y axis
      */
-    public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
+   /* public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
        //For now, do nothing.
-    }
+    } */
 
 }
