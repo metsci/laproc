@@ -2,6 +2,7 @@ package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.*;
 import com.metsci.laproc.data.ClassifierDataSet;
+import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 
@@ -156,5 +157,9 @@ public class BasicWindow implements Window{
 
     public void repaintGraph(){
         this.graphPanel.updateGraph();
+    }
+
+    public void updateGraphAxis(Axis x, Axis y){
+        this.graphPanel.updateGraphAxis(x, y);
     }
 }

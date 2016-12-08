@@ -1,6 +1,7 @@
 package com.metsci.laproc.display;
 
 import com.metsci.laproc.data.ClassifierDataSet;
+import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 
@@ -77,4 +78,11 @@ public interface Window {
      * Created by malinocr on 10/17/2016
      */
     public void setSelectedDataSet(GraphableData data);
+
+    /**
+     * Updates the graph's axis
+     * @param x new x axis
+     * @param y new y axis
+     */
+    public void updateGraphAxis(Axis x, Axis y);
 }

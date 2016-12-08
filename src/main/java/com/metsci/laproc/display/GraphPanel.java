@@ -2,6 +2,7 @@ package com.metsci.laproc.display;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
+import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.GraphableData;
 
 import javax.swing.*;
@@ -54,5 +55,15 @@ public class GraphPanel extends JPanel{
     public void updateGraph() {
         canvas.removeAllLayouts();
         canvas.addLayout(graphDisplayer.getLayout());
+    }
+
+    /**
+     * Updates the x and y axis of the displayer
+     * @param x new x axis
+     * @param y new y axis
+     */
+    public void updateGraphAxis(Axis x, Axis y){
+        graphDisplayer.setXAxis(x);
+        graphDisplayer.setYAxis(y);
     }
 }
