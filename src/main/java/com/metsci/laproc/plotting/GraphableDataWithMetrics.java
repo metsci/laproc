@@ -146,6 +146,31 @@ public class GraphableDataWithMetrics implements GraphableData{
         return graphPoint;
     }
 
+    public GraphPoint getXDataPoint(double x) {
+        //Find the closest point in the set
+        ClassifierSetPoint closest = points.get(0);
+        double closestDistance = Math.abs(x - this.xAxisMetric.getMetric(closest));
+        double currentDistance;
+        for(int i = 0; i < this.getSize(); i++) {
+            currentDistance = Math.abs(x - this.xAxisMetric.getMetric(points.get(i)));
+            if(currentDistance < closestDistance) { // This point is closer than the last closest point
+                closestDistance = currentDistance;
+                closest = points.get(i);
+            }
+        }
+
+        // Now that the closest point has been found, construct a point object to pass back
+        SimpleGraphPoint graphPoint = new SimpleGraphPoint(xAxisMetric.getMetric(closest),
+                yAxisMetric.getMetric(closest));
+        // Add all additional statistics/analytics
+        for(Metric m : this.pointStatistics) {
+            graphPoint.addStatistic(m.getDescriptor(), m.getMetric(closest));
+        }
+
+        // Return the graph point
+        return graphPoint;
+    }
+
     /**
      * Helper method to find the distance between two points
      * @param point The classifiersetpoint used to calculate the first point
