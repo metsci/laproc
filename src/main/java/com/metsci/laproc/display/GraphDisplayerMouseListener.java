@@ -95,7 +95,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
         GraphableData data = graph.getSelectedData();
-        GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+        GraphPoint point = data.getXDataPoint(glimpseMouseEvent.getAxisCoordinatesX());
         Map<String, Double> values = point.getAnalytics();
         //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
         window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{values.get(ROCCurve.tpString), values.get(ROCCurve.fpString)},

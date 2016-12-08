@@ -49,6 +49,13 @@ public interface GraphableData {
     public GraphPoint getDataPoint(double x, double y);
 
     /**
+     * Gets the graph point closest to the given x value
+     * @param x The given x value
+     * @return The closest graph point to the given value
+     */
+    public GraphPoint getXDataPoint(double x);
+
+    /**
      * Gets the list of metrics that can be used as axes for this data
      * @return The list of metrics that can be used as axes for this data
      */

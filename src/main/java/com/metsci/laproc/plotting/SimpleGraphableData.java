@@ -168,6 +168,24 @@ public class SimpleGraphableData implements GraphableData {
         return graphPoint;
     }
 
+    public GraphPoint getXDataPoint(double x) {
+        //Find the closest point in the set
+        int closestIndex = 0;
+        double closestDistance = Math.abs(x - xValues[0]);
+        double currentDistance;
+        for(int i = 0; i < this.getSize(); i++) {
+            currentDistance = Math.abs(x - xValues[i]);
+            if(currentDistance < closestDistance) { // This point is closer than the last closest point
+                closestDistance = currentDistance;
+                closestIndex = i;
+            }
+        }
+
+        // Now that the closest point has been found, construct a point object to pass back
+        SimpleGraphPoint graphPoint = new SimpleGraphPoint(xValues[closestIndex], yValues[closestIndex]);
+        return graphPoint;
+    }
+
     /**
      * Returns a list of axes on which this data may be plotted
      * @return A list of axes on which this data may be plotted
