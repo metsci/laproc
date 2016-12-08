@@ -1,5 +1,6 @@
 package com.metsci.laproc.display;
 
+import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.GraphableData;
 
 import java.awt.event.ActionEvent;
@@ -33,6 +34,9 @@ public class UpdateAxesActionListener implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         this.data.useAxes(this.options.getSelectedXAxis(), this.options.getSelectedYAxis());
+        Axis newXAxis = MetricAxisFactory.createAxis(this.options.getSelectedXAxis());
+        Axis newYAxis = MetricAxisFactory.createAxis(this.options.getSelectedYAxis());
+        this.window.updateGraphAxis(newXAxis, newYAxis);
         this.window.repaintGraph();
     }
 }

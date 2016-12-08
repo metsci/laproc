@@ -139,4 +139,20 @@ public class GraphDisplayer implements GlimpseLayoutProvider
     public void setSelectedDataSet(GraphableData data){
         this.graph.setSelectedData(data);
     }
+
+    /**
+     * Sets graph's x axis
+     * @param xAxis new x axis
+     */
+    public void setXAxis(Axis xAxis){
+        this.graph.setXAxis(xAxis);
+    }
+
+    /**
+     * Sets graph's y axis
+     * @param yAxis new y axis
+     */
+    public void setYAxis(Axis yAxis){
+        this.graph.setYAxis(yAxis);
+    }
 }

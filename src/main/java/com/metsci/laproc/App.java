@@ -19,7 +19,7 @@ import java.io.IOException;
 public class App {
 	public static void main( String[] args )
     {
-        BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
+        BasicGraph graph = new BasicGraph(new Axis(0, 1, "False Positive Rate"), new Axis(0, 1, "True Positive Rate"));
         ClassifierDataSet importData = importData();
         GraphableFunction func = new ROCCurve(importData);
         GraphableData graphableData = func.compute();
