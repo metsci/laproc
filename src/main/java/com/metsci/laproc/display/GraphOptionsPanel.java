@@ -53,7 +53,7 @@ public class GraphOptionsPanel extends JPanel{
      * @param graph
      */
     public void populateOptions(Graph graph) {
-       Collection<ParametricFunction> metrics = graph.getAxes();
+       Iterable<ParametricFunction> metrics = graph.getAxes();
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();

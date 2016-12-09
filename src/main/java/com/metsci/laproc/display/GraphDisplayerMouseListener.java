@@ -9,6 +9,7 @@ import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.ROCCurve;
+import com.metsci.laproc.pointmetrics.MetricDescriptionConstants;
 import javafx.scene.shape.Circle;
 
 import java.awt.geom.Point2D;
@@ -98,8 +99,11 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
         Map<String, Double> values = point.getAnalytics();
         //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
-        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{values.get(ROCCurve.tpString), values.get(ROCCurve.fpString)},
-                new double[]{values.get(ROCCurve.tnString), values.get(ROCCurve.fnString)});
+        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{
+                values.get(MetricDescriptionConstants.truePositives),
+                values.get(MetricDescriptionConstants.falsePositives)},
+                new double[]{values.get(MetricDescriptionConstants.trueNegatives),
+                        values.get(MetricDescriptionConstants.falseNegatives)});
 
         window.getPointInfoPanel().update(point);
         window.repaint();

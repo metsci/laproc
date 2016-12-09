@@ -2,8 +2,6 @@ package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
-import java.util.Collection;
-
 /**
  * This interface represents a graph with customizable axes that can be rendered with Glimpse.
  * Created by robinsat on 9/19/2016.
@@ -74,13 +72,13 @@ public interface Graph {
      * Getter for all of the graphable data associated with this graph
      * @return The graphable data associated with this graph
      */
-    public Iterable<GraphableData> getData();
+    Iterable<GraphableData> getData();
 
     /**
      * Returns a list of all possible axes to use for this graph
      * @return The list of axes that can be used for this graph
      */
-    public Collection<ParametricFunction> getAxes();
+    Iterable<ParametricFunction> getAxes();
 
     /**
      * Sets all GraphableData sets on this graph to use the same set of axes

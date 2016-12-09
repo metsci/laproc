@@ -4,22 +4,14 @@ import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.pointmetrics.*;
 
-import java.util.Collection;
-
 /**
  * The function to compute a ROC curve
  * Created by robinsat on 9/20/2016.
  */
 public class ROCCurve implements GraphableFunction {
 
-    public static final String tpString = "True Positives";
-    public static final String fpString = "False Positives";
-    public static final String tnString = "True Negatives";
-    public static final String fnString = "False Negatives";
-
     /** The default number of points */
     private static final int NUMPOINTS = 100;
-    private GraphOptions options;
 
     /** A classified data set to be displayed as a ROCCurve */
     private ClassifierDataSet input;
@@ -102,13 +94,6 @@ public class ROCCurve implements GraphableFunction {
         }
         // Create a point with the resulting values
         return new ClassifierSetPoint(threshold, truePositives, trueNegatives, falsePositives, falseNegatives);
-
-    }
-
-    public Collection<ParametricFunction> getAllFunctions() {
-        return null;
-    }
-    public void useFunctions(ParametricFunction xAxis, ParametricFunction yAxis) {
 
     }
 
