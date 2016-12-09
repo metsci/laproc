@@ -89,6 +89,25 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
     }
 
     /**
+     * Gets an axis that represents the maximum and minimum x values
+     * @return An axis that represents the maximum and minimum x values
+     */
+    public Axis getXBounds() {
+        double[] x = getXValues();
+        return new BasicAxis(x[0], x[x.length - 1], xAxisMetric.getDescriptor());
+    }
+
+    /**
+     * Gets an axis that represents the maximum and minimum x values
+     * @return An axis that represents the maximum and minimum x values
+     */
+    public Axis getYBounds() {
+        double[] y = getYValues();
+        Arrays.sort(y);
+        return new BasicAxis(y[0], y[y.length - 1], yAxisMetric.getDescriptor());
+    }
+
+    /**
      * Add a point to this data set
      * @param pt The point to add
      */

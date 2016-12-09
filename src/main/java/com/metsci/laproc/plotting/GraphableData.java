@@ -35,6 +35,18 @@ public interface GraphableData<T> {
     double[] getYValues();
 
     /**
+     * Gets an axis that represents the maximum and minimum x values
+     * @return An axis that represents the maximum and minimum x values
+     */
+    Axis getXBounds();
+
+    /**
+     * Gets an axis that represents the maximum and minimum x values
+     * @return An axis that represents the maximum and minimum x values
+     */
+    Axis getYBounds();
+
+    /**
      * Gets the number of points in this data set
      * @return The number of points in this data set
      */

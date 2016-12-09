@@ -109,6 +109,22 @@ public class BasicGraphableData implements GraphableData<Double> {
     }
 
     /**
+     * Gets an axis that represents the maximum and minimum x values
+     * @return An axis that represents the maximum and minimum x values
+     */
+    public Axis getXBounds() {
+        return new BasicAxis(0, 1);
+    }
+
+    /**
+     * Gets an axis that represents the maximum and minimum x values
+     * @return An axis that represents the maximum and minimum x values
+     */
+    public Axis getYBounds() {
+        return new BasicAxis(0, 1);
+    }
+
+    /**
      * Adds a point to the set of values
      * @param x The x value of the added point
      * @param y The y value of the added point
