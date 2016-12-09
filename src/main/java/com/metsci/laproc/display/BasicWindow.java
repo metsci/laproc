@@ -74,9 +74,9 @@ public class BasicWindow implements Window{
     /**
      * sets up the GraphOptions that will be added to the display
      */
-    public void showGraphOptions(GraphableData data) {
+    public void showGraphOptions(Graph graph) {
         this.optionsPanel = new GraphOptionsPanel(this);
-        this.optionsPanel.populateOptions(data);
+        this.optionsPanel.populateOptions(graph);
     }
 
     /**
@@ -118,7 +118,7 @@ public class BasicWindow implements Window{
 
     public void setSelectedDataSet (GraphableData data){
         this.graphPanel.setSelectedDataSet(data);
-        this.optionsPanel.populateOptions(data);
+       // this.optionsPanel.populateOptions(data);
     }
 
     /**

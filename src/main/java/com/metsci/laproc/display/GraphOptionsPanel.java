@@ -49,17 +49,17 @@ public class GraphOptionsPanel extends JPanel{
     }
 
     /**
-     * Updates the combo boxes with the metrics from graphable datas
-     * @param data
+     * Updates the combo boxes with the metrics from the graph
+     * @param graph
      */
-    public void populateOptions(GraphableData data) {
-        List<ParametricFunction> metrics = data.getAxes();
+    public void populateOptions(Graph graph) {
+       Collection<ParametricFunction> metrics = graph.getAxes();
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();
         }
 
-        UpdateAxesActionListener listener = new UpdateAxesActionListener(data, this, window);
+        UpdateAxesActionListener listener = new UpdateAxesActionListener(graph, this, window);
         this.updateButton.addActionListener(listener);
 
         Iterator<ParametricFunction> metricIterator = metrics.iterator();
