@@ -135,13 +135,12 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
         double closestDistance = findDistance(closest, x);
         double currentDistance;
         for(T p : points) {
-        for(int i = 0; i < this.getSize(); i++) {
             currentDistance = findDistance(p, x);
             if(currentDistance < closestDistance) { // This point is closer than the last closest point
                 closestDistance = currentDistance;
                 closest = p;
             }
-        }}
+        }
 
         // Now that the closest point has been found, construct a point object to pass back
         BasicGraphPoint graphPoint = new BasicGraphPoint(xAxisMetric.compute(closest),
@@ -163,7 +162,7 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
      */
     private double findDistance(T point, double x) {
         double pointX = this.xAxisMetric.compute(point);
-        return pointX - x;
+        return Math.abs(pointX - x);
     }
 
     /**
