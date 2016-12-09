@@ -9,44 +9,37 @@ import java.util.*;
  * Represents a set of graphable data that may be plotted on different axes
  * Created by robinsat on 10/25/2016.
  */
-public class GraphableDataWithMetrics implements GraphableData{
+public class GraphableDataWithMetrics<T> implements GraphableData<T>{
 
     /** The displayable name of this set of data */
     private String name;
     /** The metric to use for the x axis */
-    private ParametricFunction xAxisMetric;
+    private ParametricFunction<T> xAxisMetric;
     /** The metric to use for the y axis */
-    private ParametricFunction yAxisMetric;
+    private ParametricFunction<T> yAxisMetric;
     /** All possible metrics that may be used for this data set */
-    private List<ParametricFunction> axes;
+    private List<ParametricFunction<T>> axes;
     /** All metrics that will be used to generate displayable statistics for each GraphPoint */
-    private List<ParametricFunction> pointStatistics;
+    private List<ParametricFunction<T>> pointStatistics;
 
-    /** Tha actual data, stored as ClassifierSetPoints. The x and y values can all be derived from this data */
-    private SortedSet<ClassifierSetPoint> points;
-
-    /**
-     * Default Constructor
-     */
-    public GraphableDataWithMetrics() {
-        this("");
-    }
+    /** Tha actual data, stored as some type T The x and y values can all be derived from this data */
+    private SortedSet<T> points;
 
     /**
      * Constructor
      * @param name The name to give to this set of data
      */
-    public GraphableDataWithMetrics(String name) {
+    public GraphableDataWithMetrics(String name, ParametricFunction<T> defaultXMetric,
+                                    ParametricFunction<T> defaultYMetric) {
         this.name = name;
-        this.axes = new ArrayList<ParametricFunction>();
-        this.pointStatistics = new ArrayList<ParametricFunction>();
+        this.axes = new ArrayList<ParametricFunction<T>>();
+        this.pointStatistics = new ArrayList<ParametricFunction<T>>();
+        this.xAxisMetric = defaultXMetric;
+        this.yAxisMetric = defaultYMetric;
 
-        //TODO This is the default for a ROC curve. Eventually, the default behavior should be established in settings
-        this.xAxisMetric = new FalsePositiveRate();
-        this.yAxisMetric = new TruePositiveRate();
         this.axes.add(this.xAxisMetric);
         this.axes.add(this.yAxisMetric);
-        this.points = new TreeSet<ClassifierSetPoint>(new MetricComparator<ClassifierSetPoint>(this.xAxisMetric));
+        this.points = new TreeSet<T>(new MetricComparator<T>(this.xAxisMetric));
     }
 
     /**
@@ -86,9 +79,9 @@ public class GraphableDataWithMetrics implements GraphableData{
      * @param m The metric to use for this data
      * @return A set of doubles based on the metrivc's calculations
      */
-    private double[] getDataForMetric(ParametricFunction m) {
+    private double[] getDataForMetric(ParametricFunction<T> m) {
         double[] values = new double[this.getSize()];
-        Iterator<ClassifierSetPoint> iter = points.iterator();
+        Iterator<T> iter = points.iterator();
         for(int i = 0; i < values.length; i++) {
             values[i] = m.compute(iter.next());
         }
@@ -96,10 +89,10 @@ public class GraphableDataWithMetrics implements GraphableData{
     }
 
     /**
-     * Add a point to this data set based on the classifier data
+     * Add a point to this data set
      * @param pt The point to add
      */
-    protected void addClassifierSetPoint(ClassifierSetPoint pt) {
+    protected void addDataPoint(T pt) {
         this.points.add(pt);
     }
 
@@ -119,12 +112,12 @@ public class GraphableDataWithMetrics implements GraphableData{
      */
     public GraphPoint getDataPoint(double x, double y) {
         //Find the closest point in the set
-        ClassifierSetPoint closest = points.iterator().next();
-        double closestDistance = findDistance(closest, x, y);
+        T closest = points.iterator().next();
+        double closestDistance = findDistance(closest, x);
         double currentDistance;
-        for(ClassifierSetPoint p : points) {
+        for(T p : points) {
         for(int i = 0; i < this.getSize(); i++) {
-            currentDistance = findDistance(p, x, y);
+            currentDistance = findDistance(p, x);
             if(currentDistance < closestDistance) { // This point is closer than the last closest point
                 closestDistance = currentDistance;
                 closest = p;
@@ -135,7 +128,7 @@ public class GraphableDataWithMetrics implements GraphableData{
         BasicGraphPoint graphPoint = new BasicGraphPoint(xAxisMetric.compute(closest),
                 yAxisMetric.compute(closest));
         // Add all additional statistics/analytics
-        for(ParametricFunction m : this.pointStatistics) {
+        for(ParametricFunction<T> m : this.pointStatistics) {
             graphPoint.addStatistic(m.getDescriptor(), m.compute(closest));
         }
 
@@ -145,22 +138,20 @@ public class GraphableDataWithMetrics implements GraphableData{
 
     /**
      * Helper method to find the distance between two points
-     * @param point The classifiersetpoint used to calculate the first point
+     * @param point The point used to calculate the first point
      * @param x The x value of the second point
-     * @param y The y value of the second point
      * @return The distance between the two points
      */
-    private double findDistance(ClassifierSetPoint point, double x, double y) {
+    private double findDistance(T point, double x) {
         double pointX = this.xAxisMetric.compute(point);
-        double pointY = this.yAxisMetric.compute(point);
-        return Point2D.distance(pointX, pointY, x, y);
+        return pointX - x;
     }
 
     /**
      * Returns a list of axes on which this data can be plotted
      * @return A list of axes on which this data can be plotted
      */
-    public List<ParametricFunction> getAxes() {
+    public List<ParametricFunction<T>> getAxes() {
         return Collections.unmodifiableList(this.axes);
     }
 
@@ -168,7 +159,7 @@ public class GraphableDataWithMetrics implements GraphableData{
      * Adds a metric to this list of axis possibilities. Accessible within the package.
      * @param m The axis to add
      */
-    protected void addAxisMetric(ParametricFunction m) {
+    protected void addAxisMetric(ParametricFunction<T> m) {
         this.axes.add(m);
     }
 
@@ -177,7 +168,7 @@ public class GraphableDataWithMetrics implements GraphableData{
      * This metrics are for display purposes only
      * @param m The metric to add
      */
-    protected void addStatisticMetric(ParametricFunction m) {
+    protected void addStatisticMetric(ParametricFunction<T> m) {
         this.pointStatistics.add(m);
     }
 
@@ -186,12 +177,11 @@ public class GraphableDataWithMetrics implements GraphableData{
      * @param xAxis The metric to use for the x axis
      * @param yAxis The metric to use for the y axis
      */
-    public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
+    public void useAxes(ParametricFunction<T> xAxis, ParametricFunction<T> yAxis) {
         this.xAxisMetric = xAxis;
         this.yAxisMetric = yAxis;
 
-        SortedSet<ClassifierSetPoint> resort = new TreeSet<ClassifierSetPoint>(
-                new MetricComparator<ClassifierSetPoint>(xAxis));
+        SortedSet<T> resort = new TreeSet<T>(new MetricComparator<T>(xAxis));
         resort.addAll(this.points);
         this.points = resort;
     }

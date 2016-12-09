@@ -11,7 +11,7 @@ import java.util.List;
  * Represents a continuous line that can be represented on a graph.
  * Created by robinsat on 9/20/2016.
  */
-public class BasicGraphableData implements GraphableData {
+public class BasicGraphableData implements GraphableData<Double> {
 
     //Fields
     /** The name of this set of data */
@@ -173,8 +173,8 @@ public class BasicGraphableData implements GraphableData {
      * Returns a list of axes on which this data may be plotted
      * @return A list of axes on which this data may be plotted
      */
-    public List<ParametricFunction> getAxes() {
-        return new ArrayList<ParametricFunction>();
+    public List<ParametricFunction<Double>> getAxes() {
+        return new ArrayList<ParametricFunction<Double>>();
     }
 
     /**

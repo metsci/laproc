@@ -37,7 +37,8 @@ public class ROCCurve implements GraphableFunction {
      * @return The plottable data set representing this curve
      */
     public GraphableData compute() {
-        GraphableDataWithMetrics out = new GraphableDataWithMetrics("ROC Curve");
+        GraphableDataWithMetrics<ClassifierSetPoint> out = new GraphableDataWithMetrics<ClassifierSetPoint>("ROC Curve",
+                new FalsePositiveRate(), new TruePositiveRate());
 
         // Metrics that must be calculated for each point in the data set
         double interval = 1.0 / NUMPOINTS;
@@ -46,7 +47,7 @@ public class ROCCurve implements GraphableFunction {
         //Iterate over all points in the set to compute the values for each point
         for(int i = 0; i < NUMPOINTS; i++) {
             cutpoint += interval;
-            out.addClassifierSetPoint(createPointAtThreshold(input, cutpoint));
+            out.addDataPoint(createPointAtThreshold(input, cutpoint));
         }
 
         // Populate the list of metrics that can be used as axes
