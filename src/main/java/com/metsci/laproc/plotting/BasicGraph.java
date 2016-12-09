@@ -1,7 +1,8 @@
 package com.metsci.laproc.plotting;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
+
+import java.util.*;
 
 import java.lang.IllegalArgumentException;
 
@@ -19,6 +20,10 @@ public class BasicGraph implements Graph {
     private Axis yAxis;
     /** The Z axis of the graph */
     private Axis zAxis;
+
+    private ParametricFunction xAxisMetric;
+    private ParametricFunction yAxisMetric;
+    private ParametricFunction zAxisMetric;
 
     /** Selected data set */
     private GraphableData selectedData;
@@ -70,7 +75,20 @@ public class BasicGraph implements Graph {
      * @return the X axis
      */
     public Axis getXAxis() {
-        return this.xAxis;
+        if(xAxisMetric == null) {
+            return this.xAxis;
+        }
+
+        double xMin = 0;
+        double xMax = 1;
+        for(GraphableData d : this.data) {
+            Axis bounds = d.getXBounds();
+            if(bounds.getMin() < xMin)
+                xMin = bounds.getMin();
+            if(bounds.getMax() > xMax)
+                xMax = bounds.getMax();
+        }
+        return new BasicAxis(xMin, xMax, xAxisMetric.getDescriptor());
     }
 
     /**
@@ -78,7 +96,19 @@ public class BasicGraph implements Graph {
      * @return the Y axis
      */
     public Axis getYAxis() {
-        return this.yAxis;
+        if(yAxisMetric == null) {
+            return this.yAxis;
+        }
+        double yMin = 0;
+        double yMax = 1;
+        for(GraphableData d : this.data) {
+            Axis bounds = d.getYBounds();
+            if(bounds.getMin() < yMin)
+                yMin = bounds.getMin();
+            if(bounds.getMax() > yMax)
+                yMax = bounds.getMax();
+        }
+        return new BasicAxis(yMin, yMax, yAxisMetric.getDescriptor());
     }
 
     /**
@@ -141,6 +171,22 @@ public class BasicGraph implements Graph {
     }
 
     /**
+     * Returns a list of all possible axes to use for this graph
+     * @return The list of axes that can be used for this graph
+     */
+    public Collection<ParametricFunction> getAxes() {
+        // This implementation uses a map to easily union all possible axes
+        Map<String, ParametricFunction> functionUnion = new HashMap<String, ParametricFunction>();
+        for(GraphableData d : this.data) {
+            List<ParametricFunction> axisFunctions = d.getAxes();
+            for(ParametricFunction f : axisFunctions) {
+                functionUnion.put(f.getDescriptor(), f);
+            }
+        }
+        return functionUnion.values();
+    }
+
+    /**
      * Adds a graphable data item
      * @param dat The data to add
      */
@@ -148,6 +194,19 @@ public class BasicGraph implements Graph {
         this.data.add(dat);
         if(selectedData == null){
             this.selectedData = dat;
+        }
+    }
+
+    /**
+     * Sets all GraphableData sets on this graph to use the same set of axes
+     * @param xAxis The function to use for the X Axis
+     * @param yAxis The function to use for the Y Axis
+     */
+    public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
+        this.xAxisMetric = xAxis;
+        this.yAxisMetric = yAxis;
+        for(GraphableData d : this.data) {
+            d.useAxes(xAxis, yAxis);
         }
     }
 }
