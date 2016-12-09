@@ -29,7 +29,7 @@ public class BasicGraph implements Graph {
      * Default constructor
      */
     public BasicGraph() {
-        this("", new Axis(0, 1), new Axis(0, 1), new Axis(0, 1));
+        this("", new BasicAxis(0, 1), new BasicAxis(0, 1), new BasicAxis(0, 1));
     }
 
     /**

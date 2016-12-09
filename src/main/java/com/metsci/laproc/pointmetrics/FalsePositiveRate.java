@@ -11,7 +11,7 @@ public class FalsePositiveRate implements Metric {
      * @param point The point for which to calculate the false positive rate
      * @return The false positive rate
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         return ((double) point.getFalsePositives()) / point.getNumNegatives();
     }
 

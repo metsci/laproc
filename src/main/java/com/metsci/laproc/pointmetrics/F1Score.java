@@ -11,7 +11,7 @@ public class F1Score implements Metric {
      * @param point The point for which to calculate the F1 score
      * @return The F1 score
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         double denominator = (2 * point.getTruePositives()) + point.getFalsePositives() + point.getFalseNegatives();
         return (2.0 * point.getTruePositives()) / denominator;
     }

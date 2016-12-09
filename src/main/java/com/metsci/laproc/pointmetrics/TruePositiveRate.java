@@ -11,7 +11,7 @@ public class TruePositiveRate implements Metric {
      * @param point A point for which to find the true positive rate
      * @return The true positive rate
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         return ((double) point.getTruePositives()) / point.getNumPositives();
     }
 

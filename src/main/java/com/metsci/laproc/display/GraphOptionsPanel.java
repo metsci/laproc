@@ -4,6 +4,7 @@ import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.pointmetrics.Metric;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ public class GraphOptionsPanel implements ITool, Observer{
     private JPanel panel;
     private JComboBox xaxis;
     private JComboBox yaxis;
-    private Map<String, Metric> metricsMap;
+    private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
     private Window window;
     private GraphableData data;
@@ -31,7 +32,7 @@ public class GraphOptionsPanel implements ITool, Observer{
         this.data = data;
         this.panel = new JPanel();
         this.window = window;
-        this.metricsMap = new HashMap<String, Metric>();
+        this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
         this.xaxis.setName("X-Axis");
@@ -55,7 +56,7 @@ public class GraphOptionsPanel implements ITool, Observer{
      * Updates the combo boxes with the metrics from graphable datas
      */
     public void populateOptions() {
-        List<Metric> metrics = data.getAxes();
+        List<ParametricFunction> metrics = data.getAxes();
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();
@@ -64,9 +65,9 @@ public class GraphOptionsPanel implements ITool, Observer{
         UpdateAxesActionListener listener = new UpdateAxesActionListener(data, this, window);
         this.updateButton.addActionListener(listener);
 
-        Iterator<Metric> metricIterator = metrics.iterator();
+        Iterator<ParametricFunction> metricIterator = metrics.iterator();
         while(metricIterator.hasNext()) {
-            Metric temp = metricIterator.next();
+            ParametricFunction temp = metricIterator.next();
             if(!metricsMap.containsKey(temp.getDescriptor())) {
                 this.xaxis.addItem(temp.getDescriptor());
                 this.yaxis.addItem(temp.getDescriptor());
@@ -86,7 +87,7 @@ public class GraphOptionsPanel implements ITool, Observer{
      * Gets the appropriate matric based on the currently selected item
      * @return
      */
-    public Metric getSelectedXAxis() {
+    public ParametricFunction getSelectedXAxis() {
         return this.metricsMap.get(this.xaxis.getSelectedItem());
     }
 
@@ -94,7 +95,7 @@ public class GraphOptionsPanel implements ITool, Observer{
      * Gets the appropriate matric based on the currently selected item
      * @return
      */
-    public Metric getSelectedYAxis() {
+    public ParametricFunction getSelectedYAxis() {
         return this.metricsMap.get(this.yaxis.getSelectedItem());
     }
 

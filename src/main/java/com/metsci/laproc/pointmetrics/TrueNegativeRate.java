@@ -11,7 +11,7 @@ public class TrueNegativeRate implements Metric {
      * @param point The point for which to calculate the true negative rate
      * @return The true negative rate
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         return ((double) point.getTrueNegatives()) / point.getNumNegatives();
     }
 

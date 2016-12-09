@@ -54,4 +54,12 @@ public class GraphPanel implements ITool, Observer{
     public void update(Observable o, Object arg) {
 
     }
+
+    /**
+     * Updates the displayed graph
+     */
+    public void updateGraph() {
+        canvas.removeAllLayouts();
+        canvas.addLayout(graphDisplayer.getLayout());
+    }
 }

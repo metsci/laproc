@@ -13,7 +13,7 @@ public class TruePositives implements Metric{
      * @param point The point for which to find the true positives
      * @return The number of true positives
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         return point.getTruePositives();
     }
 
