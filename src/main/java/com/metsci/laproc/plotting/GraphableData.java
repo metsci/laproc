@@ -53,12 +53,12 @@ public interface GraphableData {
      * Gets the list of metrics that can be used as axes for this data
      * @return The list of metrics that can be used as axes for this data
      */
-   /// public List<ParametricFunction> getAxes();
+    public List<ParametricFunction> getAxes();
 
     /**
      * Sets the x axis and y axis to the specified metrics
      * @param xAxis The metric to use for the x axis
      * @param yAxis The metric to use for the y axis
      */
-  //  public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis);
+    public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis);
 }

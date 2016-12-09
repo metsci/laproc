@@ -173,7 +173,7 @@ public class BasicGraphableData implements GraphableData {
      * Returns a list of axes on which this data may be plotted
      * @return A list of axes on which this data may be plotted
      */
-  /*  public List<ParametricFunction> getAxes() {
+    public List<ParametricFunction> getAxes() {
         return new ArrayList<ParametricFunction>();
     }
 
@@ -182,8 +182,8 @@ public class BasicGraphableData implements GraphableData {
      * @param xAxis The metric to use for the x axis
      * @param yAxis The metric to use for the y axis
      */
-   /* public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
+    public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
        //For now, do nothing.
-    } */
+    }
 
 }

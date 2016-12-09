@@ -36,11 +36,10 @@ public class DataSetTable extends JTable{
 
     /**
      * Adds a data set
-     * @param dataSetName name of the data set
      * @param dataSet data set to add
      */
-    public void addDataSet(String dataSetName, GraphableData dataSet){
-        this.model.addRow(new Object[]{dataSetName});
+    public void addDataSet(GraphableData dataSet){
+        this.model.addRow(new Object[]{dataSet.getName()});
         this.classList.add(dataSet);
     }
 
@@ -55,5 +54,14 @@ public class DataSetTable extends JTable{
             selectedValues.add(classList.get(index));
         }
         return selectedValues;
+    }
+
+    /**
+     * Gets the first selected data set
+     * @return first selected data set
+     */
+    public GraphableData getFirstSelectedValue(){
+        int[] selectedRows = this.getSelectedRows();
+        return classList.get(selectedRows[0]);
     }
 }

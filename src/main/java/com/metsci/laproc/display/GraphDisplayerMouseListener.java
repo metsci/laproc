@@ -34,27 +34,14 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      * General constructor for GraphDisplayerMouseListener
      * @param graph current graph that is being displayed
      * @param polygonPainter polygon painter for selection area
+     * @param window window the graph is displayed on
      */
-    public GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter){
-        this.graph = graph;
-        this.polygonPainter = polygonPainter;
-
-        //Set up coloring for selected area
-        this.polygonPainter.setFill(0,true);
-        float[] fillColor = GlimpseColor.fromColorRgb(0.6f,0.6f,0.6f);
-        //Make polygon transparent
-        fillColor[3] = 0.5f;
-        this.polygonPainter.setFillColor(0,fillColor);
-        this.polygonPainter.setShowLines(0,true);
-        float[] lineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
-        this.polygonPainter.setLineColor(0,lineColor);
-        this.polygonPainter.setLineWidth(0,2);
-    }
-
     public GraphDisplayerMouseListener(Graph graph, Window window, PolygonPainter polygonPainter){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
         this.window = window;
+
+        configurePolygonPainter();
     }
 
     public void mouseEntered(GlimpseMouseEvent glimpseMouseEvent) {
@@ -107,19 +94,35 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      */
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
-        for(GraphableData data : graph.getData()){
-            GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
-            Map<String, Double> values = point.getAnalytics();
-            //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
-           window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{values.get(ROCCurve.tpString), values.get(ROCCurve.fpString)},
-                    new double[]{values.get(ROCCurve.tnString), values.get(ROCCurve.fnString)});
+        GraphableData data = graph.getSelectedData();
+        GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+        Map<String, Double> values = point.getAnalytics();
+        //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
+        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{values.get(ROCCurve.tpString), values.get(ROCCurve.fpString)},
+                new double[]{values.get(ROCCurve.tnString), values.get(ROCCurve.fnString)});
 
-            window.getPointInfoPanel().update(point);
-            window.repaint();
-            System.out.println("X: " + point.getX() + " Y: " + point.getY());
-            ret = point.getX();
-        }
+        window.getPointInfoPanel().update(point);
+        window.repaint();
+        System.out.println("X: " + point.getX() + " Y: " + point.getY());
+        ret = point.getX();
+
         return ret;
+    }
+
+    /**
+     * Configures the polygon painter to have the correct selection settings
+     */
+    private void configurePolygonPainter(){
+        //Set up coloring for selected area
+        this.polygonPainter.setFill(0,true);
+        float[] fillColor = GlimpseColor.fromColorRgb(0.6f,0.6f,0.6f);
+        //Make polygon transparent
+        fillColor[3] = 0.5f;
+        this.polygonPainter.setFillColor(0,fillColor);
+        this.polygonPainter.setShowLines(0,true);
+        float[] lineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
+        this.polygonPainter.setLineColor(0,lineColor);
+        this.polygonPainter.setLineWidth(0,2);
     }
 
 }

@@ -19,14 +19,18 @@ public class App {
 	public static void main( String[] args )
     {
         BasicGraph graph = new BasicGraph(new BasicAxis(0, 1, "X Axis"), new BasicAxis(0, 1, "Y Axis"));
-        ClassifierDataSet data = importData();
-        GraphableFunction func = new ROCCurve(data);
-        graph.addData( func.compute());
+        ClassifierDataSet importData = importData();
+        GraphableFunction func = new ROCCurve(importData);
+        GraphableData graphableData = func.compute();
+        graphableData.setName("Initial Classifier Data Set");
+        graph.addData( graphableData);
+
         
         Window window = new BasicWindow();
+        window.showGraphOptions(graphableData);
         window.showGraph(graph);
-        window.showSpreadsheet(data);
-        window.showClass(data);
+        window.showSpreadsheet(importData);
+        window.showClass(graphableData);
         window.display();
     }
 
