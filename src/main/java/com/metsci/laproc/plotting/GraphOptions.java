@@ -3,7 +3,6 @@ package com.metsci.laproc.plotting;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * An interface representing a set of graph options
@@ -16,4 +15,5 @@ interface GraphOptions {
 
     Collection<ParametricFunction> getAllFunctions();
     void useFunctions(ParametricFunction xAxis, ParametricFunction yAxis);
+    void setNumPoints(int numPoints);
 }

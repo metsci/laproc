@@ -3,9 +3,7 @@ package com.metsci.laproc.plotting;
 import com.metsci.laproc.pointmetrics.*;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a set of graphable data that may be plotted on different axes
@@ -25,7 +23,7 @@ public class GraphableDataWithMetrics implements GraphableData{
     private List<ParametricFunction> pointStatistics;
 
     /** Tha actual data, stored as ClassifierSetPoints. The x and y values can all be derived from this data */
-    private List<ClassifierSetPoint> points;
+    private SortedSet<ClassifierSetPoint> points;
 
     /**
      * Default Constructor
@@ -42,13 +40,13 @@ public class GraphableDataWithMetrics implements GraphableData{
         this.name = name;
         this.axes = new ArrayList<ParametricFunction>();
         this.pointStatistics = new ArrayList<ParametricFunction>();
-        this.points = new ArrayList<ClassifierSetPoint>();
 
         //TODO This is the default for a ROC curve. Eventually, the default behavior should be established in settings
         this.xAxisMetric = new FalsePositiveRate();
         this.yAxisMetric = new TruePositiveRate();
         this.axes.add(this.xAxisMetric);
         this.axes.add(this.yAxisMetric);
+        this.points = new TreeSet<ClassifierSetPoint>(new MetricComparator<ClassifierSetPoint>(this.xAxisMetric));
     }
 
     /**
@@ -90,8 +88,9 @@ public class GraphableDataWithMetrics implements GraphableData{
      */
     private double[] getDataForMetric(ParametricFunction m) {
         double[] values = new double[this.getSize()];
+        Iterator<ClassifierSetPoint> iter = points.iterator();
         for(int i = 0; i < values.length; i++) {
-            values[i] = m.compute(points.get(i));
+            values[i] = m.compute(iter.next());
         }
         return values;
     }
@@ -120,16 +119,17 @@ public class GraphableDataWithMetrics implements GraphableData{
      */
     public GraphPoint getDataPoint(double x, double y) {
         //Find the closest point in the set
-        ClassifierSetPoint closest = points.get(0);
+        ClassifierSetPoint closest = points.iterator().next();
         double closestDistance = findDistance(closest, x, y);
         double currentDistance;
+        for(ClassifierSetPoint p : points) {
         for(int i = 0; i < this.getSize(); i++) {
-            currentDistance = findDistance(points.get(i), x, y);
+            currentDistance = findDistance(p, x, y);
             if(currentDistance < closestDistance) { // This point is closer than the last closest point
                 closestDistance = currentDistance;
-                closest = points.get(i);
+                closest = p;
             }
-        }
+        }}
 
         // Now that the closest point has been found, construct a point object to pass back
         BasicGraphPoint graphPoint = new BasicGraphPoint(xAxisMetric.compute(closest),
@@ -189,6 +189,11 @@ public class GraphableDataWithMetrics implements GraphableData{
     public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
         this.xAxisMetric = xAxis;
         this.yAxisMetric = yAxis;
+
+        SortedSet<ClassifierSetPoint> resort = new TreeSet<ClassifierSetPoint>(
+                new MetricComparator<ClassifierSetPoint>(xAxis));
+        resort.addAll(this.points);
+        this.points = resort;
     }
 
 }

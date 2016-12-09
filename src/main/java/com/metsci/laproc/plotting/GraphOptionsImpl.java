@@ -12,6 +12,7 @@ public abstract class GraphOptionsImpl implements GraphOptions {
 
     private ParametricFunction xAxis;
     private ParametricFunction yAxis;
+    private int numPoints;
 
     private Collection<ParametricFunction> functions;
 
@@ -34,6 +35,10 @@ public abstract class GraphOptionsImpl implements GraphOptions {
 
     protected void addFunction(ParametricFunction func) {
         this.functions.add(func);
+    }
+
+    public void setNumPoints(int numPoints) {
+        this.numPoints = numPoints;
     }
 
 }
