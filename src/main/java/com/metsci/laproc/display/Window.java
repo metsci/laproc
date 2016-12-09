@@ -34,26 +34,10 @@ public interface Window {
     public void showSpreadsheet(ClassifierDataSet data);
 
     /**
-     * Returns the graph Panel
-     */
-    public GraphPanel getGraphPanel();
-
-    /**
-     * Returns the confusion matrix panel
-     * @return
-     */
-    public ConfusionPanel getConfusionMatrixPanel();
-
-    /**
      * Returns the point info panel
      * @return
      */
     public PointInfoPanel getPointInfoPanel();
-
-    /**
-     * Forces a repaint of the frame and docker utility
-     */
-    public void repaint();
 
     /**
      * Forces graph panel to repaint based on current displayer

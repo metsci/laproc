@@ -2,14 +2,17 @@ package com.metsci.laproc.display;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
+import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.plotting.GraphableData;
 
 import javax.swing.*;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by porterjc on 9/26/2016.
  */
-public class GraphPanel extends JPanel{
+public class GraphPanel implements ITool, Observer{
     private NewtSwingGlimpseCanvas canvas;
     private GraphDisplayer graphDisplayer;
 
@@ -40,11 +43,15 @@ public class GraphPanel extends JPanel{
         return canvas;
     }
 
-    /**
-     * Sets the selected data set
-     * @param data data set to set
-     */
-    public void setSelectedDataSet(GraphableData data) {
-        this.graphDisplayer.setSelectedDataSet(data);
+    public void initialize() {
+
+    }
+
+    public View getView() {
+        return null;
+    }
+
+    public void update(Observable o, Object arg) {
+
     }
 }

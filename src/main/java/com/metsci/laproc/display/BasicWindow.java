@@ -41,7 +41,7 @@ public class BasicWindow implements Window{
 
         View sView = new View("Data", dataPanel, "Data", true);
         View cView = new View("Sets", classPanel, "Sets", true);
-        View oView = new View("Options", optionsPanel, "Options", true);
+        View oView = optionsPanel.getView();
         View gView = new View("Graph", graphPanel.getCanvas(), "Graph", true);
         View kView = new View("Confusion Matrix", conmatrixPanel, "Confusion Matrix", true);
         View pointView = new View("Point Analysis", pointInfoPanel, "Point Analysis", true);
@@ -76,8 +76,8 @@ public class BasicWindow implements Window{
      * sets up the GraphOptions that will be added to the display
      */
     public void showGraphOptions(GraphableData data) {
-        this.optionsPanel = new GraphOptionsPanel(this);
-        this.optionsPanel.populateOptions(data);
+        this.optionsPanel = new GraphOptionsPanel(this, data);
+        this.optionsPanel.initialize();
     }
 
     /**
@@ -95,14 +95,6 @@ public class BasicWindow implements Window{
      */
     public void showSpreadsheet(ClassifierDataSet data) {
         this.dataPanel.setDataSheet(data);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public GraphPanel getGraphPanel() {
-        return this.graphPanel;
     }
 
     /**
@@ -125,23 +117,7 @@ public class BasicWindow implements Window{
 
     public void setSelectedDataSet (GraphableData data){
         this.displayer.setSelectedDataSet(data);
-        this.optionsPanel.populateOptions(data);
-    }
-
-    /**
-     * Sets up a confusion matrix panel to be added to the display
-     * Creaded by porterjc on 9/22/2016
-     */
-    public void showConfusionMatrix() {
-        this.conmatrixPanel = new ConfusionPanel();
-    }
-
-    /**
-     * returns confusion matrix panel
-     * Creaded by porterjc on 9/22/2016
-     */
-    public ConfusionPanel getConfusionMatrixPanel() {
-        return conmatrixPanel;
+        this.optionsPanel.initialize();
     }
 
     /**
@@ -150,16 +126,6 @@ public class BasicWindow implements Window{
      */
     public PointInfoPanel getPointInfoPanel() {
         return pointInfoPanel;
-    }
-
-    /**
-     * Repaints and revalidates the window.
-      */
-    public void repaint(){
-
-        analyticstiles.revalidate();
-        analyticstiles.repaint();
-        frame.repaint();
     }
 
     public void repaintGraph(){
