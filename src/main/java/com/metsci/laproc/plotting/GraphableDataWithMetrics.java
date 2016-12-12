@@ -2,7 +2,6 @@ package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.pointmetrics.*;
 
-import java.awt.geom.Point2D;
 import java.util.*;
 
 /**
@@ -81,9 +80,10 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
      */
     private double[] getDataForMetric(ParametricFunction<T> m) {
         double[] values = new double[this.getSize()];
-        Iterator<T> iter = points.iterator();
-        for(int i = 0; i < values.length; i++) {
-            values[i] = m.compute(iter.next());
+        int count = 0;
+        for(T point : points) {
+            values[count] = m.compute(point);
+            count++;
         }
         return values;
     }
@@ -131,7 +131,7 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
      */
     public GraphPoint getDataPoint(double x, double y) {
         //Find the closest point in the set
-        T closest = points.iterator().next();
+        T closest = points.first();
         double closestDistance = findDistance(closest, x);
         double currentDistance;
         for(T p : points) {

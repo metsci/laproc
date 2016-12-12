@@ -25,7 +25,7 @@ public class ROCCurve implements GraphableFunction {
     }
 
     /**
-     * Compures the Receiver Operating Characteristic curve
+     * Computes the Receiver Operating Characteristic curve
      * @return The plottable data set representing this curve
      */
     public GraphableData compute() {

@@ -1,14 +1,11 @@
 package com.metsci.laproc.display;
 
 import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.pointmetrics.Metric;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * Panel for selecting graph options
@@ -53,7 +50,7 @@ public class GraphOptionsPanel extends JPanel{
      * @param graph
      */
     public void populateOptions(Graph graph) {
-       Iterable<ParametricFunction> metrics = graph.getAxes();
+       Iterable<ParametricFunction> metrics = graph.getAxisFunctions();
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();

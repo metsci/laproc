@@ -1,7 +1,6 @@
 package com.metsci.laproc.display;
 
 import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphableData;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +32,7 @@ public class UpdateAxesActionListener implements ActionListener {
      * @param e
      */
     public void actionPerformed(ActionEvent e) {
-        this.graph.useAxes(this.options.getSelectedXAxis(), this.options.getSelectedYAxis());
+        this.graph.useAxisFunctions(this.options.getSelectedXAxis(), this.options.getSelectedYAxis());
         this.window.repaintGraph();
     }
 }

@@ -78,13 +78,13 @@ public interface Graph {
      * Returns a list of all possible axes to use for this graph
      * @return The list of axes that can be used for this graph
      */
-    Iterable<ParametricFunction> getAxes();
+    Iterable<ParametricFunction> getAxisFunctions();
 
     /**
      * Sets all GraphableData sets on this graph to use the same set of axes
      * @param xAxis The function to use for the X Axis
      * @param yAxis The function to use for the Y Axis
      */
-    void useAxes(ParametricFunction xAxis, ParametricFunction yAxis);
+    void useAxisFunctions(ParametricFunction xAxis, ParametricFunction yAxis);
 
 }

@@ -34,7 +34,17 @@ public class BasicGraph implements Graph {
      * Default constructor
      */
     public BasicGraph() {
-        this("", new BasicAxis(0, 1), new BasicAxis(0, 1), new BasicAxis(0, 1));
+        this.title = "";
+        this.data = new ArrayList<GraphableData>();
+    }
+
+    /**
+     * Constructor
+     * @param title The title to give to this graph
+     */
+    public BasicGraph(String title) {
+        this();
+        this.title = title;
     }
 
     /**
@@ -54,12 +64,22 @@ public class BasicGraph implements Graph {
      * @param zAxis The z axis
      */
     public BasicGraph(String title, Axis xAxis, Axis yAxis, Axis zAxis) {
-        this.title = title;
+        this(title);
         this.xAxis = xAxis;
         this.yAxis = yAxis;
         this.zAxis = zAxis;
+    }
 
-        this.data = new ArrayList<GraphableData>();
+    /**
+     * Constructor
+     * @param title The title
+     * @param xAxisMetric The x axis function
+     * @param yAxisMetric The y axis function
+     */
+    public BasicGraph(String title, ParametricFunction xAxisMetric, ParametricFunction yAxisMetric) {
+        this(title);
+        this.xAxisMetric = xAxisMetric;
+        this.yAxisMetric = yAxisMetric;
     }
 
     /**
@@ -75,7 +95,10 @@ public class BasicGraph implements Graph {
      * @return the X axis
      */
     public Axis getXAxis() {
-        if(xAxisMetric == null) {
+        if(xAxisMetric == null ) {
+            if(this.xAxis == null) {
+                this.xAxis = new BasicAxis(0, 1);
+            }
             return this.xAxis;
         }
 
@@ -97,6 +120,9 @@ public class BasicGraph implements Graph {
      */
     public Axis getYAxis() {
         if(yAxisMetric == null) {
+            if(this.yAxis == null) {
+                this.yAxis = new BasicAxis(0, 1);
+            }
             return this.yAxis;
         }
         double yMin = 0;
@@ -151,6 +177,10 @@ public class BasicGraph implements Graph {
         this.zAxis = z;
     }
 
+    /**
+     * Selects a GraphableData object
+     * @param data the data to select
+     */
     public void setSelectedData (GraphableData data) {
         if(!this.data.contains(data)){
             throw new IllegalArgumentException();
@@ -158,6 +188,10 @@ public class BasicGraph implements Graph {
         this.selectedData = data;
     }
 
+    /**
+     * Gets the currently selected GraphableData
+     * @return the currently selected GraphableData
+     */
     public GraphableData getSelectedData(){
         return this.selectedData;
     }
@@ -174,7 +208,7 @@ public class BasicGraph implements Graph {
      * Returns a list of all possible axes to use for this graph
      * @return The list of axes that can be used for this graph
      */
-    public Collection<ParametricFunction> getAxes() {
+    public Collection<ParametricFunction> getAxisFunctions() {
         // This implementation uses a map to easily union all possible axes
         Map<String, ParametricFunction> functionUnion = new HashMap<String, ParametricFunction>();
         for(GraphableData d : this.data) {
@@ -202,7 +236,7 @@ public class BasicGraph implements Graph {
      * @param xAxis The function to use for the X Axis
      * @param yAxis The function to use for the Y Axis
      */
-    public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
+    public void useAxisFunctions(ParametricFunction xAxis, ParametricFunction yAxis) {
         this.xAxisMetric = xAxis;
         this.yAxisMetric = yAxis;
         for(GraphableData d : this.data) {
