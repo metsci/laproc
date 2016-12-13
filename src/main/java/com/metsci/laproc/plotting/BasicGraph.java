@@ -14,16 +14,16 @@ public class BasicGraph implements Graph {
 
     /** The title of the graph */
     private String title;
-    /** The X axis of the graph */
-    private Axis xAxis;
-    /** The Y axis of the graph */
-    private Axis yAxis;
-    /** The Z axis of the graph */
-    private Axis zAxis;
 
+    /** The metric to use for the x axis, if applicable */
     private ParametricFunction xAxisMetric;
+    /** The metric to use for the y axis, if applicable */
     private ParametricFunction yAxisMetric;
-    private ParametricFunction zAxisMetric;
+
+    /** Allows the user to provide a custom X Axis descriptor */
+    private String xAxisDescriptor;
+    /** Allows the user to provide a custom Y Axis descriptor */
+    private String yAxisDescriptor;
 
     /** Selected data set */
     private GraphableData selectedData;
@@ -34,8 +34,7 @@ public class BasicGraph implements Graph {
      * Default constructor
      */
     public BasicGraph() {
-        this.title = "";
-        this.data = new ArrayList<GraphableData>();
+        this("", null, null);
     }
 
     /**
@@ -43,31 +42,16 @@ public class BasicGraph implements Graph {
      * @param title The title to give to this graph
      */
     public BasicGraph(String title) {
-        this();
-        this.title = title;
+        this(title, null, null);
     }
 
     /**
      * Constructor
-     * @param xAxis The x axis
-     * @param yAxis The y axis
+     * @param xAxisMetric The x axis function
+     * @param yAxisMetric The y axis function
      */
-    public BasicGraph(Axis xAxis, Axis yAxis) {
-        this("", xAxis, yAxis, null);
-    }
-
-    /**
-     * Constructor
-     * @param title The title
-     * @param xAxis The x axis
-     * @param yAxis The y axis
-     * @param zAxis The z axis
-     */
-    public BasicGraph(String title, Axis xAxis, Axis yAxis, Axis zAxis) {
-        this(title);
-        this.xAxis = xAxis;
-        this.yAxis = yAxis;
-        this.zAxis = zAxis;
+    public BasicGraph(ParametricFunction xAxisMetric, ParametricFunction yAxisMetric) {
+        this("", xAxisMetric, yAxisMetric);
     }
 
     /**
@@ -77,9 +61,10 @@ public class BasicGraph implements Graph {
      * @param yAxisMetric The y axis function
      */
     public BasicGraph(String title, ParametricFunction xAxisMetric, ParametricFunction yAxisMetric) {
-        this(title);
+        this.title = title;
         this.xAxisMetric = xAxisMetric;
         this.yAxisMetric = yAxisMetric;
+        this.data = new ArrayList<GraphableData>();
     }
 
     /**
@@ -95,15 +80,9 @@ public class BasicGraph implements Graph {
      * @return the X axis
      */
     public Axis getXAxis() {
-        if(xAxisMetric == null ) {
-            if(this.xAxis == null) {
-                this.xAxis = new BasicAxis(0, 1);
-            }
-            return this.xAxis;
-        }
-
-        double xMin = 0;
-        double xMax = 1;
+        double xMin = 0; // The default lower bound
+        double xMax = 1; // The default upper bound
+        // Get the maximum and minimum bounds necessary to contain all of the data
         for(GraphableData d : this.data) {
             Axis bounds = d.getXBounds();
             if(bounds.getMin() < xMin)
@@ -111,7 +90,14 @@ public class BasicGraph implements Graph {
             if(bounds.getMax() > xMax)
                 xMax = bounds.getMax();
         }
-        return new BasicAxis(xMin, xMax, xAxisMetric.getDescriptor());
+        // Give a descriptor to this axis
+        String descriptor = "X Axis";
+        if(this.xAxisDescriptor != null)
+            descriptor = this.xAxisDescriptor;
+        else if(this.xAxisMetric != null)
+            descriptor = this.xAxisMetric.getDescriptor();
+
+        return new BasicAxis(xMin, xMax, descriptor);
     }
 
     /**
@@ -119,14 +105,9 @@ public class BasicGraph implements Graph {
      * @return the Y axis
      */
     public Axis getYAxis() {
-        if(yAxisMetric == null) {
-            if(this.yAxis == null) {
-                this.yAxis = new BasicAxis(0, 1);
-            }
-            return this.yAxis;
-        }
-        double yMin = 0;
-        double yMax = 1;
+        double yMin = 0; // The default lower bound
+        double yMax = 1; // The default upper bound
+        // Get the maximum and minimum bounds necessary to contain all of the data
         for(GraphableData d : this.data) {
             Axis bounds = d.getYBounds();
             if(bounds.getMin() < yMin)
@@ -134,15 +115,31 @@ public class BasicGraph implements Graph {
             if(bounds.getMax() > yMax)
                 yMax = bounds.getMax();
         }
-        return new BasicAxis(yMin, yMax, yAxisMetric.getDescriptor());
+
+        // Give a descriptor to this axis
+        String descriptor = "Y Axis";
+        if(this.yAxisDescriptor != null)
+            descriptor = this.yAxisDescriptor;
+        else if(this.yAxisMetric != null)
+            descriptor = this.yAxisMetric.getDescriptor();
+
+        return new BasicAxis(yMin, yMax, descriptor);
     }
 
     /**
-     * Getter for the graph's Z axis
-     * @return the Z axis
+     * Sets the X axis descriptor to the given string
+     * @param descriptor The string to set as the descriptor
      */
-    public Axis getZAxis() {
-        return this.zAxis;
+    public void setXAxisDescriptor(String descriptor) {
+        this.xAxisDescriptor = descriptor;
+    }
+
+    /**
+     * Sets the Y axis descriptor to the given string
+     * @param descriptor The string to set as the descriptor
+     */
+    public void setYAxisDescriptor(String descriptor) {
+        this.yAxisDescriptor = descriptor;
     }
 
     /**
@@ -151,30 +148,6 @@ public class BasicGraph implements Graph {
      */
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    /**
-     * Setter for the graph's X axis
-     * @param x the x axis to set
-     */
-    public void setXAxis(Axis x) {
-        this.xAxis = x;
-    }
-
-    /**
-     * Setter for the graph's Y axis
-     * @param y the Y axis to set
-     */
-    public void setYAxis(Axis y) {
-        this.yAxis = y;
-    }
-
-    /**
-     * Setter for the graph's Z axis
-     * @param z the Z axis to set
-     */
-    public void setZAxis(Axis z) {
-        this.zAxis = z;
     }
 
     /**

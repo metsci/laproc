@@ -27,34 +27,22 @@ public interface Graph {
     Axis getYAxis();
 
     /**
-     * Getter for the graph's Z axis
-     * @return the Z axis
+     * Sets the X axis descriptor to the given string
+     * @param descriptor The string to set as the descriptor
      */
-    Axis getZAxis();
+    void setXAxisDescriptor(String descriptor);
+
+    /**
+     * Sets the Y axis descriptor to the given string
+     * @param descriptor The string to set as the descriptor
+     */
+    void setYAxisDescriptor(String descriptor);
 
     /**
      * Setter for the graph's title
      * @param title the title to set
      */
     void setTitle(String title);
-
-    /**
-     * Setter for the graph's X axis
-     * @param x the x axis to set
-     */
-    void setXAxis(Axis x);
-
-    /**
-     * Setter for the graph's Y axis
-     * @param y the Y axis to set
-     */
-    void setYAxis(Axis y);
-
-    /**
-     * Setter for the graph's Z axis
-     * @param z the Z axis to set
-     */
-    void setZAxis(Axis z);
 
     /**
      * Setter for selected graph data

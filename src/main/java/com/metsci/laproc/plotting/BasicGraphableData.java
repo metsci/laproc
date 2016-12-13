@@ -24,7 +24,6 @@ public class BasicGraphableData implements GraphableData<Double> {
     public BasicGraphableData(String name) {
         this.name = name;
         this.points = new TreeSet<GraphPoint>(new XValueComparator());
-
     }
 
     /**
