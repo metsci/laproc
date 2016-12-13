@@ -3,16 +3,12 @@ package com.metsci.laproc.display;
 import com.metsci.glimpse.event.mouse.GlimpseMouseEvent;
 import com.metsci.glimpse.event.mouse.GlimpseMouseListener;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
-import com.metsci.glimpse.painter.shape.PolygonPainterSimple;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.plotting.ROCCurve;
 import com.metsci.laproc.pointmetrics.MetricDescriptionConstants;
-import javafx.scene.shape.Circle;
 
-import java.awt.geom.Point2D;
 import java.util.Map;
 
 /**

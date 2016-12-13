@@ -61,6 +61,20 @@ public interface GraphableData<T> {
     GraphPoint getDataPoint(double x, double y);
 
     /**
+     * Gets the point with the largest x less than the given x value
+     * @param x The given x value
+     * @return
+     */
+    GraphPoint getPointLessOrEqual(double x);
+
+    /**
+     * Gets the point with the smallest x greater than the given x value
+     * @param x The given x value
+     * @return
+     */
+    GraphPoint getPointGreaterOrEqual(double x);
+
+    /**
      * Gets the list of metrics that can be used as axes for this data
      * @return The list of metrics that can be used as axes for this data
      */

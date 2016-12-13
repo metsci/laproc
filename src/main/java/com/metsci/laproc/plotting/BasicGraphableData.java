@@ -134,6 +134,39 @@ public class BasicGraphableData implements GraphableData<Double> {
     }
 
     /**
+     * Gets the point with the largest x less than the given x value
+     * @param x The given x value
+     * @return
+     */
+    public GraphPoint getPointLessOrEqual(double x) {
+        GraphPoint lastLessThan = null;
+
+        for(GraphPoint p : points) {
+            if(p.getX() > x )
+                break;
+            lastLessThan = p;
+        }
+
+        return lastLessThan;
+    }
+
+    /**
+     * Gets the point with the smallest x greater than the given x value
+     * @param x The given x value
+     * @return
+     */
+    public GraphPoint getPointGreaterOrEqual(double x) {
+        GraphPoint firstGreaterThan = null;
+        for(GraphPoint p : points) {
+            if(p.getX() > x) {
+                firstGreaterThan = p;
+                break;
+            }
+        }
+        return firstGreaterThan;
+    }
+
+    /**
      * Returns a list of axes on which this data may be plotted
      * @return A list of axes on which this data may be plotted
      */

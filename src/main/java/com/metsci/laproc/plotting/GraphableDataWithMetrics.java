@@ -155,6 +155,39 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
     }
 
     /**
+     * Gets the point with the largest x less than the given x value
+     * @param x The given x value
+     * @return
+     */
+    public GraphPoint getPointLessOrEqual(double x) {
+        T lastLessThan = null;
+
+        for(T p : points) {
+            if(xAxisMetric.compute(p) > x )
+                break;
+            lastLessThan = p;
+        }
+
+        return new BasicGraphPoint(xAxisMetric.compute(lastLessThan), yAxisMetric.compute(lastLessThan));
+    }
+
+    /**
+     * Gets the point with the smallest x greater than the given x value
+     * @param x The given x value
+     * @return
+     */
+    public GraphPoint getPointGreaterOrEqual(double x) {
+        T firstGreaterThan = null;
+        for(T p : points) {
+            if(xAxisMetric.compute(p) > x) {
+                firstGreaterThan = p;
+                break;
+            }
+        }
+        return new BasicGraphPoint(xAxisMetric.compute(firstGreaterThan), yAxisMetric.compute(firstGreaterThan));
+    }
+
+    /**
      * Helper method to find the distance between two points
      * @param point The point used to calculate the first point
      * @param x The x value of the second point

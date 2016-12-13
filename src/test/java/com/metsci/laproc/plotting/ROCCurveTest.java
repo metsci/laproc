@@ -87,15 +87,15 @@ public class ROCCurveTest {
     }
 
     /**
-     * Helper method that uses reflection to invoke a private method in the ROCCurve class
+     * Helper method that uses reflection to invoke a private method in the ROCCurveFunction class
      * @param in The ClassifierDataSet to use as input
      * @param threshold The threshold to use for the calculations
      * @return The resulting ClassifierSetPoint
      * @throws Exception So many exceptions are possible because of reflection
      */
     private ClassifierSetPoint invokeCreatePointMethod(ClassifierDataSet in, double threshold) throws Exception{
-        ROCCurve func = new ROCCurve(in);
-        Method method = ROCCurve.class.getDeclaredMethod("createPointAtThreshold",ClassifierDataSet.class,Double.TYPE);
+        ROCCurveFunction func = new ROCCurveFunction(in);
+        Method method = ROCCurveFunction.class.getDeclaredMethod("createPointAtThreshold",ClassifierDataSet.class,Double.TYPE);
         method.setAccessible(true);
         return (ClassifierSetPoint) method.invoke(func, in, threshold);
     }

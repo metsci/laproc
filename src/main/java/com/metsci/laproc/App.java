@@ -23,7 +23,7 @@ public class App {
     {
         BasicGraph graph = new BasicGraph("", new FalsePositiveRate(), new TruePositiveRate());
         ClassifierDataSet importData = importData();
-        GraphableFunction func = new ROCCurve(importData);
+        GraphableFunction func = new ROCCurveFunction(importData);
         GraphableData graphableData = func.compute();
         graphableData.setName("Initial Classifier Data Set");
         graph.addData( graphableData);
