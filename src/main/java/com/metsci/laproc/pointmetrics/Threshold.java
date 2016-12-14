@@ -11,7 +11,7 @@ public class Threshold implements Metric {
      * @param point The point for which to find the threshold
      * @return The threshold
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         return point.getThreshold();
     }
 

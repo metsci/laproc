@@ -1,13 +1,11 @@
 package com.metsci.laproc.display;
 
 import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.pointmetrics.Metric;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * Panel for selecting graph options
@@ -16,7 +14,7 @@ import java.util.List;
 public class GraphOptionsPanel extends JPanel{
     private JComboBox xaxis;
     private JComboBox yaxis;
-    private Map<String, Metric> metricsMap;
+    private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
     private Window window;
 
@@ -27,7 +25,7 @@ public class GraphOptionsPanel extends JPanel{
      */
     public GraphOptionsPanel(Window window) {
         this.window = window;
-        this.metricsMap = new HashMap<String, Metric>();
+        this.metricsMap = new HashMap<String, ParametricFunction>();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
         this.xaxis.setName("X-Axis");
@@ -48,22 +46,22 @@ public class GraphOptionsPanel extends JPanel{
     }
 
     /**
-     * Updates the combo boxes with the metrics from graphable datas
-     * @param data
+     * Updates the combo boxes with the metrics from the graph
+     * @param graph
      */
-    public void populateOptions(GraphableData data) {
-        List<Metric> metrics = data.getAxes();
+    public void populateOptions(Graph graph) {
+       Iterable<ParametricFunction> metrics = graph.getAxisFunctions();
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();
         }
 
-        UpdateAxesActionListener listener = new UpdateAxesActionListener(data, this, window);
+        UpdateAxesActionListener listener = new UpdateAxesActionListener(graph, this, window);
         this.updateButton.addActionListener(listener);
 
-        Iterator<Metric> metricIterator = metrics.iterator();
+        Iterator<ParametricFunction> metricIterator = metrics.iterator();
         while(metricIterator.hasNext()) {
-            Metric temp = metricIterator.next();
+            ParametricFunction temp = metricIterator.next();
             if(!metricsMap.containsKey(temp.getDescriptor())) {
                 this.xaxis.addItem(temp.getDescriptor());
                 this.yaxis.addItem(temp.getDescriptor());
@@ -83,7 +81,7 @@ public class GraphOptionsPanel extends JPanel{
      * Gets the appropriate matric based on the currently selected item
      * @return
      */
-    public Metric getSelectedXAxis() {
+    public ParametricFunction getSelectedXAxis() {
         return this.metricsMap.get(this.xaxis.getSelectedItem());
     }
 
@@ -91,7 +89,7 @@ public class GraphOptionsPanel extends JPanel{
      * Gets the appropriate matric based on the currently selected item
      * @return
      */
-    public Metric getSelectedYAxis() {
+    public ParametricFunction getSelectedYAxis() {
         return this.metricsMap.get(this.yaxis.getSelectedItem());
     }
 }

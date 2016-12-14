@@ -1,7 +1,5 @@
 package com.metsci.laproc.pointmetrics;
 
-import com.metsci.laproc.plotting.ROCCurve;
-
 /**
  * Represents the number of true negatives for a given point
  * Created by robinsat on 10/25/2016.
@@ -13,7 +11,7 @@ public class TrueNegatives implements Metric{
      * @param point The point for which to find the true negatives
      * @return The number of true negatives
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         return point.getTrueNegatives();
     }
 
@@ -22,6 +20,6 @@ public class TrueNegatives implements Metric{
      * @return A String descriptor of what this metric represents
      */
     public String getDescriptor() {
-        return ROCCurve.tnString;
+        return MetricDescriptionConstants.trueNegatives;
     }
 }

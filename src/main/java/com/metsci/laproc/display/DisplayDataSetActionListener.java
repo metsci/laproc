@@ -1,6 +1,5 @@
 package com.metsci.laproc.display;
 
-import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.*;
 
 import java.awt.event.ActionEvent;
@@ -25,7 +24,7 @@ public class DisplayDataSetActionListener implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        BasicGraph graph = new BasicGraph(new Axis(0, 1, "X Axis"), new Axis(0, 1, "Y Axis"));
+        BasicGraph graph = new BasicGraph();
         for(GraphableData data : table.getSelectedValues()){
             graph.addData( data);
         }

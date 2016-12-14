@@ -10,6 +10,6 @@ public interface GraphableFunction {
      * Executes the function and returns the resulting data set
      * @return GraphableData
      */
-    public GraphableData compute();
+    GraphableData compute();
 
 }

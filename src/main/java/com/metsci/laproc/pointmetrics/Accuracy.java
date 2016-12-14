@@ -11,7 +11,7 @@ public class Accuracy implements Metric {
      * @param point The point at which to calculate the accuracy
      * @return The accuracy
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         return ((double) point.getTruePositives() + point.getTrueNegatives()) /
                 (point.getNumPositives() + point.getNumNegatives());
     }

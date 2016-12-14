@@ -8,7 +8,7 @@ import java.util.Map;
  * A basic implementation of a graph point. Currently does not support adding analytics
  * Created by robinsat on 10/25/2016.
  */
-public class SimpleGraphPoint implements GraphPoint {
+public class BasicGraphPoint implements GraphPoint {
 
     /** The x value */
     private double xVal;
@@ -22,7 +22,7 @@ public class SimpleGraphPoint implements GraphPoint {
      * @param x The x value
      * @param y The y value
      */
-    public SimpleGraphPoint(double x, double y) {
+    public BasicGraphPoint(double x, double y) {
         this.xVal = x;
         this.yVal = y;
         this.analytics = new LinkedHashMap<String, Double>();

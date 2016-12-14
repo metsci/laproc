@@ -12,18 +12,18 @@ public interface GraphPoint {
      * Getter for the x value
      * @return The x value
      */
-    public double getX();
+    double getX();
 
     /**
      * Getter for the y value
      * @return The y value
      */
-    public double getY();
+    double getY();
 
     /**
      * Gets a map representing any additional data associated with this point
      * @return A map representing any additional data associated with this point
      */
-    public Map<String, Double> getAnalytics();
+    Map<String, Double> getAnalytics();
 
 }

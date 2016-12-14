@@ -1,7 +1,5 @@
 package com.metsci.laproc.pointmetrics;
 
-import com.metsci.laproc.plotting.ROCCurve;
-
 /**
  * Calculates the number of false negatives for a given point of data
  * Created by robinsat on 10/25/2016.
@@ -13,7 +11,7 @@ public class FalseNegatives implements Metric {
      * @param point The point for which to find the false negatives
      * @return The number of false negatives
      */
-    public double getMetric(ClassifierSetPoint point) {
+    public double compute(ClassifierSetPoint point) {
         return point.getFalseNegatives();
     }
 
@@ -22,6 +20,6 @@ public class FalseNegatives implements Metric {
      * @return A String descriptor of what this metric represents
      */
     public String getDescriptor() {
-        return ROCCurve.fnString;
+        return MetricDescriptionConstants.falseNegatives;
     }
 }
