@@ -9,6 +9,9 @@ import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPointImpl;
 import com.metsci.laproc.plotting.*;
+import com.metsci.laproc.pointmetrics.FalsePositiveRate;
+import com.metsci.laproc.pointmetrics.TruePositiveRate;
+
 import java.io.IOException;
 
 /**
@@ -18,7 +21,7 @@ import java.io.IOException;
 public class App {
 	public static void main( String[] args )
     {
-        BasicGraph graph = new BasicGraph(new BasicAxis(0, 1, "X Axis"), new BasicAxis(0, 1, "Y Axis"));
+        BasicGraph graph = new BasicGraph("", new FalsePositiveRate(), new TruePositiveRate());
         ClassifierDataSet importData = importData();
         GraphableFunction func = new ROCCurve(importData);
         GraphableData graphableData = func.compute();

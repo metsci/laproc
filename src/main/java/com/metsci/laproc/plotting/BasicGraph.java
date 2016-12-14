@@ -1,7 +1,8 @@
 package com.metsci.laproc.plotting;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
+
+import java.util.*;
 
 import java.lang.IllegalArgumentException;
 
@@ -13,12 +14,16 @@ public class BasicGraph implements Graph {
 
     /** The title of the graph */
     private String title;
-    /** The X axis of the graph */
-    private Axis xAxis;
-    /** The Y axis of the graph */
-    private Axis yAxis;
-    /** The Z axis of the graph */
-    private Axis zAxis;
+
+    /** The metric to use for the x axis, if applicable */
+    private ParametricFunction xAxisMetric;
+    /** The metric to use for the y axis, if applicable */
+    private ParametricFunction yAxisMetric;
+
+    /** Allows the user to provide a custom X Axis descriptor */
+    private String xAxisDescriptor;
+    /** Allows the user to provide a custom Y Axis descriptor */
+    private String yAxisDescriptor;
 
     /** Selected data set */
     private GraphableData selectedData;
@@ -29,31 +34,36 @@ public class BasicGraph implements Graph {
      * Default constructor
      */
     public BasicGraph() {
-        this("", new BasicAxis(0, 1), new BasicAxis(0, 1), new BasicAxis(0, 1));
+        this("", null, null);
     }
 
     /**
      * Constructor
-     * @param xAxis The x axis
-     * @param yAxis The y axis
+     * @param title The title to give to this graph
      */
-    public BasicGraph(Axis xAxis, Axis yAxis) {
-        this("", xAxis, yAxis, null);
+    public BasicGraph(String title) {
+        this(title, null, null);
+    }
+
+    /**
+     * Constructor
+     * @param xAxisMetric The x axis function
+     * @param yAxisMetric The y axis function
+     */
+    public BasicGraph(ParametricFunction xAxisMetric, ParametricFunction yAxisMetric) {
+        this("", xAxisMetric, yAxisMetric);
     }
 
     /**
      * Constructor
      * @param title The title
-     * @param xAxis The x axis
-     * @param yAxis The y axis
-     * @param zAxis The z axis
+     * @param xAxisMetric The x axis function
+     * @param yAxisMetric The y axis function
      */
-    public BasicGraph(String title, Axis xAxis, Axis yAxis, Axis zAxis) {
+    public BasicGraph(String title, ParametricFunction xAxisMetric, ParametricFunction yAxisMetric) {
         this.title = title;
-        this.xAxis = xAxis;
-        this.yAxis = yAxis;
-        this.zAxis = zAxis;
-
+        this.xAxisMetric = xAxisMetric;
+        this.yAxisMetric = yAxisMetric;
         this.data = new ArrayList<GraphableData>();
     }
 
@@ -70,7 +80,24 @@ public class BasicGraph implements Graph {
      * @return the X axis
      */
     public Axis getXAxis() {
-        return this.xAxis;
+        double xMin = 0; // The default lower bound
+        double xMax = 1; // The default upper bound
+        // Get the maximum and minimum bounds necessary to contain all of the data
+        for(GraphableData d : this.data) {
+            Axis bounds = d.getXBounds();
+            if(bounds.getMin() < xMin)
+                xMin = bounds.getMin();
+            if(bounds.getMax() > xMax)
+                xMax = bounds.getMax();
+        }
+        // Give a descriptor to this axis
+        String descriptor = "X Axis";
+        if(this.xAxisDescriptor != null)
+            descriptor = this.xAxisDescriptor;
+        else if(this.xAxisMetric != null)
+            descriptor = this.xAxisMetric.getDescriptor();
+
+        return new BasicAxis(xMin, xMax, descriptor);
     }
 
     /**
@@ -78,15 +105,41 @@ public class BasicGraph implements Graph {
      * @return the Y axis
      */
     public Axis getYAxis() {
-        return this.yAxis;
+        double yMin = 0; // The default lower bound
+        double yMax = 1; // The default upper bound
+        // Get the maximum and minimum bounds necessary to contain all of the data
+        for(GraphableData d : this.data) {
+            Axis bounds = d.getYBounds();
+            if(bounds.getMin() < yMin)
+                yMin = bounds.getMin();
+            if(bounds.getMax() > yMax)
+                yMax = bounds.getMax();
+        }
+
+        // Give a descriptor to this axis
+        String descriptor = "Y Axis";
+        if(this.yAxisDescriptor != null)
+            descriptor = this.yAxisDescriptor;
+        else if(this.yAxisMetric != null)
+            descriptor = this.yAxisMetric.getDescriptor();
+
+        return new BasicAxis(yMin, yMax, descriptor);
     }
 
     /**
-     * Getter for the graph's Z axis
-     * @return the Z axis
+     * Sets the X axis descriptor to the given string
+     * @param descriptor The string to set as the descriptor
      */
-    public Axis getZAxis() {
-        return this.zAxis;
+    public void setXAxisDescriptor(String descriptor) {
+        this.xAxisDescriptor = descriptor;
+    }
+
+    /**
+     * Sets the Y axis descriptor to the given string
+     * @param descriptor The string to set as the descriptor
+     */
+    public void setYAxisDescriptor(String descriptor) {
+        this.yAxisDescriptor = descriptor;
     }
 
     /**
@@ -98,29 +151,9 @@ public class BasicGraph implements Graph {
     }
 
     /**
-     * Setter for the graph's X axis
-     * @param x the x axis to set
+     * Selects a GraphableData object
+     * @param data the data to select
      */
-    public void setXAxis(Axis x) {
-        this.xAxis = x;
-    }
-
-    /**
-     * Setter for the graph's Y axis
-     * @param y the Y axis to set
-     */
-    public void setYAxis(Axis y) {
-        this.yAxis = y;
-    }
-
-    /**
-     * Setter for the graph's Z axis
-     * @param z the Z axis to set
-     */
-    public void setZAxis(Axis z) {
-        this.zAxis = z;
-    }
-
     public void setSelectedData (GraphableData data) {
         if(!this.data.contains(data)){
             throw new IllegalArgumentException();
@@ -128,6 +161,10 @@ public class BasicGraph implements Graph {
         this.selectedData = data;
     }
 
+    /**
+     * Gets the currently selected GraphableData
+     * @return the currently selected GraphableData
+     */
     public GraphableData getSelectedData(){
         return this.selectedData;
     }
@@ -141,6 +178,22 @@ public class BasicGraph implements Graph {
     }
 
     /**
+     * Returns a list of all possible axes to use for this graph
+     * @return The list of axes that can be used for this graph
+     */
+    public Collection<ParametricFunction> getAxisFunctions() {
+        // This implementation uses a map to easily union all possible axes
+        Map<String, ParametricFunction> functionUnion = new HashMap<String, ParametricFunction>();
+        for(GraphableData d : this.data) {
+            List<ParametricFunction> axisFunctions = d.getAxes();
+            for(ParametricFunction f : axisFunctions) {
+                functionUnion.put(f.getDescriptor(), f);
+            }
+        }
+        return functionUnion.values();
+    }
+
+    /**
      * Adds a graphable data item
      * @param dat The data to add
      */
@@ -148,6 +201,19 @@ public class BasicGraph implements Graph {
         this.data.add(dat);
         if(selectedData == null){
             this.selectedData = dat;
+        }
+    }
+
+    /**
+     * Sets all GraphableData sets on this graph to use the same set of axes
+     * @param xAxis The function to use for the X Axis
+     * @param yAxis The function to use for the Y Axis
+     */
+    public void useAxisFunctions(ParametricFunction xAxis, ParametricFunction yAxis) {
+        this.xAxisMetric = xAxis;
+        this.yAxisMetric = yAxis;
+        for(GraphableData d : this.data) {
+            d.useAxes(xAxis, yAxis);
         }
     }
 }

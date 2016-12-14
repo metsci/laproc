@@ -1,6 +1,6 @@
 package com.metsci.laproc.display;
 
-import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.plotting.Graph;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,20 +9,20 @@ import java.awt.event.ActionListener;
  * Created by porterjc on 10/31/2016.
  */
 public class UpdateAxesActionListener implements ActionListener {
-    private GraphableData data;
+    private Graph graph;
     private GraphOptionsPanel options;
     private Window window;
 
     /**
      * Contructor for this listener
      *
-     * @param dat
+     * @param graph
      * @param panel
      * @param window
      */
-    public UpdateAxesActionListener(GraphableData dat, GraphOptionsPanel panel, Window window){
+    public UpdateAxesActionListener(Graph graph, GraphOptionsPanel panel, Window window){
         this.window = window;
-        this.data = dat;
+        this.graph = graph;
         this.options = panel;
     }
 
@@ -32,7 +32,7 @@ public class UpdateAxesActionListener implements ActionListener {
      * @param e
      */
     public void actionPerformed(ActionEvent e) {
-        this.data.useAxes(this.options.getSelectedXAxis(), this.options.getSelectedYAxis());
+        this.graph.useAxisFunctions(this.options.getSelectedXAxis(), this.options.getSelectedYAxis());
         this.window.repaintGraph();
     }
 }

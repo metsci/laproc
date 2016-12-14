@@ -1,11 +1,8 @@
 package com.metsci.laproc.plotting;
 
-import com.metsci.laproc.pointmetrics.Metric;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a continuous line that can be represented on a graph.
@@ -16,56 +13,17 @@ public class BasicGraphableData implements GraphableData<Double> {
     //Fields
     /** The name of this set of data */
     private String name;
-    /** The x values in this data set */
-    //private double[] xValues;
-    /** The y values in this data set */
-    //private double[] yValues;
 
-    private List<GraphPoint> points;
-
-    //Internal use
-    /** Keeps track of the current size of the data set */
-    //private int size;
-    /** The default size to initialize the array */
-    //private static final int DEFAULT_SIZE = 100;
-
-    //Constructors
-
-    /**
-     * Default constructor
-     */
-   /*  public BasicGraphableData() {
-         this("", DEFAULT_SIZE);
-     }
+    /** The points in this data set */
+    private SortedSet<GraphPoint> points;
 
     /**
      * Constructor
      * @param name The name to give to this graph data
-     */
-    /**public BasicGraphableData(String name) {
-        this(name, DEFAULT_SIZE);
-    }
-
-    /**
-     * Constructor
-     * @param name The number of points to initialize this data set with
-     */
-   /* public BasicGraphableData(int numPoints) {
-        this("", numPoints);
-    }
-
-    /**
-     * Constructor
-     * @param name The name to give to this graph data
-     * @param numPoints The number of points to initialize this data set with
      */
     public BasicGraphableData(String name) {
         this.name = name;
-        /*this.size = 0;
-        this.xValues = new double[numPoints];
-        this.yValues = new double[numPoints];*/
-        this.points = new ArrayList<GraphPoint>();
-
+        this.points = new TreeSet<GraphPoint>(new XValueComparator());
     }
 
     /**
@@ -90,8 +48,10 @@ public class BasicGraphableData implements GraphableData<Double> {
      */
     public double[] getXValues() {
         double[] xVals = new double[points.size()];
-        for(int i = 0; i < points.size(); i++) {
-            xVals[i] = points.get(i).getX();
+        int count = 0;
+        for(GraphPoint p : points) {
+            xVals[count] = p.getX();
+            count++;
         }
         return xVals;
     }
@@ -102,8 +62,10 @@ public class BasicGraphableData implements GraphableData<Double> {
      */
     public double[] getYValues() {
         double[] yVals = new double[points.size()];
-        for(int i = 0; i < points.size(); i++) {
-            yVals[i] = points.get(i).getY();
+        int count = 0;
+        for(GraphPoint p : points) {
+            yVals[count] = p.getY();
+            count++;
         }
         return yVals;
     }
@@ -113,7 +75,7 @@ public class BasicGraphableData implements GraphableData<Double> {
      * @return An axis that represents the maximum and minimum x values
      */
     public Axis getXBounds() {
-        return new BasicAxis(0, 1);
+        return new BasicAxis(points.first().getX(), points.last().getX());
     }
 
     /**
@@ -121,7 +83,16 @@ public class BasicGraphableData implements GraphableData<Double> {
      * @return An axis that represents the maximum and minimum x values
      */
     public Axis getYBounds() {
-        return new BasicAxis(0, 1);
+        double yMin = 0; // Default lower bound
+        double yMax = 1; // Default upper bound
+        for(GraphPoint p : points) {
+            double y = p.getY();
+            if(y < yMin)
+                yMin = y;
+            if(y > yMax)
+                yMax = y;
+        }
+        return new BasicAxis(yMin, yMax);
     }
 
     /**
@@ -131,24 +102,6 @@ public class BasicGraphableData implements GraphableData<Double> {
      */
     public void addPoint(double x, double y) {
         this.points.add(new BasicGraphPoint(x, y));
-    }
-
-    public void addPoint(GraphPoint dataPoint) {
-        addPoint(dataPoint.getX(), dataPoint.getY());
-    }
-
-    /**
-     * Private helper method to resize an array
-     * @param original The original array
-     * @param newsize The capacity of the new array
-     * @return A new array with the elements copied over
-     */
-    private double[] resize(double[] original, int newsize) {
-        double[] newArray = new double[newsize];
-        for(int i = 0; i < original.length && i < newsize; i++) {
-            newArray[i] = original[i];
-        }
-        return newArray;
     }
 
     /**
@@ -167,22 +120,17 @@ public class BasicGraphableData implements GraphableData<Double> {
      */
     public GraphPoint getDataPoint(double x, double y) {
         //Find the closest point in the set
-        int closestIndex = 0;
-        double[] xValues = getXValues();
-        double[] yValues = getYValues();
-        double closestDistance = Point2D.distance(xValues[0], yValues[0], x, y);
-        double currentDistance;
-        for(int i = 0; i < this.getSize(); i++) {
-            currentDistance = Point2D.distance(xValues[i], yValues[i], x, y);
-            if(currentDistance < closestDistance) { // This point is closer than the last closest point
-                closestDistance = currentDistance;
-                closestIndex = i;
+        GraphPoint closest = points.first();
+        double closestDistance = Math.abs(x - closest.getX());
+
+        for(GraphPoint p : points) {
+            if(Math.abs(x - p.getX()) < closestDistance) {
+                closestDistance = Math.abs(x - p.getX());
+                closest = p;
             }
         }
 
-        // Now that the closest point has been found, construct a point object to pass back
-        BasicGraphPoint graphPoint = new BasicGraphPoint(xValues[closestIndex], yValues[closestIndex]);
-        return graphPoint;
+        return closest;
     }
 
     /**
@@ -200,6 +148,26 @@ public class BasicGraphableData implements GraphableData<Double> {
      */
     public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
        //For now, do nothing.
+    }
+
+    /**
+     * Compares two GraphPoints based on their x value
+     */
+    private class XValueComparator implements Comparator<GraphPoint> {
+
+        /**
+         * Compares its two arguments for order.  Returns a negative integer,
+         * zero, or a positive integer as the first argument is less than, equal
+         * to, or greater than the second.
+         */
+        public int compare(GraphPoint p1, GraphPoint p2) {
+            if (p1.getX() > p2.getX())
+                return 1;
+            else if (p1.getX() < p2.getX())
+                return -1;
+            else
+                return 0;
+        }
     }
 
 }
