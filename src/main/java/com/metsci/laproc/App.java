@@ -1,10 +1,10 @@
 package com.metsci.laproc;
 
 
+import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.data.TagHeader;
-import com.metsci.laproc.display.BasicWindow;
-import com.metsci.laproc.display.Window;
+import com.metsci.laproc.display.*;
 import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPointImpl;
@@ -27,10 +27,12 @@ public class App {
 
         
         Window window = new BasicWindow();
-        window.showGraphOptions(graphableData);
-        window.showGraph(graph);
-        window.showSpreadsheet(importData);
-        window.showClass(graphableData);
+        ITool gPanel = new GraphPanel();
+        window.addViewToTile(gPanel.getView(), 1);
+//        window.showGraphOptions(graphableData);
+//        window.showGraph(graph);
+//        window.showSpreadsheet(importData);
+//        window.showClass(graphableData);
         window.display();
     }
 

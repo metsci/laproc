@@ -3,7 +3,6 @@ package com.metsci.laproc.plotting;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by robinsat on 11/30/2016.
