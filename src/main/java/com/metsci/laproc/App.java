@@ -26,14 +26,18 @@ public class App {
         GraphableFunction func = new ROCCurve(importData);
         GraphableData graphableData = func.compute();
         graphableData.setName("Initial Classifier Data Set");
-        graph.addData( graphableData);
+        graph.addData(graphableData);
 
         
         Window window = new BasicWindow();
-        ITool gPanel = new GraphPanel();
+
+        ITool gPanel = new GraphPanel(graph);
+        gPanel.initialize();
+        ITool oPanel = new GraphOptionsPanel(graph);
+        oPanel.initialize();
         window.addViewToTile(gPanel.getView(), 1);
+        window.addViewToTile(oPanel.getView(), 0);
 //        window.showGraphOptions(graphableData);
-//        window.showGraph(graph);
 //        window.showSpreadsheet(importData);
 //        window.showClass(graphableData);
         window.display();

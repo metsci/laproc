@@ -18,15 +18,15 @@ import com.metsci.laproc.plotting.GraphableData;
 public class GraphDisplayer implements GlimpseLayoutProvider
 {
     Graph graph;
-    private Window window;
+   // private Window window;
 
     /**
      * Constructor for a given graph and window
      * @params graph, displayer
      */
-    public GraphDisplayer(Graph graph, Window window) {
+    public GraphDisplayer(Graph graph) {
         this.graph = graph;
-        this.window = window;
+        //this.window = window;
     }
 
     /**
@@ -57,7 +57,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
 
-        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, window, selectedAreaPainter));
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter));
 
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().showSelectionBox(false);

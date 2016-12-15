@@ -28,6 +28,6 @@ public class DisplayDataSetActionListener implements ActionListener {
         for(GraphableData data : table.getSelectedValues()){
             graph.addData( data);
         }
-        this.window.showGraph(graph);
+//        this.window.showGraph(graph);
     }
 }

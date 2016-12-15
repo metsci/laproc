@@ -1,25 +1,30 @@
 package com.metsci.laproc.display;
 
+import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.plotting.GraphPoint;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Panel with general data stored in a data point.
  *
  * Created by porterjc on 10/21/2016.
  */
-public class PointInfoPanel extends JPanel{
+public class PointInfoPanel implements ITool, Observer {
     private JScrollPane pane;
+    private JPanel panel;
     /**
      * Basic constructor for the PointInfoPanel
      */
     public PointInfoPanel() {
-        setName("Point Analytics");
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        panel = new JPanel();
+        panel.setName("Point Analytics");
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         pane = new JScrollPane();
-        this.add(pane);
+        panel.add(pane);
     }
 
     /**
@@ -38,12 +43,24 @@ public class PointInfoPanel extends JPanel{
             panel.add(new JLabel(Math.floor(data.get(key) * 10000) / 10000 + ""));
         }
 
-        this.remove(pane);
+        this.panel.remove(pane);
         pane = new JScrollPane(panel);
 
-        this.add(pane);
-        this.revalidate();
-        this.repaint();
-        this.getParent().repaint();
+        this.panel.add(pane);
+        this.panel.revalidate();
+        this.panel.repaint();
+        this.panel.getParent().repaint();
+    }
+
+    public void initialize() {
+
+    }
+
+    public View getView() {
+        return null;
+    }
+
+    public void update(Observable o, Object arg) {
+
     }
 }

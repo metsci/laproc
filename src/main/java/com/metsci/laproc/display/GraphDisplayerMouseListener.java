@@ -22,7 +22,7 @@ import java.util.Map;
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     Graph graph;
     PolygonPainter polygonPainter;
-    private Window window;
+    //private Window window;
     long lastClickTime = 0;
     boolean doubleClicked = false;
     boolean displayDoubleClick = false;
@@ -35,12 +35,11 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      * General constructor for GraphDisplayerMouseListener
      * @param graph current graph that is being displayed
      * @param polygonPainter polygon painter for selection area
-     * @param window window the graph is displayed on
      */
-    public GraphDisplayerMouseListener(Graph graph, Window window, PolygonPainter polygonPainter){
+    public GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
-        this.window = window;
+       // this.window = window;
 
         configurePolygonPainter();
     }
@@ -99,14 +98,14 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
         Map<String, Double> values = point.getAnalytics();
         //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
-        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{
-                values.get(MetricDescriptionConstants.truePositives),
-                values.get(MetricDescriptionConstants.falsePositives)},
-                new double[]{values.get(MetricDescriptionConstants.trueNegatives),
-                        values.get(MetricDescriptionConstants.falseNegatives)});
-
-        window.getPointInfoPanel().update(point);
-        window.repaint();
+//        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{
+//                values.get(MetricDescriptionConstants.truePositives),
+//                values.get(MetricDescriptionConstants.falsePositives)},
+//                new double[]{values.get(MetricDescriptionConstants.trueNegatives),
+//                        values.get(MetricDescriptionConstants.falseNegatives)});
+//
+//        window.getPointInfoPanel().update(point);
+//        window.repaint();
         System.out.println("X: " + point.getX() + " Y: " + point.getY());
         ret = point.getX();
 
