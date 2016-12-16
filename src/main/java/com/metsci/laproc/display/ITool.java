@@ -7,7 +7,7 @@ import java.util.Observer;
 /**
  * Created by porterjc on 12/7/2016.
  */
-public interface ITool extends Observer {
+public interface ITool {
     public void initialize();
     public View getView();
     public void addAction();

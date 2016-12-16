@@ -1,7 +1,5 @@
 package com.metsci.laproc;
 
-
-import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.display.*;
@@ -11,7 +9,6 @@ import com.metsci.laproc.data.DataPointImpl;
 import com.metsci.laproc.plotting.*;
 import com.metsci.laproc.pointmetrics.FalsePositiveRate;
 import com.metsci.laproc.pointmetrics.TruePositiveRate;
-
 import java.io.IOException;
 
 /**
@@ -28,17 +25,27 @@ public class App {
         graphableData.setName("Initial Classifier Data Set");
         graph.addData(graphableData);
 
-        
         Window window = new BasicWindow();
 
         ITool gPanel = new GraphPanel(graph);
         gPanel.initialize();
+
         ITool oPanel = new GraphOptionsPanel(graph);
         oPanel.initialize();
+        ITool dsPanel = new DataSetPanel();
+        ITool dshPanel = new DataSheetPanel();
+
         ITool aPanel = new PointInfoPanel();
+        ITool cPanel = new ConfusionPanel();
         window.addViewToTile(gPanel.getView(), 1);
+
         window.addViewToTile(oPanel.getView(), 0);
+        window.addViewToTile(dsPanel.getView(), 0);
+        window.addViewToTile(dshPanel.getView(), 0);
+
+
         window.addViewToTile(aPanel.getView(), 2);
+        window.addViewToTile(cPanel.getView(), 2);
 //        window.showGraphOptions(graphableData);
 //        window.showSpreadsheet(importData);
 //        window.showClass(graphableData);

@@ -13,8 +13,11 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.table.TableModel;
 
+import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
+import com.metsci.laproc.utils.IObservable;
+import com.metsci.laproc.utils.IObserver;
 
 /**
  * 
@@ -22,14 +25,13 @@ import com.metsci.laproc.data.DataPoint;
  * Created by patterjm on 10/5/2016.
  *
  */
-public class DataSheetPanel extends JPanel{
-	private Window window;
+public class DataSheetPanel implements ITool, IObserver {
+	private JPanel panel;
 	/**
 	 * Default constructor, requires a window for context
-	 * @param window
 	 */
-	public DataSheetPanel(Window window){
-		this.window = window;
+	public DataSheetPanel(){
+		this.panel = new JPanel();
 	}
 
 	/**
@@ -38,7 +40,7 @@ public class DataSheetPanel extends JPanel{
      * @params: ClassifierDataSet
      */
 	public void setDataSheet(ClassifierDataSet data) {
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 		TableDisplayer tableDisplayer = new TableDisplayer(data);
 
 		JTable table = tableDisplayer.getTable();
@@ -48,11 +50,12 @@ public class DataSheetPanel extends JPanel{
 		if (defaults.get("Table.alternateRowColor") == null)
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
-		this.add(scrollPane);
+		this.panel.add(scrollPane);
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
+		//TODO
         NewEvalSetActionListener nesaInstance = new NewEvalSetActionListener(this.window, tableDisplayer);
 		newEvalSetButton.addActionListener(nesaInstance);
-		this.add(newEvalSetButton);
+		this.panel.add(newEvalSetButton);
 
 		JPanel filterPanel = new JPanel();
 		JTextField truthField = new JTextField(10);
@@ -69,10 +72,25 @@ public class DataSheetPanel extends JPanel{
 											valueField);
 		applyFilterButton.addActionListener(filterActionListener);
 		filterPanel.add(applyFilterButton);
-		this.add(filterPanel);
+		this.panel.add(filterPanel);
 
 
 
 	}
 
+	public void update(IObservable object) {
+
+	}
+
+	public void initialize() {
+
+	}
+
+	public View getView() {
+		return new View("Data Sheet", this.panel, "Data Sheet", true);
+	}
+
+	public void addAction() {
+
+	}
 }

@@ -21,6 +21,12 @@ public class Observable implements IObservable {
         this.observers.remove(observer);
     }
 
+    public void notifyObservers(IObservable object) {
+        for(IObserver observer : this.observers) {
+            observer.update(this);
+        }
+    }
+
     public void notifyObservers(Object object) {
         for(IObserver observer : this.observers) {
             observer.update(this);

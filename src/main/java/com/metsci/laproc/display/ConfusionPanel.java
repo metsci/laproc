@@ -1,5 +1,9 @@
 package com.metsci.laproc.display;
 
+import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.utils.IObservable;
+import com.metsci.laproc.utils.IObserver;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,8 +12,9 @@ import java.awt.*;
  *
  * Created by porterjc on 10/14/2016.
  */
-public class ConfusionPanel extends JPanel {
+public class ConfusionPanel implements ITool, IObserver {
     private JPanel panel;
+    private JScrollPane pane;
 
     /**
      * Basic constructor  for the confusion matrix panel
@@ -17,8 +22,9 @@ public class ConfusionPanel extends JPanel {
      */
     public ConfusionPanel(){
         GridLayout matri = new GridLayout(3, 3);
-        this.setName("Confusion Matrix");
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        panel = new JPanel();
+        panel.setName("Confusion Matrix");
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         panel = new JPanel();
         panel.setLayout(matri);
@@ -32,8 +38,8 @@ public class ConfusionPanel extends JPanel {
         panel.add(new JLabel("True Negatives"));
         panel.add(new JLabel(0 + ""));
         panel.add(new JLabel(0 + ""));
-        JScrollPane pane = new JScrollPane(panel);
-        this.add(pane);
+        pane = new JScrollPane(panel);
+        //this.add(pane);
     }
 
     /**
@@ -55,8 +61,24 @@ public class ConfusionPanel extends JPanel {
         temp = (JLabel) panel.getComponent(8);
         temp.setText(negatives[1]+ "");
         temp.repaint();
-        this.revalidate();
-        this.repaint();
-        this.getParent().repaint();
+        pane.revalidate();
+        pane.repaint();
+        pane.getParent().repaint();
+    }
+
+    public void initialize() {
+
+    }
+
+    public View getView() {
+        return new View("Confusion Matrices", this.pane, "Confusion Matrices", true);
+    }
+
+    public void addAction() {
+
+    }
+
+    public void update(IObservable object) {
+
     }
 }
