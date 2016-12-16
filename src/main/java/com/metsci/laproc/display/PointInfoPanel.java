@@ -57,7 +57,11 @@ public class PointInfoPanel implements ITool, Observer {
     }
 
     public View getView() {
-        return null;
+        return new View("PointInfo", this.panel, "PointInfo", true);
+    }
+
+    public void addAction() {
+
     }
 
     public void update(Observable o, Object arg) {

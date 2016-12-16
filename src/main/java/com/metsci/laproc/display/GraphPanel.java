@@ -55,6 +55,10 @@ public class GraphPanel implements ITool, Observer{
         return new View("Graph", this.getCanvas(), "Graph", true);
     }
 
+    public void addAction() {
+
+    }
+
     public void update(Observable o, Object arg) {
 
     }

@@ -35,8 +35,10 @@ public class App {
         gPanel.initialize();
         ITool oPanel = new GraphOptionsPanel(graph);
         oPanel.initialize();
+        ITool aPanel = new PointInfoPanel();
         window.addViewToTile(gPanel.getView(), 1);
         window.addViewToTile(oPanel.getView(), 0);
+        window.addViewToTile(aPanel.getView(), 2);
 //        window.showGraphOptions(graphableData);
 //        window.showSpreadsheet(importData);
 //        window.showClass(graphableData);

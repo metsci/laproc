@@ -50,9 +50,8 @@ public class GraphOptionsPanel implements ITool, Observer{
 
     /**
      * Updates the combo boxes with the metrics from the graph
-     * @param graph
      */
-    public void populateOptions(Graph graph) {
+    public void populateOptions() {
        Iterable<ParametricFunction> metrics = graph.getAxisFunctions();
 
         if(updateButton.getActionListeners() != null) {
@@ -97,11 +96,15 @@ public class GraphOptionsPanel implements ITool, Observer{
     }
 
     public void initialize() {
-        this.populateOptions(this.graph);
+        this.populateOptions();
     }
 
     public View getView() {
         return new View("Options", this.panel, "Options", true);
+    }
+
+    public void addAction() {
+
     }
 
     public void update(Observable o, Object arg) {

@@ -10,4 +10,5 @@ import java.util.Observer;
 public interface ITool extends Observer {
     public void initialize();
     public View getView();
+    public void addAction();
 }
