@@ -64,14 +64,26 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
         pane.getParent().repaint();*/
     }
 
+    /**
+     * Returns a View that can be displayed in a Tile
+     * @return
+     */
     public View getView() {
         return new View("Confusion Matrices", this.pane, "Confusion Matrices", true);
     }
 
+    /**
+     * Returns default position of a tile implementation
+     * @return
+     */
     public int getDefaultPosition() {
         return ITool.BOTTOMPOSITION;
     }
 
+    /**
+     * Responds to action that provides this object with an array of points by updating the panel
+     * @param points
+     */
     public void respondToAction(GraphPoint[] points) {
         updateConfusionMatrix(points);
     }
