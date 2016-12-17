@@ -2,8 +2,7 @@ package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.ActionHandlers.CreateGraphAction;
-import com.metsci.laproc.data.DataReference;
-import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IObservable;
 import com.metsci.laproc.utils.IObserver;
@@ -80,5 +79,9 @@ public class DataSetPanel implements ITool, IObserver {
 
     public View getView() {
         return new View("Data Set", this.panel, "Data Set", true);
+    }
+
+    public int getDefaultPosition() {
+        return ITool.LEFTPOSITION;
     }
 }

@@ -1,7 +1,7 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
-import com.metsci.laproc.data.DataReference;
+import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.utils.IObservable;
 import com.metsci.laproc.utils.IObserver;
 
@@ -68,6 +68,10 @@ public class ConfusionPanel implements ITool, IObserver {
 
     public View getView() {
         return new View("Confusion Matrices", this.pane, "Confusion Matrices", true);
+    }
+
+    public int getDefaultPosition() {
+        return ITool.BOTTOMPOSITION;
     }
 
     public void update(IObservable object) {

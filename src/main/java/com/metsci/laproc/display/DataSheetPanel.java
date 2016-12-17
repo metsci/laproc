@@ -85,4 +85,8 @@ public class DataSheetPanel implements ITool, IObserver {
 	public View getView() {
 		return new View("Data Sheet", this.panel, "Data Sheet", true);
 	}
+
+	public int getDefaultPosition() {
+		return ITool.LEFTPOSITION;
+	}
 }

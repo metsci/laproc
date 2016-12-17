@@ -25,11 +25,11 @@ public abstract class Window {
 
         this.frame = group.addNewFrame();
 
-        spreadTile = tileFactory.newTile();
-        tiles.add(spreadTile);
-
         graphTile = tileFactory.newTile();
         tiles.add(graphTile);
+
+        spreadTile = tileFactory.newTile();
+        tiles.add(spreadTile);
 
         analyticsTile = tileFactory.newTile();
         tiles.add(analyticsTile);

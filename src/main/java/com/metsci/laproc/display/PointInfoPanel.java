@@ -1,10 +1,8 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
-import com.metsci.laproc.ActionHandlers.*;
-import com.metsci.laproc.ActionHandlers.Action;
-import com.metsci.laproc.data.DataReference;
-import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.application.DataReference;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
@@ -61,6 +59,9 @@ public class PointInfoPanel implements ITool, Observer {
         return new View("PointInfo", this.panel, "PointInfo", true);
     }
 
+    public int getDefaultPosition() {
+        return ITool.BOTTOMPOSITION;
+    }
 
 
     public void update(Observable o, Object arg) {

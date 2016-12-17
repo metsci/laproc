@@ -3,6 +3,7 @@ package com.metsci.laproc.display;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 
@@ -16,17 +17,17 @@ import java.util.Observer;
 public class GraphPanel implements ITool, Observer{
     private NewtSwingGlimpseCanvas canvas;
     private GraphDisplayer graphDisplayer;
-    private Graph graph;
+    private DataReference reference;
 
     /**
      * Simple constructor
      * Creaded by porterjc on 9/22/2016
      */
-    public GraphPanel(Graph graph){
-        this.graph = graph;
+    public GraphPanel(DataReference reference){
+       this.reference = reference;
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
-        GraphDisplayer dis = new GraphDisplayer(this.graph);
+        GraphDisplayer dis = new GraphDisplayer(this.reference.getGraph());
         this.addGraphToCanvas(dis);
     }
 
@@ -50,6 +51,10 @@ public class GraphPanel implements ITool, Observer{
 
     public View getView() {
         return new View("Graph", this.getCanvas(), "Graph", true);
+    }
+
+    public int getDefaultPosition() {
+        return ITool.CENTERPOSITION;
     }
 
     public void update(Observable o, Object arg) {
