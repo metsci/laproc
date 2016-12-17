@@ -2,14 +2,17 @@ package com.metsci.laproc.application;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.utils.Observable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This reference allows tools to access the graph and associated data
  * Created by porterjc on 12/14/2016.
  */
-public class DataReference extends Observable{
+public class DataReference extends Observable {
     private Graph graph;
     private List<ClassifierDataSet> evalSets;
 

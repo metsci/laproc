@@ -8,9 +8,12 @@ import com.metsci.glimpse.painter.plot.XYLinePainter;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
+import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.utils.IActionReceiver;
 import com.metsci.laproc.utils.IObservable;
 import com.metsci.laproc.utils.IObserver;
 
@@ -20,20 +23,19 @@ import java.util.List;
  * Creates a Glimpse plot for a Graph
  * Created by malinocr on 9/20/2016.
  */
-public class GraphDisplayer implements IObserver, GlimpseLayoutProvider
+public class GraphDisplayer implements GlimpseLayoutProvider
 {
-    private Graph graph;
-    private PointInfoPanel pointPanel;
-    private ConfusionPanel confusionPanel;
+    private DataReference reference;
+
+    private IActionReceiver<GraphPoint[]>[] listenerRecievers;
 
     /**
      * Constructor for a given graph and window
      * @params graph, displayer
      */
-    public GraphDisplayer(Graph graph, PointInfoPanel pointPanel, ConfusionPanel confusionPanel) {
-        this.graph = graph;
-        this.pointPanel = pointPanel;
-        this.confusionPanel = confusionPanel;
+    public GraphDisplayer(DataReference reference, IActionReceiver<GraphPoint[]>... receiverPanels) {
+        this.reference = reference;
+        this.listenerRecievers = receiverPanels;
     }
 
     /**
@@ -42,6 +44,7 @@ public class GraphDisplayer implements IObserver, GlimpseLayoutProvider
      */
     public SimplePlot2D getLayout()
     {
+        Graph graph = reference.getGraph();
         // Create a plot frame
         SimplePlot2D plot = new SimplePlot2D( );
 
@@ -64,7 +67,7 @@ public class GraphDisplayer implements IObserver, GlimpseLayoutProvider
         PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
 
-        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(this.graph, this.pointPanel, this.confusionPanel, selectedAreaPainter));
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(reference, selectedAreaPainter, this.listenerRecievers));
 
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().showSelectionBox(false);
@@ -139,15 +142,4 @@ public class GraphDisplayer implements IObserver, GlimpseLayoutProvider
         return linePainter;
     }
 
-    /**
-     * Sets selected data set
-     * @param data data set to set
-     */
-    public void setSelectedDataSet(GraphableData data){
-        this.graph.setSelectedData(data);
-    }
-
-    public void update(IObservable object) {
-
-    }
 }

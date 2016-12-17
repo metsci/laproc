@@ -6,13 +6,14 @@ import com.metsci.laproc.display.TableDisplayer;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.plotting.ROCCurve;
+import com.metsci.laproc.utils.IAction;
 
 import javax.swing.*;
 
 /**
  * Created by porterjc on 12/17/2016.
  */
-public class CreateNewDataSetAction implements Action<TableDisplayer>{
+public class CreateNewDataSetAction implements IAction<TableDisplayer> {
     private DataReference reference;
     private int currentAddedIndex = 1;
 

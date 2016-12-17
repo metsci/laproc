@@ -1,29 +1,26 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
-import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.utils.IActionReceiver;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Panel with general data stored in a data point.
  *
  * Created by porterjc on 10/21/2016.
  */
-public class PointInfoPanel implements ITool, Observer {
+public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
     private JScrollPane pane;
     private JPanel panel;
-    private DataReference reference;
 
     /**
      * Basic constructor for the PointInfoPanel
      */
-    public PointInfoPanel(DataReference ref) {
-        reference = ref;
+    public PointInfoPanel() {
         panel = new JPanel();
         panel.setName("Point Analytics");
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -62,7 +59,7 @@ public class PointInfoPanel implements ITool, Observer {
         return ITool.BOTTOMPOSITION;
     }
 
-    public void update(Observable o, Object arg) {
-
+    public void respondToAction(GraphPoint[] points) {
+        update(points);
     }
 }

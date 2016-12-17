@@ -2,10 +2,11 @@ package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.ActionHandlers.*;
-import com.metsci.laproc.ActionHandlers.Action;
-import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.utils.IAction;
+import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
+import com.metsci.laproc.utils.IObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,14 +18,14 @@ import java.util.*;
  * Panel for selecting graph options
  * Created by porterjc on 10/26/2016.
  */
-public class GraphOptionsPanel implements ITool, Observer{
+public class GraphOptionsPanel implements ITool, IObserver<DataReference>{
     private JPanel panel;
     private JComboBox xaxis;
     private JComboBox yaxis;
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
-    private DataReference reference;
-    private Action action;
+   // private DataReference reference;
+    private IAction action;
 
 
     /**
@@ -33,8 +34,7 @@ public class GraphOptionsPanel implements ITool, Observer{
      */
     public GraphOptionsPanel(DataReference reference) {
         this.panel = new JPanel();
-        this.reference = reference;
-        this.action = new UpdateAxesAction(this.reference.getGraph());
+        this.action = new UpdateAxesAction(reference);
         this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
@@ -58,8 +58,8 @@ public class GraphOptionsPanel implements ITool, Observer{
     /**
      * Updates the combo boxes with the metrics from the graph
      */
-    public void populateOptions() {
-       Iterable<ParametricFunction> metrics = reference.getGraph().getAxisFunctions();
+    public void populateOptions(Graph graph) {
+       Iterable<ParametricFunction> metrics = graph.getAxisFunctions();
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();
@@ -117,7 +117,7 @@ public class GraphOptionsPanel implements ITool, Observer{
         return ITool.LEFTPOSITION;
     }
 
-    public void update(Observable o, Object arg) {
-        populateOptions();
+    public void update(DataReference graphReference) {
+        populateOptions(graphReference.getGraph());
     }
 }

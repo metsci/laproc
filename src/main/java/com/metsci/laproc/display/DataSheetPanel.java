@@ -13,14 +13,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
-import javax.swing.table.TableModel;
 
 import com.metsci.glimpse.docking.View;
-import com.metsci.laproc.ActionHandlers.Action;
+import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.ActionHandlers.CreateNewDataSetAction;
 import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.utils.IObservable;
 import com.metsci.laproc.utils.IObserver;
 
@@ -30,17 +28,15 @@ import com.metsci.laproc.utils.IObserver;
  * Created by patterjm on 10/5/2016.
  *
  */
-public class DataSheetPanel implements ITool, IObserver {
+public class DataSheetPanel implements ITool {
 	private JPanel panel;
-	private DataReference reference;
-	private Action action;
+	private IAction action;
 	/**
 	 * Default constructor, requires a window for context
 	 */
 	public DataSheetPanel(DataReference ref){
-		this.reference = ref;
 		this.panel = new JPanel();
-		this.action = new CreateNewDataSetAction(this.reference);
+		this.action = new CreateNewDataSetAction(ref);
 	}
 
 	/**
@@ -89,10 +85,6 @@ public class DataSheetPanel implements ITool, IObserver {
 		this.panel.add(filterPanel);
 
 
-
-	}
-
-	public void update(IObservable object) {
 
 	}
 

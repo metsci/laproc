@@ -1,7 +1,7 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
-import com.metsci.laproc.ActionHandlers.Action;
+import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.ActionHandlers.CreateGraphAction;
 import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.plotting.GraphableData;
@@ -17,11 +17,11 @@ import java.awt.event.ActionListener;
  * A JPanel that handles interacting with the created data sets
  * Created by malinocr on 10/17/2016.
  */
-public class DataSetPanel implements ITool, IObserver {
+public class DataSetPanel implements ITool {
     private JPanel panel;
     private DataSetTable table;
     private DataReference reference;
-    private Action action;
+    private IAction action;
 
     /**
      * Default constructor for the DataSetPanel
@@ -70,10 +70,6 @@ public class DataSetPanel implements ITool, IObserver {
      */
     public void addDataSetToTable(GraphableData data){
         this.table.addDataSet(data);
-    }
-
-    public void update(IObservable object) {
-
     }
 
     public View getView() {

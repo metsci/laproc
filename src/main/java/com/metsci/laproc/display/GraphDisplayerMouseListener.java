@@ -3,46 +3,39 @@ package com.metsci.laproc.display;
 import com.metsci.glimpse.event.mouse.GlimpseMouseEvent;
 import com.metsci.glimpse.event.mouse.GlimpseMouseListener;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
-import com.metsci.glimpse.painter.shape.PolygonPainterSimple;
 import com.metsci.glimpse.support.color.GlimpseColor;
-import com.metsci.laproc.ActionHandlers.Action;
-import com.metsci.laproc.ActionHandlers.DisplayPointAnalyticsAction;
+import com.metsci.laproc.ActionHandlers.UpdateGenericDisplayAction;
+import com.metsci.laproc.application.DataReference;
+import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
-import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.plotting.ROCCurve;
-import com.metsci.laproc.pointmetrics.MetricDescriptionConstants;
-import javafx.scene.shape.Circle;
-
-import java.awt.geom.Point2D;
-import java.util.List;
-import java.util.Map;
+import com.metsci.laproc.utils.IActionReceiver;
 
 /**
  * Mouse listener for selecting a set of points
  * Created by malinocr on 10/3/2016.
  */
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
-    private Graph graph;
+
+    private DataReference dataReference;
     private PolygonPainter polygonPainter;
     private long lastClickTime = 0;
     private boolean doubleClicked = false;
     private boolean displayDoubleClick = false;
     private boolean isDisplayingPolygon = false;
-    private Action pointDataAction;
+    private IActionReceiver<GraphPoint[]>[] listenerRecievers;
     GlimpseMouseEvent firstClick;
 
     public static final int MOUSE_CLICK_NANOSECONDS = 500000000;
 
     /**
      * General constructor for GraphDisplayerMouseListener
-     * @param graph current graph that is being displayed
      * @param polygonPainter polygon painter for selection area
      */
-    public GraphDisplayerMouseListener(Graph graph, PointInfoPanel pointPanel, ConfusionPanel confusionPanel, PolygonPainter polygonPainter){
-        this.graph = graph;
+    public GraphDisplayerMouseListener(DataReference reference, PolygonPainter polygonPainter, IActionReceiver<GraphPoint[]>... receivers){
+        this.dataReference = reference;
         this.polygonPainter = polygonPainter;
-        this.pointDataAction = new DisplayPointAnalyticsAction(pointPanel, confusionPanel);
+        this.listenerRecievers = receivers;
        // this.window = window;
 
         configurePolygonPainter();
@@ -98,8 +91,10 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      */
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
-        GraphPoint[] points = this.graph.getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
-        this.pointDataAction.doAction(points);
+        GraphPoint[] points = dataReference.getGraph().getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+        for(IActionReceiver<GraphPoint[]> receiver : this.listenerRecievers) {
+            receiver.respondToAction(points);
+        }
         //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
 //        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{
 //                values.get(MetricDescriptionConstants.truePositives),

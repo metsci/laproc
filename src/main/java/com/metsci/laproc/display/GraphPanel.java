@@ -4,33 +4,29 @@ import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.application.DataReference;
-import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.utils.IActionReceiver;
+import com.metsci.laproc.utils.IObserver;
 
-import javax.swing.*;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by porterjc on 9/26/2016.
  */
-public class GraphPanel implements ITool, Observer{
+public class GraphPanel implements ITool, IObserver<DataReference> {
     private NewtSwingGlimpseCanvas canvas;
     private GraphDisplayer graphDisplayer;
-    private DataReference reference;
 
     /**
      * Simple constructor
      * Creaded by porterjc on 9/22/2016
      */
 
-    public GraphPanel(DataReference reference, PointInfoPanel pointInfoPanel, ConfusionPanel confusionPanel){
-        this.reference = reference;
+    public GraphPanel(DataReference reference, IActionReceiver<GraphPoint[]>... actionReceivers){
+        reference.addObserver(this);
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
-        GraphDisplayer dis = new GraphDisplayer(reference.getGraph(), pointInfoPanel, confusionPanel);
-        this.addGraphToCanvas(dis);
+        graphDisplayer = new GraphDisplayer(reference, actionReceivers);
+        this.addGraphToCanvas(graphDisplayer);
     }
 
 	/**
@@ -59,14 +55,7 @@ public class GraphPanel implements ITool, Observer{
         return ITool.CENTERPOSITION;
     }
 
-    public void update(Observable o, Object arg) {
-
-    }
-
-    /**
-     * Updates the displayed graph
-     */
-    public void updateGraph() {
+    public void update(DataReference reference) {
         canvas.removeAllLayouts();
         canvas.addLayout(graphDisplayer.getLayout());
     }

@@ -23,7 +23,7 @@ public class FilterActionListener implements ActionListener {
 	private JTextField valueVal;
 	
 	/**
-	 * Custom Action Listener that applys a filter to the model, which then updates the JTable on which it rests.
+	 * Custom IAction Listener that applys a filter to the model, which then updates the JTable on which it rests.
 	 * Further includes any JTextFields that were used for the custom filtering. Currently accepts a truth boolean
 	 * and a lowerbound on the data set
 	 * @param table2

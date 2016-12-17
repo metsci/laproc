@@ -1,10 +1,8 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
-import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.plotting.GraphPoint;
-import com.metsci.laproc.utils.IObservable;
-import com.metsci.laproc.utils.IObserver;
+import com.metsci.laproc.utils.IActionReceiver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,17 +12,15 @@ import java.awt.*;
  *
  * Created by porterjc on 10/14/2016.
  */
-public class ConfusionPanel implements ITool, IObserver {
+public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
     private JPanel panel;
     private JScrollPane pane;
-    private DataReference reference;
 
     /**
      * Basic constructor  for the confusion matrix panel
      *
      */
-    public ConfusionPanel(DataReference ref){
-        reference = ref;
+    public ConfusionPanel(){
         GridLayout matri = new GridLayout(3, 3);
         panel = new JPanel();
         panel.setName("Confusion Matrix");
@@ -76,7 +72,7 @@ public class ConfusionPanel implements ITool, IObserver {
         return ITool.BOTTOMPOSITION;
     }
 
-    public void update(IObservable object) {
-
+    public void respondToAction(GraphPoint[] points) {
+        updateConfusionMatrix(points);
     }
 }

@@ -11,11 +11,14 @@ public class DefaultToolBox extends ToolBox {
 
     protected void initializeTools() {
 
-        this.addTool(new DataSheetPanel());
+        ConfusionPanel confusionPanel = new ConfusionPanel();
+        PointInfoPanel pointInfoPanel = new PointInfoPanel();
+
+        this.addTool(new DataSheetPanel(getDataReference()));
         this.addTool(new DataSetPanel(getDataReference()));
         this.addTool(new GraphOptionsPanel(getDataReference()));
-        this.addTool(new GraphPanel(getDataReference()));
-        this.addTool(new ConfusionPanel(getDataReference()));
-        this.addTool(new PointInfoPanel(getDataReference()));
+        this.addTool(new GraphPanel(getDataReference(), confusionPanel, pointInfoPanel));
+        this.addTool(confusionPanel);
+        this.addTool(pointInfoPanel);
     }
 }

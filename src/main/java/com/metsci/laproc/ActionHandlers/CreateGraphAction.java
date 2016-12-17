@@ -6,11 +6,12 @@ import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 
 import com.metsci.laproc.display.DataSetTable;
+import com.metsci.laproc.utils.IAction;
 
 /**
  * Created by porterjc on 12/16/2016.
  */
-public class CreateGraphAction implements Action<DataSetTable> {
+public class CreateGraphAction implements IAction<DataSetTable> {
     private DataReference reference;
 
     public CreateGraphAction(DataReference ref) {
