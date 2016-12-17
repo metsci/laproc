@@ -1,4 +1,4 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.tools;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -15,12 +15,11 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.uicomponents.FilterActionListener;
+import com.metsci.laproc.uicomponents.TableDisplayer;
 import com.metsci.laproc.utils.IAction;
-import com.metsci.laproc.ActionHandlers.CreateNewDataSetAction;
-import com.metsci.laproc.application.DataReference;
+import com.metsci.laproc.action.CreateNewDataSetAction;
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.utils.IObservable;
-import com.metsci.laproc.utils.IObserver;
 
 /**
  * 

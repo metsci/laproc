@@ -1,6 +1,5 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.uicomponents;
 
-import com.metsci.glimpse.docking.View;
 import com.metsci.glimpse.layout.GlimpseLayoutProvider;
 import com.metsci.glimpse.painter.decoration.LegendPainter.*;
 import com.metsci.glimpse.painter.info.CursorTextPainter;
@@ -8,16 +7,8 @@ import com.metsci.glimpse.painter.plot.XYLinePainter;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
-import com.metsci.laproc.application.DataReference;
-import com.metsci.laproc.plotting.Axis;
-import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphPoint;
-import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.plotting.*;
 import com.metsci.laproc.utils.IActionReceiver;
-import com.metsci.laproc.utils.IObservable;
-import com.metsci.laproc.utils.IObserver;
-
-import java.util.List;
 
 /**
  * Creates a Glimpse plot for a Graph
@@ -25,17 +16,27 @@ import java.util.List;
  */
 public class GraphDisplayer implements GlimpseLayoutProvider
 {
-    private DataReference reference;
-
     private IActionReceiver<GraphPoint[]>[] listenerRecievers;
+    private Graph graph;
 
     /**
      * Constructor for a given graph and window
      * @params graph, displayer
      */
-    public GraphDisplayer(DataReference reference, IActionReceiver<GraphPoint[]>... receiverPanels) {
-        this.reference = reference;
+    public GraphDisplayer(IActionReceiver<GraphPoint[]>... receiverPanels) {
         this.listenerRecievers = receiverPanels;
+        //By default, display an empty graph
+        this.graph = new BasicGraph();
+    }
+
+    /**
+     * This should be called before getLayout to update the graph that the canvas should display.
+     * Because getLayout() is an interface method from Glimpse, we can't give it a Graph as a parameter
+     * So use this method instead
+     * @param graph The graph to display on this GraphDisplayer
+     */
+    public void setGraph(Graph graph) {
+        this.graph = graph;
     }
 
     /**
@@ -44,7 +45,6 @@ public class GraphDisplayer implements GlimpseLayoutProvider
      */
     public SimplePlot2D getLayout()
     {
-        Graph graph = reference.getGraph();
         // Create a plot frame
         SimplePlot2D plot = new SimplePlot2D( );
 
@@ -67,7 +67,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
 
-        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(reference, selectedAreaPainter, this.listenerRecievers));
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter, this.listenerRecievers));
 
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().showSelectionBox(false);
@@ -106,7 +106,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         plot.addPainter(linePainter);
         legend.addItem(graph.getSelectedData().getName(), selectedLineColor); */
 
-        // Add a painter to display the x and y position of the cursor
+        // Add a painter to uicomponents the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter();
         plot.addPainter(cursorPainter);
 

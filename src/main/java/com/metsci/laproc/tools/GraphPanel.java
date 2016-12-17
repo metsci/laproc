@@ -1,18 +1,17 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.tools;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.docking.View;
-import com.metsci.laproc.application.DataReference;
+import com.metsci.laproc.uicomponents.GraphDisplayer;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.utils.IActionReceiver;
-import com.metsci.laproc.utils.IObserver;
 
 
 /**
  * Created by porterjc on 9/26/2016.
  */
-public class GraphPanel implements ITool, IObserver<DataReference> {
+public class GraphPanel implements ITool, DataObserver {
     private NewtSwingGlimpseCanvas canvas;
     private GraphDisplayer graphDisplayer;
 
@@ -25,7 +24,7 @@ public class GraphPanel implements ITool, IObserver<DataReference> {
         reference.addObserver(this);
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
-        graphDisplayer = new GraphDisplayer(reference, actionReceivers);
+        graphDisplayer = new GraphDisplayer(actionReceivers);
         this.addGraphToCanvas(graphDisplayer);
     }
 
@@ -57,6 +56,7 @@ public class GraphPanel implements ITool, IObserver<DataReference> {
 
     public void update(DataReference reference) {
         canvas.removeAllLayouts();
+        graphDisplayer.setGraph(reference.getGraph());
         canvas.addLayout(graphDisplayer.getLayout());
     }
 }

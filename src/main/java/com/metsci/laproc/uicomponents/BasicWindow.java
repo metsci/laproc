@@ -1,4 +1,4 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.uicomponents;
 
 /**
  * Created by porterjc on 12/9/2016.

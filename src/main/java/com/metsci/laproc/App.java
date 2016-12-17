@@ -3,13 +3,9 @@ package com.metsci.laproc;
 import com.metsci.laproc.application.Application;
 import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.data.TagHeader;
-import com.metsci.laproc.display.*;
-import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPointImpl;
-import com.metsci.laproc.plotting.*;
-import com.metsci.laproc.pointmetrics.FalsePositiveRate;
-import com.metsci.laproc.pointmetrics.TruePositiveRate;
+
 import java.io.IOException;
 
 /**
@@ -48,7 +44,7 @@ public class App {
 
         window.addViewToTile(aPanel.getView(), 2);
         window.addViewToTile(cPanel.getView(), 2);
-        window.display();*/
+        window.uicomponents();*/
     }
 
     private static ClassifierDataSet importData() {

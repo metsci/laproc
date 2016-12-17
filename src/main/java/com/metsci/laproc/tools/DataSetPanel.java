@@ -1,10 +1,10 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.uicomponents.DataSetTable;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.utils.IAction;
-import com.metsci.laproc.ActionHandlers.CreateGraphAction;
-import com.metsci.laproc.application.DataReference;
+import com.metsci.laproc.action.CreateGraphAction;
 import com.metsci.laproc.plotting.GraphableData;
 
 import javax.swing.*;

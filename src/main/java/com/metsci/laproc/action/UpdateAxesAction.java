@@ -1,7 +1,6 @@
-package com.metsci.laproc.ActionHandlers;
+package com.metsci.laproc.action;
 
-import com.metsci.laproc.application.DataReference;
-import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.tools.DataReference;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IAction;
 

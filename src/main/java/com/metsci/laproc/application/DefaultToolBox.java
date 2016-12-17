@@ -1,6 +1,6 @@
 package com.metsci.laproc.application;
 
-import com.metsci.laproc.display.*;
+import com.metsci.laproc.tools.*;
 
 /**
  * The default implementation of the Abstract ToolBox class. This provides all the basic tools

@@ -1,4 +1,4 @@
-package com.metsci.laproc.application;
+package com.metsci.laproc.tools;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.BasicGraph;
@@ -21,7 +21,7 @@ public class DataReference extends Observable {
     /**
      * Constructor
      */
-    protected DataReference() {
+    public DataReference() {
         super();
         // Default to an empty graph to prevent Null Pointer exceptions
         graph = new BasicGraph();

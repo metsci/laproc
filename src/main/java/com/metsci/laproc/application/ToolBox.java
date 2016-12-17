@@ -1,7 +1,7 @@
 package com.metsci.laproc.application;
 
-import com.metsci.laproc.display.ITool;
-import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.tools.ITool;
+import com.metsci.laproc.tools.DataReference;
 
 import java.util.ArrayList;
 import java.util.List;

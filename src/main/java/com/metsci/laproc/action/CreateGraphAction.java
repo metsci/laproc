@@ -1,11 +1,11 @@
-package com.metsci.laproc.ActionHandlers;
+package com.metsci.laproc.action;
 
-import com.metsci.laproc.application.DataReference;
+import com.metsci.laproc.tools.DataReference;
 import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 
-import com.metsci.laproc.display.DataSetTable;
+import com.metsci.laproc.uicomponents.DataSetTable;
 import com.metsci.laproc.utils.IAction;
 
 /**

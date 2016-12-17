@@ -1,4 +1,4 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.uicomponents;
 
 import com.metsci.glimpse.docking.*;
 import javax.swing.*;

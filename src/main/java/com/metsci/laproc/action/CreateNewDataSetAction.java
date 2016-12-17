@@ -1,8 +1,8 @@
-package com.metsci.laproc.ActionHandlers;
+package com.metsci.laproc.action;
 
-import com.metsci.laproc.application.DataReference;
+import com.metsci.laproc.tools.DataReference;
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.display.TableDisplayer;
+import com.metsci.laproc.uicomponents.TableDisplayer;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.plotting.ROCCurve;

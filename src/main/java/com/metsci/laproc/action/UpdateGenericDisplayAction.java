@@ -1,4 +1,4 @@
-package com.metsci.laproc.ActionHandlers;
+package com.metsci.laproc.action;
 
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.utils.IActionReceiver;

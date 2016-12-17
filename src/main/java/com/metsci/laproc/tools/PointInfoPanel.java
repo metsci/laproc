@@ -1,4 +1,4 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.plotting.GraphPoint;

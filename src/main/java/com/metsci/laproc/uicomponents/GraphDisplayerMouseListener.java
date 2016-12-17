@@ -1,12 +1,9 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.uicomponents;
 
 import com.metsci.glimpse.event.mouse.GlimpseMouseEvent;
 import com.metsci.glimpse.event.mouse.GlimpseMouseListener;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.support.color.GlimpseColor;
-import com.metsci.laproc.ActionHandlers.UpdateGenericDisplayAction;
-import com.metsci.laproc.application.DataReference;
-import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.utils.IActionReceiver;
@@ -17,23 +14,23 @@ import com.metsci.laproc.utils.IActionReceiver;
  */
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
 
-    private DataReference dataReference;
+    private Graph graph;
     private PolygonPainter polygonPainter;
     private long lastClickTime = 0;
     private boolean doubleClicked = false;
     private boolean displayDoubleClick = false;
     private boolean isDisplayingPolygon = false;
     private IActionReceiver<GraphPoint[]>[] listenerRecievers;
-    GlimpseMouseEvent firstClick;
+    private GlimpseMouseEvent firstClick;
 
-    public static final int MOUSE_CLICK_NANOSECONDS = 500000000;
+    private static final int MOUSE_CLICK_NANOSECONDS = 500000000;
 
     /**
      * General constructor for GraphDisplayerMouseListener
      * @param polygonPainter polygon painter for selection area
      */
-    public GraphDisplayerMouseListener(DataReference reference, PolygonPainter polygonPainter, IActionReceiver<GraphPoint[]>... receivers){
-        this.dataReference = reference;
+    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IActionReceiver<GraphPoint[]>... receivers){
+        this.graph = graph;
         this.polygonPainter = polygonPainter;
         this.listenerRecievers = receivers;
        // this.window = window;
@@ -54,7 +51,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
             polygonPainter.deletePolygon(0,0);
             isDisplayingPolygon = false;
         }
-        if(doubleClicked == true){
+        if(doubleClicked){
             doubleClicked = false;
             displayDoubleClick = true;
         } else if(System.nanoTime() - lastClickTime < MOUSE_CLICK_NANOSECONDS){ //This is based on the normal double click time
@@ -91,7 +88,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      */
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
-        GraphPoint[] points = dataReference.getGraph().getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+        GraphPoint[] points = graph.getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
         for(IActionReceiver<GraphPoint[]> receiver : this.listenerRecievers) {
             receiver.respondToAction(points);
         }

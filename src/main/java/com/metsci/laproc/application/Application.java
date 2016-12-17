@@ -1,9 +1,10 @@
 package com.metsci.laproc.application;
 
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.display.BasicWindow;
-import com.metsci.laproc.display.ITool;
-import com.metsci.laproc.display.Window;
+import com.metsci.laproc.uicomponents.BasicWindow;
+import com.metsci.laproc.tools.ITool;
+import com.metsci.laproc.uicomponents.Window;
+import com.metsci.laproc.tools.DataReference;
 
 /**
  * This class represents the highest level of an application.
