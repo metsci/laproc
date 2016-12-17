@@ -8,10 +8,10 @@ import java.util.Collection;
  */
 public class Observable implements IObservable {
 
-    private Collection<IObserver> observers;
+    private Collection<IObserver<Observable>> observers;
 
     public Observable() {
-        this.observers = new ArrayList<IObserver>();
+        this.observers = new ArrayList<IObserver<Observable>>();
     }
     public void addObserver(IObserver observer) {
         this.observers.add(observer);
@@ -22,7 +22,7 @@ public class Observable implements IObservable {
     }
 
     public void notifyObservers() {
-        for(IObserver observer : this.observers) {
+        for(IObserver<Observable> observer : this.observers) {
             observer.update(this);
         }
     }
