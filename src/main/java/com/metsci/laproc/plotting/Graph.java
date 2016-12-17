@@ -83,4 +83,10 @@ public interface Graph {
      */
     void useAxisFunctions(ParametricFunction xAxis, ParametricFunction yAxis);
 
+    /**
+     * Adds a graphable data item
+     * @param dat The data to add
+     */
+    void addData(GraphableData dat);
+
 }

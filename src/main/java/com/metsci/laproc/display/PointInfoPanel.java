@@ -3,6 +3,7 @@ package com.metsci.laproc.display;
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.ActionHandlers.*;
 import com.metsci.laproc.ActionHandlers.Action;
+import com.metsci.laproc.data.DataReference;
 import com.metsci.laproc.plotting.GraphPoint;
 import javax.swing.*;
 import java.awt.*;
@@ -18,12 +19,13 @@ import java.util.Observer;
 public class PointInfoPanel implements ITool, Observer {
     private JScrollPane pane;
     private JPanel panel;
-    private Action action;
+    private DataReference reference;
 
     /**
      * Basic constructor for the PointInfoPanel
      */
-    public PointInfoPanel() {
+    public PointInfoPanel(DataReference ref) {
+        reference = ref;
         panel = new JPanel();
         panel.setName("Point Analytics");
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -33,10 +35,9 @@ public class PointInfoPanel implements ITool, Observer {
 
     /**
      * updates the rows of the point info panel
-     *
-     * @param point
      */
-    public void update(GraphPoint point){
+    public void update(){
+        //GraphPoint point = reference.getGraph()
         Map<String, Double> data = point.getAnalytics();
 
         JPanel panel = new JPanel();
@@ -56,17 +57,11 @@ public class PointInfoPanel implements ITool, Observer {
         this.panel.getParent().repaint();
     }
 
-    public void initialize() {
-
-    }
-
     public View getView() {
         return new View("PointInfo", this.panel, "PointInfo", true);
     }
 
-    public void addAction() {
-        action = new FetchPointAction();
-    }
+
 
     public void update(Observable o, Object arg) {
 

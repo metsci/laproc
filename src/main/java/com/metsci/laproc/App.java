@@ -28,10 +28,8 @@ public class App {
         Window window = new BasicWindow();
 
         ITool gPanel = new GraphPanel(graph);
-        gPanel.initialize();
 
         ITool oPanel = new GraphOptionsPanel(graph);
-        oPanel.initialize();
         ITool dsPanel = new DataSetPanel();
         ITool dshPanel = new DataSheetPanel();
 

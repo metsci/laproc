@@ -1,6 +1,7 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.data.DataReference;
 import com.metsci.laproc.utils.IObservable;
 import com.metsci.laproc.utils.IObserver;
 
@@ -15,12 +16,14 @@ import java.awt.*;
 public class ConfusionPanel implements ITool, IObserver {
     private JPanel panel;
     private JScrollPane pane;
+    private DataReference reference;
 
     /**
      * Basic constructor  for the confusion matrix panel
      *
      */
-    public ConfusionPanel(){
+    public ConfusionPanel(DataReference ref){
+        reference = ref;
         GridLayout matri = new GridLayout(3, 3);
         panel = new JPanel();
         panel.setName("Confusion Matrix");
@@ -44,11 +47,8 @@ public class ConfusionPanel implements ITool, IObserver {
 
     /**
      * Updates the columns and rows of the confusion matrix
-     *
-     * @param positives
-     * @param negatives
      */
-    public void updateConfusionMatrix(double[] positives, double[] negatives) {
+    public void updateConfusionMatrix() {
         JLabel temp = (JLabel) panel.getComponent(4);
         temp.setText(positives[0]+ "");
         temp.repaint();
@@ -66,16 +66,8 @@ public class ConfusionPanel implements ITool, IObserver {
         pane.getParent().repaint();
     }
 
-    public void initialize() {
-
-    }
-
     public View getView() {
         return new View("Confusion Matrices", this.pane, "Confusion Matrices", true);
-    }
-
-    public void addAction() {
-
     }
 
     public void update(IObservable object) {

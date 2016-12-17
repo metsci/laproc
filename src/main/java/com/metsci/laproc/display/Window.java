@@ -1,8 +1,6 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.*;
-import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.plotting.GraphableData;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;

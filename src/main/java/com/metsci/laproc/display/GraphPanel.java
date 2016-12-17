@@ -26,6 +26,8 @@ public class GraphPanel implements ITool, Observer{
         this.graph = graph;
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
+        GraphDisplayer dis = new GraphDisplayer(this.graph);
+        this.addGraphToCanvas(dis);
     }
 
 	/**
@@ -46,17 +48,8 @@ public class GraphPanel implements ITool, Observer{
         return canvas;
     }
 
-    public void initialize() {
-        GraphDisplayer dis = new GraphDisplayer(this.graph);
-        this.addGraphToCanvas(dis);
-    }
-
     public View getView() {
         return new View("Graph", this.getCanvas(), "Graph", true);
-    }
-
-    public void addAction() {
-
     }
 
     public void update(Observable o, Object arg) {

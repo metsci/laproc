@@ -1,12 +1,17 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.ActionHandlers.CreateGraphAction;
+import com.metsci.laproc.data.DataReference;
+import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IObservable;
 import com.metsci.laproc.utils.IObserver;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * A JPanel that handles interacting with the created data sets
@@ -15,14 +20,15 @@ import java.awt.*;
 public class DataSetPanel implements ITool, IObserver {
     private JPanel panel;
     private DataSetTable table;
+    private DataReference reference;
 
     /**
      * Default constructor for the DataSetPanel
      */
-    public DataSetPanel(){
+    public DataSetPanel(DataReference ref){
+        this.panel = new JPanel();
+        this.reference = ref;
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
-        String[] columnNames = new String[1];
-        columnNames[0] = "Data Set";
         this.table = new DataSetTable();
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
@@ -32,9 +38,12 @@ public class DataSetPanel implements ITool, IObserver {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
         JButton displaySetButton = new JButton("Display Set");
-        //TODO
-        DisplayDataSetActionListener displayListener = new DisplayDataSetActionListener(this.window,this.table);
-        displaySetButton.addActionListener(displayListener);
+
+        displaySetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                new CreateGraphAction(table, reference).doAction();
+            }
+        });
         buttonPanel.add(displaySetButton);
 
         JButton selectSetButton = new JButton("Select Set");
@@ -71,9 +80,5 @@ public class DataSetPanel implements ITool, IObserver {
 
     public View getView() {
         return new View("Data Set", this.panel, "Data Set", true);
-    }
-
-    public void addAction() {
-
     }
 }

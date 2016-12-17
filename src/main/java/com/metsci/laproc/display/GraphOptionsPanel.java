@@ -65,7 +65,7 @@ public class GraphOptionsPanel implements ITool, Observer{
 
         ActionListener listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action.doAction();
+                new UpdateAxesAction(graph, getSelectedXAxis(), getSelectedYAxis()).doAction();
             }
         };
         this.updateButton.addActionListener(listener);
@@ -104,16 +104,8 @@ public class GraphOptionsPanel implements ITool, Observer{
         return this.metricsMap.get(this.yaxis.getSelectedItem());
     }
 
-    public void initialize() {
-        this.populateOptions();
-    }
-
     public View getView() {
         return new View("Options", this.panel, "Options", true);
-    }
-
-    public void addAction() {
-        this.action = new UpdateAxesAction(graph, this.getSelectedXAxis(), this.getSelectedYAxis());
     }
 
     public void update(Observable o, Object arg) {

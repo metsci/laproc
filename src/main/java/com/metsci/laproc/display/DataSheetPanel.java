@@ -82,15 +82,7 @@ public class DataSheetPanel implements ITool, IObserver {
 
 	}
 
-	public void initialize() {
-
-	}
-
 	public View getView() {
 		return new View("Data Sheet", this.panel, "Data Sheet", true);
-	}
-
-	public void addAction() {
-
 	}
 }

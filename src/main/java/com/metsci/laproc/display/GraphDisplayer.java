@@ -1,5 +1,6 @@
 package com.metsci.laproc.display;
 
+import com.metsci.glimpse.docking.View;
 import com.metsci.glimpse.layout.GlimpseLayoutProvider;
 import com.metsci.glimpse.painter.decoration.LegendPainter.*;
 import com.metsci.glimpse.painter.info.CursorTextPainter;
@@ -15,7 +16,7 @@ import com.metsci.laproc.plotting.GraphableData;
  * Creates a Glimpse plot for a Graph
  * Created by malinocr on 9/20/2016.
  */
-public class GraphDisplayer implements GlimpseLayoutProvider
+public class GraphDisplayer implements ITool, GlimpseLayoutProvider
 {
     Graph graph;
    // private Window window;
@@ -138,5 +139,13 @@ public class GraphDisplayer implements GlimpseLayoutProvider
      */
     public void setSelectedDataSet(GraphableData data){
         this.graph.setSelectedData(data);
+    }
+
+    public void initialize() {
+
+    }
+
+    public View getView() {
+        return null;
     }
 }
