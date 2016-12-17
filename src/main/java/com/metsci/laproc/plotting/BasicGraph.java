@@ -186,7 +186,7 @@ public class BasicGraph implements Graph {
     public GraphPoint getClosestPoint(double x, double y) {
         if(this.data.isEmpty())
             return null;
-        
+
         GraphPoint closestPoint = this.data.get(0).getDataPoint(x, y);
         double closestDistance = findDistance(closestPoint.getX(), x, closestPoint.getY(), y);
         for(int i = 1; i < data.size(); i++) {
