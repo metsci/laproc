@@ -9,6 +9,10 @@ import com.metsci.laproc.display.*;
  */
 public class DefaultToolBox extends ToolBox {
 
+    public DefaultToolBox(DataReference reference) {
+        super(reference);
+    }
+
     protected void initializeTools() {
 
         ConfusionPanel confusionPanel = new ConfusionPanel();

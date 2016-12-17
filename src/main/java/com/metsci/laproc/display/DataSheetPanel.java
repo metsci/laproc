@@ -37,6 +37,7 @@ public class DataSheetPanel implements ITool {
 	public DataSheetPanel(DataReference ref){
 		this.panel = new JPanel();
 		this.action = new CreateNewDataSetAction(ref);
+		setDataSheet(ref.getEvaluationSets().next());
 	}
 
 	/**

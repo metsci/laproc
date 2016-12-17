@@ -45,18 +45,6 @@ public interface Graph {
     void setTitle(String title);
 
     /**
-     * Setter for selected graph data
-     * @param data the data to set
-     */
-    void setSelectedData(GraphableData data);
-
-    /**
-     * Getter for selected graph data
-     * @return selected graph data
-     */
-    GraphableData getSelectedData();
-
-    /**
      * Getter for all of the graphable data associated with this graph
      * @return The graphable data associated with this graph
      */

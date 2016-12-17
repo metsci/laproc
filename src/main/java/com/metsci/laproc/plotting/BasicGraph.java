@@ -151,25 +151,6 @@ public class BasicGraph implements Graph {
     }
 
     /**
-     * Selects a GraphableData object
-     * @param data the data to select
-     */
-    public void setSelectedData (GraphableData data) {
-        if(!this.data.contains(data)){
-            throw new IllegalArgumentException();
-        }
-        this.selectedData = data;
-    }
-
-    /**
-     * Gets the currently selected GraphableData
-     * @return the currently selected GraphableData
-     */
-    public GraphableData getSelectedData(){
-        return this.selectedData;
-    }
-
-    /**
      * Getter for all of the graphable data associated with this graph
      * @return The graphable data associated with this graph
      */

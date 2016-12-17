@@ -13,10 +13,9 @@ public abstract class ToolBox {
     private DataReference reference;
     private List<ITool> tools;
 
-    protected ToolBox() {
-        this.reference = new DataReference();
+    protected ToolBox(DataReference reference) {
+        this.reference = reference;
         this.tools = new ArrayList<ITool>();
-        this.initializeTools();
     }
 
     protected abstract void initializeTools();

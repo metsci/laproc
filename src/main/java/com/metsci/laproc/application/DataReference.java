@@ -1,11 +1,13 @@
 package com.metsci.laproc.application;
 
 import com.metsci.laproc.data.ClassifierDataSet;
+import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.utils.Observable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,6 +22,9 @@ public class DataReference extends Observable {
      * Constructor
      */
     protected DataReference() {
+        super();
+        // Default to an empty graph to prevent Null Pointer exceptions
+        graph = new BasicGraph();
         evalSets = new ArrayList<ClassifierDataSet>();
     }
 
@@ -62,8 +67,8 @@ public class DataReference extends Observable {
      * Gets a list of all evaluation sets
      * @return A list of all evaluation sets
      */
-    public Iterable<ClassifierDataSet> getEvaluationSets() {
-        return Collections.unmodifiableList(this.evalSets);
+    public Iterator<ClassifierDataSet> getEvaluationSets() {
+        return this.evalSets.iterator();
     }
 
 }

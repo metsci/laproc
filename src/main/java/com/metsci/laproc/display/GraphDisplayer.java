@@ -91,22 +91,20 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         //Draws each graphable data
         int currentColor = 0;
         for(GraphableData lineData : graph.getData()){
-            if(!lineData.equals(graph.getSelectedData())) {
-                float[] color = possibleColors[currentColor];
-                if (currentColor != possibleColors.length) {
-                    currentColor++;
-                }
-                XYLinePainter linePainter = createXYLinePainter(lineData, color, 1.5f);
-                plot.addPainter(linePainter);
-                legend.addItem(lineData.getName(), color);
+            float[] color = possibleColors[currentColor];
+            if (currentColor != possibleColors.length) {
+                currentColor++;
             }
+            XYLinePainter linePainter = createXYLinePainter(lineData, color, 1.5f);
+            plot.addPainter(linePainter);
+            legend.addItem(lineData.getName(), color);
         }
 
         //Draw selected line
-        float[] selectedLineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
+     /*   float[] selectedLineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
         XYLinePainter linePainter = createXYLinePainter(graph.getSelectedData(), selectedLineColor, 2.5f);
         plot.addPainter(linePainter);
-        legend.addItem(graph.getSelectedData().getName(), selectedLineColor);
+        legend.addItem(graph.getSelectedData().getName(), selectedLineColor); */
 
         // Add a painter to display the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter();

@@ -33,6 +33,7 @@ public class GraphOptionsPanel implements ITool, IObserver<DataReference>{
      * Created by porterjc on 10/26/2016.
      */
     public GraphOptionsPanel(DataReference reference) {
+        reference.addObserver(this);
         this.panel = new JPanel();
         this.action = new UpdateAxesAction(reference);
         this.metricsMap = new HashMap<String, ParametricFunction>();

@@ -20,16 +20,20 @@ public class Application {
 
     public Application(ClassifierDataSet baseInputSet) {
         this.baseInputSet = baseInputSet;
-        globalToolBox = new DefaultToolBox();
         globalDataReference = new DataReference();
+        globalDataReference.addEvalSet(this.baseInputSet);
+        globalToolBox = new DefaultToolBox(globalDataReference);
     }
 
     public void run() {
         //TODO create a window, initialize layout, load tool configuration
+        globalToolBox.initializeTools();
         Window window = new BasicWindow();
 
         for(ITool t : globalToolBox.getTools()) {
             window.addViewToTile(t.getView(), t.getDefaultPosition());
         }
+
+        window.display();
     }
 }
