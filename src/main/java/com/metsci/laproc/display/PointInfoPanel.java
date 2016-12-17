@@ -1,6 +1,8 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.ActionHandlers.*;
+import com.metsci.laproc.ActionHandlers.Action;
 import com.metsci.laproc.plotting.GraphPoint;
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +18,8 @@ import java.util.Observer;
 public class PointInfoPanel implements ITool, Observer {
     private JScrollPane pane;
     private JPanel panel;
+    private Action action;
+
     /**
      * Basic constructor for the PointInfoPanel
      */
@@ -61,7 +65,7 @@ public class PointInfoPanel implements ITool, Observer {
     }
 
     public void addAction() {
-
+        action = new FetchPointAction();
     }
 
     public void update(Observable o, Object arg) {

@@ -1,6 +1,8 @@
 package com.metsci.laproc.data;
 
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.plotting.GraphableData;
 
 import java.util.Observable;
 import java.util.Set;

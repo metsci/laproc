@@ -38,9 +38,6 @@ public class DataSetPanel implements ITool, IObserver {
         buttonPanel.add(displaySetButton);
 
         JButton selectSetButton = new JButton("Select Set");
-        //TODO May just be able to kill this functionality entirely due to "selected data" notion
-        SelectDataSetActionListener selectListenter = new SelectDataSetActionListener(this.window,this.table);
-        selectSetButton.addActionListener(selectListenter);
         buttonPanel.add(selectSetButton);
 
         this.panel.add(buttonPanel);

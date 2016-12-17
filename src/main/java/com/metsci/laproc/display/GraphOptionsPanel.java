@@ -1,11 +1,15 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.ActionHandlers.*;
+import com.metsci.laproc.ActionHandlers.Action;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 /**
@@ -19,6 +23,7 @@ public class GraphOptionsPanel implements ITool, Observer{
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
     private Graph graph;
+    private Action action;
 
 
     /**
@@ -58,7 +63,11 @@ public class GraphOptionsPanel implements ITool, Observer{
             this.updateButton.removeAll();
         }
 
-        UpdateAxesActionListener listener = new UpdateAxesActionListener(graph, this);
+        ActionListener listener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                action.doAction();
+            }
+        };
         this.updateButton.addActionListener(listener);
 
         Iterator<ParametricFunction> metricIterator = metrics.iterator();
@@ -104,7 +113,7 @@ public class GraphOptionsPanel implements ITool, Observer{
     }
 
     public void addAction() {
-
+        this.action = new UpdateAxesAction(graph, this.getSelectedXAxis(), this.getSelectedYAxis());
     }
 
     public void update(Observable o, Object arg) {
