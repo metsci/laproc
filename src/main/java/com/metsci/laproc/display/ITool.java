@@ -3,6 +3,7 @@ package com.metsci.laproc.display;
 import com.metsci.glimpse.docking.View;
 
 /**
+ * Represents the basic format that tools to be displayed on the application layout should follow
  * Created by porterjc on 12/7/2016.
  */
 public interface ITool {
