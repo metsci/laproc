@@ -2,6 +2,7 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.*;
+import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;

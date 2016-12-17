@@ -1,10 +1,11 @@
 package com.metsci.laproc.application;
 
 import com.metsci.laproc.data.ClassifierDataSet;
+import com.metsci.laproc.datareference.DataReferenceImpl;
 import com.metsci.laproc.uicomponents.BasicWindow;
 import com.metsci.laproc.tools.ITool;
 import com.metsci.laproc.uicomponents.Window;
-import com.metsci.laproc.tools.DataReference;
+import com.metsci.laproc.datareference.DataReference;
 
 /**
  * This class represents the highest level of an application.
@@ -21,7 +22,7 @@ public class Application {
 
     public Application(ClassifierDataSet baseInputSet) {
         this.baseInputSet = baseInputSet;
-        globalDataReference = new DataReference();
+        globalDataReference = new DataReferenceImpl();
         globalDataReference.addEvalSet(this.baseInputSet);
         globalToolBox = new DefaultToolBox(globalDataReference);
     }

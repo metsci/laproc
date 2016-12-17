@@ -6,6 +6,7 @@ import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.utils.IActionReceiver;
 
 /**
@@ -20,7 +21,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private boolean doubleClicked = false;
     private boolean displayDoubleClick = false;
     private boolean isDisplayingPolygon = false;
-    private IActionReceiver<GraphPoint[]>[] listenerRecievers;
+    private IAction<GraphPoint[]>[] actionsOnClick;
     private GlimpseMouseEvent firstClick;
 
     private static final int MOUSE_CLICK_NANOSECONDS = 500000000;
@@ -29,11 +30,10 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      * General constructor for GraphDisplayerMouseListener
      * @param polygonPainter polygon painter for selection area
      */
-    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IActionReceiver<GraphPoint[]>... receivers){
+    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<GraphPoint[]>... actionsOnClick){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
-        this.listenerRecievers = receivers;
-       // this.window = window;
+        this.actionsOnClick = actionsOnClick;
 
         configurePolygonPainter();
     }
@@ -89,8 +89,8 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
         GraphPoint[] points = graph.getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
-        for(IActionReceiver<GraphPoint[]> receiver : this.listenerRecievers) {
-            receiver.respondToAction(points);
+        for(IAction<GraphPoint[]> action : this.actionsOnClick) {
+            action.doAction(points);
         }
         //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
 //        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{

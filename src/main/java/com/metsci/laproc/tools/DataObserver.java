@@ -1,6 +1,6 @@
 package com.metsci.laproc.tools;
 
-import com.metsci.laproc.tools.DataReference;
+import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.utils.IObserver;
 
 /**

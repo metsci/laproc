@@ -1,4 +1,4 @@
-package com.metsci.laproc.tools;
+package com.metsci.laproc.datareference;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.BasicGraph;
@@ -6,7 +6,6 @@ import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.utils.Observable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,14 +13,14 @@ import java.util.List;
  * This reference allows tools to access the graph and associated data
  * Created by porterjc on 12/14/2016.
  */
-public class DataReference extends Observable {
+public class DataReferenceImpl extends Observable implements DataReference {
     private Graph graph;
     private List<ClassifierDataSet> evalSets;
 
     /**
      * Constructor
      */
-    public DataReference() {
+    public DataReferenceImpl() {
         super();
         // Default to an empty graph to prevent Null Pointer exceptions
         graph = new BasicGraph();

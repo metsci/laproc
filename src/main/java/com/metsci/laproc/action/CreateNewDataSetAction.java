@@ -1,6 +1,6 @@
 package com.metsci.laproc.action;
 
-import com.metsci.laproc.tools.DataReference;
+import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.uicomponents.TableDisplayer;
 import com.metsci.laproc.plotting.GraphableData;

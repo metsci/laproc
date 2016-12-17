@@ -1,6 +1,7 @@
 package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.uicomponents.DataSetTable;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.utils.IAction;

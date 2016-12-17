@@ -1,7 +1,7 @@
 package com.metsci.laproc.application;
 
 import com.metsci.laproc.tools.ITool;
-import com.metsci.laproc.tools.DataReference;
+import com.metsci.laproc.datareference.DataReference;
 
 import java.util.ArrayList;
 import java.util.List;

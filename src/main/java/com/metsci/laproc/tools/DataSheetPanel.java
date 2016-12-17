@@ -15,6 +15,7 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.uicomponents.FilterActionListener;
 import com.metsci.laproc.uicomponents.TableDisplayer;
 import com.metsci.laproc.utils.IAction;

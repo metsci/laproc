@@ -8,6 +8,7 @@ import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.*;
+import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.utils.IActionReceiver;
 
 /**
@@ -16,15 +17,15 @@ import com.metsci.laproc.utils.IActionReceiver;
  */
 public class GraphDisplayer implements GlimpseLayoutProvider
 {
-    private IActionReceiver<GraphPoint[]>[] listenerRecievers;
+    private IAction<GraphPoint[]>[] pointClickActions;
     private Graph graph;
 
     /**
      * Constructor for a given graph and window
      * @params graph, displayer
      */
-    public GraphDisplayer(IActionReceiver<GraphPoint[]>... receiverPanels) {
-        this.listenerRecievers = receiverPanels;
+    public GraphDisplayer(IAction<GraphPoint[]>... pointClickActions) {
+        this.pointClickActions = pointClickActions;
         //By default, display an empty graph
         this.graph = new BasicGraph();
     }
@@ -67,7 +68,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
 
-        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter, this.listenerRecievers));
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter, this.pointClickActions));
 
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().showSelectionBox(false);
