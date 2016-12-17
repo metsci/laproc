@@ -17,11 +17,19 @@ public class CreateNewDataSetAction implements IAction<TableDisplayer> {
     private DataReference reference;
     private int currentAddedIndex = 1;
 
-
+    /**
+     * Basic constructor that takes a data reference object
+     * @param ref
+     */
     public CreateNewDataSetAction(DataReference ref) {
         reference = ref;
     }
 
+    /**
+     * add new evalset to the data reference object and the graph object
+     *
+     * @param tableDisplayer
+     */
     public void doAction(TableDisplayer tableDisplayer) {
         JTable table = tableDisplayer.getTable();
         int[] indexes = table.getSelectedRows();
