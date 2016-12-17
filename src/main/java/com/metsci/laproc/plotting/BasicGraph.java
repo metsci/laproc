@@ -28,7 +28,7 @@ public class BasicGraph implements Graph {
     /** Selected data set */
     private GraphableData selectedData;
     /** All data sets that can be plotted on this graph */
-    private Collection<GraphableData> data;
+    private List<GraphableData> data;
 
     /**
      * Default constructor
@@ -175,6 +175,33 @@ public class BasicGraph implements Graph {
      */
     public Iterable<GraphableData> getData() {
         return this.data;
+    }
+
+    /**
+     * Gets the closest value on the plot to the value provided. This is probably a point that was clicked
+     * @param x The x value to compare against
+     * @param y The y value to compare against
+     * @return The closest value on the plot to the value provided.
+     */
+    public GraphPoint getClosestPoint(double x, double y) {
+        if(this.data.isEmpty())
+            return null;
+        
+        GraphPoint closestPoint = this.data.get(0).getDataPoint(x, y);
+        double closestDistance = findDistance(closestPoint.getX(), x, closestPoint.getY(), y);
+        for(int i = 1; i < data.size(); i++) {
+            GraphPoint currentPoint = data.get(i).getDataPoint(x, y);
+            double currentDistance = findDistance(currentPoint.getX(), x, currentPoint.getY(), y);
+            if(currentDistance < closestDistance) {
+                closestDistance = currentDistance;
+                closestPoint = currentPoint;
+            }
+        }
+        return closestPoint;
+    }
+
+    private double findDistance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     }
 
     /**

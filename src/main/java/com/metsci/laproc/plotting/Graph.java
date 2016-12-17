@@ -63,6 +63,14 @@ public interface Graph {
     Iterable<GraphableData> getData();
 
     /**
+     * Gets the closest value on the plot to the value provided. This is probably a point that was clicked
+     * @param x The x value to compare against
+     * @param y The y value to compare against
+     * @return The closest value on the plot to the value provided.
+     */
+    GraphPoint getClosestPoint(double x, double y);
+
+    /**
      * Returns a list of all possible axes to use for this graph
      * @return The list of axes that can be used for this graph
      */
