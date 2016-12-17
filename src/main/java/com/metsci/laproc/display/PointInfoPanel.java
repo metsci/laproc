@@ -58,6 +58,10 @@ public class PointInfoPanel implements ITool, Observer {
         return new View("PointInfo", this.panel, "PointInfo", true);
     }
 
+    public int getDefaultPosition() {
+        return ITool.BOTTOMPOSITION;
+    }
+
     public void update(Observable o, Object arg) {
 
     }

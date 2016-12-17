@@ -3,6 +3,7 @@ package com.metsci.laproc.display;
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.ActionHandlers.*;
 import com.metsci.laproc.ActionHandlers.Action;
+import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
@@ -22,7 +23,7 @@ public class GraphOptionsPanel implements ITool, Observer{
     private JComboBox yaxis;
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
-    private Graph graph;
+    private DataReference reference;
     private Action action;
 
 
@@ -30,10 +31,10 @@ public class GraphOptionsPanel implements ITool, Observer{
      * Default constructor for Graphoptions Panel
      * Created by porterjc on 10/26/2016.
      */
-    public GraphOptionsPanel(Graph graph) {
+    public GraphOptionsPanel(DataReference reference) {
         this.panel = new JPanel();
-        this.graph = graph;
-        this.action = new UpdateAxesAction(this.graph);
+        this.reference = reference;
+        this.action = new UpdateAxesAction(this.reference.getGraph());
         this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
@@ -58,7 +59,7 @@ public class GraphOptionsPanel implements ITool, Observer{
      * Updates the combo boxes with the metrics from the graph
      */
     public void populateOptions() {
-       Iterable<ParametricFunction> metrics = graph.getAxisFunctions();
+       Iterable<ParametricFunction> metrics = reference.getGraph().getAxisFunctions();
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();
@@ -110,6 +111,10 @@ public class GraphOptionsPanel implements ITool, Observer{
 
     public View getView() {
         return new View("Options", this.panel, "Options", true);
+    }
+
+    public int getDefaultPosition() {
+        return ITool.LEFTPOSITION;
     }
 
     public void update(Observable o, Object arg) {

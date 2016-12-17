@@ -1,5 +1,6 @@
 package com.metsci.laproc;
 
+import com.metsci.laproc.application.Application;
 import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.display.*;
@@ -18,14 +19,17 @@ import java.io.IOException;
 public class App {
 	public static void main( String[] args )
     {
-        BasicGraph graph = new BasicGraph("", new FalsePositiveRate(), new TruePositiveRate());
-        ClassifierDataSet importData = importData();
-        GraphableFunction func = new ROCCurve(importData);
+       // BasicGraph graph = new BasicGraph("", new FalsePositiveRate(), new TruePositiveRate());
+        ClassifierDataSet importedData = importData();
+
+        Application application = new Application(importedData);
+        application.run();
+       /* GraphableFunction func = new ROCCurve(importData);
         GraphableData graphableData = func.compute();
         graphableData.setName("Initial Classifier Data Set");
         graph.addData(graphableData);
 
-        Window window = new BasicWindow();
+       /* Window window = new BasicWindow();
 
         ITool gPanel = new GraphPanel(graph);
 
@@ -44,10 +48,7 @@ public class App {
 
         window.addViewToTile(aPanel.getView(), 2);
         window.addViewToTile(cPanel.getView(), 2);
-//        window.showGraphOptions(graphableData);
-//        window.showSpreadsheet(importData);
-//        window.showClass(graphableData);
-        window.display();
+        window.display();*/
     }
 
     private static ClassifierDataSet importData() {

@@ -1,6 +1,5 @@
 package com.metsci.laproc.ActionHandlers;
 
-
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 

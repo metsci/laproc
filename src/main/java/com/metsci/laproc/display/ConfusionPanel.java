@@ -72,6 +72,10 @@ public class ConfusionPanel implements ITool, IObserver {
         return new View("Confusion Matrices", this.pane, "Confusion Matrices", true);
     }
 
+    public int getDefaultPosition() {
+        return ITool.BOTTOMPOSITION;
+    }
+
     public void update(IObservable object) {
 
     }

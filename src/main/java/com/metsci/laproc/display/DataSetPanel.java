@@ -79,4 +79,8 @@ public class DataSetPanel implements ITool, IObserver {
     public View getView() {
         return new View("Data Set", this.panel, "Data Set", true);
     }
+
+    public int getDefaultPosition() {
+        return ITool.LEFTPOSITION;
+    }
 }
