@@ -11,23 +11,29 @@ import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.utils.IObservable;
+import com.metsci.laproc.utils.IObserver;
+
+import java.util.List;
 
 /**
  * Creates a Glimpse plot for a Graph
  * Created by malinocr on 9/20/2016.
  */
-public class GraphDisplayer implements ITool, GlimpseLayoutProvider
+public class GraphDisplayer implements IObserver, GlimpseLayoutProvider
 {
-    Graph graph;
-   // private Window window;
+    private Graph graph;
+    private PointInfoPanel pointPanel;
+    private ConfusionPanel confusionPanel;
 
     /**
      * Constructor for a given graph and window
      * @params graph, displayer
      */
-    public GraphDisplayer(Graph graph) {
+    public GraphDisplayer(Graph graph, PointInfoPanel pointPanel, ConfusionPanel confusionPanel) {
         this.graph = graph;
-        //this.window = window;
+        this.pointPanel = pointPanel;
+        this.confusionPanel = confusionPanel;
     }
 
     /**
@@ -58,7 +64,7 @@ public class GraphDisplayer implements ITool, GlimpseLayoutProvider
         PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
 
-        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter));
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(this.graph, this.pointPanel, this.confusionPanel, selectedAreaPainter));
 
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().showSelectionBox(false);
@@ -141,11 +147,7 @@ public class GraphDisplayer implements ITool, GlimpseLayoutProvider
         this.graph.setSelectedData(data);
     }
 
-    public void initialize() {
+    public void update(IObservable object) {
 
-    }
-
-    public View getView() {
-        return null;
     }
 }

@@ -68,7 +68,7 @@ public interface Graph {
      * @param y The y value to compare against
      * @return The closest value on the plot to the value provided.
      */
-    GraphPoint getClosestPoint(double x, double y);
+    GraphPoint[] getClosestPoints(double x, double y);
 
     /**
      * Returns a list of all possible axes to use for this graph

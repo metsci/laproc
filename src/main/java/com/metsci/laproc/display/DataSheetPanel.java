@@ -1,6 +1,8 @@
 package com.metsci.laproc.display;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -14,6 +16,9 @@ import javax.swing.UIManager;
 import javax.swing.table.TableModel;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.ActionHandlers.Action;
+import com.metsci.laproc.ActionHandlers.CreateNewDataSetAction;
+import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.utils.IObservable;
@@ -27,11 +32,15 @@ import com.metsci.laproc.utils.IObserver;
  */
 public class DataSheetPanel implements ITool, IObserver {
 	private JPanel panel;
+	private DataReference reference;
+	private Action action;
 	/**
 	 * Default constructor, requires a window for context
 	 */
-	public DataSheetPanel(){
+	public DataSheetPanel(DataReference ref){
+		this.reference = ref;
 		this.panel = new JPanel();
+		this.action = new CreateNewDataSetAction(this.reference);
 	}
 
 	/**
@@ -41,7 +50,7 @@ public class DataSheetPanel implements ITool, IObserver {
      */
 	public void setDataSheet(ClassifierDataSet data) {
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
-		TableDisplayer tableDisplayer = new TableDisplayer(data);
+		final TableDisplayer tableDisplayer = new TableDisplayer(data);
 
 		JTable table = tableDisplayer.getTable();
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -52,9 +61,14 @@ public class DataSheetPanel implements ITool, IObserver {
 
 		this.panel.add(scrollPane);
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
-		//TODO
-        NewEvalSetActionListener nesaInstance = new NewEvalSetActionListener(this.window, tableDisplayer);
-		newEvalSetButton.addActionListener(nesaInstance);
+
+		ActionListener listener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				action.doAction(tableDisplayer);
+			}
+		};
+
+		newEvalSetButton.addActionListener(listener);
 		this.panel.add(newEvalSetButton);
 
 		JPanel filterPanel = new JPanel();

@@ -1,9 +1,9 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.ActionHandlers.Action;
 import com.metsci.laproc.ActionHandlers.CreateGraphAction;
-import com.metsci.laproc.data.DataReference;
-import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.application.DataReference;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IObservable;
 import com.metsci.laproc.utils.IObserver;
@@ -21,6 +21,7 @@ public class DataSetPanel implements ITool, IObserver {
     private JPanel panel;
     private DataSetTable table;
     private DataReference reference;
+    private Action action;
 
     /**
      * Default constructor for the DataSetPanel
@@ -28,6 +29,7 @@ public class DataSetPanel implements ITool, IObserver {
     public DataSetPanel(DataReference ref){
         this.panel = new JPanel();
         this.reference = ref;
+        this.action = new CreateGraphAction(reference);
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.table = new DataSetTable();
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
@@ -41,7 +43,7 @@ public class DataSetPanel implements ITool, IObserver {
 
         displaySetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new CreateGraphAction(table, reference).doAction();
+                action.doAction(table);
             }
         });
         buttonPanel.add(displaySetButton);
@@ -71,10 +73,6 @@ public class DataSetPanel implements ITool, IObserver {
     }
 
     public void update(IObservable object) {
-
-    }
-
-    public void initialize() {
 
     }
 

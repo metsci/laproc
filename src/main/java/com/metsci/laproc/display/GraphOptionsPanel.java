@@ -33,6 +33,7 @@ public class GraphOptionsPanel implements ITool, Observer{
     public GraphOptionsPanel(Graph graph) {
         this.panel = new JPanel();
         this.graph = graph;
+        this.action = new UpdateAxesAction(this.graph);
         this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
@@ -65,7 +66,10 @@ public class GraphOptionsPanel implements ITool, Observer{
 
         ActionListener listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new UpdateAxesAction(graph, getSelectedXAxis(), getSelectedYAxis()).doAction();
+                ParametricFunction[] axes = new ParametricFunction[2];
+                axes[0] = getSelectedXAxis();
+                axes[1] = getSelectedYAxis();
+                action.doAction(axes);
             }
         };
         this.updateButton.addActionListener(listener);
@@ -109,6 +113,6 @@ public class GraphOptionsPanel implements ITool, Observer{
     }
 
     public void update(Observable o, Object arg) {
-
+        populateOptions();
     }
 }

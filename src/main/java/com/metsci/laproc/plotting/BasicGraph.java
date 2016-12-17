@@ -183,21 +183,12 @@ public class BasicGraph implements Graph {
      * @param y The y value to compare against
      * @return The closest value on the plot to the value provided.
      */
-    public GraphPoint getClosestPoint(double x, double y) {
-        if(this.data.isEmpty())
-            return null;
-
-        GraphPoint closestPoint = this.data.get(0).getDataPoint(x, y);
-        double closestDistance = findDistance(closestPoint.getX(), x, closestPoint.getY(), y);
-        for(int i = 1; i < data.size(); i++) {
-            GraphPoint currentPoint = data.get(i).getDataPoint(x, y);
-            double currentDistance = findDistance(currentPoint.getX(), x, currentPoint.getY(), y);
-            if(currentDistance < closestDistance) {
-                closestDistance = currentDistance;
-                closestPoint = currentPoint;
-            }
+    public GraphPoint[] getClosestPoints(double x, double y) {
+        GraphPoint[] closestPoints = new GraphPoint[data.size()];
+        for(int i = 0; i < closestPoints.length; i++){
+            closestPoints[i] = data.get(i).getDataPoint(x,y);
         }
-        return closestPoint;
+        return closestPoints;
     }
 
     private double findDistance(double x1, double y1, double x2, double y2) {

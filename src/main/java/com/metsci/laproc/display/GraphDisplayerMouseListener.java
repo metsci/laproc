@@ -5,6 +5,8 @@ import com.metsci.glimpse.event.mouse.GlimpseMouseListener;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.painter.shape.PolygonPainterSimple;
 import com.metsci.glimpse.support.color.GlimpseColor;
+import com.metsci.laproc.ActionHandlers.Action;
+import com.metsci.laproc.ActionHandlers.DisplayPointAnalyticsAction;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
@@ -13,6 +15,7 @@ import com.metsci.laproc.pointmetrics.MetricDescriptionConstants;
 import javafx.scene.shape.Circle;
 
 import java.awt.geom.Point2D;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,13 +23,13 @@ import java.util.Map;
  * Created by malinocr on 10/3/2016.
  */
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
-    Graph graph;
-    PolygonPainter polygonPainter;
-    //private Window window;
-    long lastClickTime = 0;
-    boolean doubleClicked = false;
-    boolean displayDoubleClick = false;
-    boolean isDisplayingPolygon = false;
+    private Graph graph;
+    private PolygonPainter polygonPainter;
+    private long lastClickTime = 0;
+    private boolean doubleClicked = false;
+    private boolean displayDoubleClick = false;
+    private boolean isDisplayingPolygon = false;
+    private Action pointDataAction;
     GlimpseMouseEvent firstClick;
 
     public static final int MOUSE_CLICK_NANOSECONDS = 500000000;
@@ -36,9 +39,10 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      * @param graph current graph that is being displayed
      * @param polygonPainter polygon painter for selection area
      */
-    public GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter){
+    public GraphDisplayerMouseListener(Graph graph, PointInfoPanel pointPanel, ConfusionPanel confusionPanel, PolygonPainter polygonPainter){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
+        this.pointDataAction = new DisplayPointAnalyticsAction(pointPanel, confusionPanel);
        // this.window = window;
 
         configurePolygonPainter();
@@ -94,9 +98,8 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      */
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
-        GraphableData data = graph.getSelectedData();
-        GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
-        Map<String, Double> values = point.getAnalytics();
+        GraphPoint[] points = this.graph.getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+        this.pointDataAction.doAction(points);
         //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
 //        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{
 //                values.get(MetricDescriptionConstants.truePositives),
@@ -106,8 +109,8 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
 //
 //        window.getPointInfoPanel().update(point);
 //        window.repaint();
-        System.out.println("X: " + point.getX() + " Y: " + point.getY());
-        ret = point.getX();
+        //System.out.println("X: " + point.getX() + " Y: " + point.getY());
+        //ret = point.getX();
 
         return ret;
     }

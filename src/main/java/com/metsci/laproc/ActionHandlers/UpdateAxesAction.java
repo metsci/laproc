@@ -7,20 +7,16 @@ import com.metsci.laproc.pointmetrics.ParametricFunction;
 /**
  * Created by porterjc on 12/16/2016.
  */
-public class UpdateAxesAction implements Action{
+public class UpdateAxesAction implements Action<ParametricFunction[]>{
     private Graph graph;
-    private ParametricFunction xAxis;
-    private ParametricFunction yAxis;
 
 
 
-    public UpdateAxesAction(Graph graph, ParametricFunction x, ParametricFunction y){
+    public UpdateAxesAction(Graph graph){
         this.graph = graph;
-        this.xAxis = x;
-        this.yAxis = y;
     }
 
-    public void doAction() {
-        this.graph.useAxisFunctions(this.xAxis, this.yAxis);
+    public void doAction(ParametricFunction[] argument) {
+        this.graph.useAxisFunctions(argument[0], argument[1]);
     }
 }

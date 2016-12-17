@@ -7,6 +7,7 @@ import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 
 import javax.swing.*;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,11 +23,11 @@ public class GraphPanel implements ITool, Observer{
      * Simple constructor
      * Creaded by porterjc on 9/22/2016
      */
-    public GraphPanel(Graph graph){
+    public GraphPanel(Graph graph, PointInfoPanel pointInfoPanel, ConfusionPanel confusionPanel){
         this.graph = graph;
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
-        GraphDisplayer dis = new GraphDisplayer(this.graph);
+        GraphDisplayer dis = new GraphDisplayer(this.graph, pointInfoPanel, confusionPanel);
         this.addGraphToCanvas(dis);
     }
 

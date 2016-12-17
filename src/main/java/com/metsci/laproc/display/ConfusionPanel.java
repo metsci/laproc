@@ -1,7 +1,8 @@
 package com.metsci.laproc.display;
 
 import com.metsci.glimpse.docking.View;
-import com.metsci.laproc.data.DataReference;
+import com.metsci.laproc.application.DataReference;
+import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.utils.IObservable;
 import com.metsci.laproc.utils.IObserver;
 
@@ -48,8 +49,9 @@ public class ConfusionPanel implements ITool, IObserver {
     /**
      * Updates the columns and rows of the confusion matrix
      */
-    public void updateConfusionMatrix() {
-        JLabel temp = (JLabel) panel.getComponent(4);
+    public void updateConfusionMatrix(GraphPoint[] points) {
+        //TODO Rework to support new function of having matrix per displayed data set.
+        /*JLabel temp = (JLabel) panel.getComponent(4);
         temp.setText(positives[0]+ "");
         temp.repaint();
         temp = (JLabel) panel.getComponent(5);
@@ -63,7 +65,7 @@ public class ConfusionPanel implements ITool, IObserver {
         temp.repaint();
         pane.revalidate();
         pane.repaint();
-        pane.getParent().repaint();
+        pane.getParent().repaint();*/
     }
 
     public View getView() {
