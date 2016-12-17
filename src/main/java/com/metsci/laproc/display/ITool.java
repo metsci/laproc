@@ -13,14 +13,12 @@ public interface ITool {
 
     /**
      * Returns a View that can be displayed in a Tile
-     *
      * @return
      */
     View getView();
 
     /**
      * Returns default position of a tile implementation
-     *
      * @return
      */
     int getDefaultPosition();
