@@ -72,9 +72,15 @@ public interface Graph {
     void useAxisFunctions(ParametricFunction xAxis, ParametricFunction yAxis);
 
     /**
-     * Adds a graphable data item
-     * @param dat The data to add
+     * Adds a Graphable Data
+     * @param graphSet The data to add
      */
-    void addData(GraphableData dat);
+    void addData(GraphableData<?> graphSet);
+
+    /**
+     * Removes a Graphable Data
+     * @param graphSet The data to remove
+     */
+	void removeData(GraphableData<?> graphSet);
 
 }

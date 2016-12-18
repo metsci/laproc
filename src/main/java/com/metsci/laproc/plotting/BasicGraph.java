@@ -192,11 +192,7 @@ public class BasicGraph implements Graph {
         return functionUnion.values();
     }
 
-    /**
-     * Adds a graphable data item
-     * @param dat The data to add
-     */
-    public void addData(GraphableData dat) {
+    public void addData(GraphableData<?> dat) {
         this.data.add(dat);
         if(selectedData == null){
             this.selectedData = dat;
@@ -215,4 +211,8 @@ public class BasicGraph implements Graph {
             d.useAxes(xAxis, yAxis);
         }
     }
+
+	public void removeData(GraphableData<?> graphSet) {
+		this.data.remove(graphSet);
+	}
 }

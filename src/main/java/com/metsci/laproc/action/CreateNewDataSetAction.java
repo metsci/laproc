@@ -35,13 +35,14 @@ public class CreateNewDataSetAction implements IAction<TableDisplayer> {
         int[] indexes = table.getSelectedRows();
         ClassifierDataSet data = new ClassifierDataSet();
         for(int i = 0; i < indexes.length; i++){
-            data.add(tableDisplayer.getDataPointAtIndex(i));
+            data.add(tableDisplayer.getDataPointAtIndex(indexes[i]));
         }
         GraphableFunction func = new ROCCurve(data);
         GraphableData output = func.compute();
         String dataName = "New Data Set " + currentAddedIndex++;
         output.setName(dataName);
         reference.addEvalSet(data);
+        reference.addGraphSet(output);
         reference.getGraph().addData(output);
         reference.notifyObservers();
     }

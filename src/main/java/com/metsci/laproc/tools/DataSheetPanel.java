@@ -3,6 +3,7 @@ package com.metsci.laproc.tools;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -37,7 +38,13 @@ public class DataSheetPanel implements ITool {
 	public DataSheetPanel(DataReference ref){
 		this.panel = new JPanel();
 		this.action = new CreateNewDataSetAction(ref);
-		setDataSheet(ref.getEvaluationSets().next());
+		List<ClassifierDataSet> evalSets = ref.getEvaluationSets();
+		if(!evalSets.isEmpty()){
+			setDataSheet(evalSets.get(0));
+		}else{
+			System.err.println("No evaluation sets to build data sheet panel!");
+		}
+		
 	}
 
 	/**

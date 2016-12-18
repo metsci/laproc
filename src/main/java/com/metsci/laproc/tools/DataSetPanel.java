@@ -3,15 +3,16 @@ package com.metsci.laproc.tools;
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.uicomponents.DataSetTable;
-import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.utils.IAction;
-import com.metsci.laproc.action.CreateGraphAction;
+import com.metsci.laproc.action.AddToGraphAction;
 import com.metsci.laproc.plotting.GraphableData;
 
 import javax.swing.*;
-import java.awt.*;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * A JPanel that handles interacting with the created data sets
@@ -30,7 +31,7 @@ public class DataSetPanel implements ITool, DataObserver {
         ref.addObserver(this);
         this.panel = new JPanel();
         this.reference = ref;
-        this.action = new CreateGraphAction(reference);
+        this.action = new AddToGraphAction(reference);
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.table = new DataSetTable();
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
@@ -69,7 +70,7 @@ public class DataSetPanel implements ITool, DataObserver {
      * Adds a data set to the table in the panel
      * @param data data set to be added
      */
-    public void addDataSetToTable(GraphableData data){
+    public void addDataSetToTable(GraphableData<?> data){
         this.table.addDataSet(data);
     }
 
@@ -82,10 +83,10 @@ public class DataSetPanel implements ITool, DataObserver {
     }
 
     public void update(DataReference reference) {
-        Graph graph = reference.getGraph();
-        for(GraphableData data : graph.getData()) {
-            addDataSetToTable(data);
-        }
-
+    	List<GraphableData<?>> graphSets = reference.getGraphSets();
+    	this.clearTable();
+    	for(GraphableData<?> data : graphSets){
+    		this.addDataSetToTable(data);
+    	}
     }
 }

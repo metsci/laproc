@@ -3,6 +3,7 @@ package com.metsci.laproc.datareference;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.Observable;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 public class DataReferenceImpl extends Observable implements DataReference {
     private Graph graph;
     private List<ClassifierDataSet> evalSets;
+    private List<GraphableData<?>> graphSets;
 
     /**
      * Constructor
@@ -25,15 +27,7 @@ public class DataReferenceImpl extends Observable implements DataReference {
         // Default to an empty graph to prevent Null Pointer exceptions
         graph = new BasicGraph();
         evalSets = new ArrayList<ClassifierDataSet>();
-    }
-
-    /**
-     * Sets the reference to use a new Graph object
-     * @param graph The new Graph object to use
-     */
-    public void newGraph(Graph graph) {
-        this.graph = graph;
-        notifyObservers();
+        graphSets = new ArrayList<GraphableData<?>>();
     }
 
     /**
@@ -66,8 +60,44 @@ public class DataReferenceImpl extends Observable implements DataReference {
      * Gets a list of all evaluation sets
      * @return A list of all evaluation sets
      */
-    public Iterator<ClassifierDataSet> getEvaluationSets() {
-        return this.evalSets.iterator();
+    public List<ClassifierDataSet> getEvaluationSets() {
+        return this.evalSets;
     }
+    
+    /**
+     * Gets a list of all graph sets
+     * @return A list of all graph sets
+     */
+    public List<GraphableData<?>> getGraphSets() {
+        return this.graphSets;
+    }
+    
+    /**
+     * Adds a GraphableData to the collection of Graph Sets
+     * @param graphSet The set to add
+     */
+    public void addGraphSet(GraphableData<?> graphSet) {
+        this.graphSets.add(graphSet);
+        notifyObservers();
+    }
+
+    /**
+     * Removes a GraphableData from the collection of Graph Sets
+     * @param graphSet The set to remove
+     */
+    public void removeGraphSet(GraphableData<?> graphSet) {
+        this.graphSets.remove(graphSet);
+        notifyObservers();
+    }
+
+	public void addDataToGraph(GraphableData<?> graphSet) {
+		this.graph.addData(graphSet);
+		notifyObservers();
+	}
+
+	public void removeDataFromGraph(GraphableData<?> graphSet) {
+		this.graph.removeData(graphSet);
+		notifyObservers();
+	}
 
 }
