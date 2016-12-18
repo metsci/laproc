@@ -43,7 +43,6 @@ public class CreateNewDataSetAction implements IAction<TableDisplayer> {
         output.setName(dataName);
         reference.addEvalSet(data);
         reference.addGraphSet(output);
-        reference.getGraph().addData(output);
-        reference.notifyObservers();
+        reference.addDataToGraph(output);
     }
 }

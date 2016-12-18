@@ -3,11 +3,16 @@ package com.metsci.laproc.tools;
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.uicomponents.DataSetTable;
+import com.metsci.laproc.uicomponents.DataSetTableCheckBoxListener;
+import com.metsci.laproc.uicomponents.DataSetTableModel;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.action.AddToGraphAction;
+import com.metsci.laproc.action.RemoveFromGraphAction;
 import com.metsci.laproc.plotting.GraphableData;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -22,7 +27,8 @@ public class DataSetPanel implements ITool, DataObserver {
     private JPanel panel;
     private DataSetTable table;
     private DataReference reference;
-    private IAction action;
+    private IAction addAction;
+    private IAction removeAction;
 
     /**
      * Default constructor for the DataSetPanel
@@ -31,29 +37,32 @@ public class DataSetPanel implements ITool, DataObserver {
         ref.addObserver(this);
         this.panel = new JPanel();
         this.reference = ref;
-        this.action = new AddToGraphAction(reference);
+        this.addAction = new AddToGraphAction(reference);
+        this.removeAction = new RemoveFromGraphAction(reference);
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.table = new DataSetTable();
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-
-        JButton displaySetButton = new JButton("Display Set");
-
-        displaySetButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action.doAction(table);
-            }
-        });
-        buttonPanel.add(displaySetButton);
-
-        JButton selectSetButton = new JButton("Select Set");
-        buttonPanel.add(selectSetButton);
-
-        this.panel.add(buttonPanel);
+//        JPanel buttonPanel = new JPanel();
+//        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+//
+//        JButton displaySetButton = new JButton("Display Set");
+//
+//        displaySetButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                action.doAction(table);
+//            }
+//        });
+//        buttonPanel.add(displaySetButton);
+//
+//        JButton selectSetButton = new JButton("Select Set");
+//        buttonPanel.add(selectSetButton);
+//
+//        this.panel.add(buttonPanel);
+        
+        this.table.getModel().addTableModelListener(new DataSetTableCheckBoxListener(addAction, removeAction, table));
 
         JScrollPane scrollPane = new JScrollPane(table);
         this.panel.add(scrollPane);

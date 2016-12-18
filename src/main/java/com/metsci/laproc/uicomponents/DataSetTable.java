@@ -12,8 +12,8 @@ import javax.swing.table.DefaultTableModel;
  * Created by malinocr on 10/17/2016.
  */
 public class DataSetTable extends JTable{
+	private DataSetTableModel model;
     private ObjectBigArrayBigList<GraphableData> classList;
-    private DefaultTableModel model;
 
     /**
      * Default constructor for DataSetTable
@@ -21,17 +21,17 @@ public class DataSetTable extends JTable{
     public DataSetTable(){
         super();
         this.setTableHeader(null);
-        this.model = new DefaultTableModel(0,1);
+        this.setShowVerticalLines(false);
+        this.model = new DataSetTableModel();
         this.setModel(this.model);
-        classList = new ObjectBigArrayBigList<GraphableData>();
+        this.getColumnModel().getColumn(1).setMaxWidth(20);
     }
-
+    
     /**
      * Removes all the data sets
      */
     public void clear(){
-        this.model = new DefaultTableModel(0,1);
-        this.setModel(this.model);
+        this.model.clear();
     }
 
     /**
@@ -39,8 +39,7 @@ public class DataSetTable extends JTable{
      * @param dataSet data set to add
      */
     public void addDataSet(GraphableData dataSet){
-        this.model.addRow(new Object[]{dataSet.getName()});
-        this.classList.add(dataSet);
+        this.model.addRow(dataSet);
     }
 
     /**
@@ -51,7 +50,7 @@ public class DataSetTable extends JTable{
         ObjectOpenHashBigSet<GraphableData> selectedValues = new ObjectOpenHashBigSet<GraphableData>();
         int[] selectedRows = this.getSelectedRows();
         for(int index : selectedRows) {
-            selectedValues.add(classList.get(index));
+            selectedValues.add(this.model.getObjectAt(index));
         }
         return selectedValues;
     }
@@ -62,6 +61,18 @@ public class DataSetTable extends JTable{
      */
     public GraphableData getFirstSelectedValue(){
         int[] selectedRows = this.getSelectedRows();
-        return classList.get(selectedRows[0]);
+        return this.model.getObjectAt(selectedRows[0]);
     }
+
+    @Override
+    public Class getColumnClass(int column) {
+        switch (column) {
+            case 0:
+                return String.class;
+            default:
+                return Boolean.class;
+        }
+    }
+
+
 }

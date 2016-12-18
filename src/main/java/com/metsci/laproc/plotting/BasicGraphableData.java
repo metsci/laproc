@@ -16,6 +16,9 @@ public class BasicGraphableData implements GraphableData<Double> {
 
     /** The points in this data set */
     private SortedSet<GraphPoint> points;
+    
+    /** The boolean value of whether the data is displayed on the graph */
+    private boolean displayed;
 
     /**
      * Constructor
@@ -24,6 +27,7 @@ public class BasicGraphableData implements GraphableData<Double> {
     public BasicGraphableData(String name) {
         this.name = name;
         this.points = new TreeSet<GraphPoint>(new XValueComparator());
+        this.displayed = true;
     }
 
     /**
@@ -169,5 +173,13 @@ public class BasicGraphableData implements GraphableData<Double> {
                 return 0;
         }
     }
+
+	public boolean isDisplayed() {
+		return this.displayed;
+	}
+
+	public void setDisplay(boolean display) {
+		this.displayed = display;
+	}
 
 }

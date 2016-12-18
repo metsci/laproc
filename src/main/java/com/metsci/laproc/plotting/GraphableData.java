@@ -72,4 +72,16 @@ public interface GraphableData<T> {
      * @param yAxis The metric to use for the y axis
      */
     void useAxes(ParametricFunction<T> xAxis, ParametricFunction<T> yAxis);
+    
+    /**
+     * Returns true if the graphable data is being displayed on the graph
+     * @return boolean
+     */
+    boolean isDisplayed();
+    
+    /**
+     * Sets the internal boolean describing if the graphable data is being displayed on the graph
+     * @param display
+     */
+    void setDisplay(boolean display);
 }
