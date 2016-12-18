@@ -45,22 +45,18 @@ public interface Graph {
     void setTitle(String title);
 
     /**
-     * Setter for selected graph data
-     * @param data the data to set
-     */
-    void setSelectedData(GraphableData data);
-
-    /**
-     * Getter for selected graph data
-     * @return selected graph data
-     */
-    GraphableData getSelectedData();
-
-    /**
      * Getter for all of the graphable data associated with this graph
      * @return The graphable data associated with this graph
      */
     Iterable<GraphableData> getData();
+
+    /**
+     * Gets the closest value on the plot to the value provided. This is probably a point that was clicked
+     * @param x The x value to compare against
+     * @param y The y value to compare against
+     * @return The closest value on the plot to the value provided.
+     */
+    GraphPoint[] getClosestPoints(double x, double y);
 
     /**
      * Returns a list of all possible axes to use for this graph
@@ -74,5 +70,11 @@ public interface Graph {
      * @param yAxis The function to use for the Y Axis
      */
     void useAxisFunctions(ParametricFunction xAxis, ParametricFunction yAxis);
+
+    /**
+     * Adds a graphable data item
+     * @param dat The data to add
+     */
+    void addData(GraphableData dat);
 
 }

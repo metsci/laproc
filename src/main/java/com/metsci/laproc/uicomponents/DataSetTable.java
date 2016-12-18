@@ -1,4 +1,4 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.uicomponents;
 
 import com.metsci.laproc.plotting.GraphableData;
 import it.unimi.dsi.fastutil.objects.ObjectBigArrayBigList;

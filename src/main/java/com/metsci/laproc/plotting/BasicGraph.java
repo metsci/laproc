@@ -28,7 +28,7 @@ public class BasicGraph implements Graph {
     /** Selected data set */
     private GraphableData selectedData;
     /** All data sets that can be plotted on this graph */
-    private Collection<GraphableData> data;
+    private List<GraphableData> data;
 
     /**
      * Default constructor
@@ -151,30 +151,29 @@ public class BasicGraph implements Graph {
     }
 
     /**
-     * Selects a GraphableData object
-     * @param data the data to select
-     */
-    public void setSelectedData (GraphableData data) {
-        if(!this.data.contains(data)){
-            throw new IllegalArgumentException();
-        }
-        this.selectedData = data;
-    }
-
-    /**
-     * Gets the currently selected GraphableData
-     * @return the currently selected GraphableData
-     */
-    public GraphableData getSelectedData(){
-        return this.selectedData;
-    }
-
-    /**
      * Getter for all of the graphable data associated with this graph
      * @return The graphable data associated with this graph
      */
     public Iterable<GraphableData> getData() {
         return this.data;
+    }
+
+    /**
+     * Gets the closest value on the plot to the value provided. This is probably a point that was clicked
+     * @param x The x value to compare against
+     * @param y The y value to compare against
+     * @return The closest value on the plot to the value provided.
+     */
+    public GraphPoint[] getClosestPoints(double x, double y) {
+        GraphPoint[] closestPoints = new GraphPoint[data.size()];
+        for(int i = 0; i < closestPoints.length; i++){
+            closestPoints[i] = data.get(i).getDataPoint(x,y);
+        }
+        return closestPoints;
+    }
+
+    private double findDistance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     }
 
     /**

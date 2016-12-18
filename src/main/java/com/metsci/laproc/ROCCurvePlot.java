@@ -52,7 +52,7 @@ public class ROCCurvePlot implements GlimpseLayoutProvider
             plot.addPainter( series );
         }
 
-        // add a painter to display the x and y position of the cursor
+        // add a painter to uicomponents the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter( );
         plot.addPainter( cursorPainter );
 

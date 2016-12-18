@@ -1,9 +1,6 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.uicomponents;
 
 import javax.swing.JTable;
-import javax.swing.RowFilter;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;

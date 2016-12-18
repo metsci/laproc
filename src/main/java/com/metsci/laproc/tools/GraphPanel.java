@@ -1,15 +1,18 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.tools;
 
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
-import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.uicomponents.GraphDisplayer;
+import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.utils.IAction;
 
-import javax.swing.*;
 
 /**
  * Created by porterjc on 9/26/2016.
  */
-public class GraphPanel extends JPanel{
+public class GraphPanel implements ITool, DataObserver {
     private NewtSwingGlimpseCanvas canvas;
     private GraphDisplayer graphDisplayer;
 
@@ -17,9 +20,13 @@ public class GraphPanel extends JPanel{
      * Simple constructor
      * Creaded by porterjc on 9/22/2016
      */
-    public GraphPanel(){
+
+    public GraphPanel(DataReference reference, IAction<GraphPoint[]>... clickActions){
+        reference.addObserver(this);
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
+        graphDisplayer = new GraphDisplayer(clickActions);
+        this.addGraphToCanvas(graphDisplayer);
     }
 
 	/**
@@ -40,19 +47,17 @@ public class GraphPanel extends JPanel{
         return canvas;
     }
 
-    /**
-     * Sets the selected data set
-     * @param data data set to set
-     */
-    public void setSelectedDataSet(GraphableData data) {
-        this.graphDisplayer.setSelectedDataSet(data);
+    public View getView() {
+        return new View("Graph", this.getCanvas(), "Graph", true);
     }
 
-    /**
-     * Updates the displayed graph
-     */
-    public void updateGraph() {
+    public int getDefaultPosition() {
+        return ITool.CENTERPOSITION;
+    }
+
+    public void update(DataReference reference) {
         canvas.removeAllLayouts();
+        graphDisplayer.setGraph(reference.getGraph());
         canvas.addLayout(graphDisplayer.getLayout());
     }
 }

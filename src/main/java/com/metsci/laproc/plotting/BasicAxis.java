@@ -39,7 +39,7 @@ public class BasicAxis implements Axis{
      * @param min The lower bound of this axis
      * @param max The upper bound of this axis
      * @param name The displayable name of this axis
-     * @param unit The unit to display for this axis
+     * @param unit The unit to uicomponents for this axis
      */
     public BasicAxis(double min, double max, String name, String unit) {
         this.min = min;

@@ -1,16 +1,10 @@
 package com.metsci.laproc;
 
-
+import com.metsci.laproc.application.Application;
 import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.data.TagHeader;
-import com.metsci.laproc.display.BasicWindow;
-import com.metsci.laproc.display.Window;
-import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPointImpl;
-import com.metsci.laproc.plotting.*;
-import com.metsci.laproc.pointmetrics.FalsePositiveRate;
-import com.metsci.laproc.pointmetrics.TruePositiveRate;
 
 import java.io.IOException;
 
@@ -21,20 +15,36 @@ import java.io.IOException;
 public class App {
 	public static void main( String[] args )
     {
-        BasicGraph graph = new BasicGraph("", new FalsePositiveRate(), new TruePositiveRate());
-        ClassifierDataSet importData = importData();
-        GraphableFunction func = new ROCCurve(importData);
+       // BasicGraph graph = new BasicGraph("", new FalsePositiveRate(), new TruePositiveRate());
+        ClassifierDataSet importedData = importData();
+
+        Application application = new Application(importedData);
+        application.run();
+       /* GraphableFunction func = new ROCCurve(importData);
         GraphableData graphableData = func.compute();
         graphableData.setName("Initial Classifier Data Set");
-        graph.addData( graphableData);
+        graph.addData(graphableData);
 
-        
-        Window window = new BasicWindow();
-        window.showGraphOptions(graph);
-        window.showGraph(graph);
-        window.showSpreadsheet(importData);
-        window.showClass(graphableData);
-        window.display();
+       /* Window window = new BasicWindow();
+
+        ITool gPanel = new GraphPanel(graph);
+
+        ITool oPanel = new GraphOptionsPanel(graph);
+        ITool dsPanel = new DataSetPanel();
+        ITool dshPanel = new DataSheetPanel();
+
+        ITool aPanel = new PointInfoPanel();
+        ITool cPanel = new ConfusionPanel();
+        window.addViewToTile(gPanel.getView(), 1);
+
+        window.addViewToTile(oPanel.getView(), 0);
+        window.addViewToTile(dsPanel.getView(), 0);
+        window.addViewToTile(dshPanel.getView(), 0);
+
+
+        window.addViewToTile(aPanel.getView(), 2);
+        window.addViewToTile(cPanel.getView(), 2);
+        window.uicomponents();*/
     }
 
     private static ClassifierDataSet importData() {

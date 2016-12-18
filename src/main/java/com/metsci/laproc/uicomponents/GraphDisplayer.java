@@ -1,4 +1,4 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.uicomponents;
 
 import com.metsci.glimpse.layout.GlimpseLayoutProvider;
 import com.metsci.glimpse.painter.decoration.LegendPainter.*;
@@ -7,9 +7,9 @@ import com.metsci.glimpse.painter.plot.XYLinePainter;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
-import com.metsci.laproc.plotting.Axis;
-import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.plotting.*;
+import com.metsci.laproc.utils.IAction;
+import com.metsci.laproc.utils.IActionReceiver;
 
 /**
  * Creates a Glimpse plot for a Graph
@@ -17,16 +17,27 @@ import com.metsci.laproc.plotting.GraphableData;
  */
 public class GraphDisplayer implements GlimpseLayoutProvider
 {
-    Graph graph;
-    private Window window;
+    private IAction<GraphPoint[]>[] pointClickActions;
+    private Graph graph;
 
     /**
      * Constructor for a given graph and window
      * @params graph, displayer
      */
-    public GraphDisplayer(Graph graph, Window window) {
+    public GraphDisplayer(IAction<GraphPoint[]>... pointClickActions) {
+        this.pointClickActions = pointClickActions;
+        //By default, display an empty graph
+        this.graph = new BasicGraph();
+    }
+
+    /**
+     * This should be called before getLayout to update the graph that the canvas should display.
+     * Because getLayout() is an interface method from Glimpse, we can't give it a Graph as a parameter
+     * So use this method instead
+     * @param graph The graph to display on this GraphDisplayer
+     */
+    public void setGraph(Graph graph) {
         this.graph = graph;
-        this.window = window;
     }
 
     /**
@@ -57,7 +68,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
 
-        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, window, selectedAreaPainter));
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter, this.pointClickActions));
 
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().showSelectionBox(false);
@@ -81,24 +92,22 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         //Draws each graphable data
         int currentColor = 0;
         for(GraphableData lineData : graph.getData()){
-            if(!lineData.equals(graph.getSelectedData())) {
-                float[] color = possibleColors[currentColor];
-                if (currentColor != possibleColors.length) {
-                    currentColor++;
-                }
-                XYLinePainter linePainter = createXYLinePainter(lineData, color, 1.5f);
-                plot.addPainter(linePainter);
-                legend.addItem(lineData.getName(), color);
+            float[] color = possibleColors[currentColor];
+            if (currentColor != possibleColors.length) {
+                currentColor++;
             }
+            XYLinePainter linePainter = createXYLinePainter(lineData, color, 1.5f);
+            plot.addPainter(linePainter);
+            legend.addItem(lineData.getName(), color);
         }
 
         //Draw selected line
-        float[] selectedLineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
+     /*   float[] selectedLineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
         XYLinePainter linePainter = createXYLinePainter(graph.getSelectedData(), selectedLineColor, 2.5f);
         plot.addPainter(linePainter);
-        legend.addItem(graph.getSelectedData().getName(), selectedLineColor);
+        legend.addItem(graph.getSelectedData().getName(), selectedLineColor); */
 
-        // Add a painter to display the x and y position of the cursor
+        // Add a painter to uicomponents the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter();
         plot.addPainter(cursorPainter);
 
@@ -132,11 +141,4 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         return linePainter;
     }
 
-    /**
-     * Sets selected data set
-     * @param data data set to set
-     */
-    public void setSelectedDataSet(GraphableData data){
-        this.graph.setSelectedData(data);
-    }
 }
