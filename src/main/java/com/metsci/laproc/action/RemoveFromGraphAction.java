@@ -6,17 +6,26 @@ import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.uicomponents.DataSetTable;
 import com.metsci.laproc.utils.IAction;
 
-public class RemoveFromGraphAction implements IAction<DataSetTable> {
+/**
+ * Action to remove a specified GraphableData from graph
+ */
+public class RemoveFromGraphAction implements IAction<GraphableData<?>> {
 	private DataReference reference;
-	
+
+	/**
+	 * Default Constructor
+	 * @param ref data reference to affect
+	 */
 	public RemoveFromGraphAction(DataReference ref){
 		this.reference = ref;
 	}
 
-	public void doAction(DataSetTable dataSetTable) {
-		for(GraphableData<?> data : dataSetTable.getSelectedValues()){
-			this.reference.removeDataFromGraph(data);
-		}
+	/**
+	 * Remove data from graph
+	 * @param data data to remove
+	 */
+	public void doAction(GraphableData<?> data) {
+		this.reference.removeDataFromGraph(data);
 	}
 
 }

@@ -9,6 +9,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 /**
+ * Table model for displaying data sets
  * Created by malinocr on 12/8/2016.
  */
 public class DataSetTableModel extends AbstractTableModel {
@@ -50,11 +51,20 @@ public class DataSetTableModel extends AbstractTableModel {
         }
     }
 
+    /**
+     * Adds a row of graphable data to the table
+     * @param data data to add
+     */
     public void addRow(GraphableData data){
         this.dataObjects.add(data);
         fireTableRowsInserted(data.getSize() - 1,data.getSize() - 1);
     }
 
+    /**
+     * Gets the object associated with a row in the table
+     * @param row row in the table
+     * @return associated graphable data object
+     */
     public GraphableData getObjectAt(int row){
         return this.dataObjects.get(row);
     }

@@ -44,23 +44,6 @@ public class DataSetPanel implements ITool, DataObserver {
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
-
-//        JPanel buttonPanel = new JPanel();
-//        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-//
-//        JButton displaySetButton = new JButton("Display Set");
-//
-//        displaySetButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                action.doAction(table);
-//            }
-//        });
-//        buttonPanel.add(displaySetButton);
-//
-//        JButton selectSetButton = new JButton("Select Set");
-//        buttonPanel.add(selectSetButton);
-//
-//        this.panel.add(buttonPanel);
         
         this.table.getModel().addTableModelListener(new DataSetTableCheckBoxListener(addAction, removeAction, table));
 
