@@ -23,7 +23,6 @@ public class GraphOptionsPanel implements ITool, DataObserver{
     private JComboBox yaxis;
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
-   // private DataReference reference;
     private IAction action;
 
 
