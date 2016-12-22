@@ -1,6 +1,7 @@
 package com.metsci.laproc.datareference;
 
 import com.metsci.laproc.data.ClassifierDataSet;
+import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
@@ -11,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * TODO: Add javadocs for additional methods
  * This reference allows tools to access the graph and associated data
  * Created by porterjc on 12/14/2016.
  */
@@ -18,16 +20,20 @@ public class DataReferenceImpl extends Observable implements DataReference {
     private Graph graph;
     private List<ClassifierDataSet> evalSets;
     private List<GraphableData<?>> graphSets;
+    private List<ClassifierDataSet> dataSetGroups;
+    private List<TagHeader> tagHeaders;
 
     /**
      * Constructor
      */
-    public DataReferenceImpl() {
+    public DataReferenceImpl(List<TagHeader> tagHeaders) {
         super();
         // Default to an empty graph to prevent Null Pointer exceptions
         graph = new BasicGraph();
         evalSets = new ArrayList<ClassifierDataSet>();
         graphSets = new ArrayList<GraphableData<?>>();
+        dataSetGroups = new ArrayList<ClassifierDataSet>();
+        this.tagHeaders = tagHeaders;
     }
 
     /**
@@ -98,6 +104,24 @@ public class DataReferenceImpl extends Observable implements DataReference {
 	public void removeDataFromGraph(GraphableData<?> graphSet) {
 		this.graph.removeData(graphSet);
 		notifyObservers();
+	}
+	
+	public void addDataSetGroup(ClassifierDataSet dataSetGroup){
+		this.dataSetGroups.add(dataSetGroup);
+		notifyObservers();
+	}
+	
+	public void removeDataSetGroup(ClassifierDataSet dataSetGroup){
+		this.dataSetGroups.remove(dataSetGroup);
+		notifyObservers();
+	}
+	
+	public List<ClassifierDataSet> getDataSetGroups(){
+		return this.dataSetGroups;
+	}
+
+	public List<TagHeader> getTagHeaders() {
+		return this.tagHeaders;
 	}
 
 }

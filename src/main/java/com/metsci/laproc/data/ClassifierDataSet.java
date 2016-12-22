@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,14 +15,17 @@ import java.util.Set;
 public class ClassifierDataSet implements Iterable<DataPoint> {
 
     /** Represents the set of tags used to categorize this data */
-    private Collection<TagHeader> tags;
+    private List<String> tags;
 
     /** The actual data set */
     private ObjectOpenHashBigSet<DataPoint> data;
+    
+    private String name;
 
-    public ClassifierDataSet() {
-        this.tags = new ArrayList<TagHeader>();
+    public ClassifierDataSet(List<String> givenTags, String name) {
+        this.tags = givenTags;
         this.data = new ObjectOpenHashBigSet<DataPoint>();
+        this.name = name;
     }
 
     /**
@@ -49,21 +53,19 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
     }
 
     /**
-     * Getter for the set of points with the given tag
-     * @param tag The tag to find points for
-     * @return The points associated with the given tag
-     */
-    public Iterator<DataPoint> getAllPointsWithTag(String tag) {
-        //TODO implement this
-        return null;
-    }
-
-    /**
      * Getter for the set of tags used to categorize this data
      * @return The set of tags used to categorize this data
      */
-    public Collection<TagHeader> getTags() {
+    public List<String> getTags() {
         return this.tags;
+    }
+    
+    public String getName(){
+    	return this.name;
+    }
+    
+    public void setName(String name){
+    	this.name = name;
     }
 
 }
