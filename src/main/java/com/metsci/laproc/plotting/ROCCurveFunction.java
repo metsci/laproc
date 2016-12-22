@@ -48,7 +48,7 @@ public class ROCCurveFunction implements GraphableFunction {
         out.addAxisMetric(new FalsePositives());
         out.addAxisMetric(new Threshold());
 
-        // Add extra metrics for display, in the order that they will be displayed
+        // Add extra metrics for uicomponents, in the order that they will be displayed
         out.addStatisticMetric(new Threshold());
         out.addStatisticMetric(new TruePositives());
         out.addStatisticMetric(new FalsePositives());

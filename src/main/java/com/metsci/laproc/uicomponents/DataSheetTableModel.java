@@ -1,7 +1,6 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.uicomponents;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 

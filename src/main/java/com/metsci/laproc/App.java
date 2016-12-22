@@ -1,16 +1,10 @@
 package com.metsci.laproc;
 
-
+import com.metsci.laproc.application.Application;
 import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.data.TagHeader;
-import com.metsci.laproc.display.BasicWindow;
-import com.metsci.laproc.display.Window;
-import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPointImpl;
-import com.metsci.laproc.plotting.*;
-import com.metsci.laproc.pointmetrics.FalsePositiveRate;
-import com.metsci.laproc.pointmetrics.TruePositiveRate;
 
 import java.io.IOException;
 
@@ -21,20 +15,11 @@ import java.io.IOException;
 public class App {
 	public static void main( String[] args )
     {
-        BasicGraph graph = new BasicGraph("", new FalsePositiveRate(), new TruePositiveRate());
-        ClassifierDataSet importData = importData();
-        GraphableFunction func = new ROCCurveFunction(importData);
-        GraphableData graphableData = func.compute();
-        graphableData.setName("Initial Classifier Data Set");
-        graph.addData( graphableData);
+        ClassifierDataSet importedData = importData();
 
-        
-        Window window = new BasicWindow();
-        window.showGraphOptions(graph);
-        window.showGraph(graph);
-        window.showSpreadsheet(importData);
-        window.showClass(graphableData);
-        window.display();
+        Application application = new Application(importedData);
+        application.run();
+
     }
 
     private static ClassifierDataSet importData() {

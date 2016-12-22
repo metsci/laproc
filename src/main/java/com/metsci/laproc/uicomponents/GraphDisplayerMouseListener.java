@@ -1,4 +1,4 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.uicomponents;
 
 import com.metsci.glimpse.event.mouse.GlimpseMouseEvent;
 import com.metsci.glimpse.event.mouse.GlimpseMouseListener;
@@ -6,37 +6,33 @@ import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
-import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.pointmetrics.MetricDescriptionConstants;
-
-import java.util.Map;
+import com.metsci.laproc.utils.IAction;
 
 /**
  * Mouse listener for selecting a set of points
  * Created by malinocr on 10/3/2016.
  */
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
-    Graph graph;
-    PolygonPainter polygonPainter;
-    private Window window;
-    long lastClickTime = 0;
-    boolean doubleClicked = false;
-    boolean displayDoubleClick = false;
-    boolean isDisplayingPolygon = false;
-    GlimpseMouseEvent firstClick;
 
-    public static final int MOUSE_CLICK_NANOSECONDS = 500000000;
+    private Graph graph;
+    private PolygonPainter polygonPainter;
+    private long lastClickTime = 0;
+    private boolean doubleClicked = false;
+    private boolean displayDoubleClick = false;
+    private boolean isDisplayingPolygon = false;
+    private IAction<GraphPoint[]>[] actionsOnClick;
+    private GlimpseMouseEvent firstClick;
+
+    private static final int MOUSE_CLICK_NANOSECONDS = 500000000;
 
     /**
      * General constructor for GraphDisplayerMouseListener
-     * @param graph current graph that is being displayed
      * @param polygonPainter polygon painter for selection area
-     * @param window window the graph is displayed on
      */
-    public GraphDisplayerMouseListener(Graph graph, Window window, PolygonPainter polygonPainter){
+    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<GraphPoint[]>... actionsOnClick){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
-        this.window = window;
+        this.actionsOnClick = actionsOnClick;
 
         configurePolygonPainter();
     }
@@ -54,7 +50,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
             polygonPainter.deletePolygon(0,0);
             isDisplayingPolygon = false;
         }
-        if(doubleClicked == true){
+        if(doubleClicked){
             doubleClicked = false;
             displayDoubleClick = true;
         } else if(System.nanoTime() - lastClickTime < MOUSE_CLICK_NANOSECONDS){ //This is based on the normal double click time
@@ -91,20 +87,21 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      */
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
-        GraphableData data = graph.getSelectedData();
-        GraphPoint point = data.getDataPoint(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
-        Map<String, Double> values = point.getAnalytics();
+        GraphPoint[] points = graph.getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+        for(IAction<GraphPoint[]> action : this.actionsOnClick) {
+            action.doAction(points);
+        }
         //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
-        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{
-                values.get(MetricDescriptionConstants.truePositives),
-                values.get(MetricDescriptionConstants.falsePositives)},
-                new double[]{values.get(MetricDescriptionConstants.trueNegatives),
-                        values.get(MetricDescriptionConstants.falseNegatives)});
-
-        window.getPointInfoPanel().update(point);
-        window.repaint();
-        System.out.println("X: " + point.getX() + " Y: " + point.getY());
-        ret = point.getX();
+//        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{
+//                values.get(MetricDescriptionConstants.truePositives),
+//                values.get(MetricDescriptionConstants.falsePositives)},
+//                new double[]{values.get(MetricDescriptionConstants.trueNegatives),
+//                        values.get(MetricDescriptionConstants.falseNegatives)});
+//
+//        window.getPointInfoPanel().update(point);
+//        window.repaint();
+        //System.out.println("X: " + point.getX() + " Y: " + point.getY());
+        //ret = point.getX();
 
         return ret;
     }

@@ -216,7 +216,7 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
 
     /**
      * Adds a metric to the list of statistics derived for each point in the set.
-     * This metrics are for display purposes only
+     * This metrics are for uicomponents purposes only
      * @param m The metric to add
      */
     protected void addStatisticMetric(ParametricFunction<T> m) {

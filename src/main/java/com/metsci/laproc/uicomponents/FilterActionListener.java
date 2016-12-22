@@ -1,4 +1,4 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.uicomponents;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
-import javax.swing.RowFilter.Entry;
 import javax.swing.table.TableRowSorter;
 
 import com.metsci.laproc.data.DataPoint;
@@ -23,7 +22,7 @@ public class FilterActionListener implements ActionListener {
 	private JTextField valueVal;
 	
 	/**
-	 * Custom Action Listener that applys a filter to the model, which then updates the JTable on which it rests.
+	 * Custom IAction Listener that applys a filter to the model, which then updates the JTable on which it rests.
 	 * Further includes any JTextFields that were used for the custom filtering. Currently accepts a truth boolean
 	 * and a lowerbound on the data set
 	 * @param table2

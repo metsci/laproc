@@ -1,6 +1,8 @@
-package com.metsci.laproc.display;
+package com.metsci.laproc.tools;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -11,10 +13,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
-import javax.swing.table.TableModel;
 
+import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.uicomponents.FilterActionListener;
+import com.metsci.laproc.uicomponents.TableDisplayer;
+import com.metsci.laproc.utils.IAction;
+import com.metsci.laproc.action.CreateNewDataSetAction;
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.data.DataPoint;
 
 /**
  * 
@@ -22,14 +28,16 @@ import com.metsci.laproc.data.DataPoint;
  * Created by patterjm on 10/5/2016.
  *
  */
-public class DataSheetPanel extends JPanel{
-	private Window window;
+public class DataSheetPanel implements ITool {
+	private JPanel panel;
+	private IAction action;
 	/**
 	 * Default constructor, requires a window for context
-	 * @param window
 	 */
-	public DataSheetPanel(Window window){
-		this.window = window;
+	public DataSheetPanel(DataReference ref){
+		this.panel = new JPanel();
+		this.action = new CreateNewDataSetAction(ref);
+		setDataSheet(ref.getEvaluationSets().next());
 	}
 
 	/**
@@ -38,8 +46,8 @@ public class DataSheetPanel extends JPanel{
      * @params: ClassifierDataSet
      */
 	public void setDataSheet(ClassifierDataSet data) {
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		TableDisplayer tableDisplayer = new TableDisplayer(data);
+		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
+		final TableDisplayer tableDisplayer = new TableDisplayer(data);
 
 		JTable table = tableDisplayer.getTable();
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -48,11 +56,17 @@ public class DataSheetPanel extends JPanel{
 		if (defaults.get("Table.alternateRowColor") == null)
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
-		this.add(scrollPane);
+		this.panel.add(scrollPane);
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
-        NewEvalSetActionListener nesaInstance = new NewEvalSetActionListener(this.window, tableDisplayer);
-		newEvalSetButton.addActionListener(nesaInstance);
-		this.add(newEvalSetButton);
+
+		ActionListener listener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				action.doAction(tableDisplayer);
+			}
+		};
+
+		newEvalSetButton.addActionListener(listener);
+		this.panel.add(newEvalSetButton);
 
 		JPanel filterPanel = new JPanel();
 		JTextField truthField = new JTextField(10);
@@ -69,10 +83,17 @@ public class DataSheetPanel extends JPanel{
 											valueField);
 		applyFilterButton.addActionListener(filterActionListener);
 		filterPanel.add(applyFilterButton);
-		this.add(filterPanel);
+		this.panel.add(filterPanel);
 
 
 
 	}
 
+	public View getView() {
+		return new View("Data Sheet", this.panel, "Data Sheet", true);
+	}
+
+	public int getDefaultPosition() {
+		return ITool.LEFTPOSITION;
+	}
 }
