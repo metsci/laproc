@@ -5,7 +5,7 @@ import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.uicomponents.TableDisplayer;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
-import com.metsci.laproc.plotting.ROCCurve;
+import com.metsci.laproc.plotting.ROCCurveFunction;
 import com.metsci.laproc.utils.IAction;
 
 import javax.swing.*;
@@ -37,7 +37,7 @@ public class CreateNewDataSetAction implements IAction<TableDisplayer> {
         for(int i = 0; i < indexes.length; i++){
             data.add(tableDisplayer.getDataPointAtIndex(i));
         }
-        GraphableFunction func = new ROCCurve(data);
+        GraphableFunction func = new ROCCurveFunction(data);
         GraphableData output = func.compute();
         String dataName = "New Data Set " + currentAddedIndex++;
         output.setName(dataName);
