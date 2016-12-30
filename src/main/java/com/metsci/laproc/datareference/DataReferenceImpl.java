@@ -17,7 +17,6 @@ import java.util.List;
 public class DataReferenceImpl extends Observable implements DataReference {
     private Graph graph;
     private List<ClassifierDataSet> evalSets;
-    private List<GraphableData<?>> graphSets;
 
     /**
      * Constructor
@@ -27,7 +26,6 @@ public class DataReferenceImpl extends Observable implements DataReference {
         // Default to an empty graph to prevent Null Pointer exceptions
         graph = new BasicGraph();
         evalSets = new ArrayList<ClassifierDataSet>();
-        graphSets = new ArrayList<GraphableData<?>>();
     }
 
     /**
@@ -63,37 +61,16 @@ public class DataReferenceImpl extends Observable implements DataReference {
     public List<ClassifierDataSet> getEvaluationSets() {
         return this.evalSets;
     }
-    
-    /**
-     * Gets a list of all graph sets
-     * @return A list of all graph sets
-     */
-    public List<GraphableData<?>> getGraphSets() {
-        return this.graphSets;
-    }
-    
-    /**
-     * Adds a GraphableData to the collection of Graph Sets
-     * @param graphSet The set to add
-     */
-    public void addGraphSet(GraphableData<?> graphSet) {
-        this.graphSets.add(graphSet);
-        notifyObservers();
-    }
 
-    /**
-     * Removes a GraphableData from the collection of Graph Sets
-     * @param graphSet The set to remove
-     */
-    public void removeGraphSet(GraphableData<?> graphSet) {
-        this.graphSets.remove(graphSet);
-        notifyObservers();
-    }
-
-	public void addDataToGraph(GraphableData<?> graphSet) {
-		this.graph.addData(graphSet);
+	public void addDataToGraph(GraphableData<?> graphSet, boolean display) {
+		this.graph.addData(graphSet,display);
 		notifyObservers();
 	}
+
+    public void setDataDisplayOnGraph(GraphableData<?> graphSet, boolean display) {
+        this.graph.setDataDisplay(graphSet,display);
+        notifyObservers();
+    }
 
 	public void removeDataFromGraph(GraphableData<?> graphSet) {
 		this.graph.removeData(graphSet);

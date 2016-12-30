@@ -12,13 +12,13 @@ import com.metsci.laproc.utils.IAction;
  */
 public class DataSetTableCheckBoxListener implements TableModelListener{
     DataSetTable table;
-    IAction add;
-    IAction remove;
+    IAction show;
+    IAction hide;
 
-    public DataSetTableCheckBoxListener(IAction add, IAction remove, DataSetTable table){
+    public DataSetTableCheckBoxListener(IAction show, IAction hide, DataSetTable table){
         this.table = table;
-        this.add = add;
-        this.remove = remove;
+        this.show = show;
+        this.hide = hide;
     }
 
     public void tableChanged(TableModelEvent e){
@@ -27,9 +27,9 @@ public class DataSetTableCheckBoxListener implements TableModelListener{
                 DataSetTableModel model = (DataSetTableModel) e.getSource();
                 for(int i = e.getFirstRow(); i < e.getLastRow() + 1; i++){
                     if(model.getValueAt(i,1) instanceof Boolean && (Boolean)model.getValueAt(i,1)){
-                        this.add.doAction(model.getObjectAt(i));
+                        this.show.doAction(model.getObjectAt(i));
                     } else {
-                        this.remove.doAction(model.getObjectAt(i));
+                        this.hide.doAction(model.getObjectAt(i));
                     }
                 }
             }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class DataSetTableModel extends AbstractTableModel {
     private String[] columnNames = new String[]{"DataSet", "Display"};
     private ObjectBigArrayBigList<GraphableData> dataObjects = new ObjectBigArrayBigList<GraphableData>();
+    private ArrayList<Boolean> isDisplayed = new ArrayList();
 
     public int getColumnCount() {
         return columnNames.length;
@@ -32,7 +33,7 @@ public class DataSetTableModel extends AbstractTableModel {
         if(col == 0){
             return dataObjects.get(row).getName();
         }
-        return dataObjects.get(row).isDisplayed();
+        return isDisplayed.get(row);
     }
 
     public boolean isCellEditable(int row, int col) {
@@ -44,7 +45,7 @@ public class DataSetTableModel extends AbstractTableModel {
             dataObjects.get(row).setName((String)value);
             fireTableCellUpdated(row, col);
         } else if ((col == 1) && value instanceof Boolean){
-            dataObjects.get(row).setDisplay((Boolean) value);
+            isDisplayed.set(row, (Boolean)value);
             fireTableCellUpdated(row, col);
         } else {
             throw new IllegalArgumentException();
@@ -55,8 +56,9 @@ public class DataSetTableModel extends AbstractTableModel {
      * Adds a row of graphable data to the table
      * @param data data to add
      */
-    public void addRow(GraphableData data){
+    public void addRow(GraphableData data, boolean display){
         this.dataObjects.add(data);
+        this.isDisplayed.add(display);
         fireTableRowsInserted(data.getSize() - 1,data.getSize() - 1);
     }
 
@@ -69,6 +71,9 @@ public class DataSetTableModel extends AbstractTableModel {
         return this.dataObjects.get(row);
     }
 
+    /**
+     * Clears all the rows in the table
+     */
 	public void clear() {
 		dataObjects.clear();
 	}

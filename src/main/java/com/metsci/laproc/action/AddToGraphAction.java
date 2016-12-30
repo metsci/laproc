@@ -25,7 +25,7 @@ public class AddToGraphAction implements IAction<GraphableData<?>> {
 	 * @param data to add
 	 */
 	public void doAction(GraphableData<?> data) {
-		this.reference.addDataToGraph(data);
+		this.reference.addDataToGraph(data, true);
 	}
 
 }
