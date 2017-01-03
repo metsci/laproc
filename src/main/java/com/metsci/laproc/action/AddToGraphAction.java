@@ -6,17 +6,26 @@ import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.uicomponents.DataSetTable;
 import com.metsci.laproc.utils.IAction;
 
-public class AddToGraphAction implements IAction<DataSetTable> {
+/**
+ * Action to add a specified graphable data to the graph
+ */
+public class AddToGraphAction implements IAction<GraphableData<?>> {
 	private DataReference reference;
-	
+
+	/**
+	 * Default construction
+	 * @param ref data reference to affect
+	 */
 	public AddToGraphAction(DataReference ref){
 		this.reference = ref;
 	}
 
-	public void doAction(DataSetTable dataSetTable) {
-		for(GraphableData<?> data : dataSetTable.getSelectedValues()){
-			this.reference.addDataToGraph(data);
-		}
+	/**
+	 * Add data to graph
+	 * @param data to add
+	 */
+	public void doAction(GraphableData<?> data) {
+		this.reference.addDataToGraph(data, true);
 	}
 
 }

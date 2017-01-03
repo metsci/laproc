@@ -37,9 +37,10 @@ public class DataSetTable extends JTable{
     /**
      * Adds a data set
      * @param dataSet data set to add
+     * @param display true if the data is displayed
      */
-    public void addDataSet(GraphableData dataSet){
-        this.model.addRow(dataSet);
+    public void addDataSet(GraphableData dataSet, boolean display){
+        this.model.addRow(dataSet, display);
     }
 
     /**

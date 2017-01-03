@@ -34,13 +34,13 @@ public class CreateNewDataSetAction implements IAction {
      * @param tableDisplayer
      */
     public void doAction(Object o) {
-    	String dataName = "New Data Set " + currentAddedIndex++;
+        String dataName = "New Data Set " + currentAddedIndex++;
         ClassifierDataSet dataSetGroup = new ClassifierDataSet(new ArrayList<String>(), dataName);
         GraphableFunction func = new ROCCurve(dataSetGroup);
         GraphableData output = func.compute();
         output.setName(dataName);
         reference.addGraphSet(output);
-        reference.addDataToGraph(output);
+        reference.addDataToGraph(output,true);
         reference.addDataSetGroup(dataSetGroup);
     }
 }
