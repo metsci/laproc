@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.CreateNewDataSetAction;
 import com.metsci.laproc.data.ClassifierDataSet;
+import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.uicomponents.FilterActionListener;
 import com.metsci.laproc.uicomponents.TableDisplayer;
@@ -41,40 +42,50 @@ public class DataSheetPanel implements ITool, DataObserver {
 		ref.addObserver(this);
 		this.panel = new JPanel();
 		this.action = new CreateNewDataSetAction(ref);
-		List<ClassifierDataSet> evalSets = ref.getEvaluationSets();
-		if(!evalSets.isEmpty()){
-			setDataSheet(evalSets.get(0));
-		}else{
-			System.err.println("No evaluation sets to build data sheet panel!");
-		}
-		
+		setDataSheet(ref);
 	}
 
 	/**
      * Return DataSheet, composed of JTable
      *
-     * @params: ClassifierDataSet
+     * @params: DataReference
      */
-	public void setDataSheet(ClassifierDataSet data) {
+	private void setDataSheet(DataReference ref) {
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
-		final TableDisplayer tableDisplayer = new TableDisplayer(data);
 
-		JTable table = tableDisplayer.getTable();
-		JScrollPane scrollPane = new JScrollPane(table);
-		table.setFillsViewportHeight(true);
+//		final TableDisplayer tableDisplayer = new TableDisplayer(data);
+//		JTable table = tableDisplayer.getTable();
+		List<TagHeader> headers = ref.getTagHeaders();
+		JPanel tablePanels = new JPanel();
+		tablePanels.setLayout(new BoxLayout(tablePanels, BoxLayout.Y_AXIS));
+
+		for(TagHeader header: headers){
+			DefaultTableModel model = new DefaultTableModel();
+			JLabel label = new JLabel(header.getName());
+			JTable table = new JTable(model);
+			model.addColumn("Tag Name");
+			for(String tag : header.getTags()){
+				model.addRow(new Object[] {tag});
+			}
+			tablePanels.add(label);
+			tablePanels.add(table);
+		}
+
+		JScrollPane scrollPane = new JScrollPane(tablePanels);
+		scrollPane.setViewportView(tablePanels);
+//		table.setFillsViewportHeight(true);
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 		if (defaults.get("Table.alternateRowColor") == null)
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
 		this.panel.add(scrollPane);
-		JButton newEvalSetButton = new JButton("Create New Eval Set");
 
+		JButton newEvalSetButton = new JButton("Create New Eval Set");
 		ActionListener listener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				action.doAction(e);
 			}
 		};
-
 		newEvalSetButton.addActionListener(listener);
 		this.panel.add(newEvalSetButton);
 		
@@ -91,14 +102,14 @@ public class DataSheetPanel implements ITool, DataObserver {
 		filterPanel.add(new JLabel("Value"));
 		filterPanel.add(valueField);
 
-		JButton applyFilterButton = new JButton("Apply Filter");
-		FilterActionListener filterActionListener = new FilterActionListener(table,
-											tableDisplayer.getDataSheetTableModel(),
-											truthField,
-											valueField);
-		applyFilterButton.addActionListener(filterActionListener);
-		filterPanel.add(applyFilterButton);
-		this.panel.add(filterPanel);
+//		JButton applyFilterButton = new JButton("Apply Filter");
+//		FilterActionListener filterActionListener = new FilterActionListener(table,
+//											tableDisplayer.getDataSheetTableModel(),
+//											truthField,
+//											valueField);
+//		applyFilterButton.addActionListener(filterActionListener);
+//		filterPanel.add(applyFilterButton);
+//		this.panel.add(filterPanel);
 
 
 
@@ -115,11 +126,8 @@ public class DataSheetPanel implements ITool, DataObserver {
 	public void update(DataReference ref) {
 		this.table.setModel(new DefaultTableModel(0,1));
 		DefaultTableModel model = (DefaultTableModel) this.table.getModel();
-		System.out.println("HERE LIE MY DATASETGROUPS");
-		System.out.println(ref.getDataSetGroups().toString());
 		for(ClassifierDataSet dataSet: ref.getDataSetGroups()){
 			model.addRow(new Object[]{dataSet.getName()});
-			System.out.println("Row added: " + model.getValueAt(model.getRowCount()-1, 0));
 		}
 		this.table.repaint();
 		

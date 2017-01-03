@@ -31,7 +31,7 @@ public class CreateNewDataSetAction implements IAction {
     /**
      * add new evalset to the data reference object and the graph object
      *
-     * @param tableDisplayer
+     * @param o
      */
     public void doAction(Object o) {
         String dataName = "New Data Set " + currentAddedIndex++;
@@ -39,7 +39,6 @@ public class CreateNewDataSetAction implements IAction {
         GraphableFunction func = new ROCCurve(dataSetGroup);
         GraphableData output = func.compute();
         output.setName(dataName);
-        reference.addGraphSet(output);
         reference.addDataToGraph(output,true);
         reference.addDataSetGroup(dataSetGroup);
     }

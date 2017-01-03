@@ -94,7 +94,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         int currentColor = 0;
         for(GraphableData lineData : graph.getDisplayedData()){
             float[] color = possibleColors[currentColor];
-            if (currentColor != possibleColors.length) {
+            if (currentColor != possibleColors.length - 1) {
                 currentColor++;
             }
             XYLinePainter linePainter = createXYLinePainter(lineData, color, 1.5f);
