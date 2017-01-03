@@ -5,15 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import com.metsci.glimpse.docking.View;
@@ -34,7 +26,7 @@ import com.metsci.laproc.utils.IAction;
 public class DataSheetPanel implements ITool, DataObserver {
 	private JPanel panel;
 	private IAction action;
-	private JTable table;
+	private JComboBox dataSetNames;
 	/**
 	 * Default constructor, requires a window for context
 	 */
@@ -88,19 +80,20 @@ public class DataSheetPanel implements ITool, DataObserver {
 		};
 		newEvalSetButton.addActionListener(listener);
 		this.panel.add(newEvalSetButton);
-		
-		JTable dataSetNames = new JTable();
-		dataSetNames.setModel(new DefaultTableModel(0,1));
-		this.panel.add(dataSetNames);
-		this.table = dataSetNames;
 
-		JPanel filterPanel = new JPanel();
-		JTextField truthField = new JTextField(10);
-		filterPanel.add(new JLabel("Truth"));
-		filterPanel.add(truthField);
-		JTextField valueField = new JTextField(10);
-		filterPanel.add(new JLabel("Value"));
-		filterPanel.add(valueField);
+		JComboBox dataSetNames = new JComboBox();
+		JPanel dataSetPanel = new JPanel();
+		dataSetPanel.add(dataSetNames);
+		this.panel.add(dataSetPanel);
+		this.dataSetNames = dataSetNames;
+
+//		JPanel filterPanel = new JPanel();
+//		JTextField truthField = new JTextField(10);
+//		filterPanel.add(new JLabel("Truth"));
+//		filterPanel.add(truthField);
+//		JTextField valueField = new JTextField(10);
+//		filterPanel.add(new JLabel("Value"));
+//		filterPanel.add(valueField);
 
 //		JButton applyFilterButton = new JButton("Apply Filter");
 //		FilterActionListener filterActionListener = new FilterActionListener(table,
@@ -124,12 +117,11 @@ public class DataSheetPanel implements ITool, DataObserver {
 	}
 
 	public void update(DataReference ref) {
-		this.table.setModel(new DefaultTableModel(0,1));
-		DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+		this.dataSetNames.removeAllItems();
 		for(ClassifierDataSet dataSet: ref.getDataSetGroups()){
-			model.addRow(new Object[]{dataSet.getName()});
+			this.dataSetNames.addItem(dataSet.getName());
 		}
-		this.table.repaint();
+		this.dataSetNames.repaint();
 		
 	}
 }
