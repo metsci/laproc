@@ -111,4 +111,5 @@ public interface Graph {
      */
 	void removeData(GraphableData<?> graphSet);
 
+    void replaceData(GraphableData<?> graphSet, GraphableData<?> newGraphSet);
 }

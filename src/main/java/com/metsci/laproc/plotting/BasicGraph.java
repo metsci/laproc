@@ -242,4 +242,10 @@ public class BasicGraph implements Graph {
         this.data.remove(index);
         this.isDisplayed.remove(index);
 	}
+
+    public void replaceData(GraphableData<?> graphSet, GraphableData<?> newGraphSet) {
+        int index = this.data.indexOf(graphSet);
+        this.data.remove(index);
+        this.data.add(index, newGraphSet);
+    }
 }

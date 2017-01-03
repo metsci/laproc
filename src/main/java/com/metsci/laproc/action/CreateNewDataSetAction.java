@@ -41,5 +41,6 @@ public class CreateNewDataSetAction implements IAction {
         output.setName(dataName);
         reference.addDataToGraph(output,true);
         reference.addDataSetGroup(dataSetGroup);
+        reference.addToDataSetGraphMap(dataSetGroup,output);
     }
 }

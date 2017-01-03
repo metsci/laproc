@@ -8,6 +8,7 @@ import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.Observable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class DataReferenceImpl extends Observable implements DataReference {
     private List<ClassifierDataSet> evalSets;
     //TODO:using a normal classifier data set to store groups is slow
     private List<ClassifierDataSet> dataSetGroups;
+    private HashMap<ClassifierDataSet, GraphableData> dataSetGraphMap;
     private List<TagHeader> tagHeaders;
 
     /**
@@ -32,6 +34,7 @@ public class DataReferenceImpl extends Observable implements DataReference {
         graph = new BasicGraph();
         evalSets = new ArrayList<ClassifierDataSet>();
         dataSetGroups = new ArrayList<ClassifierDataSet>();
+        dataSetGraphMap = new HashMap<ClassifierDataSet, GraphableData>();
         this.tagHeaders = tagHeaders;
     }
 
@@ -84,15 +87,23 @@ public class DataReferenceImpl extends Observable implements DataReference {
 		notifyObservers();
 	}
 
+    public void replaceDataOnGraph(GraphableData<?> graphSet, GraphableData<?> newGraphSet) {
+        this.graph.replaceData(graphSet, newGraphSet);
+        notifyObservers();
+    }
+
 	public void addDataSetGroup(ClassifierDataSet dataSetGroup){
 		this.dataSetGroups.add(dataSetGroup);
 		notifyObservers();
 	}
 
-    public void updateDataSetGroup(ClassifierDataSet previousDataSetGroup, ClassifierDataSet newDataSetGroup){
-        int index = this.dataSetGroups.indexOf(previousDataSetGroup);
-        this.dataSetGroups.set(index, newDataSetGroup);
+	public void addToDataSetGraphMap(ClassifierDataSet dataSetGraph, GraphableData<?> graphSet){
+        this.dataSetGraphMap.put(dataSetGraph, graphSet);
         notifyObservers();
+    }
+
+    public GraphableData<?> getGraphfromDataSet(ClassifierDataSet dataSetGraph){
+        return this.dataSetGraphMap.get(dataSetGraph);
     }
 
 	public void removeDataSetGroup(ClassifierDataSet dataSetGroup){

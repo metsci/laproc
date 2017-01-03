@@ -58,10 +58,14 @@ public interface DataReference extends IObservable {
      * @param graphSet The set to remove
      */
     void removeDataFromGraph(GraphableData<?> graphSet);
+
+    void replaceDataOnGraph(GraphableData<?> graphSet, GraphableData<?> newGraphSet);
     
 	void addDataSetGroup(ClassifierDataSet dataSetGroup);
 
-    void updateDataSetGroup(ClassifierDataSet previousDataSetGroup, ClassifierDataSet newDataSetGroup);
+    void addToDataSetGraphMap(ClassifierDataSet dataSetGraph, GraphableData<?> graphSet);
+
+    GraphableData<?> getGraphfromDataSet(ClassifierDataSet dataSetGraph);
 	
 	void removeDataSetGroup(ClassifierDataSet dataSetGroup);
 	

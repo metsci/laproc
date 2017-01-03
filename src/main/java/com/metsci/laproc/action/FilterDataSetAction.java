@@ -3,6 +3,9 @@ package com.metsci.laproc.action;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.plotting.GraphableFunction;
+import com.metsci.laproc.plotting.ROCCurve;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.tools.DataSheetPanel;
 import com.metsci.laproc.utils.IAction;
@@ -14,7 +17,7 @@ import java.util.List;
 /**
  * Created by malinocr on 1/3/2017.
  */
-public class UnionDataSetAction implements IAction<DataSheetPanel> {
+public class FilterDataSetAction implements IAction<DataSheetPanel> {
     private DataReference reference;
 
 
@@ -22,7 +25,7 @@ public class UnionDataSetAction implements IAction<DataSheetPanel> {
      * Basic constructor that takes a data reference object
      * @param reference References
      */
-    public UnionDataSetAction(DataReference reference){
+    public FilterDataSetAction(DataReference reference){
         this.reference = reference;
     }
 
@@ -74,7 +77,12 @@ public class UnionDataSetAction implements IAction<DataSheetPanel> {
                 }
             }
         }
-        this.reference.notifyObservers();
+        GraphableData<?> oldGraph = this.reference.getGraphfromDataSet(updateSet);
+        GraphableFunction func = new ROCCurve(updateSet);
+        GraphableData output = func.compute();
+        output.setName(updateSet.getName());
+        this.reference.replaceDataOnGraph(oldGraph, output);
+        this.reference.addToDataSetGraphMap(updateSet, output);
         //TODO: Is this bad?
     }
 }

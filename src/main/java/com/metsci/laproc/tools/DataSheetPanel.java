@@ -11,12 +11,10 @@ import javax.swing.table.DefaultTableModel;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.CreateNewDataSetAction;
-import com.metsci.laproc.action.UnionDataSetAction;
+import com.metsci.laproc.action.FilterDataSetAction;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.datareference.DataReference;
-import com.metsci.laproc.uicomponents.FilterActionListener;
-import com.metsci.laproc.uicomponents.TableDisplayer;
 import com.metsci.laproc.utils.IAction;
 
 /**
@@ -38,7 +36,7 @@ public class DataSheetPanel implements ITool, DataObserver {
 		ref.addObserver(this);
 		this.panel = new JPanel();
 		this.createAction = new CreateNewDataSetAction(ref);
-		this.unionAction = new UnionDataSetAction(ref);
+		this.unionAction = new FilterDataSetAction(ref);
 		setDataSheet(ref);
 	}
 
