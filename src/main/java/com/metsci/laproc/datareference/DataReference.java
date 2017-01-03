@@ -60,6 +60,8 @@ public interface DataReference extends IObservable {
     void removeDataFromGraph(GraphableData<?> graphSet);
     
 	void addDataSetGroup(ClassifierDataSet dataSetGroup);
+
+    void updateDataSetGroup(ClassifierDataSet previousDataSetGroup, ClassifierDataSet newDataSetGroup);
 	
 	void removeDataSetGroup(ClassifierDataSet dataSetGroup);
 	

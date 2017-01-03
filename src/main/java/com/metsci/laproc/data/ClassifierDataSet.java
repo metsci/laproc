@@ -68,4 +68,9 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
     	this.name = name;
     }
 
+    @Override
+    public String toString(){
+        return this.getName();
+    }
+
 }

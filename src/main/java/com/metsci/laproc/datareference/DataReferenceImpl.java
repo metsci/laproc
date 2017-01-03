@@ -19,6 +19,7 @@ import java.util.List;
 public class DataReferenceImpl extends Observable implements DataReference {
     private Graph graph;
     private List<ClassifierDataSet> evalSets;
+    //TODO:using a normal classifier data set to store groups is slow
     private List<ClassifierDataSet> dataSetGroups;
     private List<TagHeader> tagHeaders;
 
@@ -87,6 +88,12 @@ public class DataReferenceImpl extends Observable implements DataReference {
 		this.dataSetGroups.add(dataSetGroup);
 		notifyObservers();
 	}
+
+    public void updateDataSetGroup(ClassifierDataSet previousDataSetGroup, ClassifierDataSet newDataSetGroup){
+        int index = this.dataSetGroups.indexOf(previousDataSetGroup);
+        this.dataSetGroups.set(index, newDataSetGroup);
+        notifyObservers();
+    }
 
 	public void removeDataSetGroup(ClassifierDataSet dataSetGroup){
 		this.dataSetGroups.remove(dataSetGroup);

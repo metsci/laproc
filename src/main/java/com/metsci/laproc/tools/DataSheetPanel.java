@@ -1,8 +1,9 @@
 package com.metsci.laproc.tools;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.CreateNewDataSetAction;
+import com.metsci.laproc.action.UnionDataSetAction;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.datareference.DataReference;
@@ -25,15 +27,18 @@ import com.metsci.laproc.utils.IAction;
  */
 public class DataSheetPanel implements ITool, DataObserver {
 	private JPanel panel;
-	private IAction action;
-	private JComboBox dataSetNames;
+	private IAction createAction;
+	private IAction unionAction;
+	private JPanel tagPanel;
+	private JComboBox dataSets;
 	/**
 	 * Default constructor, requires a window for context
 	 */
 	public DataSheetPanel(DataReference ref){
 		ref.addObserver(this);
 		this.panel = new JPanel();
-		this.action = new CreateNewDataSetAction(ref);
+		this.createAction = new CreateNewDataSetAction(ref);
+		this.unionAction = new UnionDataSetAction(ref);
 		setDataSheet(ref);
 	}
 
@@ -48,8 +53,9 @@ public class DataSheetPanel implements ITool, DataObserver {
 //		final TableDisplayer tableDisplayer = new TableDisplayer(data);
 //		JTable table = tableDisplayer.getTable();
 		List<TagHeader> headers = ref.getTagHeaders();
-		JPanel tablePanels = new JPanel();
-		tablePanels.setLayout(new BoxLayout(tablePanels, BoxLayout.Y_AXIS));
+		JPanel tagPanel = new JPanel();
+		this.tagPanel = tagPanel;
+		tagPanel.setLayout(new BoxLayout(tagPanel, BoxLayout.Y_AXIS));
 
 		for(TagHeader header: headers){
 			DefaultTableModel model = new DefaultTableModel();
@@ -59,33 +65,42 @@ public class DataSheetPanel implements ITool, DataObserver {
 			for(String tag : header.getTags()){
 				model.addRow(new Object[] {tag});
 			}
-			tablePanels.add(label);
-			tablePanels.add(table);
+			tagPanel.add(label);
+			tagPanel.add(table);
 		}
 
-		JScrollPane scrollPane = new JScrollPane(tablePanels);
-		scrollPane.setViewportView(tablePanels);
+		JScrollPane tagScrollPane = new JScrollPane(tagPanel);
+		tagScrollPane.setViewportView(tagPanel);
 //		table.setFillsViewportHeight(true);
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 		if (defaults.get("Table.alternateRowColor") == null)
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
-		this.panel.add(scrollPane);
+		this.panel.add(tagScrollPane);
 
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
-		ActionListener listener = new ActionListener() {
+		ActionListener createListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				action.doAction(e);
+				createAction.doAction(e);
 			}
 		};
-		newEvalSetButton.addActionListener(listener);
+		newEvalSetButton.addActionListener(createListener);
 		this.panel.add(newEvalSetButton);
+
+		JButton unionEvalSetButton = new JButton("Union with Eval Set");
+		ActionListener unionListener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				unionAction.doAction(DataSheetPanel.this);
+			}
+		};
+		unionEvalSetButton.addActionListener(unionListener);
+		this.panel.add(unionEvalSetButton);
 
 		JComboBox dataSetNames = new JComboBox();
 		JPanel dataSetPanel = new JPanel();
 		dataSetPanel.add(dataSetNames);
 		this.panel.add(dataSetPanel);
-		this.dataSetNames = dataSetNames;
+		this.dataSets = dataSetNames;
 
 //		JPanel filterPanel = new JPanel();
 //		JTextField truthField = new JTextField(10);
@@ -108,6 +123,26 @@ public class DataSheetPanel implements ITool, DataObserver {
 
 	}
 
+	public List<List<String>> getSelectedTags(){
+		Component[] components = this.tagPanel.getComponents();
+		List<List<String>> totalList = new ArrayList<List<String>>();
+		for(Component comp: components){
+			if(comp instanceof JTable){
+				JTable currentTable = (JTable)comp;
+				List<String> currentList = new ArrayList<String>();
+				for(int row : currentTable.getSelectedRows()){
+					currentList.add((String)currentTable.getValueAt(row,0));
+				}
+				totalList.add(currentList);
+			}
+		}
+		return totalList;
+	}
+
+	public ClassifierDataSet getSelectedDataSet() {
+		return (ClassifierDataSet)this.dataSets.getSelectedItem();
+	}
+
 	public View getView() {
 		return new View("Data Sheet", this.panel, "Data Sheet", true);
 	}
@@ -117,11 +152,10 @@ public class DataSheetPanel implements ITool, DataObserver {
 	}
 
 	public void update(DataReference ref) {
-		this.dataSetNames.removeAllItems();
+		this.dataSets.removeAllItems();
 		for(ClassifierDataSet dataSet: ref.getDataSetGroups()){
-			this.dataSetNames.addItem(dataSet.getName());
+			this.dataSets.addItem(dataSet);
 		}
-		this.dataSetNames.repaint();
-		
+		this.dataSets.repaint();
 	}
 }
