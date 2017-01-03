@@ -23,9 +23,6 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
 
     /** Tha actual data, stored as some type T The x and y values can all be derived from this data */
     private SortedSet<T> points;
-    
-    /** The boolean value of whether the data is displayed on the graph */
-	private boolean displayed;
 
     /**
      * Constructor
@@ -42,7 +39,6 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
         this.axes.add(this.xAxisMetric);
         this.axes.add(this.yAxisMetric);
         this.points = new TreeSet<T>(new MetricComparator<T>(this.xAxisMetric));
-        this.displayed = true;
     }
 
     /**
@@ -207,13 +203,5 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
         resort.addAll(this.points);
         this.points = resort;
     }
-
-	public boolean isDisplayed() {
-		return this.displayed;
-	}
-
-	public void setDisplay(boolean display) {
-		this.displayed = display;
-	}
 
 }
