@@ -150,9 +150,13 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 	}
 
 	public void update(DataReference ref) {
+		ClassifierDataSet selectedDataSet = (ClassifierDataSet)this.dataSets.getSelectedItem();
 		this.dataSets.removeAllItems();
 		for(ClassifierDataSet dataSet: ref.getDataSetGroups()){
 			this.dataSets.addItem(dataSet);
+		}
+		if(selectedDataSet != null) {
+			this.dataSets.setSelectedItem(selectedDataSet);
 		}
 		this.dataSets.repaint();
 	}
