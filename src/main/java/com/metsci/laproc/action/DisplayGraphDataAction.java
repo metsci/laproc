@@ -5,6 +5,7 @@ import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IAction;
 
 /**
+ * Action to display a dataset on the graph
  * Created by malinocr on 12/21/2016.
  */
 public class DisplayGraphDataAction implements IAction<GraphableData<?>> {

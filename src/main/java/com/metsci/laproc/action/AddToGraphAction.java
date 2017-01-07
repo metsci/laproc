@@ -13,7 +13,7 @@ public class AddToGraphAction implements IAction<GraphableData<?>> {
 	private DataReference reference;
 
 	/**
-	 * Default construction
+	 * Default constructor
 	 * @param ref data reference to affect
 	 */
 	public AddToGraphAction(DataReference ref){

@@ -11,6 +11,7 @@ import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.action.AddToGraphAction;
 import com.metsci.laproc.action.RemoveFromGraphAction;
 import com.metsci.laproc.plotting.GraphableData;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -22,7 +23,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
- * A JPanel that handles interacting with the created data sets
+ * A JPanel that handles interacting with classifer data sets
  * Created by malinocr on 10/17/2016.
  */
 public class DataSetPanel implements ITool, DataObserver {
@@ -69,20 +70,31 @@ public class DataSetPanel implements ITool, DataObserver {
         this.table.addDataSet(data, display);
     }
 
+    /**
+     * Getter for the view for the data set panel
+     * @return data set panel view
+     */
     public View getView() {
         return new View("Data Set", this.panel, "Data Set", true);
     }
 
+    /**
+     * Getter for the default position of the panel
+     * @return default position of the panel
+     */
     public int getDefaultPosition() {
         return ITool.LEFTPOSITION;
     }
 
+    /**
+     * Updates the panel when the reference is updated
+     * @param reference referance to observe
+     */
     public void update(DataReference reference) {
     	this.clearTable();
-        List<GraphableData> data = reference.getGraph().getData();
-        List<Boolean> displayed = reference.getGraph().getDisplayed();
+        List<Pair<GraphableData,Boolean>> data = reference.getGraph().getDataPairs();
         for(int i = 0; i < data.size(); i++){
-            this.addDataSetToTable(data.get(i), displayed.get(i));
+            this.addDataSetToTable(data.get(i).getKey(), data.get(i).getValue());
         }
     }
 }

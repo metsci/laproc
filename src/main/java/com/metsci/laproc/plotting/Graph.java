@@ -1,6 +1,7 @@
 package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.pointmetrics.ParametricFunction;
+import javafx.util.Pair;
 
 import java.util.List;
 
@@ -65,10 +66,10 @@ public interface Graph {
     List<GraphableData> getData();
 
     /**
-     * Getter for the associated displayed rows for graphable data in the graph
-     * @return The graphable data associated with this graph
+     * Getter for the pairs of data and whether it is displayed
+     * @return List of data and whether it is displayed
      */
-    List<Boolean> getDisplayed();
+    List<Pair<GraphableData,Boolean>> getDataPairs();
 
     /**
      * Gets the closest value on the plot to the value provided. This is probably a point that was clicked
@@ -111,5 +112,10 @@ public interface Graph {
      */
 	void removeData(GraphableData<?> graphSet);
 
+    /**
+     * Replace a Graphable Data set with another Graphable Data set
+     * @param graphSet old graphable data set to replace
+     * @param newGraphSet graphable data to replace the old graphable data set
+     */
     void replaceData(GraphableData<?> graphSet, GraphableData<?> newGraphSet);
 }

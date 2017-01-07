@@ -6,18 +6,17 @@ import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.plotting.ROCCurve;
-import com.metsci.laproc.pointmetrics.ParametricFunction;
-import com.metsci.laproc.tools.DataSheetPanel;
+import com.metsci.laproc.tools.EvaluationSetPanel;
 import com.metsci.laproc.utils.IAction;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
 /**
+ * Action to union the selected evaluation sets into the selected classifier sets in a datasheet panel
  * Created by malinocr on 1/3/2017.
  */
-public class FilterDataSetAction implements IAction<DataSheetPanel> {
+public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
     private DataReference reference;
 
 
@@ -30,10 +29,10 @@ public class FilterDataSetAction implements IAction<DataSheetPanel> {
     }
 
     /**
-     * Union all the values of the given data sets into the first data set (which is one in the reference)
-     * @param dataSheetPanel dataSets to union
+     * Union all selected evaluation set into the selected classifier set in the datasheet panel
+     * @param dataSheetPanel panel used to determine selected evaluation sets and classifier sets
      */
-    public void doAction(DataSheetPanel dataSheetPanel) {
+    public void doAction(EvaluationSetPanel dataSheetPanel) {
         ClassifierDataSet updateSet = dataSheetPanel.getSelectedDataSet();
         List<List<String>> tags = dataSheetPanel.getSelectedTags();
         List<ClassifierDataSet> evalSets = reference.getEvaluationSets();

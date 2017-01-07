@@ -15,6 +15,12 @@ public class DataSetTableCheckBoxListener implements TableModelListener{
     IAction show;
     IAction hide;
 
+    /**
+     * Constructor for the checkbox listener
+     * @param show action to perform when a checkbox is turned on
+     * @param hide action to perform when a checkbox is turned off
+     * @param table table to observe
+     */
     public DataSetTableCheckBoxListener(IAction show, IAction hide, DataSetTable table){
         this.table = table;
         this.show = show;

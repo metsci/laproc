@@ -18,38 +18,12 @@ import com.metsci.laproc.data.TagHeader;
 public class App {
 	public static void main( String[] args )
     {
-       // BasicGraph graph = new BasicGraph("", new FalsePositiveRate(), new TruePositiveRate());
 		List<ClassifierDataSet> dataSetList = new ArrayList<ClassifierDataSet>();
 		List<TagHeader> tagHeaders = new ArrayList<TagHeader>();
         importData(dataSetList, tagHeaders);
 
         Application application = new Application(dataSetList, tagHeaders);
         application.run();
-       /* GraphableFunction func = new ROCCurve(importData);
-        GraphableData graphableData = func.compute();
-        graphableData.setName("Initial Classifier Data Set");
-        graph.addData(graphableData);
-
-       /* Window window = new BasicWindow();
-
-        ITool gPanel = new GraphPanel(graph);
-
-        ITool oPanel = new GraphOptionsPanel(graph);
-        ITool dsPanel = new DataSetPanel();
-        ITool dshPanel = new DataSheetPanel();
-
-        ITool aPanel = new PointInfoPanel();
-        ITool cPanel = new ConfusionPanel();
-        window.addViewToTile(gPanel.getView(), 1);
-
-        window.addViewToTile(oPanel.getView(), 0);
-        window.addViewToTile(dsPanel.getView(), 0);
-        window.addViewToTile(dshPanel.getView(), 0);
-
-
-        window.addViewToTile(aPanel.getView(), 2);
-        window.addViewToTile(cPanel.getView(), 2);
-        window.uicomponents();*/
     }
 
     private static void importData(List<ClassifierDataSet> dataSetList, List<TagHeader> tagHeaders) {
@@ -72,9 +46,6 @@ public class App {
                     point = new DataPointImpl(true, Double.parseDouble(line[4]));
                 else
                     point = new DataPointImpl(false, Double.parseDouble(line[4]));
-//                point.addTag(line[0]);
-//                point.addTag(line[1]);
-//                point.addTag(line[2]);
                 boolean found = false;
                 for(ClassifierDataSet set : dataSetList){
                 	Collection<String> tags = set.getTags();

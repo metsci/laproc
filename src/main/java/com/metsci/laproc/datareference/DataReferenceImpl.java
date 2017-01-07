@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * TODO: Add javadocs for additional methods
  * This reference allows tools to access the graph and associated data
  * Created by porterjc on 12/14/2016.
  */
@@ -26,7 +25,8 @@ public class DataReferenceImpl extends Observable implements DataReference {
     private List<TagHeader> tagHeaders;
 
     /**
-     * Constructor
+     * Constructor for the Default Data Reference
+     * @param tagHeaders TagHeaders for the data reference
      */
     public DataReferenceImpl(List<TagHeader> tagHeaders) {
         super();
@@ -38,36 +38,20 @@ public class DataReferenceImpl extends Observable implements DataReference {
         this.tagHeaders = tagHeaders;
     }
 
-    /**
-     * Adds a ClassifierDataSet to the collection of Evaluation Sets
-     * @param dataSet The set to add
-     */
     public void addEvalSet(ClassifierDataSet dataSet) {
         this.evalSets.add(dataSet);
         notifyObservers();
     }
 
-    /**
-     * Removes a ClassifierDataSet from the collection of Evaluation Sets
-     * @param dataSet The set to remove
-     */
     public void removeEvalSet(ClassifierDataSet dataSet) {
         this.evalSets.remove(dataSet);
         notifyObservers();
     }
 
-    /**
-     * Getter for the Graph object
-     * @return The Graph object
-     */
     public Graph getGraph() {
         return this.graph;
     }
 
-    /**
-     * Gets a list of all evaluation sets
-     * @return A list of all evaluation sets
-     */
     public List<ClassifierDataSet> getEvaluationSets() {
         return this.evalSets;
     }
@@ -97,13 +81,13 @@ public class DataReferenceImpl extends Observable implements DataReference {
 		notifyObservers();
 	}
 
-	public void addToDataSetGraphMap(ClassifierDataSet dataSetGraph, GraphableData<?> graphSet){
-        this.dataSetGraphMap.put(dataSetGraph, graphSet);
+	public void addToDataSetGraphMap(ClassifierDataSet dataSetGroup, GraphableData<?> graphSet){
+        this.dataSetGraphMap.put(dataSetGroup, graphSet);
         notifyObservers();
     }
 
-    public GraphableData<?> getGraphfromDataSet(ClassifierDataSet dataSetGraph){
-        return this.dataSetGraphMap.get(dataSetGraph);
+    public GraphableData<?> getGraphfromDataSet(ClassifierDataSet dataSetGroup){
+        return this.dataSetGraphMap.get(dataSetGroup);
     }
 
 	public void removeDataSetGroup(ClassifierDataSet dataSetGroup){

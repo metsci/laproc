@@ -1,6 +1,8 @@
 package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.pointmetrics.ParametricFunction;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import javafx.util.Pair;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -26,10 +28,8 @@ public class BasicGraph implements Graph {
     /** Allows the user to provide a custom Y Axis descriptor */
     private String yAxisDescriptor;
 
-    /** All data sets that are displayed on the graph */
-    private List<GraphableData> data;
-    /** List determining if a set of data is displayed */
-    private List<Boolean> isDisplayed;
+    /** All data sets that are in the graph paired with whether they are being displayed */
+    private List<Pair<GraphableData,Boolean>> data;
 
     /**
      * Default constructor
@@ -65,8 +65,7 @@ public class BasicGraph implements Graph {
         this.title = title;
         this.xAxisMetric = xAxisMetric;
         this.yAxisMetric = yAxisMetric;
-        this.data = new ArrayList<GraphableData>();
-        this.isDisplayed = new ArrayList<Boolean>();
+        this.data = new ArrayList<Pair<GraphableData, Boolean>>();
     }
 
     /**
@@ -85,7 +84,7 @@ public class BasicGraph implements Graph {
         double xMin = 0; // The default lower bound
         double xMax = 1; // The default upper bound
         // Get the maximum and minimum bounds necessary to contain all of the data
-        for(GraphableData d : this.getDisplayedData()) {
+        for(GraphableData d : this.getData()){
             Axis bounds = d.getXBounds();
             if(bounds.getMin() < xMin)
                 xMin = bounds.getMin();
@@ -110,7 +109,7 @@ public class BasicGraph implements Graph {
         double yMin = 0; // The default lower bound
         double yMax = 1; // The default upper bound
         // Get the maximum and minimum bounds necessary to contain all of the data
-        for(GraphableData d : this.getDisplayedData()) {
+        for(GraphableData d : this.getData()) {
             Axis bounds = d.getYBounds();
             if(bounds.getMin() < yMin)
                 yMin = bounds.getMin();
@@ -159,8 +158,8 @@ public class BasicGraph implements Graph {
     public Iterable<GraphableData> getDisplayedData() {
         ArrayList<GraphableData> displayed = new ArrayList<GraphableData>();
         for(int i = 0; i < this.data.size(); i++){
-            if(this.isDisplayed.get(i)){
-                displayed.add(this.data.get(i));
+            if(this.data.get(i).getValue()){
+                displayed.add(this.data.get(i).getKey());
             }
         }
         return displayed;
@@ -169,19 +168,23 @@ public class BasicGraph implements Graph {
     public Iterable<GraphableData> getHiddenData() {
         ArrayList<GraphableData> hidden = new ArrayList<GraphableData>();
         for(int i = 0; i < this.data.size(); i++){
-            if(!this.isDisplayed.get(i)){
-                hidden.add(this.data.get(i));
+            if(!this.data.get(i).getValue()){
+                hidden.add(this.data.get(i).getKey());
             }
         }
         return hidden;
     }
 
     public List<GraphableData> getData() {
-        return this.data;
+        ArrayList<GraphableData> keys = new ArrayList<GraphableData>();
+        for(int i = 0; i < this.data.size(); i++){
+            keys.add(this.data.get(i).getKey());
+        }
+        return keys;
     }
 
-    public List<Boolean> getDisplayed() {
-        return this.isDisplayed;
+    public List<Pair<GraphableData,Boolean>> getDataPairs(){
+        return this.data;
     }
 
     /**
@@ -223,29 +226,39 @@ public class BasicGraph implements Graph {
     public void useAxisFunctions(ParametricFunction xAxis, ParametricFunction yAxis) {
         this.xAxisMetric = xAxis;
         this.yAxisMetric = yAxis;
-        for(GraphableData d : this.getDisplayedData()) {
+        for(GraphableData d : this.getData()) {
             d.useAxes(xAxis, yAxis);
         }
     }
 
     public void addData(GraphableData<?> dat, boolean display) {
-        this.data.add(dat);
-        this.isDisplayed.add(display);
+        this.data.add(new Pair<GraphableData, Boolean>(dat, display));
     }
 
     public void setDataDisplay(GraphableData<?> dat, boolean display) {
-        this.isDisplayed.set(this.data.indexOf(dat), display);
+        for(int i = 0; i < this.data.size(); i++){
+            if(this.data.get(i).getKey().equals(dat)){
+                this.data.set(i, new Pair<GraphableData, Boolean>(dat, display));
+                break;
+            }
+        }
     }
 
 	public void removeData(GraphableData<?> graphSet) {
-		int index = this.data.indexOf(graphSet);
-        this.data.remove(index);
-        this.isDisplayed.remove(index);
+        for(int i = 0; i < this.data.size(); i++){
+            if(this.data.get(i).getKey().equals(graphSet)){
+                this.data.remove(i);
+                break;
+            }
+        }
 	}
 
     public void replaceData(GraphableData<?> graphSet, GraphableData<?> newGraphSet) {
-        int index = this.data.indexOf(graphSet);
-        this.data.remove(index);
-        this.data.add(index, newGraphSet);
+        for(int i = 0; i < this.data.size(); i++){
+            if(this.data.get(i).getKey().equals(graphSet)){
+                this.data.set(i, new Pair<GraphableData, Boolean>(newGraphSet, this.data.get(i).getValue()));
+                break;
+            }
+        }
     }
 }

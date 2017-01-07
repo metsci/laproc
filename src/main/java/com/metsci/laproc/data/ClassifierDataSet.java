@@ -19,11 +19,18 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
 
     /** The actual data set */
     private ObjectOpenHashBigSet<DataPoint> data;
-    
+
+    /** Name of the classifier data set */
     private String name;
 
+    /** Set operations that have been used to create this classifier data set */
     private String setOperations;
 
+    /**
+     * Constructor for a classifer data set
+     * @param givenTags tags that uniquely identify the classifier data set (if it is an evaluation set)
+     * @param name name of the classifier data set
+     */
     public ClassifierDataSet(List<String> givenTags, String name) {
         this.tags = givenTags;
         this.data = new ObjectOpenHashBigSet<DataPoint>();
@@ -62,19 +69,35 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
     public List<String> getTags() {
         return this.tags;
     }
-    
+
+    /**
+     * Getter for the name of the data set
+     * @return the name of the data set
+     */
     public String getName(){
     	return this.name;
     }
-    
+
+    /**
+     * Setter for the name of the data set
+     * @param name new name of the data set
+     */
     public void setName(String name){
     	this.name = name;
     }
 
+    /**
+     * Getter for the set operations of the data set
+     * @return the set operations of the data set
+     */
     public String getSetOperations(){
         return this.setOperations;
     }
 
+    /**
+     * Setter for the set operations of the data set
+     * @param setOperations new set operations of the data set
+     */
     public void setSetOperation(String setOperations){
         this.setOperations = setOperations;
     }

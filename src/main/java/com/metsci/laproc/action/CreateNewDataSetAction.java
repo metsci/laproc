@@ -13,25 +13,26 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 /**
- * TODO: update javadocs
+ * Action that creates a classifier data set
  * Created by porterjc on 12/17/2016.
  */
-public class CreateNewDataSetAction implements IAction {
+public class CreateNewDataSetAction implements IAction<Object> {
     private DataReference reference;
     private int currentAddedIndex = 1;
 
     /**
-     * Basic constructor that takes a data reference object
-     * @param ref
+     * Default constructor
+     * @param ref data reference to affect
      */
     public CreateNewDataSetAction(DataReference ref) {
         reference = ref;
     }
 
+    //TODO:Issues with doAction needing an Object
     /**
-     * add new evalset to the data reference object and the graph object
+     * Create new classifier data set in the data reference object and the graph object
      *
-     * @param o
+     * @param o No object needed
      */
     public void doAction(Object o) {
         String dataName = "New Data Set " + currentAddedIndex++;

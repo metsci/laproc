@@ -19,11 +19,11 @@ import com.metsci.laproc.utils.IAction;
 
 /**
  * 
- * A datasheet panel creator.
+ * Panel for manipulating evaluation sets into dataset groups
  * Created by patterjm on 10/5/2016.
  *
  */
-public class DataSheetPanel implements ITool, DataObserver {
+public class EvaluationSetPanel implements ITool, DataObserver {
 	private JPanel panel;
 	private IAction createAction;
 	private IAction unionAction;
@@ -32,7 +32,7 @@ public class DataSheetPanel implements ITool, DataObserver {
 	/**
 	 * Default constructor, requires a window for context
 	 */
-	public DataSheetPanel(DataReference ref){
+	public EvaluationSetPanel(DataReference ref){
 		ref.addObserver(this);
 		this.panel = new JPanel();
 		this.createAction = new CreateNewDataSetAction(ref);
@@ -48,8 +48,6 @@ public class DataSheetPanel implements ITool, DataObserver {
 	private void setDataSheet(DataReference ref) {
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 
-//		final TableDisplayer tableDisplayer = new TableDisplayer(data);
-//		JTable table = tableDisplayer.getTable();
 		List<TagHeader> headers = ref.getTagHeaders();
 		JPanel tagPanel = new JPanel();
 		this.tagPanel = tagPanel;
@@ -88,7 +86,7 @@ public class DataSheetPanel implements ITool, DataObserver {
 		JButton unionEvalSetButton = new JButton("Union with Eval Set");
 		ActionListener unionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				unionAction.doAction(DataSheetPanel.this);
+				unionAction.doAction(EvaluationSetPanel.this);
 			}
 		};
 		unionEvalSetButton.addActionListener(unionListener);
@@ -113,27 +111,12 @@ public class DataSheetPanel implements ITool, DataObserver {
 
 		this.panel.add(setOperationLabel);
 
-//		JPanel filterPanel = new JPanel();
-//		JTextField truthField = new JTextField(10);
-//		filterPanel.add(new JLabel("Truth"));
-//		filterPanel.add(truthField);
-//		JTextField valueField = new JTextField(10);
-//		filterPanel.add(new JLabel("Value"));
-//		filterPanel.add(valueField);
-
-//		JButton applyFilterButton = new JButton("Apply Filter");
-//		FilterActionListener filterActionListener = new FilterActionListener(table,
-//											tableDisplayer.getDataSheetTableModel(),
-//											truthField,
-//											valueField);
-//		applyFilterButton.addActionListener(filterActionListener);
-//		filterPanel.add(applyFilterButton);
-//		this.panel.add(filterPanel);
-
-
-
 	}
 
+	/**
+	 * Getter for the selected tags in the tag panel
+	 * @return A list of tags seperated into lists based on tag headers
+	 */
 	public List<List<String>> getSelectedTags(){
 		Component[] components = this.tagPanel.getComponents();
 		List<List<String>> totalList = new ArrayList<List<String>>();
@@ -150,6 +133,10 @@ public class DataSheetPanel implements ITool, DataObserver {
 		return totalList;
 	}
 
+	/**
+	 * Getter for the currently selected data set group
+	 * @return selected data set group
+	 */
 	public ClassifierDataSet getSelectedDataSet() {
 		return (ClassifierDataSet)this.dataSets.getSelectedItem();
 	}

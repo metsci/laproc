@@ -102,12 +102,6 @@ public class GraphDisplayer implements GlimpseLayoutProvider
             legend.addItem(lineData.getName(), color);
         }
 
-        //Draw selected line
-     /*   float[] selectedLineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
-        XYLinePainter linePainter = createXYLinePainter(graph.getSelectedData(), selectedLineColor, 2.5f);
-        plot.addPainter(linePainter);
-        legend.addItem(graph.getSelectedData().getName(), selectedLineColor); */
-
         // Add a painter to uicomponents the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter();
         plot.addPainter(cursorPainter);

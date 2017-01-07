@@ -31,7 +31,6 @@ public class Application {
     }
 
     public void run() {
-        //TODO create a window, initialize layout, load tool configuration
         globalToolBox.initializeTools();
         Window window = new BasicWindow();
 

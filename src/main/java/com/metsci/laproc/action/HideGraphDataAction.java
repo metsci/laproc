@@ -5,6 +5,7 @@ import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IAction;
 
 /**
+ * Action to hide a dataset on the graph
  * Created by malinocr on 12/21/2016.
  */
 public class HideGraphDataAction implements IAction<GraphableData<?>> {
