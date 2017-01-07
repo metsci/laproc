@@ -37,6 +37,7 @@ public class FilterDataSetAction implements IAction<DataSheetPanel> {
         ClassifierDataSet updateSet = dataSheetPanel.getSelectedDataSet();
         List<List<String>> tags = dataSheetPanel.getSelectedTags();
         List<ClassifierDataSet> evalSets = reference.getEvaluationSets();
+        String setOperation = "";
 
         if(!tags.isEmpty()){
             HashSet<ClassifierDataSet> initialSets = new HashSet<ClassifierDataSet>();
@@ -45,6 +46,11 @@ public class FilterDataSetAction implements IAction<DataSheetPanel> {
                 startingIndex++;
             }
             for(String tag : tags.get(startingIndex)){
+                if(setOperation.equals("")){
+                    setOperation += "( " + tag;
+                } else {
+                    setOperation += " V " + tag;
+                }
                 for(ClassifierDataSet set: evalSets){
                     if(set.getTags().contains(tag)){
                         initialSets.add(set);
@@ -52,6 +58,14 @@ public class FilterDataSetAction implements IAction<DataSheetPanel> {
                 }
             }
             for(int i = startingIndex + 1; i < tags.size(); i++){
+                if(!tags.get(i).isEmpty()) {
+                    setOperation += " ) Λ ( ";
+                    for (String tag : tags.get(i)) {
+                        setOperation += tag + " V ";
+                    }
+                    setOperation = setOperation.substring(0,setOperation.length()-3);
+                }
+
                 HashSet<ClassifierDataSet> removeSets = new HashSet<ClassifierDataSet>();
                 for(ClassifierDataSet set: initialSets){
                     if(!tags.get(i).isEmpty()) {
@@ -71,10 +85,18 @@ public class FilterDataSetAction implements IAction<DataSheetPanel> {
                     initialSets.remove(set);
                 }
             }
+            setOperation += " )";
             for(ClassifierDataSet set: initialSets){
                 for(DataPoint point: set.getAllPoints()){
                     updateSet.add(point);
                 }
+            }
+        }
+        if(!setOperation.equals("")){
+            if(updateSet.getSetOperations().equals("")){
+                updateSet.setSetOperation(setOperation);
+            } else {
+                updateSet.setSetOperation("[ " + updateSet.getSetOperations() + " ] V " + setOperation);
             }
         }
         GraphableData<?> oldGraph = this.reference.getGraphfromDataSet(updateSet);

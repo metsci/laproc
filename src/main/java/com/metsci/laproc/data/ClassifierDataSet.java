@@ -22,10 +22,13 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
     
     private String name;
 
+    private String setOperations;
+
     public ClassifierDataSet(List<String> givenTags, String name) {
         this.tags = givenTags;
         this.data = new ObjectOpenHashBigSet<DataPoint>();
         this.name = name;
+        this.setOperations = "";
     }
 
     /**
@@ -66,6 +69,14 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
     
     public void setName(String name){
     	this.name = name;
+    }
+
+    public String getSetOperations(){
+        return this.setOperations;
+    }
+
+    public void setSetOperation(String setOperations){
+        this.setOperations = setOperations;
     }
 
     @Override

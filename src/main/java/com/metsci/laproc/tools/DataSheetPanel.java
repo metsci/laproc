@@ -94,11 +94,24 @@ public class DataSheetPanel implements ITool, DataObserver {
 		unionEvalSetButton.addActionListener(unionListener);
 		this.panel.add(unionEvalSetButton);
 
-		JComboBox dataSetNames = new JComboBox();
+		final JLabel setOperationLabel = new JLabel();
+
+		final JComboBox dataSets = new JComboBox();
+		ActionListener changeDataSet = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(dataSets.getSelectedItem() != null) {
+					ClassifierDataSet selectedItem = (ClassifierDataSet) dataSets.getSelectedItem();
+					setOperationLabel.setText(selectedItem.getSetOperations());
+				}
+			}
+		};
+		dataSets.addActionListener(changeDataSet);
 		JPanel dataSetPanel = new JPanel();
-		dataSetPanel.add(dataSetNames);
+		dataSetPanel.add(dataSets);
 		this.panel.add(dataSetPanel);
-		this.dataSets = dataSetNames;
+		this.dataSets = dataSets;
+
+		this.panel.add(setOperationLabel);
 
 //		JPanel filterPanel = new JPanel();
 //		JTextField truthField = new JTextField(10);
