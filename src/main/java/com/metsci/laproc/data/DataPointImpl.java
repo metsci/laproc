@@ -13,8 +13,6 @@ public class DataPointImpl implements DataPoint {
     private boolean truth;
     /** The value(s) of this data point */
     private double[] values;
-    /** All tags associated with this data point */
-    private Collection<String> tags;
 
     /**
      * Constructor
@@ -24,7 +22,6 @@ public class DataPointImpl implements DataPoint {
     public DataPointImpl(boolean truth, double... vals) {
         this.truth = truth;
         this.values = vals;
-        this.tags = new ArrayList<String>();
     }
 
     /**
@@ -41,21 +38,5 @@ public class DataPointImpl implements DataPoint {
      */
     public double[] getValues() {
         return this.values;
-    }
-
-    /**
-     * Getter for the set of tags associated with this datum
-     * @return The set of tags associated with this datum
-     */
-    public Collection<String> getTags() {
-        return this.tags;
-    }
-
-    /**
-     * Adds a tag to the set of tags associated with this datum
-     * @param tag The tag to associate with this datum
-     */
-    public void addTag(String tag) {
-        this.tags.add(tag);
     }
 }

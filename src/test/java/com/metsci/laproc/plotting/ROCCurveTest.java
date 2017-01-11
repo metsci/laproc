@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,8 +22,8 @@ public class ROCCurveTest {
 
     @Before
     public void setupMockData() {
-        data1 = new ClassifierDataSet();
-        data2 = new ClassifierDataSet();
+        data1 = new ClassifierDataSet(new ArrayList<String>(), "name");
+        data2 = new ClassifierDataSet(new ArrayList<String>(), "name");
 
         data1.add(new DataPointImpl(false, 0.1));
         data1.add(new DataPointImpl(false, 0.2));

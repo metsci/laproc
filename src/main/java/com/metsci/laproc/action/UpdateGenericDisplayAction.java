@@ -4,6 +4,7 @@ import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.utils.IActionReceiver;
 
 /**
+ * Generic Action
  * Created by robinsat on 12/17/2016.
  */
 public class UpdateGenericDisplayAction<T> implements IAction<T> {

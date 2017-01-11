@@ -8,41 +8,40 @@ import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.plotting.ROCCurve;
 import com.metsci.laproc.utils.IAction;
 
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 /**
+ * Action that creates a classifier data set
  * Created by porterjc on 12/17/2016.
  */
-public class CreateNewDataSetAction implements IAction<TableDisplayer> {
+public class CreateNewDataSetAction implements IAction<Object> {
     private DataReference reference;
     private int currentAddedIndex = 1;
 
     /**
-     * Basic constructor that takes a data reference object
-     * @param ref
+     * Default constructor
+     * @param ref data reference to affect
      */
     public CreateNewDataSetAction(DataReference ref) {
         reference = ref;
     }
 
+    //TODO:Issues with doAction needing an Object
     /**
-     * add new evalset to the data reference object and the graph object
+     * Create new classifier data set in the data reference object and the graph object
      *
-     * @param tableDisplayer
+     * @param o No object needed
      */
-    public void doAction(TableDisplayer tableDisplayer) {
-        JTable table = tableDisplayer.getTable();
-        int[] indexes = table.getSelectedRows();
-        ClassifierDataSet data = new ClassifierDataSet();
-        for(int i = 0; i < indexes.length; i++){
-            data.add(tableDisplayer.getDataPointAtIndex(i));
-        }
-        GraphableFunction func = new ROCCurve(data);
-        GraphableData output = func.compute();
+    public void doAction(Object o) {
         String dataName = "New Data Set " + currentAddedIndex++;
+        ClassifierDataSet dataSetGroup = new ClassifierDataSet(new ArrayList<String>(), dataName);
+        GraphableFunction func = new ROCCurve(dataSetGroup);
+        GraphableData output = func.compute();
         output.setName(dataName);
-        reference.addEvalSet(data);
-        reference.getGraph().addData(output);
-        reference.notifyObservers();
+        reference.addDataToGraph(output,true);
+        reference.addDataSetGroup(dataSetGroup);
+        reference.addToDataSetGraphMap(dataSetGroup,output);
     }
 }

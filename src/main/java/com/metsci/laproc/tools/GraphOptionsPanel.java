@@ -59,7 +59,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
      * Updates the combo boxes with the metrics from the graph
      */
     public void populateOptions(Graph graph) {
-       Iterable<ParametricFunction> metrics = graph.getAxisFunctions();
+       Iterable<ParametricFunction> metrics = graph.getDisplayedAxisFunctions();
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();

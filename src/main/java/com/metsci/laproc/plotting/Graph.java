@@ -1,6 +1,9 @@
 package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.pointmetrics.ParametricFunction;
+import javafx.util.Pair;
+
+import java.util.List;
 
 /**
  * This interface represents a graph with customizable axes that can be rendered with Glimpse.
@@ -45,10 +48,28 @@ public interface Graph {
     void setTitle(String title);
 
     /**
-     * Getter for all of the graphable data associated with this graph
+     * Getter for all of the displayed graphable data associated with the graph
      * @return The graphable data associated with this graph
      */
-    Iterable<GraphableData> getData();
+    Iterable<GraphableData> getDisplayedData();
+
+    /**
+     * Getter for all of the hidden graphable data associated with the graph
+     * @return The graphable data associated with this graph
+     */
+    Iterable<GraphableData> getHiddenData();
+
+    /**
+     * Getter for all of the graphable data associated with the graph
+     * @return The graphable data associated with this graph
+     */
+    List<GraphableData> getData();
+
+    /**
+     * Getter for the pairs of data and whether it is displayed
+     * @return List of data and whether it is displayed
+     */
+    List<Pair<GraphableData,Boolean>> getDataPairs();
 
     /**
      * Gets the closest value on the plot to the value provided. This is probably a point that was clicked
@@ -56,13 +77,13 @@ public interface Graph {
      * @param y The y value to compare against
      * @return The closest value on the plot to the value provided.
      */
-    GraphPoint[] getClosestPoints(double x, double y);
+    GraphPoint[] getDisplayedClosestPoints(double x, double y);
 
     /**
      * Returns a list of all possible axes to use for this graph
      * @return The list of axes that can be used for this graph
      */
-    Iterable<ParametricFunction> getAxisFunctions();
+    Iterable<ParametricFunction> getDisplayedAxisFunctions();
 
     /**
      * Sets all GraphableData sets on this graph to use the same set of axes
@@ -72,9 +93,29 @@ public interface Graph {
     void useAxisFunctions(ParametricFunction xAxis, ParametricFunction yAxis);
 
     /**
-     * Adds a graphable data item
-     * @param dat The data to add
+     * Adds a Graphable Data to the graph
+     * @param graphSet The data to add
+     * @param display true if the data should be displayed
      */
-    void addData(GraphableData dat);
+    void addData(GraphableData<?> graphSet, boolean display);
 
+    /**
+     * Sets a Graphable Data to be displayed or hidden
+     * @param graphSet The data to set
+     * @param display true if the data should be displayed
+     */
+    void setDataDisplay(GraphableData<?> graphSet, boolean display);
+
+    /**
+     * Removes a Graphable Data
+     * @param graphSet The data to remove
+     */
+	void removeData(GraphableData<?> graphSet);
+
+    /**
+     * Replace a Graphable Data set with another Graphable Data set
+     * @param graphSet old graphable data set to replace
+     * @param newGraphSet graphable data to replace the old graphable data set
+     */
+    void replaceData(GraphableData<?> graphSet, GraphableData<?> newGraphSet);
 }

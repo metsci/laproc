@@ -21,7 +21,7 @@ public class DefaultToolBox extends ToolBox {
         ConfusionPanel confusionPanel = new ConfusionPanel();
         PointInfoPanel pointInfoPanel = new PointInfoPanel();
 
-        this.addTool(new DataSheetPanel(getDataReference()));
+        this.addTool(new EvaluationSetPanel(getDataReference()));
         this.addTool(new DataSetPanel(getDataReference()));
         this.addTool(new GraphOptionsPanel(getDataReference()));
         this.addTool(new GraphPanel(getDataReference(),

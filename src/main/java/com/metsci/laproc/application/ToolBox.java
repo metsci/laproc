@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Interface for a toolbox that stores the data reference and tools for the application
  * Created by porterjc on 12/9/2016.
  */
 public abstract class ToolBox {

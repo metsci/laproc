@@ -5,6 +5,7 @@ import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IAction;
 
 /**
+ * Action to update axis in the graph object
  * Created by porterjc on 12/16/2016.
  */
 public class UpdateAxesAction implements IAction<ParametricFunction[]> {
