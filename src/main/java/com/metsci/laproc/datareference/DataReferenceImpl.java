@@ -1,16 +1,34 @@
 package com.metsci.laproc.datareference;
 
+import com.metsci.glimpse.axis.factory.AxisFactory2D;
+import com.metsci.glimpse.axis.factory.ConditionalEndsWithAxisFactory2D;
+import com.metsci.glimpse.axis.factory.FixedAxisFactory2D;
+import com.metsci.glimpse.canvas.FBOGlimpseCanvas;
+import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
+import com.metsci.glimpse.context.GlimpseTargetStack;
+import com.metsci.glimpse.gl.util.GLUtils;
+import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.uicomponents.GraphDisplayer;
+import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.utils.Observable;
 
+import javax.imageio.ImageIO;
+import javax.media.opengl.GLOffscreenAutoDrawable;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import static com.metsci.glimpse.context.TargetStackUtil.newTargetStack;
 
 /**
  * This reference allows tools to access the graph and associated data
@@ -103,4 +121,20 @@ public class DataReferenceImpl extends Observable implements DataReference {
 		return this.tagHeaders;
 	}
 
+    public void exportGraph(String filePath) throws IOException {
+        NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas();
+        GraphDisplayer disp = new GraphDisplayer(null);
+        disp.setGraph(this.graph);
+        SimplePlot2D plot = disp.getLayout();
+        canvas.addLayout(disp.getLayout());
+        GLOffscreenAutoDrawable glDrawable = GLUtils.newOffscreenDrawable( canvas.getGLProfile() );
+        FBOGlimpseCanvas offscreenCanvas = new FBOGlimpseCanvas(glDrawable.getContext(), 1000, 1000 );
+
+//        GlimpseTargetStack stack = newTargetStack( offscreenCanvas );
+//        AxisFactory2D factory = new FixedAxisFactory2D( 0, 1000, 0, 1000 );
+//        plot.setAxisFactory( new ConditionalEndsWithAxisFactory2D( stack, factory ) );
+
+        BufferedImage image = offscreenCanvas.toBufferedImage();
+        ImageIO.write(image, "PNG", new File(filePath));
+    }
 }

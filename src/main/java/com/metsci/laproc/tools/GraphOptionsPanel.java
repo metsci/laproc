@@ -24,7 +24,8 @@ public class GraphOptionsPanel implements ITool, DataObserver{
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
    // private DataReference reference;
-    private IAction action;
+    private IAction updateAction;
+    private IAction exportAction;
 
 
     /**
@@ -34,7 +35,8 @@ public class GraphOptionsPanel implements ITool, DataObserver{
     public GraphOptionsPanel(DataReference reference) {
         reference.addObserver(this);
         this.panel = new JPanel();
-        this.action = new UpdateAxesAction(reference);
+        this.updateAction = new UpdateAxesAction(reference);
+        this.exportAction = new ExportGraphAction(reference);
         this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
@@ -53,6 +55,14 @@ public class GraphOptionsPanel implements ITool, DataObserver{
 
         this.updateButton = new JButton("Update");
         this.panel.add(updateButton);
+
+        JButton exportButton = new JButton("Export Graph");
+        exportButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                exportAction.doAction("test.png");
+            }
+        });
+        this.panel.add(exportButton);
     }
 
     /**
@@ -70,7 +80,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
                 ParametricFunction[] axes = new ParametricFunction[2];
                 axes[0] = getSelectedXAxis();
                 axes[1] = getSelectedYAxis();
-                action.doAction(axes);
+                updateAction.doAction(axes);
             }
         };
         this.updateButton.addActionListener(listener);

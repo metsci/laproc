@@ -1,5 +1,6 @@
 package com.metsci.laproc.datareference;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.metsci.laproc.data.ClassifierDataSet;
@@ -102,5 +103,11 @@ public interface DataReference extends IObservable {
      * @return tag headers
      */
 	List<TagHeader> getTagHeaders();
+
+    /**
+     * Exports an image of the graph to the specified file path
+     * @param filePath file path to export image
+     */
+    public void exportGraph(String filePath) throws IOException;
 	
 }
