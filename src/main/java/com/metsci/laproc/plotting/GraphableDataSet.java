@@ -60,10 +60,17 @@ public interface GraphableDataSet {
     boolean isDisplayed(GraphableData data);
 
     /**
+     * Returns a list of all possible axes to use for this graph
+     * @return The list of axes that can be used for this graph
+     */
+    Iterable<ParametricFunction> getAxisFunctions();
+
+    /**
      * Creates a Graph using the given functions as axes
      * @param xAxis The function to use for the xAxis
      * @param yAxis The function to use for the yAxis
      * @return A new Graph object using the given axes, displaying the appropriate data.
      */
     Graph createGraph(ParametricFunction xAxis, ParametricFunction yAxis);
+
 }

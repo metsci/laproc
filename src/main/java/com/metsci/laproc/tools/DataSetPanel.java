@@ -4,6 +4,7 @@ import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.DisplayGraphDataAction;
 import com.metsci.laproc.action.HideGraphDataAction;
 import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.plotting.GraphableDataSet;
 import com.metsci.laproc.uicomponents.DataSetTable;
 import com.metsci.laproc.uicomponents.DataSetTableCheckBoxListener;
 import com.metsci.laproc.uicomponents.DataSetTableModel;
@@ -92,9 +93,10 @@ public class DataSetPanel implements ITool, DataObserver {
      */
     public void update(DataReference reference) {
     	this.clearTable();
-        List<Pair<GraphableData,Boolean>> data = reference.getGraph().getDataPairs();
-        for(int i = 0; i < data.size(); i++){
-            this.addDataSetToTable(data.get(i).getKey(), data.get(i).getValue());
+        GraphableDataSet fullSet = reference.getGraphableDataSet();
+        Iterable<GraphableData> data = fullSet.getAllData();
+        for(GraphableData d  : data) {
+            this.addDataSetToTable(d, fullSet.isDisplayed(d));
         }
     }
 }

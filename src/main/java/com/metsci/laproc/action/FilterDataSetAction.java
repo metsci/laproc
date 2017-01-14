@@ -98,12 +98,12 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
                 updateSet.setSetOperation("[ " + updateSet.getSetOperations() + " ] V " + setOperation);
             }
         }
-        GraphableData<?> oldGraph = this.reference.getGraphfromDataSet(updateSet);
+        /*GraphableData<?> oldGraph = this.reference.getGraphfromDataSet(updateSet);
         GraphableFunction func = new ROCCurve(updateSet);
         GraphableData output = func.compute();
         output.setName(updateSet.getName());
         this.reference.replaceDataOnGraph(oldGraph, output);
-        this.reference.addToDataSetGraphMap(updateSet, output);
+        this.reference.addToDataSetGraphMap(updateSet, output);*/
         //TODO: Is this bad?
     }
 }

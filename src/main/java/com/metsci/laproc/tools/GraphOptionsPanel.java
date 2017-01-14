@@ -4,6 +4,7 @@ import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.*;
 import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphableDataSet;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
@@ -58,8 +59,8 @@ public class GraphOptionsPanel implements ITool, DataObserver{
     /**
      * Updates the combo boxes with the metrics from the graph
      */
-    public void populateOptions(Graph graph) {
-       Iterable<ParametricFunction> metrics = graph.getDisplayedAxisFunctions();
+    public void populateOptions(GraphableDataSet graphableDataSet) {
+       Iterable<ParametricFunction> metrics = graphableDataSet.getAxisFunctions();
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();
@@ -118,6 +119,6 @@ public class GraphOptionsPanel implements ITool, DataObserver{
     }
 
     public void update(DataReference graphReference) {
-        populateOptions(graphReference.getGraph());
+        populateOptions(graphReference.getGraphableDataSet());
     }
 }

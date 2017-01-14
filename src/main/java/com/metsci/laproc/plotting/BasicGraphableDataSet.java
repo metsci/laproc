@@ -3,6 +3,7 @@ package com.metsci.laproc.plotting;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,11 @@ public class BasicGraphableDataSet implements GraphableDataSet {
 
     /** The internal collection of GraphableData */
     private Map<GraphableData, Boolean> allData;
+
+    /** Constructor */
+    public BasicGraphableDataSet() {
+        this.allData = new HashMap<GraphableData, Boolean>();
+    }
 
     /**
      * Adds a GraphableData object to this global set
@@ -97,17 +103,36 @@ public class BasicGraphableDataSet implements GraphableDataSet {
     }
 
     /**
+     * Returns a list of all possible axes to use for this graph
+     * @return The list of axes that can be used for this graph
+     */
+    public Iterable<ParametricFunction> getAxisFunctions() {
+        // This implementation uses a map to easily union all possible axes
+        Map<String, ParametricFunction> functionUnion = new HashMap<String, ParametricFunction>();
+        for(GraphableData d : this.allData.keySet()) {
+            if(allData.get(d)) { // Only consider the functions that apply to currently displayed data sets
+                List<ParametricFunction> axisFunctions = d.getAxes();
+                for (ParametricFunction f : axisFunctions) {
+                    functionUnion.put(f.getDescriptor(), f);
+                }
+            }
+        }
+        return functionUnion.values();
+    }
+
+
+    /**
      * Creates a Graph using the given functions as axes
-     *
      * @param xAxis The function to use for the xAxis
      * @param yAxis The function to use for the yAxis
      * @return A new Graph object using the given axes, displaying the appropriate data.
      */
     public Graph createGraph(ParametricFunction xAxis, ParametricFunction yAxis) {
+        //TODO add error check here
         Graph graph = new BasicGraph();
         for(GraphableData data : this.getDisplayedData()) {
             data.useAxes(xAxis, yAxis);
-            graph.addData(data, true);
+            graph.addData(data);
         }
         return graph;
     }
