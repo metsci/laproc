@@ -3,7 +3,8 @@ package com.metsci.laproc.tools;
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.*;
 import com.metsci.laproc.datareference.DataReference;
-import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.*;
+import com.metsci.laproc.uicomponents.ParametrizedCheckBox;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
@@ -24,6 +25,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
     private IAction action;
+    private IAction<CompositeFunction> addCompositeFunctionAction;
 
 
     /**
@@ -52,6 +54,9 @@ public class GraphOptionsPanel implements ITool, DataObserver{
 
         this.updateButton = new JButton("Update");
         this.panel.add(updateButton);
+
+        this.addCompositeFunctionAction = new AddCompositeFunctionAction(reference);
+        setupCompositeFunctionOptions();
     }
 
     /**
@@ -106,6 +111,18 @@ public class GraphOptionsPanel implements ITool, DataObserver{
      */
     public ParametricFunction getSelectedYAxis() {
         return this.metricsMap.get(this.yaxis.getSelectedItem());
+    }
+
+    private void setupCompositeFunctionOptions() {
+        addCheckBox(new VerticalAverageFunction(), "Display Vertical Average");
+        addCheckBox(new VarianceFunction(), "Display Variance");
+        addCheckBox(new StandardDeviationFunction(), "Display Standard Deviation");
+    }
+
+    private void addCheckBox(CompositeFunction function, String text) {
+        ParametrizedCheckBox<CompositeFunction> checkBox = new ParametrizedCheckBox<CompositeFunction>(text, function);
+        checkBox.addActionWhenChecked(addCompositeFunctionAction);
+        this.panel.add(checkBox);
     }
 
     public View getView() {
