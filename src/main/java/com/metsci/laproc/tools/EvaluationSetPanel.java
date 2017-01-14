@@ -77,7 +77,7 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
 		ActionListener createListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createAction.doAction(e);
+				createAction.doAction(EvaluationSetPanel.this);
 			}
 		};
 		newEvalSetButton.addActionListener(createListener);
