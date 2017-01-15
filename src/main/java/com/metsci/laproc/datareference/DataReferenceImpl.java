@@ -8,6 +8,7 @@ import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.context.GlimpseTargetStack;
 import com.metsci.glimpse.gl.util.GLUtils;
 import com.metsci.glimpse.plot.SimplePlot2D;
+import com.metsci.glimpse.support.font.FontUtils;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.plotting.BasicGraph;
@@ -124,15 +125,14 @@ public class DataReferenceImpl extends Observable implements DataReference {
     public void exportGraph(String filePath) throws IOException {
         NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas();
         GraphDisplayer disp = new GraphDisplayer(null);
+        disp.setToExport();
         disp.setGraph(this.graph);
         SimplePlot2D plot = disp.getLayout();
+        plot.setTitleFont( FontUtils.getDefaultBold( 18 ) );
         canvas.addLayout(disp.getLayout());
         GLOffscreenAutoDrawable glDrawable = GLUtils.newOffscreenDrawable( canvas.getGLProfile() );
         FBOGlimpseCanvas offscreenCanvas = new FBOGlimpseCanvas(glDrawable.getContext(), 1000, 1000 );
-
-//        GlimpseTargetStack stack = newTargetStack( offscreenCanvas );
-//        AxisFactory2D factory = new FixedAxisFactory2D( 0, 1000, 0, 1000 );
-//        plot.setAxisFactory( new ConditionalEndsWithAxisFactory2D( stack, factory ) );
+        offscreenCanvas.addLayout(disp.getLayout());
 
         BufferedImage image = offscreenCanvas.toBufferedImage();
         ImageIO.write(image, "PNG", new File(filePath));

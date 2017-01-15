@@ -19,6 +19,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
 {
     private IAction<GraphPoint[]>[] pointClickActions;
     private Graph graph;
+    private boolean exportMode = false;
 
     /**
      * Constructor for a given graph and window
@@ -71,7 +72,11 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter, this.pointClickActions));
 
         // Only show the x and y crosshairs
-        plot.getCrosshairPainter().showSelectionBox(false);
+        if(!exportMode){
+        	plot.getCrosshairPainter().showSelectionBox(false);
+        }else{
+        	plot.getCrosshairPainter().setVisible(false);
+        }
 
         //Set up Legend
         LineLegendPainter legend = new LineLegendPainter(LegendPlacement.SE);
@@ -103,12 +108,14 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         }
 
         // Add a painter to uicomponents the x and y position of the cursor
+        if(!exportMode){
         CursorTextPainter cursorPainter = new CursorTextPainter();
         plot.addPainter(cursorPainter);
 
         // Don't offset the text by the size of the selection box
 
         cursorPainter.setOffsetBySelectionSize(false);
+        }
 
         // Add the legend painter to the top of the center GlimpseLayout
         plot.getLayoutCenter().addPainter(legend);
@@ -134,6 +141,11 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         linePainter.showPoints(false);
 
         return linePainter;
+    }
+    
+    public void setToExport(){
+    	exportMode = true;
+    	
     }
 
 }
