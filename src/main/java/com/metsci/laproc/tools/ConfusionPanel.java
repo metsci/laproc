@@ -2,10 +2,12 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.pointmetrics.FalseNegatives;
 import com.metsci.laproc.utils.IActionReceiver;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 /**
  * Panel for displaying a confusion matrix
@@ -13,7 +15,6 @@ import java.awt.*;
  * Created by porterjc on 10/14/2016.
  */
 public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
-    private JPanel panel;
     private JScrollPane pane;
 
     /**
@@ -22,7 +23,7 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
      */
     public ConfusionPanel(){
         GridLayout matri = new GridLayout(3, 3);
-        panel = new JPanel();
+        JPanel panel = new JPanel();
         panel.setName("Confusion Matrix");
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -46,22 +47,31 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
      * Updates the columns and rows of the confusion matrix
      */
     public void updateConfusionMatrix(GraphPoint[] points) {
-        //TODO Rework to support new function of having matrix per displayed data set.
-        /*JLabel temp = (JLabel) panel.getComponent(4);
-        temp.setText(positives[0]+ "");
-        temp.repaint();
-        temp = (JLabel) panel.getComponent(5);
-        temp.setText(negatives[0] + "");
-        temp.repaint();
-        temp = (JLabel) panel.getComponent(7);
-        temp.setText(positives[1]+ "");
-        temp.repaint();
-        temp = (JLabel) panel.getComponent(8);
-        temp.setText(negatives[1]+ "");
-        temp.repaint();
+        pane = new JScrollPane();
+
+        for(GraphPoint point : points) {
+            Map<String, Double> data = point.getAnalytics();
+
+            JPanel panel = new JPanel();
+            GridLayout matri = new GridLayout(3, 3);
+            panel.setLayout(matri);
+            panel.setLayout(matri);
+
+            panel.add(new JLabel(""));
+            panel.add(new JLabel("Predicted Positives"));
+            panel.add(new JLabel("Predicted Negatives"));
+            panel.add(new JLabel("True Positives"));
+            panel.add(new JLabel(data.get("True Positives") + ""));
+            panel.add(new JLabel(data.get("True Negatives") + ""));
+            panel.add(new JLabel("True Negatives"));
+            panel.add(new JLabel(data.get("False Positives") + ""));
+            panel.add(new JLabel(data.get("False Negatives") + ""));
+
+            pane.add(panel, Component.LEFT_ALIGNMENT);
+        }
+
         pane.revalidate();
         pane.repaint();
-        pane.getParent().repaint();*/
     }
 
     /**
