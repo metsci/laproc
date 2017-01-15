@@ -47,7 +47,7 @@ public class Filterer {
                 }
                 for (int i = startingIndex + 1; i < tags.size(); i++) {
                     if (!tags.get(i).isEmpty()) {
-                        setOperation += " ) Λ ( ";
+                        setOperation += " ) /\\ ( ";
                         for (String tag : tags.get(i)) {
                             setOperation += tag + " V ";
                         }

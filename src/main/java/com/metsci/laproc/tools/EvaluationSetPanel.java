@@ -29,6 +29,7 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 	private IAction unionAction;
 	private JPanel tagPanel;
 	private JComboBox dataSets;
+	private JTextField nameTextField;
 	/**
 	 * Default constructor, requires a window for context
 	 */
@@ -72,8 +73,13 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 		if (defaults.get("Table.alternateRowColor") == null)
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
-		this.panel.add(tagScrollPane);
-
+		//ENTER NAME HERE
+		JTextField nameTextField = new JTextField();
+		this.nameTextField = nameTextField;
+		this.nameTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 12));
+		nameTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		this.panel.add(nameTextField);
+		
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
 		ActionListener createListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -81,7 +87,13 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 			}
 		};
 		newEvalSetButton.addActionListener(createListener);
+		//CREATE NEW EVAL SET BUTTON HERE
 		this.panel.add(newEvalSetButton);
+		//TAG SCROLL PANE HERE
+		tagScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+		this.panel.add(tagScrollPane);
+
+
 
 		JButton unionEvalSetButton = new JButton("Union with Eval Set");
 		ActionListener unionListener = new ActionListener() {
@@ -90,10 +102,11 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 			}
 		};
 		unionEvalSetButton.addActionListener(unionListener);
+		//UNION WITH EVAL SET BUTTON HERE
 		this.panel.add(unionEvalSetButton);
 
+		
 		final JLabel setOperationLabel = new JLabel();
-
 		final JComboBox dataSets = new JComboBox();
 		ActionListener changeDataSet = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -103,12 +116,16 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 				}
 			}
 		};
+		dataSets.setMaximumSize(new Dimension(Integer.MAX_VALUE, 12));
 		dataSets.addActionListener(changeDataSet);
-		JPanel dataSetPanel = new JPanel();
-		dataSetPanel.add(dataSets);
-		this.panel.add(dataSetPanel);
+		dataSets.setAlignmentX(Component.LEFT_ALIGNMENT);
+		this.panel.add(dataSets);
 		this.dataSets = dataSets;
 
+		
+		final JLabel setOperationTitle = new JLabel("Set Operations:");
+		setOperationLabel.setPreferredSize(new Dimension(Integer.MAX_VALUE, 12));
+		this.panel.add(setOperationTitle);
 		this.panel.add(setOperationLabel);
 
 	}
@@ -147,6 +164,10 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 
 	public int getDefaultPosition() {
 		return ITool.LEFTPOSITION;
+	}
+	
+	public String getNameText(){
+		return nameTextField.getText();
 	}
 
 	public void update(DataReference ref) {
