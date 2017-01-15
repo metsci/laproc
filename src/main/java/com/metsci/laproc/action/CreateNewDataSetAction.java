@@ -36,7 +36,6 @@ public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
      * @param dataSheetPanel data sheet panel to get selected tags
      */
     public void doAction(EvaluationSetPanel dataSheetPanel) {
-    	System.out.println("The nametext we have: " + dataSheetPanel.getNameText());
     	String dataName;
     	if(dataSheetPanel.getNameText().equals("") || dataSheetPanel.getNameText().length() < 1){
     		dataName = "New Data Set " + currentAddedIndex++;
@@ -52,8 +51,11 @@ public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
         GraphableFunction func = new ROCCurve(dataSetGroup);
         GraphableData output = func.compute();
         output.setName(dataName);
+        
         reference.addDataToGraph(output,true);
         reference.addDataSetGroup(dataSetGroup);
         reference.addToDataSetGraphMap(dataSetGroup,output);
+        
+        dataSheetPanel.setSelectedDataSet(dataSetGroup);
     }
 }

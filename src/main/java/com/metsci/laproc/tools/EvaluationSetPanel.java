@@ -58,6 +58,7 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 			DefaultTableModel model = new DefaultTableModel();
 			JLabel label = new JLabel(header.getName());
 			JTable table = new JTable(model);
+			table.setDefaultEditor(Object.class, null);
 			model.addColumn("Tag Name");
 			for(String tag : header.getTags()){
 				model.addRow(new Object[] {tag});
@@ -106,13 +107,13 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 		this.panel.add(unionEvalSetButton);
 
 		
-		final JLabel setOperationLabel = new JLabel();
+		final JTextArea setOperationHistoryTextArea = new JTextArea();
 		final JComboBox dataSets = new JComboBox();
 		ActionListener changeDataSet = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(dataSets.getSelectedItem() != null) {
 					ClassifierDataSet selectedItem = (ClassifierDataSet) dataSets.getSelectedItem();
-					setOperationLabel.setText(selectedItem.getSetOperations());
+					setOperationHistoryTextArea.setText(selectedItem.getSetOperations());
 				}
 			}
 		};
@@ -124,9 +125,15 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 
 		
 		final JLabel setOperationTitle = new JLabel("Set Operations:");
-		setOperationLabel.setPreferredSize(new Dimension(Integer.MAX_VALUE, 12));
+	    
+	    setOperationHistoryTextArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    setOperationHistoryTextArea.setWrapStyleWord(true);
+	    setOperationHistoryTextArea.setLineWrap(true);
+	    setOperationHistoryTextArea.setOpaque(false);
+	    setOperationHistoryTextArea.setEditable(false);
+	    setOperationHistoryTextArea.setFocusable(false);
 		this.panel.add(setOperationTitle);
-		this.panel.add(setOperationLabel);
+		this.panel.add(setOperationHistoryTextArea);
 
 	}
 
@@ -180,5 +187,9 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 			this.dataSets.setSelectedItem(selectedDataSet);
 		}
 		this.dataSets.repaint();
+	}
+	
+	public void setSelectedDataSet(ClassifierDataSet dataSetRef){
+		this.dataSets.setSelectedItem(dataSetRef);
 	}
 }
