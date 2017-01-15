@@ -3,6 +3,7 @@ package com.metsci.laproc.tools;
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.DisplayGraphDataAction;
 import com.metsci.laproc.action.HideGraphDataAction;
+import com.metsci.laproc.datareference.DataObserver;
 import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.plotting.GraphableDataSet;
 import com.metsci.laproc.uicomponents.DataSetTable;
@@ -29,7 +30,7 @@ public class DataSetPanel implements ITool, DataObserver {
      * Default constructor for the DataSetPanel
      */
     public DataSetPanel(DataReference ref){
-        ref.addObserver(this);
+        ref.addGraphableDataSetObserver(this);
         this.panel = new JPanel();
         this.reference = ref;
         this.showAction = new DisplayGraphDataAction(reference);

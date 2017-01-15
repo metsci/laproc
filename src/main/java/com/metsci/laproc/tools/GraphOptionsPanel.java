@@ -2,8 +2,8 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.*;
+import com.metsci.laproc.datareference.DataObserver;
 import com.metsci.laproc.datareference.DataReference;
-import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableDataSet;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
@@ -18,7 +18,7 @@ import java.util.*;
  * Panel for selecting graph options
  * Created by porterjc on 10/26/2016.
  */
-public class GraphOptionsPanel implements ITool, DataObserver{
+public class GraphOptionsPanel implements ITool, DataObserver {
     private JPanel panel;
     private JComboBox xaxis;
     private JComboBox yaxis;
@@ -33,7 +33,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
      * Created by porterjc on 10/26/2016.
      */
     public GraphOptionsPanel(DataReference reference) {
-        reference.addObserver(this);
+        reference.addGraphableDataSetObserver(this);
         this.panel = new JPanel();
         this.action = new UpdateAxesAction(reference);
         this.metricsMap = new HashMap<String, ParametricFunction>();

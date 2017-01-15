@@ -14,6 +14,7 @@ import com.metsci.laproc.action.CreateNewDataSetAction;
 import com.metsci.laproc.action.FilterDataSetAction;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
+import com.metsci.laproc.datareference.DataObserver;
 import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.utils.IAction;
 
@@ -33,7 +34,7 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 	 * Default constructor, requires a window for context
 	 */
 	public EvaluationSetPanel(DataReference ref){
-		ref.addObserver(this);
+		ref.addDataSetGroupsObserver(this);
 		this.panel = new JPanel();
 		this.createAction = new CreateNewDataSetAction(ref);
 		this.unionAction = new FilterDataSetAction(ref);

@@ -3,6 +3,7 @@ package com.metsci.laproc.tools;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.datareference.DataObserver;
 import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.uicomponents.GraphDisplayer;
 import com.metsci.laproc.plotting.GraphPoint;
@@ -22,7 +23,7 @@ public class GraphPanel implements ITool, DataObserver {
      */
 
     public GraphPanel(DataReference reference, IAction<GraphPoint[]>... clickActions){
-        reference.addObserver(this);
+        reference.addGraphObserver(this);
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
         graphDisplayer = new GraphDisplayer(clickActions);

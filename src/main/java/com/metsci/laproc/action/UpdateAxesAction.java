@@ -29,6 +29,6 @@ public class UpdateAxesAction implements IAction<ParametricFunction[]> {
      */
     public void doAction(ParametricFunction[] argument) {
         reference.setGraph(reference.getGraphableDataSet().createGraph(argument[0], argument[1]));
-        this.reference.notifyObservers();
+        this.reference.updateGraph();
     }
 }
