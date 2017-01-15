@@ -20,6 +20,10 @@ public interface DataReference extends IObservable {
      */
     Graph getGraph();
 
+
+    //TODO this may change
+    void setGraph(Graph graph);
+
     /**
      * Getter for the currently displayed GraphableDataSet object
      * @return the currently displayed GraphableDataSet object

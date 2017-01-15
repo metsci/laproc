@@ -7,21 +7,12 @@ import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.plotting.GraphableDataSet;
 import com.metsci.laproc.uicomponents.DataSetTable;
 import com.metsci.laproc.uicomponents.DataSetTableCheckBoxListener;
-import com.metsci.laproc.uicomponents.DataSetTableModel;
 import com.metsci.laproc.utils.IAction;
-import com.metsci.laproc.action.AddToGraphAction;
-import com.metsci.laproc.action.RemoveFromGraphAction;
 import com.metsci.laproc.plotting.GraphableData;
-import javafx.util.Pair;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
 
 /**
  * A JPanel that handles interacting with classifer data sets

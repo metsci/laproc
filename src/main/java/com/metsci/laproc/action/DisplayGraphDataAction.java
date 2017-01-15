@@ -24,6 +24,6 @@ public class DisplayGraphDataAction implements IAction<GraphableData<?>> {
      * @param data to set the display
      */
     public void doAction(GraphableData<?> data) {
-        this.reference.setDataDisplayOnGraph(data,true);
+        this.reference.getGraphableDataSet().showData(data);
     }
 }

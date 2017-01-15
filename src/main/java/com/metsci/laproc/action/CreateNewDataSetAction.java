@@ -35,13 +35,13 @@ public class CreateNewDataSetAction implements IAction<Object> {
      * @param o No object needed
      */
     public void doAction(Object o) {
+        //TODO defaulting to a ROC curve is fine, but maybe this should be determined elsewhere
         String dataName = "New Data Set " + currentAddedIndex++;
         ClassifierDataSet dataSetGroup = new ClassifierDataSet(new ArrayList<String>(), dataName);
         GraphableFunction func = new ROCCurve(dataSetGroup);
         GraphableData output = func.compute();
         output.setName(dataName);
-        reference.addDataToGraph(output,true);
+        reference.getGraphableDataSet().addGraphableData(output);
         reference.addDataSetGroup(dataSetGroup);
-        reference.addToDataSetGraphMap(dataSetGroup,output);
     }
 }

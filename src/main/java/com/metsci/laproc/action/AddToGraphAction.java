@@ -25,7 +25,8 @@ public class AddToGraphAction implements IAction<GraphableData<?>> {
 	 * @param data to add
 	 */
 	public void doAction(GraphableData<?> data) {
-		this.reference.addDataToGraph(data, true);
+		//TODO Is this the appropriate way to do this? I'm not sure where this action is actually used
+		this.reference.getGraphableDataSet().addGraphableData(data);
 	}
 
 }

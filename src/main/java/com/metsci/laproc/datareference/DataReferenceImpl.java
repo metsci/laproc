@@ -48,6 +48,10 @@ public class DataReferenceImpl extends Observable implements DataReference {
         return this.graph;
     }
 
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
     public GraphableDataSet getGraphableDataSet() {
         return this.dataSet;
     }

@@ -24,6 +24,6 @@ public class HideGraphDataAction implements IAction<GraphableData<?>> {
      * @param data to set the display
      */
     public void doAction(GraphableData<?> data) {
-        this.reference.setDataDisplayOnGraph(data,false);
+        this.reference.getGraphableDataSet().hideData(data);
     }
 }

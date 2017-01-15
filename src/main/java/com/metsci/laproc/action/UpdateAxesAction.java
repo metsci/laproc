@@ -1,6 +1,8 @@
 package com.metsci.laproc.action;
 
 import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.plotting.BasicGraph;
+import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IAction;
 
@@ -26,7 +28,7 @@ public class UpdateAxesAction implements IAction<ParametricFunction[]> {
      * @param argument
      */
     public void doAction(ParametricFunction[] argument) {
-        this.reference.getGraph().useAxisFunctions(argument[0], argument[1]);
+        reference.setGraph(reference.getGraphableDataSet().createGraph(argument[0], argument[1]));
         this.reference.notifyObservers();
     }
 }

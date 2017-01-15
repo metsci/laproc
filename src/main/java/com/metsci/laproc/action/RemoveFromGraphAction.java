@@ -25,7 +25,8 @@ public class RemoveFromGraphAction implements IAction<GraphableData<?>> {
 	 * @param data data to remove
 	 */
 	public void doAction(GraphableData<?> data) {
-		this.reference.removeDataFromGraph(data);
+		//TODO where does this get used?
+		this.reference.getGraphableDataSet().deleteGraphableData(data);
 	}
 
 }
