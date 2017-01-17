@@ -26,7 +26,7 @@ public class Filterer {
                 startingIndex++;
             }
             if(startingIndex == tags.size()){
-                setOperation = "all";
+                setOperation = "( all )";
                 for(ClassifierDataSet eval : evalSets){
                     for(DataPoint point: eval.getAllPoints()){
                         updateSet.add(point);
