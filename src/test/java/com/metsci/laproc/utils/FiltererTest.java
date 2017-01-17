@@ -24,10 +24,8 @@ public class FiltererTest {
     @Before
     public void setUp() {
         dataSet = new ClassifierDataSet(new ArrayList<String>(), "Update");
-        tags = new ArrayList<List<String>>();
 
-        tags.add(new ArrayList<String>());
-        tags.add(new ArrayList<String>());
+        initializeTags();
 
         evalSets = new ArrayList<ClassifierDataSet>();
 
@@ -180,7 +178,237 @@ public class FiltererTest {
         assertEquals("( a1 ) /\\ ( b1 V b2 )", setOperations);
     }
 
+    @Test
+    public void testFilerTwiceSingleOperation(){
+        this.tags.get(0).add("a1");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        Set<DataPoint> points = this.dataSet.getAllPoints();
+
+        assertEquals( 2 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+        assertTrue(points.contains(this.getEvalSetPoint(2)));
+
+        String setOperations = this.dataSet.getSetOperations();
+        assertEquals("( a1 )", setOperations);
+
+        this.initializeTags();
+
+        this.tags.get(1).add("b1");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        points = this.dataSet.getAllPoints();
+
+        assertEquals( 4 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+        assertTrue(points.contains(this.getEvalSetPoint(1)));
+        assertTrue(points.contains(this.getEvalSetPoint(2)));
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        setOperations = this.dataSet.getSetOperations();
+        assertEquals("[ ( a1 ) ] V ( b1 )", setOperations);
+    }
+
+    @Test
+    public void testFilerTwiceDoubleOperationIntersectBefore(){
+        this.tags.get(0).add("a1");
+        this.tags.get(1).add("b1");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        Set<DataPoint> points = this.dataSet.getAllPoints();
+
+        assertEquals( 1 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+
+        String setOperations = this.dataSet.getSetOperations();
+        assertEquals("( a1 ) /\\ ( b1 )", setOperations);
+
+        this.initializeTags();
+
+        this.tags.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        points = this.dataSet.getAllPoints();
+
+        assertEquals( 2 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        setOperations = this.dataSet.getSetOperations();
+        assertEquals("[ ( a1 ) /\\ ( b1 ) ] V ( a3 )", setOperations);
+    }
+
+    @Test
+    public void testFilerTwiceDoubleOperationIntersectAfter(){
+        this.tags.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        Set<DataPoint> points = this.dataSet.getAllPoints();
+
+        assertEquals( 1 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        String setOperations = this.dataSet.getSetOperations();
+        assertEquals("( a3 )", setOperations);
+
+        initializeTags();
+
+        this.tags.get(0).add("a1");
+        this.tags.get(1).add("b1");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        points = this.dataSet.getAllPoints();
+
+        assertEquals( 2 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        setOperations = this.dataSet.getSetOperations();
+        assertEquals("[ ( a3 ) ] V ( a1 ) /\\ ( b1 )", setOperations);
+
+        this.initializeTags();
+    }
+
+    @Test
+    public void testFilerTwiceDoubleOperationUnionBefore(){
+        this.tags.get(0).add("a1");
+        this.tags.get(0).add("a2");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        Set<DataPoint> points = this.dataSet.getAllPoints();
+
+        assertEquals( 4 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+        assertTrue(points.contains(this.getEvalSetPoint(1)));
+        assertTrue(points.contains(this.getEvalSetPoint(2)));
+        assertTrue(points.contains(this.getEvalSetPoint(3)));
+
+        String setOperations = this.dataSet.getSetOperations();
+        assertEquals("( a1 V a2 )", setOperations);
+
+        this.initializeTags();
+
+        this.tags.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        points = this.dataSet.getAllPoints();
+
+        assertEquals( 5 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+        assertTrue(points.contains(this.getEvalSetPoint(1)));
+        assertTrue(points.contains(this.getEvalSetPoint(2)));
+        assertTrue(points.contains(this.getEvalSetPoint(3)));
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        setOperations = this.dataSet.getSetOperations();
+        assertEquals("[ ( a1 V a2 ) ] V ( a3 )", setOperations);
+    }
+
+    @Test
+    public void testFilerTwiceDoubleOperationUnionAfter(){
+        this.tags.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        Set<DataPoint> points = this.dataSet.getAllPoints();
+
+        assertEquals( 1 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        String setOperations = this.dataSet.getSetOperations();
+        assertEquals("( a3 )", setOperations);
+
+        this.initializeTags();
+
+        this.tags.get(0).add("a1");
+        this.tags.get(0).add("a2");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        points = this.dataSet.getAllPoints();
+
+        assertEquals( 5 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+        assertTrue(points.contains(this.getEvalSetPoint(1)));
+        assertTrue(points.contains(this.getEvalSetPoint(2)));
+        assertTrue(points.contains(this.getEvalSetPoint(3)));
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        setOperations = this.dataSet.getSetOperations();
+        assertEquals("[ ( a3 ) ] V ( a1 V a2 )", setOperations);
+
+    }
+
+    @Test
+    public void testFilerTwiceAllBefore(){
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        Set<DataPoint> points = this.dataSet.getAllPoints();
+
+        assertEquals( 5 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+        assertTrue(points.contains(this.getEvalSetPoint(1)));
+        assertTrue(points.contains(this.getEvalSetPoint(2)));
+        assertTrue(points.contains(this.getEvalSetPoint(3)));
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        String setOperations = this.dataSet.getSetOperations();
+        assertEquals("( all )", setOperations);
+
+        this.initializeTags();
+
+        this.tags.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        points = this.dataSet.getAllPoints();
+
+        assertEquals( 5 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+        assertTrue(points.contains(this.getEvalSetPoint(1)));
+        assertTrue(points.contains(this.getEvalSetPoint(2)));
+        assertTrue(points.contains(this.getEvalSetPoint(3)));
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        setOperations = this.dataSet.getSetOperations();
+        assertEquals("[ ( all ) ] V ( a3 )", setOperations);
+    }
+
+    @Test
+    public void testFilerTwiceAllAfter(){
+        this.tags.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        Set<DataPoint> points = this.dataSet.getAllPoints();
+
+        assertEquals( 1 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        String setOperations = this.dataSet.getSetOperations();
+        assertEquals("( a3 )", setOperations);
+
+        this.initializeTags();
+
+        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        points = this.dataSet.getAllPoints();
+
+        assertEquals( 5 , points.size());
+
+        assertTrue(points.contains(this.getEvalSetPoint(0)));
+        assertTrue(points.contains(this.getEvalSetPoint(1)));
+        assertTrue(points.contains(this.getEvalSetPoint(2)));
+        assertTrue(points.contains(this.getEvalSetPoint(3)));
+        assertTrue(points.contains(this.getEvalSetPoint(4)));
+
+        setOperations = this.dataSet.getSetOperations();
+        assertEquals("[ ( a3 ) ] V ( all )", setOperations);
+    }
+
     private DataPoint getEvalSetPoint(int i){
         return evalSets.get(i).getAllPoints().iterator().next();
+    }
+
+    private void initializeTags(){
+        tags = new ArrayList<List<String>>();
+
+        tags.add(new ArrayList<String>());
+        tags.add(new ArrayList<String>());
     }
 }
