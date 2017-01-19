@@ -76,4 +76,14 @@ public class DataSetTable extends JTable{
     }
 
 
+    public void setSelectedValues(ObjectOpenHashBigSet<GraphableData> dataSet){
+        this.clearSelection();
+        for(GraphableData data : dataSet) {
+            int index = this.model.getRowOfObject(data);
+            if (index >= 0) {
+                this.addRowSelectionInterval(index, index);
+            }
+        }
+    }
+
 }
