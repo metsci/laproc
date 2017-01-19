@@ -2,15 +2,12 @@ package com.metsci.laproc.action;
 
 import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.uicomponents.TableDisplayer;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.plotting.ROCCurve;
 import com.metsci.laproc.utils.IAction;
 
 import java.util.ArrayList;
-
-import javax.swing.*;
 
 /**
  * Action that creates a classifier data set
