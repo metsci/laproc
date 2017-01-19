@@ -4,9 +4,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Tests the Observable class
  * Created by malinocr on 1/18/2017.
  */
 public class ObservableTest {
+    //TODO:Should we test null?
     @Test
     public void TestNotifyObserver(){
         MockObserver mockObserver = new MockObserver();
