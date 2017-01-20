@@ -2,10 +2,7 @@ package com.metsci.laproc.action;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
-import com.metsci.laproc.datareference.DataReference;
-import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.plotting.GraphableFunction;
-import com.metsci.laproc.plotting.ROCCurve;
+import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.tools.EvaluationSetPanel;
 import com.metsci.laproc.utils.IAction;
 
@@ -17,14 +14,14 @@ import java.util.List;
  * Created by malinocr on 1/3/2017.
  */
 public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
-    private DataReference reference;
+    private InputDataReference reference;
 
 
     /**
      * Basic constructor that takes a data reference object
      * @param reference References
      */
-    public FilterDataSetAction(DataReference reference){
+    public FilterDataSetAction(InputDataReference reference){
         this.reference = reference;
     }
 

@@ -14,9 +14,10 @@ import com.metsci.laproc.action.CreateNewDataSetAction;
 import com.metsci.laproc.action.FilterDataSetAction;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
-import com.metsci.laproc.datareference.DataObserver;
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.InputDataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.utils.IAction;
+import com.metsci.laproc.utils.IObserver;
 
 /**
  * 
@@ -24,7 +25,7 @@ import com.metsci.laproc.utils.IAction;
  * Created by patterjm on 10/5/2016.
  *
  */
-public class EvaluationSetPanel implements ITool, DataObserver {
+public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> {
 	private JPanel panel;
 	private IAction createAction;
 	private IAction unionAction;
@@ -33,10 +34,10 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 	/**
 	 * Default constructor, requires a window for context
 	 */
-	public EvaluationSetPanel(DataReference ref){
-		ref.addDataSetGroupsObserver(this);
+	public EvaluationSetPanel(InputDataReference ref, OutputDataReference outref){
+		ref.addObserver(this);
 		this.panel = new JPanel();
-		this.createAction = new CreateNewDataSetAction(ref);
+		this.createAction = new CreateNewDataSetAction(ref, outref);
 		this.unionAction = new FilterDataSetAction(ref);
 		setDataSheet(ref);
 	}
@@ -44,9 +45,9 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 	/**
      * Return DataSheet, composed of JTable
      *
-     * @params: DataReference
+     * @params: InputDataReference
      */
-	private void setDataSheet(DataReference ref) {
+	private void setDataSheet(InputDataReference ref) {
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 
 		List<TagHeader> headers = ref.getTagHeaders();
@@ -150,7 +151,7 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 		return ITool.LEFTPOSITION;
 	}
 
-	public void update(DataReference ref) {
+	public void update(InputDataReference ref) {
 		ClassifierDataSet selectedDataSet = (ClassifierDataSet)this.dataSets.getSelectedItem();
 		this.dataSets.removeAllItems();
 		for(ClassifierDataSet dataSet: ref.getDataSetGroups()){
