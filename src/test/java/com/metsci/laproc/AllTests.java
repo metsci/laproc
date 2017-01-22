@@ -18,6 +18,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({AddToGraphActionTest.class,
         DisplayGraphDataActionTest.class,
         HideGraphDataActionTest.class,
+        RemoveFromGraphActionTest.class,
         ROCCurveTest.class,
         MetricsTest.class,
         AppTest.class,
