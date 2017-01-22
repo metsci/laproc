@@ -16,6 +16,7 @@ import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.uicomponents.GraphDisplayer;
+import com.metsci.laproc.uicomponents.GraphExporter;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.utils.Observable;
 
@@ -124,9 +125,7 @@ public class DataReferenceImpl extends Observable implements DataReference {
 
     public void exportGraph(String filePath) throws IOException {
         NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas();
-        GraphDisplayer disp = new GraphDisplayer(null);
-        disp.setToExport();
-        disp.setGraph(this.graph);
+        GraphExporter disp = new GraphExporter(this.graph);
         SimplePlot2D plot = disp.getLayout();
         plot.setTitleFont( FontUtils.getDefaultBold( 18 ) );
         canvas.addLayout(disp.getLayout());
