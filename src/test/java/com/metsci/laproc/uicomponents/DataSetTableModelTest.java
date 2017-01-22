@@ -1,6 +1,5 @@
 package com.metsci.laproc.uicomponents;
 
-import com.metsci.laproc.plotting.GraphTest;
 import com.metsci.laproc.plotting.GraphableData;
 import org.easymock.EasyMock;
 import org.junit.Before;

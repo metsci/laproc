@@ -1,9 +1,10 @@
 package com.metsci.laproc;
 
-import com.metsci.laproc.plotting.GraphTest;
+import com.metsci.laproc.action.AddToGraphAction;
+import com.metsci.laproc.action.AddToGraphActionTest;
+import com.metsci.laproc.plotting.BasicGraphTest;
 import com.metsci.laproc.plotting.ROCCurveTest;
 import com.metsci.laproc.pointmetrics.MetricsTest;
-import com.metsci.laproc.uicomponents.DataSetTableModel;
 import com.metsci.laproc.uicomponents.DataSetTableModelTest;
 import com.metsci.laproc.uicomponents.DataSetTableTest;
 import com.metsci.laproc.utils.ObservableTest;
@@ -15,7 +16,8 @@ import org.junit.runners.Suite;
  */
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ GraphTest.class,
+@Suite.SuiteClasses({AddToGraphActionTest.class,
+        BasicGraphTest.class,
         ROCCurveTest.class,
         MetricsTest.class,
         AppTest.class,
