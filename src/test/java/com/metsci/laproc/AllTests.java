@@ -1,6 +1,7 @@
 package com.metsci.laproc;
 
 import com.metsci.laproc.action.*;
+import com.metsci.laproc.data.ClassifierDataSetTest;
 import com.metsci.laproc.plotting.BasicGraphTest;
 import com.metsci.laproc.plotting.ROCCurveTest;
 import com.metsci.laproc.pointmetrics.MetricsTest;
@@ -20,6 +21,7 @@ import org.junit.runners.Suite;
         HideGraphDataActionTest.class,
         RemoveFromGraphActionTest.class,
         UpdateAxesActionTest.class,
+        ClassifierDataSetTest.class,
         ROCCurveTest.class,
         MetricsTest.class,
         AppTest.class,
