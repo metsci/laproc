@@ -2,6 +2,7 @@ package com.metsci.laproc;
 
 import com.metsci.laproc.action.*;
 import com.metsci.laproc.data.ClassifierDataSetTest;
+import com.metsci.laproc.data.DataPointImplTest;
 import com.metsci.laproc.data.TagHeaderTest;
 import com.metsci.laproc.plotting.BasicGraphTest;
 import com.metsci.laproc.plotting.ROCCurveTest;
@@ -13,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
+ * Test suite for all test
  * Created by malinocr on 1/18/2017.
  */
 
@@ -23,6 +25,7 @@ import org.junit.runners.Suite;
         RemoveFromGraphActionTest.class,
         UpdateAxesActionTest.class,
         ClassifierDataSetTest.class,
+        DataPointImplTest.class,
         TagHeaderTest.class,
         ROCCurveTest.class,
         MetricsTest.class,
