@@ -1,6 +1,7 @@
 package com.metsci.laproc.uicomponents;
 
 import com.metsci.laproc.plotting.GraphableData;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import it.unimi.dsi.fastutil.objects.ObjectBigArrayBigList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 
@@ -13,7 +14,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DataSetTable extends JTable{
 	private DataSetTableModel model;
-    private ObjectBigArrayBigList<GraphableData> classList;
 
     /**
      * Default constructor for DataSetTable
@@ -56,26 +56,23 @@ public class DataSetTable extends JTable{
         return selectedValues;
     }
 
-    /**
-     * Gets the first selected data set
-     * @return first selected data set
-     */
-    public GraphableData getFirstSelectedValue(){
-        int[] selectedRows = this.getSelectedRows();
-        return this.model.getObjectAt(selectedRows[0]);
-    }
-
     @Override
     public Class getColumnClass(int column) {
         switch (column) {
             case 0:
                 return String.class;
-            default:
+            case 1:
                 return Boolean.class;
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
 
+    /**
+     * Sets the selected values in the table to a set of Graphable Data Objects
+     * @param dataSet set of Graphable Data objects to set as selected
+     */
     public void setSelectedValues(ObjectOpenHashBigSet<GraphableData> dataSet){
         this.clearSelection();
         for(GraphableData data : dataSet) {
