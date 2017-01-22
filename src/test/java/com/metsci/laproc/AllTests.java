@@ -1,9 +1,6 @@
 package com.metsci.laproc;
 
-import com.metsci.laproc.action.AddToGraphAction;
-import com.metsci.laproc.action.AddToGraphActionTest;
-import com.metsci.laproc.action.DisplayGraphDataAction;
-import com.metsci.laproc.action.DisplayGraphDataActionTest;
+import com.metsci.laproc.action.*;
 import com.metsci.laproc.plotting.BasicGraphTest;
 import com.metsci.laproc.plotting.ROCCurveTest;
 import com.metsci.laproc.pointmetrics.MetricsTest;
@@ -20,7 +17,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({AddToGraphActionTest.class,
         DisplayGraphDataActionTest.class,
-        BasicGraphTest.class,
+        HideGraphDataActionTest.class,
         ROCCurveTest.class,
         MetricsTest.class,
         AppTest.class,
