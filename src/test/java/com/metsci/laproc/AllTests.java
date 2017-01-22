@@ -5,6 +5,7 @@ import com.metsci.laproc.plotting.ROCCurveTest;
 import com.metsci.laproc.pointmetrics.MetricsTest;
 import com.metsci.laproc.uicomponents.DataSetTableModel;
 import com.metsci.laproc.uicomponents.DataSetTableModelTest;
+import com.metsci.laproc.uicomponents.DataSetTableTest;
 import com.metsci.laproc.utils.ObservableTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -19,7 +20,8 @@ import org.junit.runners.Suite;
         MetricsTest.class,
         AppTest.class,
         ObservableTest.class,
-        DataSetTableModelTest.class})
+        DataSetTableModelTest.class,
+        DataSetTableTest.class})
 public class AllTests {
 
 }
