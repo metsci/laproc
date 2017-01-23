@@ -42,7 +42,7 @@ public class CreateNewDataSetAction implements IAction<Object> {
         GraphableFunction func = new ROCCurve(dataSetGroup);
         GraphableData output = func.compute();
         output.setName(dataName);
-        outputDataReference.addDataToGraph(output,true);
+        outputDataReference.addGraphableData(output);
         inputDataReference.addDataSetGroup(dataSetGroup);
         inputDataReference.addToDataSetGraphMap(dataSetGroup,output);
     }

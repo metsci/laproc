@@ -8,7 +8,9 @@ import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.pointmetrics.TruePositiveRate;
 import com.metsci.laproc.utils.Observable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,14 +40,14 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         return this.graph;
     }
 
-    public void addDataToGraph(GraphableData<?> graphSet, boolean display) {
-        this.graph.addData(graphSet,display);
-        notifyObservers();
-    }
-
-    public void setDataDisplayOnGraph(GraphableData<?> graphSet, boolean display) {
-        this.graph.setDataDisplay(graphSet,display);
-        notifyObservers();
+    /**
+     * Adds a GraphableData object to this global set
+     * @param data The GraphableData to add
+     */
+    public void addGraphableData(GraphableData data) {
+        allData.put(data, true);
+        this.graph.addData(data, true);
+        this.notifyObservers();
     }
 
     public void removeDataFromGraph(GraphableData<?> graphSet) {
@@ -76,5 +78,36 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         if(allData.containsKey(data))
             allData.put(data, false);
         notifyObservers();
+    }
+
+    /**
+     * Returns a boolean indicating whether the given GraphableData is displayed
+     * @param data The data to check
+     * @return A boolean indicating whether the given GraphableData is displayed
+     */
+    public boolean isDisplayed(GraphableData data) {
+        return allData.get(data);
+    }
+
+    /**
+     * Gets only the displayed data sets
+     * @return Only the displayed data sets
+     */
+    public Iterable<GraphableData> getDisplayedData() {
+        return helpGetData(true);
+    }
+
+    /**
+     * A private helper function that returns the data with the given boolean value in the map
+     * @param shown The boolean value for which to retrieve the data
+     * @return The set of data matching the boolean parameter
+     */
+    private Iterable<GraphableData> helpGetData(boolean shown) {
+        List<GraphableData> dataList = new ArrayList<GraphableData>();
+        for(GraphableData d : allData.keySet()) {
+            if(allData.get(d) == shown)
+                dataList.add(d);
+        }
+        return dataList;
     }
 }

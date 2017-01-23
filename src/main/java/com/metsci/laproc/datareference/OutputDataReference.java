@@ -17,11 +17,10 @@ public interface OutputDataReference extends IObservable {
     Graph getGraph();
 
     /**
-     * Adds a GraphableData to the graph
-     * @param graphSet The set to graph
-     * @param display True if the set should be displayed
+     * Adds a GraphableData object to this global set
+     * @param data The GraphableData to add
      */
-    void addDataToGraph(GraphableData<?> graphSet, boolean display);
+    void addGraphableData(GraphableData data);
 
     /**
      * Sets the data to be displayed on the graph, if the data is hidden
@@ -36,6 +35,13 @@ public interface OutputDataReference extends IObservable {
     void hideData(GraphableData data);
 
     /**
+     * Returns a boolean indicating whether the given GraphableData is displayed
+     * @param data The data to check
+     * @return A boolean indicating whether the given GraphableData is displayed
+     */
+    boolean isDisplayed(GraphableData data);
+
+    /**
      * Removes a GraphableData from the graph
      * @param graphSet The set to remove
      */
@@ -47,4 +53,11 @@ public interface OutputDataReference extends IObservable {
      * @param newGraphSet new graphable data set used to replace the old data set
      */
     void replaceDataOnGraph(GraphableData<?> graphSet, GraphableData<?> newGraphSet);
+
+    /**
+     * Gets only the displayed data sets
+     * @return Only the displayed data sets
+     */
+    Iterable<GraphableData> getDisplayedData();
+
 }
