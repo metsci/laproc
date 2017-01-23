@@ -2,10 +2,11 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.*;
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
+import com.metsci.laproc.utils.IObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,13 +18,13 @@ import java.util.*;
  * Panel for selecting graph options
  * Created by porterjc on 10/26/2016.
  */
-public class GraphOptionsPanel implements ITool, DataObserver{
+public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     private JPanel panel;
     private JComboBox xaxis;
     private JComboBox yaxis;
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
-   // private DataReference reference;
+   // private InputDataReference reference;
     private IAction action;
 
 
@@ -31,7 +32,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
      * Default constructor for Graphoptions Panel
      * Created by porterjc on 10/26/2016.
      */
-    public GraphOptionsPanel(DataReference reference) {
+    public GraphOptionsPanel(OutputDataReference reference) {
         reference.addObserver(this);
         this.panel = new JPanel();
         this.action = new UpdateAxesAction(reference);
@@ -117,7 +118,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
         return ITool.LEFTPOSITION;
     }
 
-    public void update(DataReference graphReference) {
+    public void update(OutputDataReference graphReference) {
         populateOptions(graphReference.getGraph());
     }
 }

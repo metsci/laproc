@@ -9,14 +9,13 @@ import com.metsci.laproc.utils.Observable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * This reference allows tools to access the graph and associated data
  * Created by porterjc on 12/14/2016.
  */
-public class DataReferenceImpl extends Observable implements DataReference {
+public class InputDataReferenceImpl extends Observable implements InputDataReference {
     private Graph graph;
     private List<ClassifierDataSet> evalSets;
     //TODO:using a normal classifier data set to store groups is slow
@@ -28,7 +27,7 @@ public class DataReferenceImpl extends Observable implements DataReference {
      * Constructor for the Default Data Reference
      * @param tagHeaders TagHeaders for the data reference
      */
-    public DataReferenceImpl(List<TagHeader> tagHeaders) {
+    public InputDataReferenceImpl(List<TagHeader> tagHeaders) {
         super();
         // Default to an empty graph to prevent Null Pointer exceptions
         graph = new BasicGraph();
@@ -48,33 +47,10 @@ public class DataReferenceImpl extends Observable implements DataReference {
         notifyObservers();
     }
 
-    public Graph getGraph() {
-        return this.graph;
-    }
-
     public List<ClassifierDataSet> getEvaluationSets() {
         return this.evalSets;
     }
 
-	public void addDataToGraph(GraphableData<?> graphSet, boolean display) {
-		this.graph.addData(graphSet,display);
-		notifyObservers();
-	}
-
-    public void setDataDisplayOnGraph(GraphableData<?> graphSet, boolean display) {
-        this.graph.setDataDisplay(graphSet,display);
-        notifyObservers();
-    }
-
-	public void removeDataFromGraph(GraphableData<?> graphSet) {
-		this.graph.removeData(graphSet);
-		notifyObservers();
-	}
-
-    public void replaceDataOnGraph(GraphableData<?> graphSet, GraphableData<?> newGraphSet) {
-        this.graph.replaceData(graphSet, newGraphSet);
-        notifyObservers();
-    }
 
 	public void addDataSetGroup(ClassifierDataSet dataSetGroup){
 		this.dataSetGroups.add(dataSetGroup);
