@@ -87,9 +87,9 @@ public class DataSetPanel implements ITool, IObserver<OutputDataReference> {
      */
     public void update(OutputDataReference reference) {
     	this.clearTable();
-        List<Pair<GraphableData,Boolean>> data = reference.getGraph().getDataPairs();
-        for(int i = 0; i < data.size(); i++){
-            this.addDataSetToTable(data.get(i).getKey(), data.get(i).getValue());
+        Iterable<GraphableData> data = reference.getAllData();
+        for(GraphableData d : data) {
+            this.addDataSetToTable(d, reference.isDisplayed(d));
         }
     }
 }

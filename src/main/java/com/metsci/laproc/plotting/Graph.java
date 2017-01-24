@@ -30,46 +30,10 @@ public interface Graph {
     Axis getYAxis();
 
     /**
-     * Sets the X axis descriptor to the given string
-     * @param descriptor The string to set as the descriptor
-     */
-    void setXAxisDescriptor(String descriptor);
-
-    /**
-     * Sets the Y axis descriptor to the given string
-     * @param descriptor The string to set as the descriptor
-     */
-    void setYAxisDescriptor(String descriptor);
-
-    /**
-     * Setter for the graph's title
-     * @param title the title to set
-     */
-    void setTitle(String title);
-
-    /**
-     * Getter for all of the displayed graphable data associated with the graph
-     * @return The graphable data associated with this graph
-     */
-    Iterable<GraphableData> getDisplayedData();
-
-    /**
-     * Getter for all of the hidden graphable data associated with the graph
-     * @return The graphable data associated with this graph
-     */
-    Iterable<GraphableData> getHiddenData();
-
-    /**
      * Getter for all of the graphable data associated with the graph
      * @return The graphable data associated with this graph
      */
-    List<GraphableData> getData();
-
-    /**
-     * Getter for the pairs of data and whether it is displayed
-     * @return List of data and whether it is displayed
-     */
-    List<Pair<GraphableData,Boolean>> getDataPairs();
+    Iterable<GraphableData> getData();
 
     /**
      * Gets the closest value on the plot to the value provided. This is probably a point that was clicked
@@ -77,13 +41,13 @@ public interface Graph {
      * @param y The y value to compare against
      * @return The closest value on the plot to the value provided.
      */
-    GraphPoint[] getDisplayedClosestPoints(double x, double y);
+    GraphPoint[] getClosestPoints(double x, double y);
 
     /**
      * Returns a list of all possible axes to use for this graph
      * @return The list of axes that can be used for this graph
      */
-    Iterable<ParametricFunction> getDisplayedAxisFunctions();
+    Iterable<ParametricFunction> getAxisFunctions();
 
     /**
      * Sets all GraphableData sets on this graph to use the same set of axes
@@ -95,16 +59,8 @@ public interface Graph {
     /**
      * Adds a Graphable Data to the graph
      * @param graphSet The data to add
-     * @param display true if the data should be displayed
      */
-    void addData(GraphableData<?> graphSet, boolean display);
-
-    /**
-     * Sets a Graphable Data to be displayed or hidden
-     * @param graphSet The data to set
-     * @param display true if the data should be displayed
-     */
-    void setDataDisplay(GraphableData<?> graphSet, boolean display);
+    void addData(GraphableData<?> graphSet);
 
     /**
      * Removes a Graphable Data

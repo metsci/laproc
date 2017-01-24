@@ -45,7 +45,7 @@ public interface OutputDataReference extends IObservable {
      * Removes a GraphableData from the graph
      * @param graphSet The set to remove
      */
-    void removeDataFromGraph(GraphableData<?> graphSet);
+    void deleteGraphableData(GraphableData<?> graphSet);
 
     /**
      * Replace a given graphable data set on the graph with a new graphable data set
@@ -55,9 +55,17 @@ public interface OutputDataReference extends IObservable {
     void replaceDataOnGraph(GraphableData<?> graphSet, GraphableData<?> newGraphSet);
 
     /**
+     * Gets all the data sets that have been computed
+     * @return All the data sets that have been computed
+     */
+    Iterable<GraphableData> getAllData();
+
+    /**
      * Gets only the displayed data sets
      * @return Only the displayed data sets
      */
     Iterable<GraphableData> getDisplayedData();
+
+
 
 }

@@ -47,7 +47,7 @@ public class ROCCurvePlot implements GlimpseLayoutProvider
         plot.getCrosshairPainter( ).showSelectionBox( false );
 
         // draws a line for each set of graphable data
-        for(GraphableData g : graph.getDisplayedData()){
+        for(GraphableData g : graph.getData()){
             XYLinePainter series = createXYLinePainter( g );
             plot.addPainter( series );
         }

@@ -92,7 +92,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
 
         //Draws each graphable data
         int currentColor = 0;
-        for(GraphableData lineData : graph.getDisplayedData()){
+        for(GraphableData lineData : graph.getData()){
             float[] color = possibleColors[currentColor];
             if (currentColor != possibleColors.length - 1) {
                 currentColor++;

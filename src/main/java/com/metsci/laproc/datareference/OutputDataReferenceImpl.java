@@ -46,12 +46,13 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
      */
     public void addGraphableData(GraphableData data) {
         allData.put(data, true);
-        this.graph.addData(data, true);
+        this.graph.addData(data);
         this.notifyObservers();
     }
 
-    public void removeDataFromGraph(GraphableData<?> graphSet) {
-        this.graph.removeData(graphSet);
+    public void deleteGraphableData(GraphableData<?> data) {
+        allData.remove(data);
+        this.graph.removeData(data);
         notifyObservers();
     }
 
@@ -90,6 +91,14 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     }
 
     /**
+     * Gets all the data sets that have been computed
+     * @return All the data sets that have been computed
+     */
+    public Iterable<GraphableData> getAllData() {
+        return this.allData.keySet();
+    }
+
+    /**
      * Gets only the displayed data sets
      * @return Only the displayed data sets
      */
@@ -110,4 +119,21 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         }
         return dataList;
     }
+
+
+    /**
+     * Creates a Graph using the given functions as axes
+     * @return A new Graph object using the given axes, displaying the appropriate data.
+     */
+    public Graph createGraph() {
+        //TODO add error check here
+        Graph graph = new BasicGraph();
+        for(GraphableData data : this.getDisplayedData()) {
+            System.out.println("data: " + data.getSize());
+            data.useAxes(this.xAxisFunc, yAxisFunc);
+            graph.addData(data);
+        }
+        return graph;
+    }
+
 }
