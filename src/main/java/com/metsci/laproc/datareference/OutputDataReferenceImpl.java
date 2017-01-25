@@ -139,7 +139,9 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     }
 
     public void useAxisFunctions(ParametricFunction x, ParametricFunction y) {
-        this.graph.useAxisFunctions(x, y);
+        this.xAxisFunc = x;
+        this.yAxisFunc = y;
+        graphUpdated();
         this.notifyObservers();
 
     }

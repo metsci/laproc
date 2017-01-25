@@ -30,6 +30,24 @@ public interface Graph {
     Axis getYAxis();
 
     /**
+     * Sets the X axis descriptor to the given string
+     * @param descriptor The string to set as the descriptor
+     */
+    void setXAxisDescriptor(String descriptor);
+
+    /**
+     * Sets the Y axis descriptor to the given string
+     * @param descriptor The string to set as the descriptor
+     */
+    void setYAxisDescriptor(String descriptor);
+
+    /**
+     * Setter for the graph's title
+     * @param title the title axis to set
+     */
+     void setTitle(String title);
+
+    /**
      * Getter for all of the graphable data associated with the graph
      * @return The graphable data associated with this graph
      */
@@ -42,13 +60,6 @@ public interface Graph {
      * @return The closest value on the plot to the value provided.
      */
     GraphPoint[] getClosestPoints(double x, double y);
-
-    /**
-     * Sets all GraphableData sets on this graph to use the same set of axes
-     * @param xAxis The function to use for the X Axis
-     * @param yAxis The function to use for the Y Axis
-     */
-    void useAxisFunctions(ParametricFunction xAxis, ParametricFunction yAxis);
 
     /**
      * Adds a Graphable Data to the graph

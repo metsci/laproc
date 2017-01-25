@@ -1,13 +1,6 @@
 package com.metsci.laproc.plotting;
 
-import com.metsci.laproc.pointmetrics.ParametricFunction;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import javafx.util.Pair;
-
-import java.lang.reflect.Array;
 import java.util.*;
-
-import java.lang.IllegalArgumentException;
 
 /**
  * A basic implementation of a graph
@@ -19,9 +12,9 @@ public class BasicGraph implements Graph {
     private String title;
 
     /** The metric to use for the x axis, if applicable */
-    private ParametricFunction xAxisMetric;
+   // private ParametricFunction xAxisMetric;
     /** The metric to use for the y axis, if applicable */
-    private ParametricFunction yAxisMetric;
+   // private ParametricFunction yAxisMetric;
 
     /** Allows the user to provide a custom X Axis descriptor */
     private String xAxisDescriptor;
@@ -35,36 +28,16 @@ public class BasicGraph implements Graph {
      * Default constructor
      */
     public BasicGraph() {
-        this("", null, null);
+        this("");
     }
 
-    /**
-     * Constructor
-     * @param title The title to give to this graph
-     */
-    public BasicGraph(String title) {
-        this(title, null, null);
-    }
-
-    /**
-     * Constructor
-     * @param xAxisMetric The x axis function
-     * @param yAxisMetric The y axis function
-     */
-    public BasicGraph(ParametricFunction xAxisMetric, ParametricFunction yAxisMetric) {
-        this("", xAxisMetric, yAxisMetric);
-    }
 
     /**
      * Constructor
      * @param title The title
-     * @param xAxisMetric The x axis function
-     * @param yAxisMetric The y axis function
      */
-    public BasicGraph(String title, ParametricFunction xAxisMetric, ParametricFunction yAxisMetric) {
+    public BasicGraph(String title) {
         this.title = title;
-        this.xAxisMetric = xAxisMetric;
-        this.yAxisMetric = yAxisMetric;
         this.data = new ArrayList<GraphableData>();
     }
 
@@ -95,8 +68,6 @@ public class BasicGraph implements Graph {
         String descriptor = "X Axis";
         if(this.xAxisDescriptor != null)
             descriptor = this.xAxisDescriptor;
-        else if(this.xAxisMetric != null)
-            descriptor = this.xAxisMetric.getDescriptor();
 
         return new BasicAxis(xMin, xMax, descriptor);
     }
@@ -121,8 +92,6 @@ public class BasicGraph implements Graph {
         String descriptor = "Y Axis";
         if(this.yAxisDescriptor != null)
             descriptor = this.yAxisDescriptor;
-        else if(this.yAxisMetric != null)
-            descriptor = this.yAxisMetric.getDescriptor();
 
         return new BasicAxis(yMin, yMax, descriptor);
     }
@@ -162,25 +131,12 @@ public class BasicGraph implements Graph {
      * @return The closest value on the plot to the value provided.
      */
     public GraphPoint[] getClosestPoints(double x, double y) {
-        List<GraphableData> displayedData = (ArrayList<GraphableData>)this.getData();
+        List<GraphableData> displayedData = this.getData();
         GraphPoint[] closestPoints = new GraphPoint[displayedData.size()];
         for(int i = 0; i < closestPoints.length; i++){
             closestPoints[i] = displayedData.get(i).getDataPoint(x,y);
         }
         return closestPoints;
-    }
-
-    /**
-     * Sets all GraphableData sets on this graph to use the same set of axes
-     * @param xAxis The function to use for the X Axis
-     * @param yAxis The function to use for the Y Axis
-     */
-    public void useAxisFunctions(ParametricFunction xAxis, ParametricFunction yAxis) {
-        this.xAxisMetric = xAxis;
-        this.yAxisMetric = yAxis;
-        for(GraphableData d : this.getData()) {
-            d.useAxes(xAxis, yAxis);
-        }
     }
 
     public void addData(GraphableData<?> data) {
