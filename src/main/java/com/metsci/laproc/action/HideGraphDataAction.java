@@ -1,6 +1,6 @@
 package com.metsci.laproc.action;
 
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IAction;
 
@@ -9,13 +9,13 @@ import com.metsci.laproc.utils.IAction;
  * Created by malinocr on 12/21/2016.
  */
 public class HideGraphDataAction implements IAction<GraphableData<?>> {
-    private DataReference reference;
+    private OutputDataReference reference;
 
     /**
      * Default construction
      * @param ref data reference to affect
      */
-    public HideGraphDataAction(DataReference ref){
+    public HideGraphDataAction(OutputDataReference ref){
         this.reference = ref;
     }
 
@@ -24,6 +24,6 @@ public class HideGraphDataAction implements IAction<GraphableData<?>> {
      * @param data to set the display
      */
     public void doAction(GraphableData<?> data) {
-        this.reference.getGraphableDataSet().hideData(data);
+        this.reference.hideData(data);
     }
 }

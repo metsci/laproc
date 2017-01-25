@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
-import com.metsci.laproc.datareference.DataReference;
-import com.metsci.laproc.datareference.DataReferenceImpl;
+import com.metsci.laproc.datareference.InputDataReference;
+import com.metsci.laproc.datareference.InputDataReferenceImpl;
+import com.metsci.laproc.datareference.OutputDataReference;
+import com.metsci.laproc.datareference.OutputDataReferenceImpl;
 import com.metsci.laproc.tools.ITool;
 import com.metsci.laproc.uicomponents.BasicWindow;
 import com.metsci.laproc.uicomponents.Window;
@@ -19,15 +21,18 @@ public class Application {
     /** The Toolbox that provides all features in this application */
     private ToolBox globalToolBox;
     /** A global reference to the relevant data that is used by Tools */
-    private DataReference globalDataReference;
+    private InputDataReference globalInputDataReference;
+    /** A global reference to the relevant data that is used by Tools */
+    private OutputDataReference globalOutputDataReference;
 
 
     public Application(List<ClassifierDataSet> dataSets, List<TagHeader> tagHeaders) {
-        globalDataReference = new DataReferenceImpl(tagHeaders);
+        globalInputDataReference = new InputDataReferenceImpl(tagHeaders);
+        globalOutputDataReference = new OutputDataReferenceImpl();
         for(ClassifierDataSet data : dataSets){
-        	globalDataReference.addEvalSet(data);
+        	globalInputDataReference.addEvalSet(data);
         }
-        globalToolBox = new DefaultToolBox(globalDataReference);
+        globalToolBox = new DefaultToolBox(globalInputDataReference, globalOutputDataReference);
     }
 
     public void run() {

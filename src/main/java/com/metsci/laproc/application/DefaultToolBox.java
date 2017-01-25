@@ -1,7 +1,8 @@
 package com.metsci.laproc.application;
 
 import com.metsci.laproc.action.UpdateGenericDisplayAction;
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.InputDataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.tools.*;
 
@@ -12,8 +13,8 @@ import com.metsci.laproc.tools.*;
  */
 public class DefaultToolBox extends ToolBox {
 
-    public DefaultToolBox(DataReference reference) {
-        super(reference);
+    public DefaultToolBox(InputDataReference inputDataReference, OutputDataReference outputDataReference) {
+        super(inputDataReference, outputDataReference);
     }
 
     protected void initializeTools() {
@@ -21,10 +22,10 @@ public class DefaultToolBox extends ToolBox {
         ConfusionPanel confusionPanel = new ConfusionPanel();
         PointInfoPanel pointInfoPanel = new PointInfoPanel();
 
-        this.addTool(new EvaluationSetPanel(getDataReference()));
-        this.addTool(new DataSetPanel(getDataReference()));
-        this.addTool(new GraphOptionsPanel(getDataReference()));
-        this.addTool(new GraphPanel(getDataReference(),
+        this.addTool(new EvaluationSetPanel(getInputDataReference(), getOutputDataReference()));
+        this.addTool(new DataSetPanel(getOutputDataReference()));
+        this.addTool(new GraphOptionsPanel(getOutputDataReference()));
+        this.addTool(new GraphPanel(getOutputDataReference(),
                 new UpdateGenericDisplayAction<GraphPoint[]>(confusionPanel),
                 new UpdateGenericDisplayAction<GraphPoint[]>(pointInfoPanel)));
         this.addTool(confusionPanel);

@@ -2,7 +2,8 @@ package com.metsci.laproc.action;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.InputDataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.plotting.ROCCurve;
@@ -17,15 +18,16 @@ import java.util.List;
  * Created by malinocr on 1/3/2017.
  */
 public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
-    private DataReference reference;
+    private InputDataReference inputDataReference;
+    private OutputDataReference outputDataReference;
 
 
     /**
-     * Basic constructor that takes a data reference object
-     * @param reference References
+     * Basic constructor that takes data reference objects
      */
-    public FilterDataSetAction(DataReference reference){
-        this.reference = reference;
+    public FilterDataSetAction(InputDataReference inref, OutputDataReference outref){
+        this.inputDataReference = inref;
+        this.outputDataReference = outref;
     }
 
     /**
@@ -35,7 +37,7 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
     public void doAction(EvaluationSetPanel dataSheetPanel) {
         ClassifierDataSet updateSet = dataSheetPanel.getSelectedDataSet();
         List<List<String>> tags = dataSheetPanel.getSelectedTags();
-        List<ClassifierDataSet> evalSets = reference.getEvaluationSets();
+        List<ClassifierDataSet> evalSets = inputDataReference.getEvaluationSets();
         String setOperation = "";
 
         if(!tags.isEmpty()){
@@ -98,12 +100,12 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
                 updateSet.setSetOperation("[ " + updateSet.getSetOperations() + " ] V " + setOperation);
             }
         }
-        /*GraphableData<?> oldGraph = this.reference.getGraphfromDataSet(updateSet);
+        GraphableData<?> oldGraph = this.inputDataReference.getGraphfromDataSet(updateSet);
         GraphableFunction func = new ROCCurve(updateSet);
         GraphableData output = func.compute();
         output.setName(updateSet.getName());
-        this.reference.replaceDataOnGraph(oldGraph, output);
-        this.reference.addToDataSetGraphMap(updateSet, output);*/
+        this.outputDataReference.replaceDataOnGraph(oldGraph, output);
+        this.inputDataReference.addToDataSetGraphMap(updateSet, output);
         //TODO: Is this bad?
     }
 }

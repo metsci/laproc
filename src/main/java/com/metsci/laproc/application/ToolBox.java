@@ -1,7 +1,8 @@
 package com.metsci.laproc.application;
 
+import com.metsci.laproc.datareference.InputDataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.tools.ITool;
-import com.metsci.laproc.datareference.DataReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +12,13 @@ import java.util.List;
  * Created by porterjc on 12/9/2016.
  */
 public abstract class ToolBox {
-    private DataReference reference;
+    private InputDataReference inputDataReference;
+    private OutputDataReference outputDataReference;
     private List<ITool> tools;
 
-    protected ToolBox(DataReference reference) {
-        this.reference = reference;
+    protected ToolBox(InputDataReference inputDataReference, OutputDataReference outputDataReference) {
+        this.inputDataReference = inputDataReference;
+        this.outputDataReference = outputDataReference;
         this.tools = new ArrayList<ITool>();
     }
 
@@ -29,8 +32,12 @@ public abstract class ToolBox {
         return this.tools;
     }
 
-    public DataReference getDataReference() {
-        return reference;
+    public InputDataReference getInputDataReference() {
+        return inputDataReference;
+    }
+
+    public OutputDataReference getOutputDataReference() {
+        return outputDataReference;
     }
 
 }
