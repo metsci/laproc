@@ -15,7 +15,6 @@ public class AddToGraphAction implements IAction<GraphableData<?>> {
 	 * Default constructor
 	 * @param ref data reference to affect
 	 */
-	//TODO where is this used?
 	public AddToGraphAction(OutputDataReference ref){
 		this.reference = ref;
 	}
@@ -25,6 +24,7 @@ public class AddToGraphAction implements IAction<GraphableData<?>> {
 	 * @param data to add
 	 */
 	public void doAction(GraphableData<?> data) {
+		//TODO Is this the appropriate way to do this? I'm not sure where this action is actually used
 		this.reference.addGraphableData(data);
 	}
 

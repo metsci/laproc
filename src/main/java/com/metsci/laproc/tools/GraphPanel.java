@@ -5,9 +5,11 @@ import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
+import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.uicomponents.GraphDisplayer;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.utils.IAction;
+import com.metsci.laproc.utils.IActionReceiver;
 import com.metsci.laproc.utils.IObserver;
 
 
@@ -23,8 +25,8 @@ public class GraphPanel implements ITool, IObserver<OutputDataReference> {
      * Creaded by porterjc on 9/22/2016
      */
 
-    public GraphPanel(OutputDataReference reference, IAction<GraphPoint[]>... clickActions){
-        reference.addObserver(this);
+    public GraphPanel(OutputDataReference ref, IAction<GraphPoint[]>... clickActions){
+        ref.addObserver(this);
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
         graphDisplayer = new GraphDisplayer(clickActions);
@@ -57,9 +59,14 @@ public class GraphPanel implements ITool, IObserver<OutputDataReference> {
         return ITool.CENTERPOSITION;
     }
 
+    /**
+     * Method called whenever the observed object updates
+     * @param reference The observed object
+     */
     public void update(OutputDataReference reference) {
+        System.out.println("updating graph");
         canvas.removeAllLayouts();
-        graphDisplayer.setGraph(reference.getGraph());
+        graphDisplayer.setGraph(reference.createGraph());
         canvas.addLayout(graphDisplayer.getLayout());
     }
 }

@@ -15,35 +15,33 @@ import java.util.ArrayList;
  * Created by porterjc on 12/17/2016.
  */
 public class CreateNewDataSetAction implements IAction<Object> {
-    private InputDataReference inputDataReference;
-    private OutputDataReference outputDataReference;
+    private InputDataReference inref;
+    private OutputDataReference reference;
     private int currentAddedIndex = 1;
 
     /**
      * Default constructor
-     * @param inref the input data reference to use for input data
-     * @param outref the output data reference to use for output data
+     * @param outref data reference to affect
      */
     public CreateNewDataSetAction(InputDataReference inref, OutputDataReference outref) {
-        inputDataReference = inref;
-        outputDataReference = outref;
+        this.inref = inref;
+        reference = outref;
     }
 
     //TODO:Issues with doAction needing an Object
-    //TODO: This is not the appropriate place to determine what kind of function we need.
     /**
      * Create new classifier data set in the data reference object and the graph object
      *
      * @param o No object needed
      */
     public void doAction(Object o) {
+        //TODO this is not the appropriate place to do this.
         String dataName = "New Data Set " + currentAddedIndex++;
         ClassifierDataSet dataSetGroup = new ClassifierDataSet(new ArrayList<String>(), dataName);
         GraphableFunction func = new ROCCurve(dataSetGroup);
         GraphableData output = func.compute();
         output.setName(dataName);
-        outputDataReference.addGraphableData(output);
-        inputDataReference.addDataSetGroup(dataSetGroup);
-        inputDataReference.addToDataSetGraphMap(dataSetGroup,output);
+        reference.addGraphableData(output);
+        inref.addDataSetGroup(dataSetGroup);
     }
 }

@@ -1,5 +1,6 @@
 package com.metsci.laproc.action;
 
+import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IAction;
@@ -24,7 +25,7 @@ public class RemoveFromGraphAction implements IAction<GraphableData<?>> {
 	 */
 	public void doAction(GraphableData<?> data) {
 		//TODO where does this get used?
-		this.reference.getGraphableDataSet().deleteGraphableData(data);
+		this.reference.deleteGraphableData(data);
 	}
 
 }

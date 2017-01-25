@@ -5,17 +5,16 @@ import com.metsci.laproc.action.DisplayGraphDataAction;
 import com.metsci.laproc.action.HideGraphDataAction;
 import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
+import com.metsci.laproc.plotting.GraphableDataSet;
 import com.metsci.laproc.uicomponents.DataSetTable;
 import com.metsci.laproc.uicomponents.DataSetTableCheckBoxListener;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IObserver;
-import javafx.util.Pair;
 
 import javax.swing.*;
 
 import java.awt.Color;
-import java.util.List;
 
 /**
  * A JPanel that handles interacting with classifer data sets
@@ -24,19 +23,18 @@ import java.util.List;
 public class DataSetPanel implements ITool, IObserver<OutputDataReference> {
     private JPanel panel;
     private DataSetTable table;
-    private OutputDataReference reference;
+
     private IAction showAction;
     private IAction hideAction;
 
-    /**
+    /*
      * Default constructor for the DataSetPanel
      */
     public DataSetPanel(OutputDataReference ref){
         ref.addObserver(this);
         this.panel = new JPanel();
-        this.reference = ref;
-        this.showAction = new DisplayGraphDataAction(reference);
-        this.hideAction = new HideGraphDataAction(reference);
+        this.showAction = new DisplayGraphDataAction(ref);
+        this.hideAction = new HideGraphDataAction(ref);
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.table = new DataSetTable();
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
@@ -87,9 +85,9 @@ public class DataSetPanel implements ITool, IObserver<OutputDataReference> {
      */
     public void update(OutputDataReference reference) {
     	this.clearTable();
-        List<Pair<GraphableData,Boolean>> data = reference.getGraph().getDataPairs();
-        for(int i = 0; i < data.size(); i++){
-            this.addDataSetToTable(data.get(i).getKey(), data.get(i).getValue());
+        Iterable<GraphableData> data = reference.getAllData();
+        for(GraphableData d  : data) {
+            this.addDataSetToTable(d, reference.isDisplayed(d));
         }
     }
 }

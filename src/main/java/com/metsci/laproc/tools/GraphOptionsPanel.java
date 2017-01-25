@@ -2,8 +2,9 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.*;
+import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
-import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphableDataSet;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IObserver;
@@ -18,7 +19,7 @@ import java.util.*;
  * Panel for selecting graph options
  * Created by porterjc on 10/26/2016.
  */
-public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
+public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference> {
     private JPanel panel;
     private JComboBox xaxis;
     private JComboBox yaxis;
@@ -59,8 +60,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     /**
      * Updates the combo boxes with the metrics from the graph
      */
-    public void populateOptions(Graph graph) {
-       Iterable<ParametricFunction> metrics = graph.getDisplayedAxisFunctions();
+    public void populateOptions(Iterable<ParametricFunction> metrics) {
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();
@@ -119,6 +119,6 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     }
 
     public void update(OutputDataReference graphReference) {
-        populateOptions(graphReference.getGraph());
+        populateOptions(graphReference.getAxisFunctions());
     }
 }
