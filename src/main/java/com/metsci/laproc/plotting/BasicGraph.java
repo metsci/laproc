@@ -100,7 +100,7 @@ public class BasicGraph implements Graph {
      * Sets the X axis descriptor to the given string
      * @param descriptor The string to set as the descriptor
      */
-    protected void setXAxisDescriptor(String descriptor) {
+    public void setXAxisDescriptor(String descriptor) {
         this.xAxisDescriptor = descriptor;
     }
 
@@ -108,7 +108,7 @@ public class BasicGraph implements Graph {
      * Sets the Y axis descriptor to the given string
      * @param descriptor The string to set as the descriptor
      */
-    protected void setYAxisDescriptor(String descriptor) {
+    public void setYAxisDescriptor(String descriptor) {
         this.yAxisDescriptor = descriptor;
     }
 
@@ -116,7 +116,7 @@ public class BasicGraph implements Graph {
      * Setter for the graph's title
      * @param title the title axis to set
      */
-    protected void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
