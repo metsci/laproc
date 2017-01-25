@@ -191,12 +191,4 @@ public class BasicGraph implements Graph {
         this.data.remove(graphSet);
 	}
 
-    public void replaceData(GraphableData<?> graphSet, GraphableData<?> newGraphSet) {
-        for(int i = 0; i < this.data.size(); i++){
-            if(this.data.get(i).equals(graphSet)){
-                this.data.set(i, newGraphSet);
-                break;
-            }
-        }
-    }
 }

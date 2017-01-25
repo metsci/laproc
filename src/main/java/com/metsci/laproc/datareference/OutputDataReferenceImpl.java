@@ -27,7 +27,7 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     public OutputDataReferenceImpl() {
         graph = new BasicGraph();
 
-        this.allData = new HashMap<GraphableData, Boolean>();
+        this.allData = new LinkedHashMap<GraphableData, Boolean>();
 
         xAxisFunc = new FalsePositiveRate();
         yAxisFunc = new TruePositiveRate();
@@ -43,18 +43,21 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
      */
     public void addGraphableData(GraphableData data) {
         allData.put(data, true);
-        this.graph.addData(data);
+        graphUpdated();
         this.notifyObservers();
     }
 
     public void deleteGraphableData(GraphableData<?> data) {
         allData.remove(data);
-        this.graph.removeData(data);
+        graphUpdated();
         notifyObservers();
     }
 
     public void replaceDataOnGraph(GraphableData<?> graphSet, GraphableData<?> newGraphSet) {
-        this.graph.replaceData(graphSet, newGraphSet);
+        boolean display = allData.get(graphSet);
+        allData.remove(graphSet);
+        allData.put(newGraphSet, display);
+        graphUpdated();
         notifyObservers();
     }
 
@@ -65,6 +68,7 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     public void showData(GraphableData data) {
         if(allData.containsKey(data))
             allData.put(data, true);
+        graphUpdated();
         notifyObservers();
     }
 
@@ -75,6 +79,7 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     public void hideData(GraphableData data) {
         if(allData.containsKey(data))
             allData.put(data, false);
+        graphUpdated();
         notifyObservers();
     }
 
@@ -135,6 +140,17 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
 
     public void useAxisFunctions(ParametricFunction x, ParametricFunction y) {
         this.graph.useAxisFunctions(x, y);
+        this.notifyObservers();
+
+    }
+
+    public void graphUpdated() {
+        BasicGraph graph = new BasicGraph();
+        for(GraphableData data : this.getAllData()) {
+            data.useAxes(this.xAxisFunc, yAxisFunc);
+            graph.addData(data);
+        }
+        this.graph = graph;
     }
 
 
@@ -146,7 +162,6 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         //TODO add error check here
         Graph graph = new BasicGraph();
         for(GraphableData data : this.getDisplayedData()) {
-            System.out.println("data: " + data.getSize());
             data.useAxes(this.xAxisFunc, yAxisFunc);
             graph.addData(data);
         }

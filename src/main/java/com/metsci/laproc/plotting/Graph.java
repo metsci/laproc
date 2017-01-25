@@ -62,10 +62,4 @@ public interface Graph {
      */
 	void removeData(GraphableData<?> graphSet);
 
-    /**
-     * Replace a Graphable Data set with another Graphable Data set
-     * @param graphSet old graphable data set to replace
-     * @param newGraphSet graphable data to replace the old graphable data set
-     */
-    void replaceData(GraphableData<?> graphSet, GraphableData<?> newGraphSet);
 }
