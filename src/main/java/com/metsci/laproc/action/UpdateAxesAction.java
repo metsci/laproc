@@ -26,7 +26,7 @@ public class UpdateAxesAction implements IAction<ParametricFunction[]> {
      * @param argument
      */
     public void doAction(ParametricFunction[] argument) {
-        this.reference.getGraph().useAxisFunctions(argument[0], argument[1]);
+        this.reference.useAxisFunctions(argument[0], argument[1]);
         this.reference.notifyObservers();
     }
 }

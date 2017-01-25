@@ -171,22 +171,6 @@ public class BasicGraph implements Graph {
     }
 
     /**
-     * Returns a list of all possible axes to use for this graph
-     * @return The list of axes that can be used for this graph
-     */
-    public Collection<ParametricFunction> getAxisFunctions() {
-        // This implementation uses a map to easily union all possible axes
-        Map<String, ParametricFunction> functionUnion = new HashMap<String, ParametricFunction>();
-        for(GraphableData d : this.getData()) {
-            List<ParametricFunction> axisFunctions = d.getAxes();
-            for(ParametricFunction f : axisFunctions) {
-                functionUnion.put(f.getDescriptor(), f);
-            }
-        }
-        return functionUnion.values();
-    }
-
-    /**
      * Sets all GraphableData sets on this graph to use the same set of axes
      * @param xAxis The function to use for the X Axis
      * @param yAxis The function to use for the Y Axis

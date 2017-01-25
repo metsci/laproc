@@ -2,7 +2,10 @@ package com.metsci.laproc.datareference;
 
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IObservable;
+
+import java.util.Collection;
 
 /**
  * This interface allows tools to access the graphable data calculated as the result of executing a function
@@ -66,6 +69,12 @@ public interface OutputDataReference extends IObservable {
      */
     Iterable<GraphableData> getDisplayedData();
 
+    /**
+     * Returns a list of all possible axes to use for this graph
+     * @return The list of axes that can be used for this graph
+     */
+    Collection<ParametricFunction> getAxisFunctions();
 
+    void useAxisFunctions(ParametricFunction x, ParametricFunction y);
 
 }

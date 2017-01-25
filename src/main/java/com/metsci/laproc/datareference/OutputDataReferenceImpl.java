@@ -8,10 +8,7 @@ import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.pointmetrics.TruePositiveRate;
 import com.metsci.laproc.utils.Observable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -118,6 +115,26 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
                 dataList.add(d);
         }
         return dataList;
+    }
+
+    /**
+     * Returns a list of all possible axes to use for this graph
+     * @return The list of axes that can be used for this graph
+     */
+    public Collection<ParametricFunction> getAxisFunctions() {
+        // This implementation uses a map to easily union all possible axes
+        Map<String, ParametricFunction> functionUnion = new HashMap<String, ParametricFunction>();
+        for(GraphableData d : this.getAllData()) {
+            List<ParametricFunction> axisFunctions = d.getAxes();
+            for(ParametricFunction f : axisFunctions) {
+                functionUnion.put(f.getDescriptor(), f);
+            }
+        }
+        return functionUnion.values();
+    }
+
+    public void useAxisFunctions(ParametricFunction x, ParametricFunction y) {
+        this.graph.useAxisFunctions(x, y);
     }
 
 
