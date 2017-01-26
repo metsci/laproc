@@ -57,11 +57,14 @@ public class GraphOptionsPanel implements ITool, DataObserver{
         this.panel.add(updateButton);
 
         JButton exportButton = new JButton("Export Graph");
+        final JTextField exportTextField = new JTextField();
+        exportTextField.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                exportAction.doAction("test.png");
+                exportAction.doAction(exportTextField.getText() + ".png");
             }
         });
+        this.panel.add(exportTextField);
         this.panel.add(exportButton);
     }
 
