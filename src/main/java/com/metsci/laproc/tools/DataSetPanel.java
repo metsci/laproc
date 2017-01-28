@@ -11,6 +11,7 @@ import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.action.AddToGraphAction;
 import com.metsci.laproc.action.RemoveFromGraphAction;
 import com.metsci.laproc.plotting.GraphableData;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 import javafx.util.Pair;
 
 import javax.swing.*;
@@ -91,10 +92,12 @@ public class DataSetPanel implements ITool, DataObserver {
      * @param reference referance to observe
      */
     public void update(DataReference reference) {
+        ObjectOpenHashBigSet<GraphableData> selected = this.table.getSelectedValues();
     	this.clearTable();
         List<Pair<GraphableData,Boolean>> data = reference.getGraph().getDataPairs();
         for(int i = 0; i < data.size(); i++){
             this.addDataSetToTable(data.get(i).getKey(), data.get(i).getValue());
         }
+        this.table.setSelectedValues(selected);
     }
 }

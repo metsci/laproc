@@ -5,6 +5,7 @@ import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.Observable;
 
 import java.util.ArrayList;
@@ -102,5 +103,10 @@ public class DataReferenceImpl extends Observable implements DataReference {
 	public List<TagHeader> getTagHeaders() {
 		return this.tagHeaders;
 	}
+
+    public void setAxisFunctionOnGraph(ParametricFunction xAxis, ParametricFunction yAxis){
+        this.graph.useAxisFunctions(xAxis, yAxis);
+        notifyObservers();
+    }
 
 }

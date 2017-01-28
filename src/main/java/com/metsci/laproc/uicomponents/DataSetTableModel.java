@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by malinocr on 12/8/2016.
  */
 public class DataSetTableModel extends AbstractTableModel {
-    private String[] columnNames = new String[]{"DataSet", "Display"};
+    private String[] columnNames = new String[]{"Data", "Display"};
     private ObjectBigArrayBigList<GraphableData> dataObjects = new ObjectBigArrayBigList<GraphableData>();
     private ArrayList<Boolean> isDisplayed = new ArrayList();
 
@@ -26,10 +26,16 @@ public class DataSetTableModel extends AbstractTableModel {
     }
 
     public String getColumnName(int col) {
+        if(col >= getColumnCount()){
+            throw new IllegalArgumentException();
+        }
         return columnNames[col];
     }
 
     public Object getValueAt(int row, int col) {
+        if(row >= dataObjects.size64() || col >= getColumnCount()){
+            throw new IllegalArgumentException();
+        }
         if(col == 0){
             return dataObjects.get(row).getName();
         }
@@ -37,10 +43,16 @@ public class DataSetTableModel extends AbstractTableModel {
     }
 
     public boolean isCellEditable(int row, int col) {
+        if(row >= dataObjects.size64() || col >= getColumnCount()){
+            throw new IllegalArgumentException();
+        }
         return true;
     }
 
     public void setValueAt(Object value, int row, int col) {
+        if(row >= dataObjects.size64() || col >= getColumnCount()){
+            throw new IllegalArgumentException();
+        }
         if((col == 0) && value instanceof String) {
             dataObjects.get(row).setName((String)value);
             fireTableCellUpdated(row, col);
@@ -59,7 +71,7 @@ public class DataSetTableModel extends AbstractTableModel {
     public void addRow(GraphableData data, boolean display){
         this.dataObjects.add(data);
         this.isDisplayed.add(display);
-        fireTableRowsInserted(data.getSize() - 1,data.getSize() - 1);
+        fireTableRowsInserted(getRowCount()-1,getRowCount()-1);
     }
 
     /**
@@ -68,6 +80,9 @@ public class DataSetTableModel extends AbstractTableModel {
      * @return associated graphable data object
      */
     public GraphableData getObjectAt(int row){
+        if(row >= dataObjects.size64()){
+            throw new IllegalArgumentException();
+        }
         return this.dataObjects.get(row);
     }
 
@@ -78,4 +93,13 @@ public class DataSetTableModel extends AbstractTableModel {
 		dataObjects.clear();
 	}
 
+
+    /**
+     * Gets the row index of a specified object
+     * @param data object to get the row index of
+     * @return row index
+     */
+	public int getRowOfObject(GraphableData data){
+        return (int)dataObjects.indexOf(data);
+    }
 }

@@ -6,6 +6,7 @@ import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IObservable;
 
 /**
@@ -102,5 +103,12 @@ public interface DataReference extends IObservable {
      * @return tag headers
      */
 	List<TagHeader> getTagHeaders();
+
+    /**
+     * Setter for Axis Function on the graph
+     * @param xAxis function for the x axis
+     * @param yAxis function for the y axis
+     */
+    void setAxisFunctionOnGraph(ParametricFunction xAxis, ParametricFunction yAxis);
 	
 }
