@@ -31,6 +31,7 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 	private IAction unionAction;
 	private JPanel tagPanel;
 	private JComboBox dataSets;
+	private JTextField nameTextField;
 	/**
 	 * Default constructor, requires a window for context
 	 */
@@ -59,6 +60,7 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 			DefaultTableModel model = new DefaultTableModel();
 			JLabel label = new JLabel(header.getName());
 			JTable table = new JTable(model);
+			table.setDefaultEditor(Object.class, null);
 			model.addColumn("Tag Name");
 			for(String tag : header.getTags()){
 				model.addRow(new Object[] {tag});
@@ -74,16 +76,27 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 		if (defaults.get("Table.alternateRowColor") == null)
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
-		this.panel.add(tagScrollPane);
-
+		//ENTER NAME HERE
+		JTextField nameTextField = new JTextField();
+		this.nameTextField = nameTextField;
+		this.nameTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 12));
+		nameTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		this.panel.add(nameTextField);
+		
 		JButton newEvalSetButton = new JButton("Create New Eval Set");
 		ActionListener createListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createAction.doAction(e);
+				createAction.doAction(EvaluationSetPanel.this);
 			}
 		};
 		newEvalSetButton.addActionListener(createListener);
+		//CREATE NEW EVAL SET BUTTON HERE
 		this.panel.add(newEvalSetButton);
+		//TAG SCROLL PANE HERE
+		tagScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+		this.panel.add(tagScrollPane);
+
+
 
 		JButton unionEvalSetButton = new JButton("Union with Eval Set");
 		ActionListener unionListener = new ActionListener() {
@@ -92,26 +105,37 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 			}
 		};
 		unionEvalSetButton.addActionListener(unionListener);
+		//UNION WITH EVAL SET BUTTON HERE
 		this.panel.add(unionEvalSetButton);
 
-		final JLabel setOperationLabel = new JLabel();
-
+		
+		final JTextArea setOperationHistoryTextArea = new JTextArea();
 		final JComboBox dataSets = new JComboBox();
 		ActionListener changeDataSet = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(dataSets.getSelectedItem() != null) {
 					ClassifierDataSet selectedItem = (ClassifierDataSet) dataSets.getSelectedItem();
-					setOperationLabel.setText(selectedItem.getSetOperations());
+					setOperationHistoryTextArea.setText(selectedItem.getSetOperations());
 				}
 			}
 		};
+		dataSets.setMaximumSize(new Dimension(Integer.MAX_VALUE, 12));
 		dataSets.addActionListener(changeDataSet);
-		JPanel dataSetPanel = new JPanel();
-		dataSetPanel.add(dataSets);
-		this.panel.add(dataSetPanel);
+		dataSets.setAlignmentX(Component.LEFT_ALIGNMENT);
+		this.panel.add(dataSets);
 		this.dataSets = dataSets;
 
-		this.panel.add(setOperationLabel);
+		
+		final JLabel setOperationTitle = new JLabel("Set Operations:");
+	    
+	    setOperationHistoryTextArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    setOperationHistoryTextArea.setWrapStyleWord(true);
+	    setOperationHistoryTextArea.setLineWrap(true);
+	    setOperationHistoryTextArea.setOpaque(false);
+	    setOperationHistoryTextArea.setEditable(false);
+	    setOperationHistoryTextArea.setFocusable(false);
+		this.panel.add(setOperationTitle);
+		this.panel.add(setOperationHistoryTextArea);
 
 	}
 
@@ -150,6 +174,10 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 	public int getDefaultPosition() {
 		return ITool.LEFTPOSITION;
 	}
+	
+	public String getNameText(){
+		return nameTextField.getText();
+	}
 
 	public void update(InputDataReference ref) {
 		ClassifierDataSet selectedDataSet = (ClassifierDataSet)this.dataSets.getSelectedItem();
@@ -161,5 +189,9 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 			this.dataSets.setSelectedItem(selectedDataSet);
 		}
 		this.dataSets.repaint();
+	}
+	
+	public void setSelectedDataSet(ClassifierDataSet dataSetRef){
+		this.dataSets.setSelectedItem(dataSetRef);
 	}
 }
