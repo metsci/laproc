@@ -18,6 +18,7 @@ import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.uicomponents.GraphDisplayer;
 import com.metsci.laproc.uicomponents.GraphExporter;
 import com.metsci.laproc.utils.IAction;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.Observable;
 
 import javax.imageio.ImageIO;
@@ -122,6 +123,11 @@ public class DataReferenceImpl extends Observable implements DataReference {
 	public List<TagHeader> getTagHeaders() {
 		return this.tagHeaders;
 	}
+
+    public void setAxisFunctionOnGraph(ParametricFunction xAxis, ParametricFunction yAxis){
+        this.graph.useAxisFunctions(xAxis, yAxis);
+        notifyObservers();
+    }
 
     public void exportGraph(String filePath) throws IOException {
         NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas();

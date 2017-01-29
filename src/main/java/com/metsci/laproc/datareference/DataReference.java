@@ -7,6 +7,7 @@ import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IObservable;
 
 /**
@@ -105,9 +106,16 @@ public interface DataReference extends IObservable {
 	List<TagHeader> getTagHeaders();
 
     /**
+     * Setter for Axis Function on the graph
+     * @param xAxis function for the x axis
+     * @param yAxis function for the y axis
+     */
+    void setAxisFunctionOnGraph(ParametricFunction xAxis, ParametricFunction yAxis);
+
+    /**
      * Exports an image of the graph to the specified file path
      * @param filePath file path to export image
      */
     public void exportGraph(String filePath) throws IOException;
-	
+
 }
