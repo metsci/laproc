@@ -142,6 +142,7 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         this.xAxisFunc = x;
         this.yAxisFunc = y;
         graphUpdated();
+        System.out.println("hello");
         this.notifyObservers();
 
     }
@@ -159,6 +160,7 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         //TODO add error check here
         Graph graph = new BasicGraph();
         for(GraphableData data : this.getDisplayedData()) {
+            data.useAxes(this.xAxisFunc, this.yAxisFunc);
             graph.addData(data);
         }
         graph.setXAxisDescriptor(this.xAxisFunc.getDescriptor());

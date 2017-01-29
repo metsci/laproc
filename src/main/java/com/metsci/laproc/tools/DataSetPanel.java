@@ -10,7 +10,7 @@ import com.metsci.laproc.uicomponents.DataSetTableCheckBoxListener;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IObserver;
-import javafx.util.Pair;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 
 import javax.swing.*;
 
@@ -86,10 +86,12 @@ public class DataSetPanel implements ITool, IObserver<OutputDataReference> {
      * @param reference referance to observe
      */
     public void update(OutputDataReference reference) {
+        ObjectOpenHashBigSet<GraphableData> selected = this.table.getSelectedValues();
     	this.clearTable();
         Iterable<GraphableData> data = reference.getAllData();
         for(GraphableData d : data) {
             this.addDataSetToTable(d, reference.isDisplayed(d));
         }
+        this.table.setSelectedValues(selected);
     }
 }

@@ -8,6 +8,7 @@ import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.plotting.ROCCurve;
 import com.metsci.laproc.tools.EvaluationSetPanel;
+import com.metsci.laproc.utils.Filterer;
 import com.metsci.laproc.utils.IAction;
 
 import java.util.HashSet;
@@ -37,70 +38,11 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
     public void doAction(EvaluationSetPanel dataSheetPanel) {
         ClassifierDataSet updateSet = dataSheetPanel.getSelectedDataSet();
         List<List<String>> tags = dataSheetPanel.getSelectedTags();
+
         List<ClassifierDataSet> evalSets = inputDataReference.getEvaluationSets();
-        String setOperation = "";
-
-        if(!tags.isEmpty()){
-            HashSet<ClassifierDataSet> initialSets = new HashSet<ClassifierDataSet>();
-            int startingIndex = 0;
-            while(tags.get(startingIndex).isEmpty() && startingIndex < tags.size()){
-                startingIndex++;
-            }
-            for(String tag : tags.get(startingIndex)){
-                if(setOperation.equals("")){
-                    setOperation += "( " + tag;
-                } else {
-                    setOperation += " V " + tag;
-                }
-                for(ClassifierDataSet set: evalSets){
-                    if(set.getTags().contains(tag)){
-                        initialSets.add(set);
-                    }
-                }
-            }
-            for(int i = startingIndex + 1; i < tags.size(); i++){
-                if(!tags.get(i).isEmpty()) {
-                    setOperation += " ) Λ ( ";
-                    for (String tag : tags.get(i)) {
-                        setOperation += tag + " V ";
-                    }
-                    setOperation = setOperation.substring(0,setOperation.length()-3);
-                }
-
-                HashSet<ClassifierDataSet> removeSets = new HashSet<ClassifierDataSet>();
-                for(ClassifierDataSet set: initialSets){
-                    if(!tags.get(i).isEmpty()) {
-                        boolean containsTag = false;
-                        for (String tag : tags.get(i)) {
-                            if (set.getTags().contains(tag)) {
-                                containsTag = true;
-                                break;
-                            }
-                        }
-                        if (!containsTag) {
-                            removeSets.add(set);
-                        }
-                    }
-                }
-                for(ClassifierDataSet set: removeSets){
-                    initialSets.remove(set);
-                }
-            }
-            setOperation += " )";
-            for(ClassifierDataSet set: initialSets){
-                for(DataPoint point: set.getAllPoints()){
-                    updateSet.add(point);
-                }
-            }
-        }
-        if(!setOperation.equals("")){
-            if(updateSet.getSetOperations().equals("")){
-                updateSet.setSetOperation(setOperation);
-            } else {
-                updateSet.setSetOperation("[ " + updateSet.getSetOperations() + " ] V " + setOperation);
-            }
-        }
+        Filterer.filterAndUnion(updateSet,tags,evalSets);
         GraphableData<?> oldGraph = this.inputDataReference.getGraphfromDataSet(updateSet);
+
         GraphableFunction func = new ROCCurve(updateSet);
         GraphableData output = func.compute();
         output.setName(updateSet.getName());
