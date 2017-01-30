@@ -1,48 +1,66 @@
 package com.metsci.laproc.action;
 
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.uicomponents.TableDisplayer;
+import com.metsci.laproc.datareference.OutputDataReference;
+import com.metsci.laproc.tools.EvaluationSetPanel;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.plotting.ROCCurveFunction;
+import com.metsci.laproc.utils.Filterer;
 import com.metsci.laproc.utils.IAction;
 
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * Action that creates a classifier data set
  * Created by porterjc on 12/17/2016.
  */
-public class CreateNewDataSetAction implements IAction<TableDisplayer> {
-    private DataReference reference;
+
+public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
+    private InputDataReference inputDataReference;
+    private OutputDataReference outputDataReference;
     private int currentAddedIndex = 1;
 
     /**
-     * Basic constructor that takes a data reference object
-     * @param ref
+     * Default constructor
+     * @param inref the input data reference to use for input data
+     * @param outref the output data reference to use for output data
      */
-    public CreateNewDataSetAction(DataReference ref) {
-        reference = ref;
+    public CreateNewDataSetAction(InputDataReference inref, OutputDataReference outref) {
+        inputDataReference = inref;
+        outputDataReference = outref;
     }
 
+    //TODO:Issues with doAction needing an Object
+    //TODO: This is not the appropriate place to determine what kind of function we need.
     /**
-     * add new evalset to the data reference object and the graph object
-     *
-     * @param tableDisplayer
+     * Create new classifier data set in the data reference object and the graph object
+     * @param dataSheetPanel data sheet panel to get selected tags
      */
-    public void doAction(TableDisplayer tableDisplayer) {
-        JTable table = tableDisplayer.getTable();
-        int[] indexes = table.getSelectedRows();
-        ClassifierDataSet data = new ClassifierDataSet();
-        for(int i = 0; i < indexes.length; i++){
-            data.add(tableDisplayer.getDataPointAtIndex(i));
-        }
-        GraphableFunction func = new ROCCurveFunction(data);
+    public void doAction(EvaluationSetPanel dataSheetPanel) {
+    	String dataName;
+    	if(dataSheetPanel.getNameText().equals("") || dataSheetPanel.getNameText().length() < 1){
+    		dataName = "New Data Set " + currentAddedIndex++;
+    	}else{
+    		dataName = dataSheetPanel.getNameText();
+    	}
+        ClassifierDataSet dataSetGroup = new ClassifierDataSet(new ArrayList<String>(), dataName);
+        List<List<String>> tags = dataSheetPanel.getSelectedTags();
+        List<ClassifierDataSet> evalSets = inputDataReference.getEvaluationSets();
+
+        Filterer.filterAndUnion(dataSetGroup, tags, evalSets);
+
+        GraphableFunction func = new ROCCurveFunction(dataSetGroup);
         GraphableData output = func.compute();
-        String dataName = "New Data Set " + currentAddedIndex++;
         output.setName(dataName);
-        reference.addEvalSet(data);
-        reference.getGraph().addData(output);
-        reference.notifyObservers();
+
+        outputDataReference.addGraphableData(output);
+        inputDataReference.addDataSetGroup(dataSetGroup);
+        inputDataReference.addToDataSetGraphMap(dataSetGroup,output);
+        
+        dataSheetPanel.setSelectedDataSet(dataSetGroup);
+
     }
 }

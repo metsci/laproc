@@ -1,21 +1,22 @@
 package com.metsci.laproc.action;
 
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IAction;
 
 /**
+ * Action to update axis in the graph object
  * Created by porterjc on 12/16/2016.
  */
 public class UpdateAxesAction implements IAction<ParametricFunction[]> {
-    private DataReference reference;
+    private OutputDataReference reference;
 
 
     /**
      * Basic constructor that takes a data reference object
      * @param reference References
      */
-    public UpdateAxesAction(DataReference reference){
+    public UpdateAxesAction(OutputDataReference reference){
         this.reference = reference;
     }
 
@@ -25,7 +26,6 @@ public class UpdateAxesAction implements IAction<ParametricFunction[]> {
      * @param argument
      */
     public void doAction(ParametricFunction[] argument) {
-        this.reference.getGraph().useAxisFunctions(argument[0], argument[1]);
-        this.reference.notifyObservers();
+        this.reference.useAxisFunctions(argument[0], argument[1]);
     }
 }

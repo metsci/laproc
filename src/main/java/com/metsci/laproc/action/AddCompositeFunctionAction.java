@@ -1,6 +1,6 @@
 package com.metsci.laproc.action;
 
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.CompositeFunction;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
@@ -13,13 +13,13 @@ import com.metsci.laproc.utils.IAction;
 public class AddCompositeFunctionAction implements IAction<CompositeFunction> {
 
     /** Stores a reference to the application's vital data */
-    private DataReference dataReference;
+    private OutputDataReference dataReference;
 
     /**
      * Constructor
      * @param reference A reference to all the vital data used by the application
      */
-    public AddCompositeFunctionAction(DataReference reference) {
+    public AddCompositeFunctionAction(OutputDataReference reference) {
         this.dataReference = reference;
     }
 
@@ -28,12 +28,12 @@ public class AddCompositeFunctionAction implements IAction<CompositeFunction> {
      * @param compositeFunction The function to add to the graph
      */
     public void doAction(CompositeFunction compositeFunction) {
-        Graph graph = dataReference.getGraph();
+        Graph graph = dataReference.createGraph();
         for(GraphableData data : graph.getData()) {
             compositeFunction.addData(data);
         }
         GraphableData compositeData = compositeFunction.compute();
-        dataReference.getGraph().addData(compositeData);
+        graph.addData(compositeData);
         dataReference.notifyObservers();
     }
 }

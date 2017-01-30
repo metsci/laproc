@@ -41,3 +41,4 @@ Session.vim
 # HotSpot
 hs_err*.log
 
+/bin/

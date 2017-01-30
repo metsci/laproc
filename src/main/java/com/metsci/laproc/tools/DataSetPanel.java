@@ -1,58 +1,49 @@
 package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.action.DisplayGraphDataAction;
+import com.metsci.laproc.action.HideGraphDataAction;
+import com.metsci.laproc.datareference.InputDataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.uicomponents.DataSetTable;
-import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.uicomponents.DataSetTableCheckBoxListener;
 import com.metsci.laproc.utils.IAction;
-import com.metsci.laproc.action.CreateGraphAction;
 import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.utils.IObserver;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import java.awt.Color;
+import java.util.List;
 
 /**
- * A JPanel that handles interacting with the created data sets
+ * A JPanel that handles interacting with classifer data sets
  * Created by malinocr on 10/17/2016.
  */
-public class DataSetPanel implements ITool, DataObserver {
+public class DataSetPanel implements ITool, IObserver<OutputDataReference> {
     private JPanel panel;
     private DataSetTable table;
-    private DataReference reference;
-    private IAction action;
+    private OutputDataReference reference;
+    private IAction showAction;
+    private IAction hideAction;
 
     /**
      * Default constructor for the DataSetPanel
      */
-    public DataSetPanel(DataReference ref){
+    public DataSetPanel(OutputDataReference ref){
         ref.addObserver(this);
         this.panel = new JPanel();
         this.reference = ref;
-        this.action = new CreateGraphAction(reference);
+        this.showAction = new DisplayGraphDataAction(reference);
+        this.hideAction = new HideGraphDataAction(reference);
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.table = new DataSetTable();
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-
-        JButton displaySetButton = new JButton("Display Set");
-
-        displaySetButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                action.doAction(table);
-            }
-        });
-        buttonPanel.add(displaySetButton);
-
-        JButton selectSetButton = new JButton("Select Set");
-        buttonPanel.add(selectSetButton);
-
-        this.panel.add(buttonPanel);
+        
+        this.table.getModel().addTableModelListener(new DataSetTableCheckBoxListener(showAction, hideAction, table));
 
         JScrollPane scrollPane = new JScrollPane(table);
         this.panel.add(scrollPane);
@@ -68,24 +59,39 @@ public class DataSetPanel implements ITool, DataObserver {
     /**
      * Adds a data set to the table in the panel
      * @param data data set to be added
+     * @param display true if the data is displayed
      */
-    public void addDataSetToTable(GraphableData data){
-        this.table.addDataSet(data);
+    public void addDataSetToTable(GraphableData<?> data, boolean display){
+        this.table.addDataSet(data, display);
     }
 
+    /**
+     * Getter for the view for the data set panel
+     * @return data set panel view
+     */
     public View getView() {
         return new View("Data Set", this.panel, "Data Set", true);
     }
 
+    /**
+     * Getter for the default position of the panel
+     * @return default position of the panel
+     */
     public int getDefaultPosition() {
         return ITool.LEFTPOSITION;
     }
 
-    public void update(DataReference reference) {
-        Graph graph = reference.getGraph();
-        for(GraphableData data : graph.getData()) {
-            addDataSetToTable(data);
+    /**
+     * Updates the panel when the reference is updated
+     * @param reference referance to observe
+     */
+    public void update(OutputDataReference reference) {
+        ObjectOpenHashBigSet<GraphableData> selected = this.table.getSelectedValues();
+    	this.clearTable();
+        Iterable<GraphableData> data = reference.getAllData();
+        for(GraphableData d : data) {
+            this.addDataSetToTable(d, reference.isDisplayed(d));
         }
-
+        this.table.setSelectedValues(selected);
     }
 }
