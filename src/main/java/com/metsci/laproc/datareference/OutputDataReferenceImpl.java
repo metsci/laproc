@@ -142,7 +142,6 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         this.xAxisFunc = x;
         this.yAxisFunc = y;
         graphUpdated();
-        System.out.println("hello");
         this.notifyObservers();
 
     }

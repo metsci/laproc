@@ -77,4 +77,10 @@ public interface OutputDataReference extends IObservable {
 
     void useAxisFunctions(ParametricFunction x, ParametricFunction y);
 
+    /**
+     * Creates a Graph using the given functions as axes
+     * @return A new Graph object using the given axes, displaying the appropriate data.
+     */
+    Graph createGraph();
+
 }
