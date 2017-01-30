@@ -33,23 +33,17 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         yAxisFunc = new TruePositiveRate();
     }
 
-    public Graph getGraph() {
-        return this.graph;
-    }
-
     /**
      * Adds a GraphableData object to this global set
      * @param data The GraphableData to add
      */
     public void addGraphableData(GraphableData data) {
         allData.put(data, true);
-        graphUpdated();
         this.notifyObservers();
     }
 
     public void deleteGraphableData(GraphableData<?> data) {
         allData.remove(data);
-        graphUpdated();
         notifyObservers();
     }
 
@@ -57,7 +51,6 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         boolean display = allData.get(graphSet);
         allData.remove(graphSet);
         allData.put(newGraphSet, display);
-        graphUpdated();
         notifyObservers();
     }
 
@@ -68,7 +61,6 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     public void showData(GraphableData data) {
         if(allData.containsKey(data))
             allData.put(data, true);
-        graphUpdated();
         notifyObservers();
     }
 
@@ -79,7 +71,6 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     public void hideData(GraphableData data) {
         if(allData.containsKey(data))
             allData.put(data, false);
-        graphUpdated();
         notifyObservers();
     }
 
@@ -141,15 +132,9 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     public void useAxisFunctions(ParametricFunction x, ParametricFunction y) {
         this.xAxisFunc = x;
         this.yAxisFunc = y;
-        graphUpdated();
         this.notifyObservers();
 
     }
-
-    public void graphUpdated() {
-        this.graph = createGraph();
-    }
-
 
     /**
      * Creates a Graph using the given functions as axes

@@ -14,12 +14,6 @@ import java.util.Collection;
 public interface OutputDataReference extends IObservable {
 
     /**
-     * Getter for the Graph object
-     * @return The Graph object
-     */
-    Graph getGraph();
-
-    /**
      * Adds a GraphableData object to this global set
      * @param data The GraphableData to add
      */
