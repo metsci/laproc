@@ -25,7 +25,6 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference> 
     private JComboBox yaxis;
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
-   // private InputDataReference reference;
     private IAction action;
 
 

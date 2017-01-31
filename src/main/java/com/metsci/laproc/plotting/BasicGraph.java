@@ -16,7 +16,7 @@ public class BasicGraph implements Graph {
     /** Allows the user to provide a custom Y Axis descriptor */
     private String yAxisDescriptor;
 
-    /** All data sets that are in the graph */
+    /** All data sets that are in the graph paired with whether they are being displayed */
     private List<GraphableData> data;
 
     /**
@@ -25,6 +25,7 @@ public class BasicGraph implements Graph {
     public BasicGraph() {
         this("");
     }
+
 
     /**
      * Constructor
@@ -58,7 +59,6 @@ public class BasicGraph implements Graph {
             if(bounds.getMax() > xMax)
                 xMax = bounds.getMax();
         }
-
         // Give a descriptor to this axis
         String descriptor = "X Axis";
         if(this.xAxisDescriptor != null)
@@ -115,20 +115,8 @@ public class BasicGraph implements Graph {
         this.title = title;
     }
 
-    /**
-     * Getter for all of the graphable data associated with this graph
-     * @return The graphable data associated with this graph
-     */
     public List<GraphableData> getData() {
-        return Collections.unmodifiableList(this.data);
-    }
-
-    /**
-     * Adds a set of GraphableData to this Graph
-     * @param data The GraphableData to add
-     */
-    public void addData(GraphableData data) {
-        this.data.add(data);
+        return this.data;
     }
 
     /**
@@ -138,11 +126,20 @@ public class BasicGraph implements Graph {
      * @return The closest value on the plot to the value provided.
      */
     public GraphPoint[] getClosestPoints(double x, double y) {
-        GraphPoint[] closestPoints = new GraphPoint[this.data.size()];
+        List<GraphableData> displayedData = this.getData();
+        GraphPoint[] closestPoints = new GraphPoint[displayedData.size()];
         for(int i = 0; i < closestPoints.length; i++){
-            closestPoints[i] = data.get(i).getDataPoint(x,y);
+            closestPoints[i] = displayedData.get(i).getDataPoint(x,y);
         }
         return closestPoints;
     }
+
+    public void addData(GraphableData<?> data) {
+        this.data.add(data);
+    }
+
+	public void removeData(GraphableData<?> graphSet) {
+        this.data.remove(graphSet);
+	}
 
 }

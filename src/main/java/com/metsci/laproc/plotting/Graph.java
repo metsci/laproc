@@ -1,6 +1,9 @@
 package com.metsci.laproc.plotting;
 
 import com.metsci.laproc.pointmetrics.ParametricFunction;
+import javafx.util.Pair;
+
+import java.util.List;
 
 /**
  * This interface represents a graph with customizable axes that can be rendered with Glimpse.
@@ -40,12 +43,12 @@ public interface Graph {
 
     /**
      * Setter for the graph's title
-     * @param title the title to set
+     * @param title the title axis to set
      */
-    void setTitle(String title);
+     void setTitle(String title);
 
     /**
-     * Getter for all of the graphable data associated with this graph
+     * Getter for all of the graphable data associated with the graph
      * @return The graphable data associated with this graph
      */
     Iterable<GraphableData> getData();
@@ -59,9 +62,15 @@ public interface Graph {
     GraphPoint[] getClosestPoints(double x, double y);
 
     /**
-     * Adds a graphable data item
-     * @param dat The data to add
+     * Adds a Graphable Data to the graph
+     * @param graphSet The data to add
      */
-    void addData(GraphableData dat);
+    void addData(GraphableData<?> graphSet);
+
+    /**
+     * Removes a Graphable Data
+     * @param graphSet The data to remove
+     */
+	void removeData(GraphableData<?> graphSet);
 
 }

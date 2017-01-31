@@ -4,20 +4,19 @@ import com.metsci.laproc.plotting.BasicGraph;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.pointmetrics.FalsePositiveRate;
-import com.metsci.laproc.pointmetrics.IdentityFunction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.pointmetrics.TruePositiveRate;
 import com.metsci.laproc.utils.Observable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
- * Created by robinsat on 1/20/2017.
+ *
+ * Created by robinsat on 1/23/2017.
  */
-public class OutputDataReferenceImpl extends Observable implements OutputDataReference{
+public class OutputDataReferenceImpl extends Observable implements OutputDataReference {
+
+    private Graph graph;
 
     /** The internal collection of GraphableData */
     private Map<GraphableData, Boolean> allData;
@@ -25,9 +24,10 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     private ParametricFunction xAxisFunc;
     private ParametricFunction yAxisFunc;
 
-    /** Constructor */
     public OutputDataReferenceImpl() {
-        this.allData = new HashMap<GraphableData, Boolean>();
+        graph = new BasicGraph();
+
+        this.allData = new LinkedHashMap<GraphableData, Boolean>();
 
         xAxisFunc = new FalsePositiveRate();
         yAxisFunc = new TruePositiveRate();
@@ -42,21 +42,55 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         this.notifyObservers();
     }
 
-    /**
-     * Deletes a GraphableData object from this global set
-     * @param data The GraphableData to remove
-     */
-    public void deleteGraphableData(GraphableData data) {
+    public void deleteGraphableData(GraphableData<?> data) {
         allData.remove(data);
-        this.notifyObservers();
+        notifyObservers();
+    }
+
+    public void replaceDataOnGraph(GraphableData<?> graphSet, GraphableData<?> newGraphSet) {
+        boolean display = allData.get(graphSet);
+        allData.remove(graphSet);
+        allData.put(newGraphSet, display);
+        notifyObservers();
     }
 
     /**
-     * Gets all GraphableData stored in this set
-     * @return All GraphableData stored in this set
+     * Sets the given GraphableData object as displayed or active
+     * @param data The data to set as displayed or active
+     */
+    public void showData(GraphableData data) {
+        if(allData.containsKey(data)) {
+            allData.put(data, true);
+            notifyObservers();
+        }
+    }
+
+    /**
+     * Sets the given GraphableData object as hidden or inactive
+     * @param data The data to set as hidden or inactive
+     */
+    public void hideData(GraphableData data) {
+        if(allData.containsKey(data)) {
+            allData.put(data, false);
+            notifyObservers();
+        }
+    }
+
+    /**
+     * Returns a boolean indicating whether the given GraphableData is displayed
+     * @param data The data to check
+     * @return A boolean indicating whether the given GraphableData is displayed
+     */
+    public boolean isDisplayed(GraphableData data) {
+        return allData.get(data);
+    }
+
+    /**
+     * Gets all the data sets that have been computed
+     * @return All the data sets that have been computed
      */
     public Iterable<GraphableData> getAllData() {
-        return allData.keySet();
+        return this.allData.keySet();
     }
 
     /**
@@ -65,14 +99,6 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
      */
     public Iterable<GraphableData> getDisplayedData() {
         return helpGetData(true);
-    }
-
-    /**
-     * Gets only the hidden data sets
-     * @return Only the hidden data sets
-     */
-    public Iterable<GraphableData> getHiddenData() {
-        return helpGetData(false);
     }
 
     /**
@@ -90,61 +116,26 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     }
 
     /**
-     * Sets the given GraphableData object as displayed or active
-     * @param data The data to set as displayed or active
-     */
-    public void showData(GraphableData data) {
-        if(allData.containsKey(data))
-            allData.put(data, true);
-        notifyObservers();
-    }
-
-    /**
-     * Sets the given GraphableData object as hidden or inactive
-     * @param data The data to set as hidden or inactive
-     */
-    public void hideData(GraphableData data) {
-        if(allData.containsKey(data))
-            allData.put(data, false);
-        notifyObservers();
-    }
-
-    /**
-     * Returns a boolean indicating whether the given GraphableData is displayed
-     * @param data The data to check
-     * @return A boolean indicating whether the given GraphableData is displayed
-     */
-    public boolean isDisplayed(GraphableData data) {
-        return allData.get(data);
-    }
-
-    /**
      * Returns a list of all possible axes to use for this graph
      * @return The list of axes that can be used for this graph
      */
-    public Iterable<ParametricFunction> getAxisFunctions() {
+    public Collection<ParametricFunction> getAxisFunctions() {
         // This implementation uses a map to easily union all possible axes
         Map<String, ParametricFunction> functionUnion = new HashMap<String, ParametricFunction>();
-        for(GraphableData d : this.allData.keySet()) {
-            if(allData.get(d)) { // Only consider the functions that apply to currently displayed data sets
-                List<ParametricFunction> axisFunctions = d.getAxes();
-                for (ParametricFunction f : axisFunctions) {
-                    functionUnion.put(f.getDescriptor(), f);
-                }
+        for(GraphableData d : this.getAllData()) {
+            List<ParametricFunction> axisFunctions = d.getAxes();
+            for(ParametricFunction f : axisFunctions) {
+                functionUnion.put(f.getDescriptor(), f);
             }
         }
         return functionUnion.values();
     }
 
-    /**
-     * Sets the current X and Y axis functions
-     * @param xAxisFunction The X axis function
-     * @param yAxisFunction The Y axis function
-     */
-    public void setAxisFunctions(ParametricFunction xAxisFunction, ParametricFunction yAxisFunction) {
-        this.xAxisFunc = xAxisFunction;
-        this.yAxisFunc = yAxisFunction;
+    public void useAxisFunctions(ParametricFunction x, ParametricFunction y) {
+        this.xAxisFunc = x;
+        this.yAxisFunc = y;
         this.notifyObservers();
+
     }
 
     /**
@@ -155,10 +146,11 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         //TODO add error check here
         Graph graph = new BasicGraph();
         for(GraphableData data : this.getDisplayedData()) {
-            System.out.println("data: " + data.getSize());
-            data.useAxes(this.xAxisFunc, yAxisFunc);
+            data.useAxes(this.xAxisFunc, this.yAxisFunc);
             graph.addData(data);
         }
+        graph.setXAxisDescriptor(this.xAxisFunc.getDescriptor());
+        graph.setYAxisDescriptor(this.yAxisFunc.getDescriptor());
         return graph;
     }
 

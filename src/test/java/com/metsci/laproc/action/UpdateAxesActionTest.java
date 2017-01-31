@@ -1,7 +1,6 @@
 package com.metsci.laproc.action;
 
-import com.metsci.laproc.datareference.DataReference;
-import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 import org.easymock.EasyMock;
 import org.junit.Test;
@@ -13,10 +12,10 @@ import org.junit.Test;
 public class UpdateAxesActionTest {
     @Test
     public void DoActionTest(){
-        DataReference ref = EasyMock.strictMock(DataReference.class);
+        OutputDataReference ref = EasyMock.strictMock(OutputDataReference.class);
         ParametricFunction xAxis = EasyMock.strictMock(ParametricFunction.class);
         ParametricFunction yAxis = EasyMock.strictMock(ParametricFunction.class);
-        ref.setAxisFunctionOnGraph(xAxis,yAxis);
+        ref.useAxisFunctions(xAxis, yAxis);
         EasyMock.expectLastCall().times(1);
         EasyMock.replay(ref);
         UpdateAxesAction action = new UpdateAxesAction(ref);

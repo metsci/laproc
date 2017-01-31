@@ -3,20 +3,17 @@ package com.metsci.laproc.tools;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.docking.View;
-import com.metsci.laproc.datareference.InputDataReference;
-import com.metsci.laproc.datareference.OutputDataReference;
-import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.datareference.GraphReference;
 import com.metsci.laproc.uicomponents.GraphDisplayer;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.utils.IAction;
-import com.metsci.laproc.utils.IActionReceiver;
 import com.metsci.laproc.utils.IObserver;
 
 
 /**
  * Created by porterjc on 9/26/2016.
  */
-public class GraphPanel implements ITool, IObserver<OutputDataReference> {
+public class GraphPanel implements ITool, IObserver<GraphReference> {
     private NewtSwingGlimpseCanvas canvas;
     private GraphDisplayer graphDisplayer;
 
@@ -25,8 +22,8 @@ public class GraphPanel implements ITool, IObserver<OutputDataReference> {
      * Creaded by porterjc on 9/22/2016
      */
 
-    public GraphPanel(OutputDataReference ref, IAction<GraphPoint[]>... clickActions){
-        ref.addObserver(this);
+    public GraphPanel(GraphReference reference, IAction<GraphPoint[]>... clickActions){
+        reference.addObserver(this);
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
         graphDisplayer = new GraphDisplayer(clickActions);
@@ -59,14 +56,9 @@ public class GraphPanel implements ITool, IObserver<OutputDataReference> {
         return ITool.CENTERPOSITION;
     }
 
-    /**
-     * Method called whenever the observed object updates
-     * @param reference The observed object
-     */
-    public void update(OutputDataReference reference) {
-        System.out.println("updating graph");
+    public void update(GraphReference reference) {
         canvas.removeAllLayouts();
-        graphDisplayer.setGraph(reference.createGraph());
+        graphDisplayer.setGraph(reference.getGraph());
         canvas.addLayout(graphDisplayer.getLayout());
     }
 }
