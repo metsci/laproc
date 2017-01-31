@@ -1,13 +1,14 @@
 package com.metsci.laproc.datareference;
 
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.utils.IObserver;
 import com.metsci.laproc.utils.Observable;
 
 /**
  * An implementation of GraphReference that allows tools to observe a graph and receive updates
  * Created by robinsat on 1/30/2017.
  */
-public class GraphReferenceImpl extends Observable implements GraphReference {
+public class GraphReferenceImpl extends Observable implements GraphReference, IObserver<OutputDataReference> {
 
     /** The graph referenced by this object */
     private Graph graph;

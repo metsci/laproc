@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  * This class extends JCheckBox to easily provide functionality for JCheckBoxes to perform actions
  * Created by robinsat on 12/22/2016.
  */
-public class ParametrizedCheckBox<T> extends JCheckBox implements ActionListener {
+public class ParametrizedCheckBox<T> extends JCheckBox {
 
     /** The object that this checkbox is associated with */
     private T parameter;
@@ -27,6 +27,7 @@ public class ParametrizedCheckBox<T> extends JCheckBox implements ActionListener
     public ParametrizedCheckBox(String text, T parameter) {
         super(text);
         this.parameter = parameter;
+        this.addActionListener(new Listener());
     }
 
     /**
@@ -38,24 +39,28 @@ public class ParametrizedCheckBox<T> extends JCheckBox implements ActionListener
     }
 
     /**
-     * Sets this checkbox to perform an action whenever it is dselected
+     * Sets this checkbox to perform an action whenever it is deselected
      * @param action The action to perform
      */
     public void addActionWhenUnchecked(IAction<T> action) {
         this.actionWhenDeselected = action;
     }
 
-    /**
-     * Invoked when an action occurs.
-     * @param e
-     */
-    public void actionPerformed(ActionEvent e) {
-        if(this.isSelected()) {
-            if(this.actionWhenSelected != null)
-                this.actionWhenDeselected.doAction(parameter);
-        } else {
-            if(this.actionWhenDeselected != null) {
-                this.actionWhenDeselected.doAction(parameter);
+    /** Private class to listen for the user interacting with checkboxes */
+    private class Listener implements ActionListener {
+
+        /**
+         * Invoked when an action occurs.
+         * @param e
+         */
+        public void actionPerformed(ActionEvent e) {
+            if (isSelected()) {
+                if (actionWhenSelected != null)
+                    actionWhenSelected.doAction(parameter);
+            } else {
+                if (actionWhenDeselected != null) {
+                    actionWhenDeselected.doAction(parameter);
+                }
             }
         }
     }

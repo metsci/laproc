@@ -6,9 +6,9 @@ import com.metsci.laproc.utils.IAction;
 
 /**
  * This action allows a user to add a composite function to the graph
- * Created by robinsat on 12/22/2016.
+ * Created by robinsat on 1/31/2017.
  */
-public class AddCompositeFunctionAction implements IAction<CompositeFunction> {
+public class RemoveCompositeFunctionAction implements IAction<CompositeFunction> {
 
     /** Stores a reference to the Graph display manager */
     private GraphDisplayManager displayManager;
@@ -17,7 +17,7 @@ public class AddCompositeFunctionAction implements IAction<CompositeFunction> {
      * Constructor
      * @param displayManager A reference to the Graph's display manager
      */
-    public AddCompositeFunctionAction(GraphDisplayManager displayManager) {
+    public RemoveCompositeFunctionAction(GraphDisplayManager displayManager) {
         this.displayManager = displayManager;
     }
 
@@ -26,7 +26,6 @@ public class AddCompositeFunctionAction implements IAction<CompositeFunction> {
      * @param compositeFunction The function to add to the graph
      */
     public void doAction(CompositeFunction compositeFunction) {
-        System.out.println("Enable!");
-        this.displayManager.enableCompositeFunction(compositeFunction);
+        this.displayManager.disableCompositeFunction(compositeFunction);
     }
 }

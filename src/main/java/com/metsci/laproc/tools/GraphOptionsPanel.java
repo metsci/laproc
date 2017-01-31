@@ -25,18 +25,22 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     private JComboBox yaxis;
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
-    private IAction action;
+    private IAction updateAxesAction;
+    private GraphDisplayManager manager;
+
     private IAction<CompositeFunction> addCompositeFunctionAction;
+    private IAction<CompositeFunction> removeCompositeFunctionAction;
 
 
     /**
      * Default constructor for Graphoptions Panel
      * Created by porterjc on 10/26/2016.
      */
-    public GraphOptionsPanel(OutputDataReference reference) {
+    public GraphOptionsPanel(OutputDataReference reference, GraphDisplayManager displayManager) {
+        manager = displayManager;
         reference.addObserver(this);
         this.panel = new JPanel();
-        this.action = new UpdateAxesAction(reference);
+        this.updateAxesAction = new UpdateAxesAction(reference);
         this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
@@ -56,7 +60,8 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         this.updateButton = new JButton("Update");
         this.panel.add(updateButton);
 
-        //this.addCompositeFunctionAction = new AddCompositeFunctionAction(reference);
+        this.addCompositeFunctionAction = new AddCompositeFunctionAction(manager);
+        this.removeCompositeFunctionAction = new RemoveCompositeFunctionAction(manager);
         setupCompositeFunctionOptions();
     }
 
@@ -74,7 +79,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
                 ParametricFunction[] axes = new ParametricFunction[2];
                 axes[0] = getSelectedXAxis();
                 axes[1] = getSelectedYAxis();
-                action.doAction(axes);
+                updateAxesAction.doAction(axes);
             }
         };
         this.updateButton.addActionListener(listener);
@@ -122,6 +127,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     private void addCheckBox(CompositeFunction function, String text) {
         ParametrizedCheckBox<CompositeFunction> checkBox = new ParametrizedCheckBox<CompositeFunction>(text, function);
         checkBox.addActionWhenChecked(addCompositeFunctionAction);
+        checkBox.addActionWhenUnchecked(removeCompositeFunctionAction);
         this.panel.add(checkBox);
     }
 
