@@ -11,11 +11,6 @@ public class BasicGraph implements Graph {
     /** The title of the graph */
     private String title;
 
-    /** The metric to use for the x axis, if applicable */
-   // private ParametricFunction xAxisMetric;
-    /** The metric to use for the y axis, if applicable */
-   // private ParametricFunction yAxisMetric;
-
     /** Allows the user to provide a custom X Axis descriptor */
     private String xAxisDescriptor;
     /** Allows the user to provide a custom Y Axis descriptor */

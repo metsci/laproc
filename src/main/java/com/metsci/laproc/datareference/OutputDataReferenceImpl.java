@@ -59,9 +59,10 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
      * @param data The data to set as displayed or active
      */
     public void showData(GraphableData data) {
-        if(allData.containsKey(data))
+        if(allData.containsKey(data)) {
             allData.put(data, true);
-        notifyObservers();
+            notifyObservers();
+        }
     }
 
     /**
@@ -69,9 +70,10 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
      * @param data The data to set as hidden or inactive
      */
     public void hideData(GraphableData data) {
-        if(allData.containsKey(data))
+        if(allData.containsKey(data)) {
             allData.put(data, false);
-        notifyObservers();
+            notifyObservers();
+        }
     }
 
     /**

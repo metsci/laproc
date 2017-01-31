@@ -13,11 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * This reference allows tools to access the graph and associated data
+ * This reference allows tools to access the raw input data represented as ClassifierDataSets
  * Created by porterjc on 12/14/2016.
  */
 public class InputDataReferenceImpl extends Observable implements InputDataReference {
-    private Graph graph;
     private List<ClassifierDataSet> evalSets;
     //TODO:using a normal classifier data set to store groups is slow
     private List<ClassifierDataSet> dataSetGroups;
@@ -30,8 +29,6 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
      */
     public InputDataReferenceImpl(List<TagHeader> tagHeaders) {
         super();
-        // Default to an empty graph to prevent Null Pointer exceptions
-        graph = new BasicGraph();
         evalSets = new ArrayList<ClassifierDataSet>();
         dataSetGroups = new ArrayList<ClassifierDataSet>();
         dataSetGraphMap = new HashMap<ClassifierDataSet, GraphableData>();
