@@ -11,6 +11,9 @@ import com.metsci.laproc.plotting.*;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.utils.IActionReceiver;
 
+import javax.sound.sampled.Line;
+import java.util.Collection;
+
 /**
  * Creates a Glimpse plot for a Graph
  * Created by malinocr on 9/20/2016.
@@ -19,6 +22,19 @@ public class GraphDisplayer implements GlimpseLayoutProvider
 {
     private IAction<GraphPoint[]>[] pointClickActions;
     private Graph graph;
+
+    static final float[][] possibleColors = new float[8][4];
+
+    static {
+        possibleColors[0] = GlimpseColor.fromColorRgb(0f, 0f, 0f);
+        possibleColors[1] = GlimpseColor.fromColorRgb(1f, 0f, 0f);
+        possibleColors[2] = GlimpseColor.fromColorRgb(0f, 1f, 0f);
+        possibleColors[3] = GlimpseColor.fromColorRgb(0f, 0f, 1f);
+        possibleColors[4] = GlimpseColor.fromColorRgb(0.2f, 0.5f, 0.5f);
+        possibleColors[5] = GlimpseColor.fromColorRgb(0.4f, 0.4f, 0f);
+        possibleColors[6] = GlimpseColor.fromColorRgb(1f, 0f, 1f);
+        possibleColors[7] = GlimpseColor.fromColorRgb(0.4f, 0f, 0.4f);
+    }
 
     /**
      * Constructor for a given graph and window
@@ -49,65 +65,29 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         // Create a plot frame
         SimplePlot2D plot = new SimplePlot2D( );
 
-        Axis xAxis = graph.getXAxis();
-        Axis yAxis = graph.getYAxis();
-
         // Set axis labels and chart title
         plot.setTitle(graph.getTitle());
-        plot.setAxisLabelX(xAxis.getName());
-        plot.setAxisLabelY(yAxis.getName());
-
-        // Set the x, y initial axis bounds
-        plot.setMinX(xAxis.getMin());
-        plot.setMaxX(xAxis.getMax());
-
-        plot.setMinY(yAxis.getMin());
-        plot.setMaxY(yAxis.getMax());
+        GraphDisplayer.setPlotAxis(graph.getXAxis(), graph.getYAxis(), plot);
 
         // Add mouse listener
         PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
-
         plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter, this.pointClickActions));
 
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().showSelectionBox(false);
 
         //Set up Legend
-        LineLegendPainter legend = new LineLegendPainter(LegendPlacement.SE);
-        legend.setOffsetY(10);
-        legend.setOffsetX(100);
-        legend.setLegendItemWidth(60);
-
-        //Sets up all possible line colors for graphable data
-        float[][] possibleColors = new float[8][4];
-        possibleColors[0] = GlimpseColor.fromColorRgb(0f,0f,0f);
-        possibleColors[1] = GlimpseColor.fromColorRgb(1f,0f,0f);
-        possibleColors[2] = GlimpseColor.fromColorRgb(0f,1f,0f);
-        possibleColors[3] = GlimpseColor.fromColorRgb(0f,0f,1f);
-        possibleColors[4] = GlimpseColor.fromColorRgb(0.2f,0.5f,0.5f);
-        possibleColors[5] = GlimpseColor.fromColorRgb(0.4f,0.4f,0f);
-        possibleColors[6] = GlimpseColor.fromColorRgb(1f,0f,1f);
-        possibleColors[7] = GlimpseColor.fromColorRgb(0.4f,0f,0.4f);
+        LineLegendPainter legend = GraphDisplayer.createLineLegendPainter();
 
         //Draws each graphable data
-        int currentColor = 0;
-        for(GraphableData lineData : graph.getDisplayedData()){
-            float[] color = possibleColors[currentColor];
-            if (currentColor != possibleColors.length - 1) {
-                currentColor++;
-            }
-            XYLinePainter linePainter = createXYLinePainter(lineData, color, 1.5f);
-            plot.addPainter(linePainter);
-            legend.addItem(lineData.getName(), color);
-        }
+        GraphDisplayer.drawGraphableData(graph.getDisplayedData(), plot, legend);
 
         // Add a painter to uicomponents the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter();
         plot.addPainter(cursorPainter);
 
         // Don't offset the text by the size of the selection box
-
         cursorPainter.setOffsetBySelectionSize(false);
 
         // Add the legend painter to the top of the center GlimpseLayout
@@ -123,16 +103,59 @@ public class GraphDisplayer implements GlimpseLayoutProvider
      * @param lineThickness thinkness of the line drawn
      * @return the XYLinePainter for the GraphableData
      */
-    public static XYLinePainter createXYLinePainter(GraphableData data, float[] lineColor, float lineThickness)
+    private static XYLinePainter createXYLinePainter(GraphableData data, float[] lineColor, float lineThickness)
     {
         XYLinePainter linePainter = new XYLinePainter();
         linePainter.setData(data.getXValues(),data.getYValues());
         linePainter.setLineColor(lineColor);
         linePainter.setLineThickness(lineThickness);
-
-        //Don't show the actual points, just show the line connecting them
         linePainter.showPoints(false);
-
         return linePainter;
+    }
+
+    /**
+     * Sets the values on the plot to the appropriate values according to the x and y axes
+     * @param xAxis x axis of the plot
+     * @param yAxis y axis of the plot
+     * @param plot plot to set values
+     */
+    public static void setPlotAxis(Axis xAxis, Axis yAxis, SimplePlot2D plot){
+        plot.setAxisLabelX(xAxis.getName());
+        plot.setAxisLabelY(yAxis.getName());
+        plot.setMinX(xAxis.getMin());
+        plot.setMaxX(xAxis.getMax());
+        plot.setMinY(yAxis.getMin());
+        plot.setMaxY(yAxis.getMax());
+    }
+
+    /**
+     * Creates a legend painter with a default layout
+     * @return legend painter
+     */
+    public static LineLegendPainter createLineLegendPainter(){
+        LineLegendPainter legend = new LineLegendPainter(LegendPlacement.SE);
+        legend.setOffsetY(10);
+        legend.setOffsetX(100);
+        legend.setLegendItemWidth(60);
+        return legend;
+    }
+
+    /**
+     * Draws the graphable data on the plot and adds that data to the legend
+     * @param data iterable of the data to draw
+     * @param plot plot to draw the data on
+     * @param legend legend to add the data to
+     */
+    public static void drawGraphableData(Iterable<GraphableData> data, SimplePlot2D plot, LineLegendPainter legend){
+        int currentColor = 0;
+        for(GraphableData lineData : data){
+            float[] color = GraphDisplayer.possibleColors[currentColor];
+            if (currentColor != GraphDisplayer.possibleColors.length - 1) {
+                currentColor++;
+            }
+            XYLinePainter linePainter = createXYLinePainter(lineData, color, 1.5f);
+            plot.addPainter(linePainter);
+            legend.addItem(lineData.getName(), color);
+        }
     }
 }

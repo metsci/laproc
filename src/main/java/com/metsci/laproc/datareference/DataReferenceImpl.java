@@ -128,18 +128,4 @@ public class DataReferenceImpl extends Observable implements DataReference {
         this.graph.useAxisFunctions(xAxis, yAxis);
         notifyObservers();
     }
-
-    public void exportGraph(String filePath) throws IOException {
-        NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas();
-        GraphExporter disp = new GraphExporter(this.graph);
-        SimplePlot2D plot = disp.getLayout();
-        plot.setTitleFont( FontUtils.getDefaultBold( 18 ) );
-        canvas.addLayout(disp.getLayout());
-        GLOffscreenAutoDrawable glDrawable = GLUtils.newOffscreenDrawable( canvas.getGLProfile() );
-        FBOGlimpseCanvas offscreenCanvas = new FBOGlimpseCanvas(glDrawable.getContext(), 1000, 1000 );
-        offscreenCanvas.addLayout(disp.getLayout());
-
-        BufferedImage image = offscreenCanvas.toBufferedImage();
-        ImageIO.write(image, "PNG", new File(filePath));
-    }
 }

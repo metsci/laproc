@@ -4,6 +4,7 @@ import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.*;
 import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.uicomponents.GraphExporter;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
@@ -11,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -25,18 +27,16 @@ public class GraphOptionsPanel implements ITool, DataObserver{
     private JButton updateButton;
    // private DataReference reference;
     private IAction updateAction;
-    private IAction exportAction;
 
 
     /**
      * Default constructor for Graphoptions Panel
      * Created by porterjc on 10/26/2016.
      */
-    public GraphOptionsPanel(DataReference reference) {
+    public GraphOptionsPanel(final DataReference reference) {
         reference.addObserver(this);
         this.panel = new JPanel();
         this.updateAction = new UpdateAxesAction(reference);
-        this.exportAction = new ExportGraphAction(reference);
         this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
@@ -61,7 +61,11 @@ public class GraphOptionsPanel implements ITool, DataObserver{
         exportTextField.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                exportAction.doAction(exportTextField.getText() + ".png");
+                try {
+                    GraphExporter.exportGraph(exportTextField.getText() + ".png", reference.getGraph());
+                } catch (IOException exe){
+                    exe.printStackTrace();
+                }
             }
         });
         this.panel.add(exportTextField);

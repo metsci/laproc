@@ -111,11 +111,4 @@ public interface DataReference extends IObservable {
      * @param yAxis function for the y axis
      */
     void setAxisFunctionOnGraph(ParametricFunction xAxis, ParametricFunction yAxis);
-
-    /**
-     * Exports an image of the graph to the specified file path
-     * @param filePath file path to export image
-     */
-    public void exportGraph(String filePath) throws IOException;
-
 }
