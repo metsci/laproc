@@ -1,5 +1,6 @@
 package com.metsci.laproc.datareference;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.metsci.laproc.data.ClassifierDataSet;
@@ -110,5 +111,4 @@ public interface DataReference extends IObservable {
      * @param yAxis function for the y axis
      */
     void setAxisFunctionOnGraph(ParametricFunction xAxis, ParametricFunction yAxis);
-	
 }

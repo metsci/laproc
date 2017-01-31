@@ -4,6 +4,7 @@ import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.*;
 import com.metsci.laproc.datareference.DataReference;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.uicomponents.GraphExporter;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 
@@ -11,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -24,17 +26,17 @@ public class GraphOptionsPanel implements ITool, DataObserver{
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
    // private DataReference reference;
-    private IAction action;
+    private IAction updateAction;
 
 
     /**
      * Default constructor for Graphoptions Panel
      * Created by porterjc on 10/26/2016.
      */
-    public GraphOptionsPanel(DataReference reference) {
+    public GraphOptionsPanel(final DataReference reference) {
         reference.addObserver(this);
         this.panel = new JPanel();
-        this.action = new UpdateAxesAction(reference);
+        this.updateAction = new UpdateAxesAction(reference);
         this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.xaxis = new JComboBox();
@@ -53,6 +55,21 @@ public class GraphOptionsPanel implements ITool, DataObserver{
 
         this.updateButton = new JButton("Update");
         this.panel.add(updateButton);
+
+        JButton exportButton = new JButton("Export Graph");
+        final JTextField exportTextField = new JTextField();
+        exportTextField.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
+        exportButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    GraphExporter.exportGraph(exportTextField.getText() + ".png", reference.getGraph());
+                } catch (IOException exe){
+                    exe.printStackTrace();
+                }
+            }
+        });
+        this.panel.add(exportTextField);
+        this.panel.add(exportButton);
     }
 
     /**
@@ -70,7 +87,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
                 ParametricFunction[] axes = new ParametricFunction[2];
                 axes[0] = getSelectedXAxis();
                 axes[1] = getSelectedYAxis();
-                action.doAction(axes);
+                updateAction.doAction(axes);
             }
         };
         this.updateButton.addActionListener(listener);
