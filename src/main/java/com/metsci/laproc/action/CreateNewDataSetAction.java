@@ -52,8 +52,8 @@ public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
 
         Filterer.filterAndUnion(dataSetGroup, tags, evalSets);
 
-        GraphableFunction func = new ROCCurveFunction(dataSetGroup);
-        GraphableData output = func.compute();
+        GraphableFunction func = new ROCCurveFunction();
+        GraphableData output = func.compute(dataSetGroup);
         output.setName(dataName);
 
         outputDataReference.addGraphableData(output);

@@ -8,27 +8,16 @@ import com.metsci.laproc.pointmetrics.*;
  * The function to compute a ROC curve
  * Created by robinsat on 9/20/2016.
  */
-public class ROCCurveFunction implements GraphableFunction {
+public class ROCCurveFunction implements GraphableFunction<ClassifierDataSet> {
 
     /** The default number of points */
     private static final int NUMPOINTS = 100;
-
-    /** A classified data set to be displayed as a ROCCurveFunction */
-    private ClassifierDataSet input;
-
-    /**
-     * Constructor
-     * @param in A data set which has been classified
-     */
-    public ROCCurveFunction(ClassifierDataSet in) {
-        this.input = in;
-    }
 
     /**
      * Computes the Receiver Operating Characteristic curve
      * @return The plottable data set representing this curve
      */
-    public GraphableData compute() {
+    public GraphableData compute(ClassifierDataSet input) {
         GraphableDataWithMetrics<ClassifierSetPoint> out = new GraphableDataWithMetrics<ClassifierSetPoint>("ROC Curve",
                 new FalsePositiveRate(), new TruePositiveRate());
 

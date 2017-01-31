@@ -2,34 +2,22 @@ package com.metsci.laproc.plotting;
 
 import javafx.util.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * An abstract for a "composite" function, or a function that computes based on the output of other functions.
  * Created by robinsat on 12/13/2016.
  */
-public abstract class CompositeFunction implements GraphableFunction {
+public abstract class CompositeFunction implements GraphableFunction<List<GraphableData>> {
 
     /** The name of this function, to assign to the GraphableData result */
     private String name;
-    /** The GraphableData sets to use as input */
-    private List<GraphableData> input;
 
     /**
      * Constructor
      */
     public CompositeFunction() {
         this.name = "";
-        input = new ArrayList<GraphableData>();
-    }
-
-    /**
-     * Adds a GraphableData object to the set of input
-     * @param data The GraphableData object to add
-     */
-    public void addData(GraphableData data) {
-        this.input.add(data);
     }
 
     /**
@@ -44,12 +32,12 @@ public abstract class CompositeFunction implements GraphableFunction {
      * Executes the function and returns the resulting data set
      * @return GraphableData
      */
-    public GraphableData compute() {
+    public GraphableData compute(List<GraphableData> input) {
         BasicGraphableData data = new BasicGraphableData(this.name);
-        if(this.input.isEmpty()) // Avoid null pointers and index out of bounds exceptions
+        if(input.isEmpty()) // Avoid null pointers and index out of bounds exceptions
             return data;
 
-        Pair<Double, Double> bounds = getInterpolationBounds(); // Find the bounds of the data to analyze
+        Pair<Double, Double> bounds = getInterpolationBounds(input); // Find the bounds of the data to analyze
         double min = bounds.getKey();
         double max = bounds.getValue();
         double[] xValues = input.get(0).getXValues(); // Arbitrarily base the x values off of the first data set
@@ -91,19 +79,19 @@ public abstract class CompositeFunction implements GraphableFunction {
 
     /**
      * A helper method to find the bounds to use for interpolation
-     * This finds the interval of x values that all data sets account for
+     * This finds the interval of x values that is accounted for by the superset of data sets
      * This assumes that the input has size >= 1, which the compute method should check for
      * @return An interval across which all x values on all data sets can be found by interpolation
      */
-    private Pair<Double, Double> getInterpolationBounds() {
-        Axis first = this.input.get(0).getXBounds();
+    private Pair<Double, Double> getInterpolationBounds(List<GraphableData> input) {
+        Axis first = input.get(0).getXBounds();
         double min = first.getMin();
         double max = first.getMax();
-        for(int i = 1; i < this.input.size(); i++) {
+        for(int i = 1; i < input.size(); i++) {
             Axis currentBounds = input.get(i).getXBounds();
-            if(currentBounds.getMin() > min)
+            if(currentBounds.getMin() < min)
                 min = currentBounds.getMin();
-            if(currentBounds.getMax() < max)
+            if(currentBounds.getMax() > max)
                 max = currentBounds.getMax();
         }
         return new Pair<Double, Double>(min, max);

@@ -41,8 +41,8 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
         Filterer.filterAndUnion(updateSet,tags,evalSets);
         GraphableData<?> oldGraph = this.inputDataReference.getGraphfromDataSet(updateSet);
 
-        GraphableFunction func = new ROCCurveFunction(updateSet);
-        GraphableData output = func.compute();
+        GraphableFunction func = new ROCCurveFunction();
+        GraphableData output = func.compute(updateSet);
         output.setName(updateSet.getName());
         this.outputDataReference.replaceDataOnGraph(oldGraph, output);
         this.inputDataReference.addToDataSetGraphMap(updateSet, output);

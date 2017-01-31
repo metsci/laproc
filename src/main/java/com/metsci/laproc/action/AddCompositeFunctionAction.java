@@ -6,6 +6,9 @@ import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IAction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This action allows a user to add a composite function to the graph
  * Created by robinsat on 12/22/2016.
@@ -29,10 +32,11 @@ public class AddCompositeFunctionAction implements IAction<CompositeFunction> {
      */
     public void doAction(CompositeFunction compositeFunction) {
         Graph graph = dataReference.createGraph();
-        for(GraphableData data : graph.getData()) {
-            compositeFunction.addData(data);
+        List<GraphableData> data = new ArrayList<GraphableData>();
+        for(GraphableData d : graph.getData()) {
+            data.add(d);
         }
-        GraphableData compositeData = compositeFunction.compute();
+        GraphableData compositeData = compositeFunction.compute(data);
         graph.addData(compositeData);
         dataReference.notifyObservers();
     }
