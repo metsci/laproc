@@ -7,6 +7,12 @@ package com.metsci.laproc.plotting;
 
 public class VerticalAverageFunction extends CompositeFunction {
 
+    /** Constructor */
+    public VerticalAverageFunction() {
+        super();
+        this.setName("Vertical Average");
+    }
+
     /**
      * Computes the vertical average based on a set of y values at some point x
      * @param yValues A set of y values representing several function outputs for one x

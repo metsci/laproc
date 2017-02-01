@@ -18,6 +18,8 @@ import static org.junit.Assert.assertEquals;
 public class CompositeFunctionTest {
 
     private List<GraphableData> set1;
+    private List<GraphableData> set2;
+    private List<GraphableData> set3;
 
     @Before
     public void setupMockData() {
@@ -25,6 +27,13 @@ public class CompositeFunctionTest {
         set1.add(GenericData.getDataSet1());
         set1.add(GenericData.getDataSet2());
         set1.add(GenericData.getDataSet3());
+
+        set2 = new ArrayList<GraphableData>();
+        set2.add(GenericData.getDataSet2());
+
+        set3 = new ArrayList<GraphableData>();
+        set3.add(GenericData.getDataSet1());
+        set3.add(GenericData.getDataSet3());
     }
 
     @Test
@@ -47,9 +56,40 @@ public class CompositeFunctionTest {
     }
 
     @Test
-    public void testCompute() {
+    public void testCompute1() {
         InterpolationTrackerUtility func = new InterpolationTrackerUtility();
-       // func.compute(set1);
+        func.compute(set2);
+        List<Double[]> results = func.getResults();
+        assertEquals(5, results.size());
+        assertEquals(1, results.get(0)[0], GenericData.TOLERANCE);
+        assertEquals(3.75, results.get(1)[0], GenericData.TOLERANCE);
+        assertEquals(6.5, results.get(2)[0], GenericData.TOLERANCE);
+        assertEquals(9.25, results.get(3)[0], GenericData.TOLERANCE);
+        assertEquals(12, results.get(4)[0], GenericData.TOLERANCE);
+    }
+
+    @Test
+    public void testCompute2() {
+        InterpolationTrackerUtility func = new InterpolationTrackerUtility();
+        func.compute(set3);
+        List<Double[]> results = func.getResults();
+
+        /*  Expected Results:
+            X Values: 2, 14.75, 27.5, 40.25, 53
+            Y Values (set 1): None, 7.52941176471, 23.0434782609, 45.2173913043 None
+         */
+        assertEquals(5, results.size());
+        assertEquals(1, results.get(0).length);
+        assertEquals(7, results.get(0)[0], GenericData.TOLERANCE);
+        assertEquals(2, results.get(1).length);
+        assertEquals(7.52941176471, results.get(1)[0], GenericData.TOLERANCE);
+        assertEquals(2, results.get(2).length);
+        assertEquals(23.0434782609, results.get(2)[0], GenericData.TOLERANCE);
+        assertEquals(2, results.get(3).length);
+        assertEquals(45.2173913043, results.get(3)[0], GenericData.TOLERANCE);
+        assertEquals(1, results.get(4).length);
+        assertEquals(30, results.get(4)[0], GenericData.TOLERANCE);
+
 
     }
 
@@ -107,6 +147,11 @@ public class CompositeFunctionTest {
          */
         public List<Double[]> getResults() {
             return this.results;
+        }
+
+        @Override
+        protected int getNumComputationPoints() {
+            return 5;
         }
     }
 }

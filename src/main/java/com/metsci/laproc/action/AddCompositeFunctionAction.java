@@ -26,7 +26,6 @@ public class AddCompositeFunctionAction implements IAction<CompositeFunction> {
      * @param compositeFunction The function to add to the graph
      */
     public void doAction(CompositeFunction compositeFunction) {
-        System.out.println("Enable!");
         this.displayManager.enableCompositeFunction(compositeFunction);
     }
 }

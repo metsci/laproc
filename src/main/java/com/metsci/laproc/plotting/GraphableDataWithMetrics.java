@@ -167,8 +167,9 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
                 break;
             lastLessThan = p;
         }
-
-        return new BasicGraphPoint(xAxisMetric.compute(lastLessThan), yAxisMetric.compute(lastLessThan));
+        if(lastLessThan != null)
+            return new BasicGraphPoint(xAxisMetric.compute(lastLessThan), yAxisMetric.compute(lastLessThan));
+        return null;
     }
 
     /**
@@ -184,7 +185,9 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
                 break;
             }
         }
-        return new BasicGraphPoint(xAxisMetric.compute(firstGreaterThan), yAxisMetric.compute(firstGreaterThan));
+        if(firstGreaterThan != null)
+            return new BasicGraphPoint(xAxisMetric.compute(firstGreaterThan), yAxisMetric.compute(firstGreaterThan));
+        return null;
     }
 
     /**

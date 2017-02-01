@@ -1,6 +1,7 @@
 package com.metsci.laproc.plotting;
 
 import com.metsci.glimpse.util.Pair;
+import com.metsci.laproc.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,22 +51,25 @@ public abstract class CompositeFunction implements GraphableFunction<List<Grapha
             List<Double> calculatedYVals = new ArrayList<Double>();
 
             // Iterate over all data sets in the input
-            for(int j = 1; j < input.size(); j++) {
+            for(int j = 0; j < input.size(); j++) {
                 // Use linear interpolation
                 GraphPoint lowPoint = input.get(j).getPointLessOrEqual(currentValue);
                 GraphPoint highPoint = input.get(j).getPointGreaterOrEqual(currentValue);
 
-                calculatedYVals.add(lowPoint.getY() + (highPoint.getY() - lowPoint.getY()) *
-                        (currentValue - lowPoint.getX()) / (highPoint.getX() - lowPoint.getX()));
+                if(lowPoint != null && highPoint != null) {
+                    if(lowPoint.getY() == highPoint.getY()) {
+                        calculatedYVals.add(lowPoint.getY());
+                    } else {
+                        calculatedYVals.add(lowPoint.getY() + (highPoint.getY() - lowPoint.getY()) *
+                                (currentValue - lowPoint.getX()) / (highPoint.getX() - lowPoint.getX()));
+                    }
+                }
             }
 
             // Use the set of Y values to finish executing the function
-            Double[] values = calculatedYVals.toArray(new Double[calculatedYVals.size()]);
-
-            double result = computeFromYValues(new double[2]);
+            double result = computeFromYValues(Utils.toPrimitiveArray(calculatedYVals));
             data.addPoint(currentValue, result);
         }
-
 
         return data;
     }

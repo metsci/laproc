@@ -6,6 +6,12 @@ package com.metsci.laproc.plotting;
  */
 public class VarianceFunction extends CompositeFunction {
 
+    /** Constructor */
+    public VarianceFunction() {
+        super();
+        this.setName("Variance");
+    }
+
     /**
      * Uses the y values for several data sets at a given x to compute output
      * @param yValues The y values for several data sets at a given x

@@ -6,6 +6,12 @@ package com.metsci.laproc.plotting;
  */
 public class StandardDeviationFunction extends VarianceFunction {
 
+    /** Constructor */
+    public StandardDeviationFunction() {
+        super();
+        this.setName("Standard Deviation");
+    }
+
     /**
      * Uses the y values for several data sets at a given x to compute the standard deviation
      * @param yValues The y values for several data sets at a given x
