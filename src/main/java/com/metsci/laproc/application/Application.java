@@ -20,9 +20,9 @@ public class Application {
 
     /** The Toolbox that provides all features in this application */
     private ToolBox globalToolBox;
-    /** A global reference to the relevant data that is used by Tools */
+    /** A global reference to the input data (represented as ClassifierDataSets) that is used by Tools */
     private InputDataReference globalInputDataReference;
-    /** A global reference to the relevant data that is used by Tools */
+    /** A global reference to the output data (represented as GraphableData) that is used by Tools */
     private OutputDataReference globalOutputDataReference;
 
 

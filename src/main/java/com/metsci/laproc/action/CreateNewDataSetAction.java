@@ -33,7 +33,6 @@ public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
         outputDataReference = outref;
     }
 
-    //TODO:Issues with doAction needing an Object
     //TODO: This is not the appropriate place to determine what kind of function we need.
     /**
      * Create new classifier data set in the data reference object and the graph object

@@ -4,7 +4,6 @@ import com.metsci.laproc.action.*;
 import com.metsci.laproc.data.ClassifierDataSetTest;
 import com.metsci.laproc.data.DataPointImplTest;
 import com.metsci.laproc.data.TagHeaderTest;
-import com.metsci.laproc.plotting.BasicGraphTest;
 import com.metsci.laproc.plotting.ROCCurveTest;
 import com.metsci.laproc.pointmetrics.MetricsTest;
 import com.metsci.laproc.uicomponents.DataSetTableModelTest;
@@ -19,10 +18,9 @@ import org.junit.runners.Suite;
  */
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({AddToGraphActionTest.class,
+@Suite.SuiteClasses({
         DisplayGraphDataActionTest.class,
         HideGraphDataActionTest.class,
-        RemoveFromGraphActionTest.class,
         UpdateAxesActionTest.class,
         ClassifierDataSetTest.class,
         DataPointImplTest.class,
