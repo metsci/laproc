@@ -158,7 +158,7 @@ public class BasicGraphableData implements GraphableData<Double> {
     public GraphPoint getPointGreaterOrEqual(double x) {
         GraphPoint firstGreaterThan = null;
         for(GraphPoint p : points) {
-            if(p.getX() > x) {
+            if(p.getX() >= x) {
                 firstGreaterThan = p;
                 break;
             }
@@ -198,8 +198,13 @@ public class BasicGraphableData implements GraphableData<Double> {
                 return 1;
             else if (p1.getX() < p2.getX())
                 return -1;
-            else
-                return 0;
+            //They are equal, compare them now by Y value
+            if(p1.getY() > p2.getY())
+                return 1;
+            else if (p1.getY() < p2.getY())
+                return -1;
+            //They are identical
+            return 0;
         }
     }
 

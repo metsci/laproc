@@ -1,6 +1,6 @@
 package com.metsci.laproc.plotting;
 
-import javafx.util.Pair;
+import com.metsci.glimpse.util.Pair;
 
 import java.util.List;
 
@@ -38,8 +38,8 @@ public abstract class CompositeFunction implements GraphableFunction<List<Grapha
             return data;
 
         Pair<Double, Double> bounds = getInterpolationBounds(input); // Find the bounds of the data to analyze
-        double min = bounds.getKey();
-        double max = bounds.getValue();
+        double min = bounds.first();
+        double max = bounds.second();
         double[] xValues = input.get(0).getXValues(); // Arbitrarily base the x values off of the first data set
         double[] yValues = input.get(0).getYValues();
 

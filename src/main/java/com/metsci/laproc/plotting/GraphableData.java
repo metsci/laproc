@@ -63,14 +63,14 @@ public interface GraphableData<T> {
     /**
      * Gets the point with the largest x less than the given x value
      * @param x The given x value
-     * @return
+     * @return The point with the largest x less than or equal to the given x value
      */
     GraphPoint getPointLessOrEqual(double x);
 
     /**
      * Gets the point with the smallest x greater than the given x value
      * @param x The given x value
-     * @return
+     * @return The point with the largest x greater than or equal to the given x value
      */
     GraphPoint getPointGreaterOrEqual(double x);
 
