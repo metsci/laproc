@@ -41,9 +41,9 @@ public class CompositeFunctionTest {
 
     @Test
     public void testInterpolation1() throws Exception {
-        Pair<GraphableData, GraphableData> bounds = invokeInterpolationBounds(set1);
-        assertEquals(1, bounds.first().getXBounds().getMin(), GenericData.TOLERANCE);
-        assertEquals(53, bounds.second().getXBounds().getMax(), GenericData.TOLERANCE);
+        Pair<Double, Double> bounds = invokeInterpolationBounds(set1);
+        assertEquals(1, bounds.first(), GenericData.TOLERANCE);
+        assertEquals(53, bounds.second(), GenericData.TOLERANCE);
     }
 
     @Test
@@ -59,11 +59,11 @@ public class CompositeFunctionTest {
      * @return The resulting Pair
      * @throws Exception So many exceptions are possible because of reflection
      */
-    private Pair<GraphableData, GraphableData> invokeInterpolationBounds(List<GraphableData> data) throws Exception{
+    private Pair<Double, Double> invokeInterpolationBounds(List<GraphableData> data) throws Exception{
         CompositeFunction func = new VerticalAverageFunction(); //Arbitrarily selected concrete class
         Method method = CompositeFunction.class.getDeclaredMethod("getInterpolationBounds",List.class);
         method.setAccessible(true);
-        return (Pair<GraphableData, GraphableData>) method.invoke(func, data);
+        return (Pair<Double, Double>) method.invoke(func, data);
     }
 
     /**
