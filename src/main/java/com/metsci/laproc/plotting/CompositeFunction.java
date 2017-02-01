@@ -37,9 +37,9 @@ public abstract class CompositeFunction implements GraphableFunction<List<Grapha
         if(input.isEmpty()) // Avoid null pointers and index out of bounds exceptions
             return data;
 
-        Pair<Double, Double> bounds = getInterpolationBounds(input); // Find the bounds of the data to analyze
-        double min = bounds.first();
-        double max = bounds.second();
+        Pair<GraphableData, GraphableData> bounds = getInterpolationBounds(input); // Find the bounds of the data to analyze
+        double min = bounds.first().getXBounds().getMin();
+        double max = bounds.second().getXBounds().getMax();
         double[] xValues = input.get(0).getXValues(); // Arbitrarily base the x values off of the first data set
         double[] yValues = input.get(0).getYValues();
 
@@ -83,18 +83,25 @@ public abstract class CompositeFunction implements GraphableFunction<List<Grapha
      * This assumes that the input has size >= 1, which the compute method should check for
      * @return An interval across which all x values on all data sets can be found by interpolation
      */
-    private Pair<Double, Double> getInterpolationBounds(List<GraphableData> input) {
-        Axis first = input.get(0).getXBounds();
+    private Pair<GraphableData, GraphableData> getInterpolationBounds(List<GraphableData> input) {
+        GraphableData minData = input.get(0);
+        GraphableData maxData = input.get(0);
+
+        Axis first = minData.getXBounds();
         double min = first.getMin();
         double max = first.getMax();
         for(int i = 1; i < input.size(); i++) {
             Axis currentBounds = input.get(i).getXBounds();
-            if(currentBounds.getMin() < min)
+            if(currentBounds.getMin() < min) {
                 min = currentBounds.getMin();
-            if(currentBounds.getMax() > max)
+                minData = input.get(i);
+            }
+            if(currentBounds.getMax() > max) {
                 max = currentBounds.getMax();
+                maxData = input.get(i);
+            }
         }
-        return new Pair<Double, Double>(min, max);
+        return new Pair<GraphableData, GraphableData>(minData, maxData);
     }
 
     /**

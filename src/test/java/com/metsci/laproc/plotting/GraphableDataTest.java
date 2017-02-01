@@ -7,6 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Test for the classes implementing GraphableData
  * Created by robinsat on 1/31/2017.
  */
 public class GraphableDataTest {

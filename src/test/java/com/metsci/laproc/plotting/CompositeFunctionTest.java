@@ -46,6 +46,13 @@ public class CompositeFunctionTest {
         assertEquals(53, bounds.second(), GenericData.TOLERANCE);
     }
 
+    @Test
+    public void testCompute() {
+        InterpolationTrackerUtility func = new InterpolationTrackerUtility();
+        func.compute(set1);
+
+    }
+
     /**
      * Helper method that uses reflection to invoke a private method in the CompositeFunction class
      * @param data The method input
@@ -70,5 +77,36 @@ public class CompositeFunctionTest {
         Method method = CompositeFunction.class.getDeclaredMethod("calculateAverage",double[].class);
         method.setAccessible(true);
         return (Double) method.invoke(func, values);
+    }
+
+    private class InterpolationTrackerUtility extends CompositeFunction {
+
+        private List<Double[]> results;
+
+        public InterpolationTrackerUtility() {
+            results = new ArrayList<Double[]>();
+        }
+
+        /**
+         * Overrides the behavior of this method to keep a record for testing purposes
+         * @param yValues The y values for several data sets at a given x
+         * @return The function output
+         */
+        protected double computeFromYValues(double[] yValues) {
+            Double[] vals = new Double[yValues.length];
+            for(int i = 0; i < yValues.length; i++) {
+                vals[i] = yValues[i];
+            }
+            results.add(vals);
+            return 0;
+        }
+
+        /**
+         * Getter for the results
+         * @return The results
+         */
+        public List<Double[]> getResults() {
+            return this.results;
+        }
     }
 }

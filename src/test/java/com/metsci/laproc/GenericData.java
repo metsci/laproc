@@ -3,6 +3,7 @@ package com.metsci.laproc;
 import com.metsci.laproc.plotting.BasicGraphableData;
 
 /**
+ * Some data sets for use by test classes
  * Created by robinsat on 1/31/2017.
  */
 public class GenericData {
