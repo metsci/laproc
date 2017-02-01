@@ -7,7 +7,6 @@ import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.utils.IAction;
-import com.metsci.laproc.utils.IActionReceiver;
 
 /**
  * Mouse listener for selecting a set of points
