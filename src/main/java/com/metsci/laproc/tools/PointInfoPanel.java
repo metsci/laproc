@@ -34,6 +34,7 @@ public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
     public void update(GraphPoint[] points){
         this.panel.remove(pane);
         pane = new JScrollPane();
+        JPanel supPanel = new JPanel();
 
         for (GraphPoint point : points) {
             Map<String, Double> data = point.getAnalytics();
@@ -41,18 +42,20 @@ public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
             JPanel panel = new JPanel();
             GridLayout matri = new GridLayout(data.size(), 2);
             panel.setLayout(matri);
+            
             for (String key : data.keySet()) {
                 panel.add(new JLabel(key));
                 panel.add(new JLabel(Math.floor(data.get(key) * 10000) / 10000 + ""));
             }
 
-            pane.add(panel, Component.RIGHT_ALIGNMENT);
+            supPanel.add(panel);
         }
 
+        pane.add(supPanel);
+        pane.setViewportView(supPanel);
         this.panel.add(pane);
         this.panel.revalidate();
         this.panel.repaint();
-        this.panel.getParent().repaint();
     }
 
     public View getView() {

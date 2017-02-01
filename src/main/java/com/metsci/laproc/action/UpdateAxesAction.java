@@ -1,6 +1,6 @@
 package com.metsci.laproc.action;
 
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IAction;
 
@@ -9,14 +9,14 @@ import com.metsci.laproc.utils.IAction;
  * Created by porterjc on 12/16/2016.
  */
 public class UpdateAxesAction implements IAction<ParametricFunction[]> {
-    private DataReference reference;
+    private OutputDataReference reference;
 
 
     /**
      * Basic constructor that takes a data reference object
      * @param reference References
      */
-    public UpdateAxesAction(DataReference reference){
+    public UpdateAxesAction(OutputDataReference reference){
         this.reference = reference;
     }
 

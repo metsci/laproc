@@ -92,17 +92,6 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         for(IAction<GraphPoint[]> action : this.actionsOnClick) {
             action.doAction(points);
         }
-        //TODO Eventually, this should be decoupled from the confusion matrix panel, not all graphs will have it.
-//        window.getConfusionMatrixPanel().updateConfusionMatrix(new double[]{
-//                values.get(MetricDescriptionConstants.truePositives),
-//                values.get(MetricDescriptionConstants.falsePositives)},
-//                new double[]{values.get(MetricDescriptionConstants.trueNegatives),
-//                        values.get(MetricDescriptionConstants.falseNegatives)});
-//
-//        window.getPointInfoPanel().update(point);
-//        window.repaint();
-        //System.out.println("X: " + point.getX() + " Y: " + point.getY());
-        //ret = point.getX();
 
         return ret;
     }

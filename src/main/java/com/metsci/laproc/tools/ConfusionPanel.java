@@ -7,6 +7,7 @@ import com.metsci.laproc.utils.IActionReceiver;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -15,6 +16,7 @@ import java.util.Map;
  * Created by porterjc on 10/14/2016.
  */
 public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
+    private JPanel masterPanel;
     private JScrollPane pane;
 
     /**
@@ -22,6 +24,9 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
      *
      */
     public ConfusionPanel(){
+        masterPanel = new JPanel();
+        masterPanel.setName("Confusion Matrix");
+        masterPanel.setLayout(new BoxLayout(masterPanel, BoxLayout.Y_AXIS));
         GridLayout matri = new GridLayout(3, 3);
         JPanel panel = new JPanel();
         panel.setName("Confusion Matrix");
@@ -40,21 +45,22 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
         panel.add(new JLabel(0 + ""));
         panel.add(new JLabel(0 + ""));
         pane = new JScrollPane(panel);
-        //this.add(pane);
+        this.masterPanel.add(pane);
     }
 
     /**
      * Updates the columns and rows of the confusion matrix
      */
     public void updateConfusionMatrix(GraphPoint[] points) {
+        masterPanel.remove(pane);
         pane = new JScrollPane();
+        JPanel supPanel = new JPanel();
 
         for(GraphPoint point : points) {
             Map<String, Double> data = point.getAnalytics();
 
             JPanel panel = new JPanel();
             GridLayout matri = new GridLayout(3, 3);
-            panel.setLayout(matri);
             panel.setLayout(matri);
 
             panel.add(new JLabel(""));
@@ -67,11 +73,14 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
             panel.add(new JLabel(data.get("False Positives") + ""));
             panel.add(new JLabel(data.get("False Negatives") + ""));
 
-            pane.add(panel, Component.LEFT_ALIGNMENT);
+            supPanel.add(panel);
         }
 
-        pane.revalidate();
-        pane.repaint();
+        pane.add(supPanel);
+        pane.setViewportView(supPanel);
+        masterPanel.add(pane);
+        masterPanel.revalidate();
+        masterPanel.repaint();
     }
 
     /**
@@ -79,7 +88,7 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
      * @return
      */
     public View getView() {
-        return new View("Confusion Matrices", this.pane, "Confusion Matrices", true);
+        return new View("Confusion Matrices", this.masterPanel, "Confusion Matrices", true);
     }
 
     /**
