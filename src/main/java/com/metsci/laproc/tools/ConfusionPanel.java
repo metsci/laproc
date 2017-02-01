@@ -49,7 +49,7 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
     }
 
     /**
-     * Updates the columns and rows of the confusion matrix
+     * Updates the columns and rows of the confusion matrix for each displayed graph
      */
     public void updateConfusionMatrix(GraphPoint[] points) {
         masterPanel.remove(pane);

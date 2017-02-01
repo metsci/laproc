@@ -29,7 +29,7 @@ public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
     }
 
     /**
-     * updates the rows of the point info panel
+     * updates the rows of the point info panel for each displayed graph
      */
     public void update(GraphPoint[] points){
         this.panel.remove(pane);
@@ -42,7 +42,7 @@ public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
             JPanel panel = new JPanel();
             GridLayout matri = new GridLayout(data.size(), 2);
             panel.setLayout(matri);
-            
+
             for (String key : data.keySet()) {
                 panel.add(new JLabel(key));
                 panel.add(new JLabel(Math.floor(data.get(key) * 10000) / 10000 + ""));
