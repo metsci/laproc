@@ -1,5 +1,6 @@
 package com.metsci.laproc.datareference;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.metsci.laproc.data.ClassifierDataSet;
@@ -70,5 +71,5 @@ public interface InputDataReference extends IObservable {
      * @return tag headers
      */
 	List<TagHeader> getTagHeaders();
-	
+
 }
