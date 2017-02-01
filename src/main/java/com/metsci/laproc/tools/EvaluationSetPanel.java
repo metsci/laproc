@@ -14,7 +14,8 @@ import com.metsci.laproc.action.CreateNewDataSetAction;
 import com.metsci.laproc.action.FilterDataSetAction;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.InputDataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.utils.IAction;
 
 /**
@@ -33,20 +34,20 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 	/**
 	 * Default constructor, requires a window for context
 	 */
-	public EvaluationSetPanel(DataReference ref){
-		ref.addObserver(this);
+	public EvaluationSetPanel(InputDataReference inref, OutputDataReference outref){
+		inref.addObserver(this);
 		this.panel = new JPanel();
-		this.createAction = new CreateNewDataSetAction(ref);
-		this.unionAction = new FilterDataSetAction(ref);
-		setDataSheet(ref);
+		this.createAction = new CreateNewDataSetAction(inref, outref);
+		this.unionAction = new FilterDataSetAction(inref, outref);
+		setDataSheet(inref);
 	}
 
 	/**
      * Return DataSheet, composed of JTable
      *
-     * @params: DataReference
+     * @params: InputDataReference
      */
-	private void setDataSheet(DataReference ref) {
+	private void setDataSheet(InputDataReference ref) {
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 
 		List<TagHeader> headers = ref.getTagHeaders();
@@ -177,7 +178,7 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 		return nameTextField.getText();
 	}
 
-	public void update(DataReference ref) {
+	public void update(InputDataReference ref) {
 		ClassifierDataSet selectedDataSet = (ClassifierDataSet)this.dataSets.getSelectedItem();
 		this.dataSets.removeAllItems();
 		for(ClassifierDataSet dataSet: ref.getDataSetGroups()){

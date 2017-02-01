@@ -58,7 +58,7 @@ public class GraphExporter{
         LegendPainter.LineLegendPainter legend = GraphDisplayer.createLineLegendPainter();
 
         //Draws each graphable data
-        GraphDisplayer.drawGraphableData(graph.getDisplayedData(), plot, legend);
+        GraphDisplayer.drawGraphableData(graph.getData(), plot, legend);
 
         // Add the legend painter to the top of the center GlimpseLayout
         plot.getLayoutCenter().addPainter(legend);

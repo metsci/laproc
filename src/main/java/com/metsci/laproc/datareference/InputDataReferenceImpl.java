@@ -28,17 +28,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import static com.metsci.glimpse.context.TargetStackUtil.newTargetStack;
 
 /**
- * This reference allows tools to access the graph and associated data
+ * This reference allows tools to access the raw input data represented as ClassifierDataSets
  * Created by porterjc on 12/14/2016.
  */
-public class DataReferenceImpl extends Observable implements DataReference {
-    private Graph graph;
+public class InputDataReferenceImpl extends Observable implements InputDataReference {
     private List<ClassifierDataSet> evalSets;
     //TODO:using a normal classifier data set to store groups is slow
     private List<ClassifierDataSet> dataSetGroups;
@@ -49,10 +47,8 @@ public class DataReferenceImpl extends Observable implements DataReference {
      * Constructor for the Default Data Reference
      * @param tagHeaders TagHeaders for the data reference
      */
-    public DataReferenceImpl(List<TagHeader> tagHeaders) {
+    public InputDataReferenceImpl(List<TagHeader> tagHeaders) {
         super();
-        // Default to an empty graph to prevent Null Pointer exceptions
-        graph = new BasicGraph();
         evalSets = new ArrayList<ClassifierDataSet>();
         dataSetGroups = new ArrayList<ClassifierDataSet>();
         dataSetGraphMap = new HashMap<ClassifierDataSet, GraphableData>();
@@ -69,33 +65,10 @@ public class DataReferenceImpl extends Observable implements DataReference {
         notifyObservers();
     }
 
-    public Graph getGraph() {
-        return this.graph;
-    }
-
     public List<ClassifierDataSet> getEvaluationSets() {
         return this.evalSets;
     }
 
-	public void addDataToGraph(GraphableData<?> graphSet, boolean display) {
-		this.graph.addData(graphSet,display);
-		notifyObservers();
-	}
-
-    public void setDataDisplayOnGraph(GraphableData<?> graphSet, boolean display) {
-        this.graph.setDataDisplay(graphSet,display);
-        notifyObservers();
-    }
-
-	public void removeDataFromGraph(GraphableData<?> graphSet) {
-		this.graph.removeData(graphSet);
-		notifyObservers();
-	}
-
-    public void replaceDataOnGraph(GraphableData<?> graphSet, GraphableData<?> newGraphSet) {
-        this.graph.replaceData(graphSet, newGraphSet);
-        notifyObservers();
-    }
 
 	public void addDataSetGroup(ClassifierDataSet dataSetGroup){
 		this.dataSetGroups.add(dataSetGroup);
@@ -124,8 +97,4 @@ public class DataReferenceImpl extends Observable implements DataReference {
 		return this.tagHeaders;
 	}
 
-    public void setAxisFunctionOnGraph(ParametricFunction xAxis, ParametricFunction yAxis){
-        this.graph.useAxisFunctions(xAxis, yAxis);
-        notifyObservers();
-    }
 }

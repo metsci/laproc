@@ -2,11 +2,12 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.*;
-import com.metsci.laproc.datareference.DataReference;
+import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.uicomponents.GraphExporter;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
+import com.metsci.laproc.utils.IObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,13 +20,12 @@ import java.util.*;
  * Panel for selecting graph options
  * Created by porterjc on 10/26/2016.
  */
-public class GraphOptionsPanel implements ITool, DataObserver{
+public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     private JPanel panel;
     private JComboBox xaxis;
     private JComboBox yaxis;
     private Map<String, ParametricFunction> metricsMap;
     private JButton updateButton;
-   // private DataReference reference;
     private IAction updateAction;
 
 
@@ -33,7 +33,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
      * Default constructor for Graphoptions Panel
      * Created by porterjc on 10/26/2016.
      */
-    public GraphOptionsPanel(final DataReference reference) {
+    public GraphOptionsPanel(final OutputDataReference reference) {
         reference.addObserver(this);
         this.panel = new JPanel();
         this.updateAction = new UpdateAxesAction(reference);
@@ -62,7 +62,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    GraphExporter.exportGraph(exportTextField.getText() + ".png", reference.getGraph());
+                    GraphExporter.exportGraph(exportTextField.getText() + ".png", reference.createGraph());
                 } catch (IOException exe){
                     exe.printStackTrace();
                 }
@@ -75,8 +75,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
     /**
      * Updates the combo boxes with the metrics from the graph
      */
-    public void populateOptions(Graph graph) {
-       Iterable<ParametricFunction> metrics = graph.getDisplayedAxisFunctions();
+    public void populateOptions(Iterable<ParametricFunction> metrics) {
 
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();
@@ -134,7 +133,7 @@ public class GraphOptionsPanel implements ITool, DataObserver{
         return ITool.LEFTPOSITION;
     }
 
-    public void update(DataReference graphReference) {
-        populateOptions(graphReference.getGraph());
+    public void update(OutputDataReference graphReference) {
+        populateOptions(graphReference.getAxisFunctions());
     }
 }

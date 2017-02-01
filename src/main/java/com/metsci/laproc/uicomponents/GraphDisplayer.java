@@ -81,7 +81,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         LineLegendPainter legend = GraphDisplayer.createLineLegendPainter();
 
         //Draws each graphable data
-        GraphDisplayer.drawGraphableData(graph.getDisplayedData(), plot, legend);
+        GraphDisplayer.drawGraphableData(graph.getData(), plot, legend);
 
         // Add a painter to uicomponents the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter();
