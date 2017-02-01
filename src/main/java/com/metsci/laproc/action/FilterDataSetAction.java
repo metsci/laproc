@@ -1,17 +1,15 @@
 package com.metsci.laproc.action;
 
 import com.metsci.laproc.data.ClassifierDataSet;
-import com.metsci.laproc.data.DataPoint;
 import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
-import com.metsci.laproc.plotting.ROCCurve;
+import com.metsci.laproc.plotting.ROCCurveFunction;
 import com.metsci.laproc.tools.EvaluationSetPanel;
 import com.metsci.laproc.utils.Filterer;
 import com.metsci.laproc.utils.IAction;
 
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -43,8 +41,8 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
         Filterer.filterAndUnion(updateSet,tags,evalSets);
         GraphableData<?> oldGraph = this.inputDataReference.getGraphfromDataSet(updateSet);
 
-        GraphableFunction func = new ROCCurve(updateSet);
-        GraphableData output = func.compute();
+        GraphableFunction func = new ROCCurveFunction();
+        GraphableData output = func.compute(updateSet);
         output.setName(updateSet.getName());
         this.outputDataReference.replaceDataOnGraph(oldGraph, output);
         this.inputDataReference.addToDataSetGraphMap(updateSet, output);

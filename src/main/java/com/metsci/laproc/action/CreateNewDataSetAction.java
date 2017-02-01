@@ -6,7 +6,7 @@ import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.tools.EvaluationSetPanel;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
-import com.metsci.laproc.plotting.ROCCurve;
+import com.metsci.laproc.plotting.ROCCurveFunction;
 import com.metsci.laproc.utils.Filterer;
 import com.metsci.laproc.utils.IAction;
 
@@ -51,8 +51,8 @@ public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
 
         Filterer.filterAndUnion(dataSetGroup, tags, evalSets);
 
-        GraphableFunction func = new ROCCurve(dataSetGroup);
-        GraphableData output = func.compute();
+        GraphableFunction func = new ROCCurveFunction();
+        GraphableData output = func.compute(dataSetGroup);
         output.setName(dataName);
 
         outputDataReference.addGraphableData(output);

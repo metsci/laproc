@@ -8,7 +8,7 @@ import com.metsci.laproc.utils.IObserver;
  * An interface allowing a tool to observe a Graph object and update itself accordingly.
  * Created by robinsat on 1/30/2017.
  */
-public interface GraphReference extends IObservable, IObserver<OutputDataReference> {
+public interface GraphReference extends IObservable {
 
     /**
      * Getter for the Graph object
