@@ -69,6 +69,14 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
     }
 
     /**
+     * Add tag set to the list of tags
+     * @param tagSet tag set to add
+     */
+    public void addTagSet(List<String> tagSet) {
+        this.tags.add(tagSet);
+    }
+
+    /**
      * Getter for the name of the data set
      * @return the name of the data set
      */
