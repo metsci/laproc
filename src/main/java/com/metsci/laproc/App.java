@@ -1,6 +1,7 @@
 package com.metsci.laproc;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -48,18 +49,20 @@ public class App {
                     point = new DataPointImpl(false, Double.parseDouble(line[4]));
                 boolean found = false;
                 for(ClassifierDataSet set : dataSetList){
-                	Collection<String> tags = set.getTags();
-                	if(tags.contains(line[0]) && tags.contains(line[1]) && tags.contains(line[2])){
+                	List<List<String>> tags = set.getTags();
+                	if(tags.get(0).contains(line[0]) && tags.get(0).contains(line[1]) && tags.get(0).contains(line[2])){
                 		set.add(point);
                 		found = true;
                 		break;
                 	}
                 }
                 if(!found){
-                	ArrayList<String> tags = new ArrayList<String>();
-                	tags.add(line[0]);
-                	tags.add(line[1]);
-                	tags.add(line[2]);
+                	ArrayList<List<String>> tags = new ArrayList<List<String>>();
+                    ArrayList<String> tagSet = new ArrayList<String>();
+                	tagSet.add(line[0]);
+                	tagSet.add(line[1]);
+                	tagSet.add(line[2]);
+                    tags.add(tagSet);
                 	ClassifierDataSet newSet = new ClassifierDataSet(tags, "meaningless");
                 	newSet.add(point);
                 	dataSetList.add(newSet);
@@ -67,10 +70,11 @@ public class App {
             }
             
             for(ClassifierDataSet dataSet : dataSetList){
-            	List<String> tags = (List<String>) dataSet.getTags();
-            	for(int i = 0; i < tags.size(); i++){
-            		if(!tagHeaders.get(i).getTags().contains(tags.get(i))){
-            			tagHeaders.get(i).addTag(tags.get(i));
+            	List<List<String>> tags = dataSet.getTags();
+                List<String> tagSet = tags.get(0);
+            	for(int i = 0; i < tagSet.size(); i++){
+            		if(!tagHeaders.get(i).getTags().contains(tagSet.get(i))){
+            			tagHeaders.get(i).addTag(tagSet.get(i));
             		}
             	}
             }

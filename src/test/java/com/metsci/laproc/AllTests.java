@@ -4,10 +4,13 @@ import com.metsci.laproc.action.*;
 import com.metsci.laproc.data.ClassifierDataSetTest;
 import com.metsci.laproc.data.DataPointImplTest;
 import com.metsci.laproc.data.TagHeaderTest;
+import com.metsci.laproc.plotting.CompositeFunctionTest;
+import com.metsci.laproc.plotting.GraphableDataTest;
 import com.metsci.laproc.plotting.ROCCurveTest;
 import com.metsci.laproc.pointmetrics.MetricsTest;
 import com.metsci.laproc.uicomponents.DataSetTableModelTest;
 import com.metsci.laproc.uicomponents.DataSetTableTest;
+import com.metsci.laproc.utils.FiltererTest;
 import com.metsci.laproc.utils.ObservableTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -25,11 +28,14 @@ import org.junit.runners.Suite;
         ClassifierDataSetTest.class,
         DataPointImplTest.class,
         TagHeaderTest.class,
+        CompositeFunctionTest.class,
+        GraphableDataTest.class,
         ROCCurveTest.class,
         MetricsTest.class,
-        AppTest.class,
-        ObservableTest.class,
         DataSetTableModelTest.class,
-        DataSetTableTest.class})
+        DataSetTableTest.class,
+        FiltererTest.class,
+        ObservableTest.class,
+        AppTest.class})
 public class AllTests {
 }

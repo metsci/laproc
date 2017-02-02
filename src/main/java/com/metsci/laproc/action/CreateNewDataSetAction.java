@@ -45,7 +45,7 @@ public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
     	}else{
     		dataName = dataSheetPanel.getNameText();
     	}
-        ClassifierDataSet dataSetGroup = new ClassifierDataSet(new ArrayList<String>(), dataName);
+        ClassifierDataSet dataSetGroup = new ClassifierDataSet(new ArrayList<List<String>>(), dataName);
         List<List<String>> tags = dataSheetPanel.getSelectedTags();
         List<ClassifierDataSet> evalSets = inputDataReference.getEvaluationSets();
 

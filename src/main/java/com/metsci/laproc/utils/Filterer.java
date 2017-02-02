@@ -41,7 +41,8 @@ public class Filterer {
                         setOperation += " V " + tag;
                     }
                     for (ClassifierDataSet set : evalSets) {
-                        if (set.getTags().contains(tag)) {
+                        System.out.println(set.getTags().size());
+                        if (set.getTags().get(0).contains(tag)) {
                             initialSets.add(set);
                         }
                     }
@@ -60,7 +61,7 @@ public class Filterer {
                         if (!tags.get(i).isEmpty()) {
                             boolean containsTag = false;
                             for (String tag : tags.get(i)) {
-                                if (set.getTags().contains(tag)) {
+                                if (set.getTags().get(0).contains(tag)) {
                                     containsTag = true;
                                     break;
                                 }
