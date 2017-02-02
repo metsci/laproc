@@ -29,30 +29,37 @@ public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
     }
 
     /**
-     * updates the rows of the point info panel
+     * updates the rows of the point info panel for each displayed graph
      */
     public void update(GraphPoint[] points){
-        Map<String, Double> data = points[0].getAnalytics();
+        this.panel.remove(pane);
+        pane = new JScrollPane();
+        JPanel supPanel = new JPanel();
 
-        JPanel panel = new JPanel();
-        GridLayout matri = new GridLayout(data.size(), 2);
-        panel.setLayout(matri);
-        for(String key : data.keySet()) {
-            panel.add(new JLabel(key));
-            panel.add(new JLabel(Math.floor(data.get(key) * 10000) / 10000 + ""));
+        for (GraphPoint point : points) {
+            Map<String, Double> data = point.getAnalytics();
+
+            JPanel panel = new JPanel();
+            GridLayout matri = new GridLayout(data.size(), 2);
+            panel.setLayout(matri);
+
+            for (String key : data.keySet()) {
+                panel.add(new JLabel(key));
+                panel.add(new JLabel(Math.floor(data.get(key) * 10000) / 10000 + ""));
+            }
+
+            supPanel.add(panel);
         }
 
-        this.panel.remove(pane);
-        pane = new JScrollPane(panel);
-
+        pane.add(supPanel);
+        pane.setViewportView(supPanel);
         this.panel.add(pane);
         this.panel.revalidate();
         this.panel.repaint();
-        this.panel.getParent().repaint();
     }
 
     public View getView() {
-        return new View("PointInfo", this.panel, "PointInfo", true);
+        return new View("Point Info", this.panel, "Point Info", true);
     }
 
     public int getDefaultPosition() {

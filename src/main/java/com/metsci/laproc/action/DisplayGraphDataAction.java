@@ -1,5 +1,6 @@
 package com.metsci.laproc.action;
 
+import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IAction;

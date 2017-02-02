@@ -17,6 +17,7 @@ import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.utils.IAction;
+import com.metsci.laproc.utils.IObserver;
 
 /**
  * 
@@ -24,7 +25,7 @@ import com.metsci.laproc.utils.IAction;
  * Created by patterjm on 10/5/2016.
  *
  */
-public class EvaluationSetPanel implements ITool, DataObserver {
+public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> {
 	private JPanel panel;
 	private IAction createAction;
 	private IAction unionAction;
@@ -34,12 +35,12 @@ public class EvaluationSetPanel implements ITool, DataObserver {
 	/**
 	 * Default constructor, requires a window for context
 	 */
-	public EvaluationSetPanel(InputDataReference inref, OutputDataReference outref){
-		inref.addObserver(this);
+	public EvaluationSetPanel(InputDataReference ref, OutputDataReference outref){
+		ref.addObserver(this);
 		this.panel = new JPanel();
-		this.createAction = new CreateNewDataSetAction(inref, outref);
-		this.unionAction = new FilterDataSetAction(inref, outref);
-		setDataSheet(inref);
+		this.createAction = new CreateNewDataSetAction(ref, outref);
+		this.unionAction = new FilterDataSetAction(ref, outref);
+		setDataSheet(ref);
 	}
 
 	/**
