@@ -13,15 +13,15 @@ public class UpdateGenericDisplayAction<T> implements IAction<T> {
 
     /**
      * Basic constuctor that takes a Action Reciever object
-     * @param receiver
+     * @param receiver reciever of the action
      */
     public UpdateGenericDisplayAction(IActionReceiver<T> receiver) {
         this.receiver = receiver;
     }
 
     /**
-     *
-     * @param argument
+     * Action to perform on the reciever
+     * @param argument argument for the action
      */
     public void doAction(T argument) {
         receiver.respondToAction(argument);

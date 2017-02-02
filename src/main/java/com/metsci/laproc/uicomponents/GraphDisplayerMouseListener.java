@@ -110,5 +110,4 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         this.polygonPainter.setLineColor(0,lineColor);
         this.polygonPainter.setLineWidth(0,2);
     }
-
 }

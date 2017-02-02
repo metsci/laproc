@@ -1,36 +1,13 @@
 package com.metsci.laproc.datareference;
 
-import com.metsci.glimpse.axis.factory.AxisFactory2D;
-import com.metsci.glimpse.axis.factory.ConditionalEndsWithAxisFactory2D;
-import com.metsci.glimpse.axis.factory.FixedAxisFactory2D;
-import com.metsci.glimpse.canvas.FBOGlimpseCanvas;
-import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
-import com.metsci.glimpse.context.GlimpseTargetStack;
-import com.metsci.glimpse.gl.util.GLUtils;
-import com.metsci.glimpse.plot.SimplePlot2D;
-import com.metsci.glimpse.support.font.FontUtils;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
-import com.metsci.laproc.plotting.BasicGraph;
-import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.uicomponents.GraphDisplayer;
-import com.metsci.laproc.uicomponents.GraphExporter;
-import com.metsci.laproc.utils.IAction;
-import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.Observable;
 
-import javax.imageio.ImageIO;
-import javax.media.opengl.GLOffscreenAutoDrawable;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.metsci.glimpse.context.TargetStackUtil.newTargetStack;
 
 /**
  * This reference allows tools to access the raw input data represented as ClassifierDataSets

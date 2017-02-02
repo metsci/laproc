@@ -60,5 +60,4 @@ public class BasicGraphPoint implements GraphPoint {
     protected void addStatistic(String key, Double value) {
         this.analytics.put(key, value);
     }
-
 }

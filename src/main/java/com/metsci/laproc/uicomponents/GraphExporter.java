@@ -3,16 +3,10 @@ package com.metsci.laproc.uicomponents;
 import com.metsci.glimpse.canvas.FBOGlimpseCanvas;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.gl.util.GLUtils;
-import com.metsci.glimpse.layout.GlimpseLayoutProvider;
 import com.metsci.glimpse.painter.decoration.LegendPainter;
-import com.metsci.glimpse.painter.info.CursorTextPainter;
-import com.metsci.glimpse.painter.plot.XYLinePainter;
-import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.plot.SimplePlot2D;
-import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.glimpse.support.font.FontUtils;
 import com.metsci.laproc.plotting.*;
-import com.metsci.laproc.utils.IAction;
 
 import javax.imageio.ImageIO;
 import javax.media.opengl.GLOffscreenAutoDrawable;
@@ -26,8 +20,10 @@ import java.io.IOException;
  */
 public class GraphExporter{
     /**
-     * Gets the layout for the graph
-     * @return GlimpseLayout layout for the graph
+     * Exports an image of the given graph to the give file path
+     * @param filePath filepath to export the graph to
+     * @param graph graph to export image
+     * @throws IOException
      */
     public static void exportGraph(String filePath, Graph graph) throws IOException {
         NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas();
@@ -42,6 +38,11 @@ public class GraphExporter{
         ImageIO.write(image, "PNG", new File(filePath));
     }
 
+    /**
+     * Gets the glimpse layout that will be displayed for the graph
+     * @param graph graph to display the layout
+     * @return glimpse layout of the graph
+     */
     private static SimplePlot2D getLayout(Graph graph)
     {
         // Create a plot frame

@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Tests TagHeader
  * Created by malinocr on 1/21/2017.
  */
 public class TagHeaderTest {

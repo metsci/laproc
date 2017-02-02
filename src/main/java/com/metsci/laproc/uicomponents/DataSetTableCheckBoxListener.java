@@ -3,6 +3,7 @@ package com.metsci.laproc.uicomponents;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IAction;
 
 /**
@@ -11,9 +12,9 @@ import com.metsci.laproc.utils.IAction;
  * Created by malinocr on 12/8/2016.
  */
 public class DataSetTableCheckBoxListener implements TableModelListener{
-    DataSetTable table;
-    IAction show;
-    IAction hide;
+    private DataSetTable table;
+    private IAction<GraphableData> show;
+    private IAction<GraphableData> hide;
 
     /**
      * Constructor for the checkbox listener
@@ -21,7 +22,7 @@ public class DataSetTableCheckBoxListener implements TableModelListener{
      * @param hide action to perform when a checkbox is turned off
      * @param table table to observe
      */
-    public DataSetTableCheckBoxListener(IAction show, IAction hide, DataSetTable table){
+    public DataSetTableCheckBoxListener(IAction<GraphableData> show, IAction<GraphableData> hide, DataSetTable table){
         this.table = table;
         this.show = show;
         this.hide = hide;

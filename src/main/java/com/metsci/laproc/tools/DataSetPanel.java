@@ -3,7 +3,6 @@ package com.metsci.laproc.tools;
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.DisplayGraphDataAction;
 import com.metsci.laproc.action.HideGraphDataAction;
-import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.uicomponents.DataSetTable;
 import com.metsci.laproc.uicomponents.DataSetTableCheckBoxListener;
@@ -15,7 +14,6 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 import javax.swing.*;
 
 import java.awt.Color;
-import java.util.List;
 
 /**
  * A JPanel that handles interacting with classifer data sets

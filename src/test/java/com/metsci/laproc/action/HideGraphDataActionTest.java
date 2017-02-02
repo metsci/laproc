@@ -6,6 +6,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 /**
+ * Tests HideGraphDataAction
  * Created by malinocr on 1/21/2017.
  */
 public class HideGraphDataActionTest {

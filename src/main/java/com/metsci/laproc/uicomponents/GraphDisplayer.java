@@ -9,10 +9,6 @@ import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.*;
 import com.metsci.laproc.utils.IAction;
-import com.metsci.laproc.utils.IActionReceiver;
-
-import javax.sound.sampled.Line;
-import java.util.Collection;
 
 /**
  * Creates a Glimpse plot for a Graph
@@ -37,8 +33,8 @@ public class GraphDisplayer implements GlimpseLayoutProvider
     }
 
     /**
-     * Constructor for a given graph and window
-     * @params graph, displayer
+     * Default constructor for the graph displayer
+     * @param pointClickActions point click actions for the graph displayer
      */
     public GraphDisplayer(IAction<GraphPoint[]>... pointClickActions) {
         this.pointClickActions = pointClickActions;

@@ -1,8 +1,6 @@
 package com.metsci.laproc.uicomponents;
 
 import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.plotting.GraphableDataWithMetrics;
-import it.unimi.dsi.fastutil.booleans.BooleanBigArrayBigList;
 import it.unimi.dsi.fastutil.objects.ObjectBigArrayBigList;
 
 import javax.swing.table.AbstractTableModel;
@@ -15,7 +13,7 @@ import java.util.ArrayList;
 public class DataSetTableModel extends AbstractTableModel {
     private String[] columnNames = new String[]{"Data", "Display"};
     private ObjectBigArrayBigList<GraphableData> dataObjects = new ObjectBigArrayBigList<GraphableData>();
-    private ArrayList<Boolean> isDisplayed = new ArrayList();
+    private ArrayList<Boolean> isDisplayed = new ArrayList<Boolean>();
 
     public int getColumnCount() {
         return columnNames.length;
@@ -92,7 +90,6 @@ public class DataSetTableModel extends AbstractTableModel {
 	public void clear() {
 		dataObjects.clear();
 	}
-
 
     /**
      * Gets the row index of a specified object

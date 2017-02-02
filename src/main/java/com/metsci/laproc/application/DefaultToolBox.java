@@ -15,22 +15,27 @@ import com.metsci.laproc.tools.*;
  */
 public class DefaultToolBox extends ToolBox {
 
+    /**
+     * Default constructor for a toolbox
+     * @param inputDataReference input reference for the toolbox
+     * @param outputDataReference output reference for the toolbox
+     */
     public DefaultToolBox(InputDataReference inputDataReference, OutputDataReference outputDataReference) {
         super(inputDataReference, outputDataReference);
     }
 
     protected void initializeTools() {
 
-        GraphReference graphReference = new GraphReferenceImpl(getOutputDataReference());
+        GraphReference graphReference = new GraphReferenceImpl(getOutputReference());
         ConfusionPanel confusionPanel = new ConfusionPanel();
         PointInfoPanel pointInfoPanel = new PointInfoPanel();
         GraphPanel graphPanel = new GraphPanel(graphReference,
                 new UpdateGenericDisplayAction<GraphPoint[]>(confusionPanel),
                 new UpdateGenericDisplayAction<GraphPoint[]>(pointInfoPanel));
 
-        this.addTool(new EvaluationSetPanel(getInputDataReference(), getOutputDataReference()));
-        this.addTool(new DataSetPanel(getOutputDataReference()));
-        this.addTool(new GraphOptionsPanel(getOutputDataReference(),
+        this.addTool(new EvaluationSetPanel(getInputReference(), getOutputReference()));
+        this.addTool(new DataSetPanel(getOutputReference()));
+        this.addTool(new GraphOptionsPanel(getOutputReference(),
                 new GraphDisplayManagerImpl(graphReference, graphPanel)));
         this.addTool(graphPanel);
         this.addTool(confusionPanel);

@@ -2,12 +2,10 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.plotting.GraphPoint;
-import com.metsci.laproc.pointmetrics.FalseNegatives;
 import com.metsci.laproc.utils.IActionReceiver;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -85,7 +83,7 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
 
     /**
      * Returns a View that can be displayed in a Tile
-     * @return
+     * @return the view for the tool
      */
     public View getView() {
         return new View("Confusion Matrices", this.masterPanel, "Confusion Matrices", true);
@@ -93,7 +91,7 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
 
     /**
      * Returns default position of a tile implementation
-     * @return
+     * @return the default position of the tool
      */
     public int getDefaultPosition() {
         return ITool.BOTTOMPOSITION;
@@ -101,7 +99,7 @@ public class ConfusionPanel implements ITool, IActionReceiver<GraphPoint[]> {
 
     /**
      * Responds to action that provides this object with an array of points by updating the panel
-     * @param points
+     * @param points points for updating the panel
      */
     public void respondToAction(GraphPoint[] points) {
         updateConfusionMatrix(points);

@@ -17,8 +17,8 @@ import static org.junit.Assert.assertEquals;
  */
 public class ROCCurveTest {
 
-    ClassifierDataSet data1;
-    ClassifierDataSet data2;
+    private ClassifierDataSet data1;
+    private ClassifierDataSet data2;
 
     @Before
     public void setupMockData() {
@@ -100,5 +100,4 @@ public class ROCCurveTest {
         method.setAccessible(true);
         return (ClassifierSetPoint) method.invoke(func, in, threshold);
     }
-
 }

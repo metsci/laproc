@@ -120,7 +120,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
 
     /**
      * Gets the appropriate matric based on the currently selected item
-     * @return
+     * @return the selected x axis
      */
     public ParametricFunction getSelectedXAxis() {
         return this.metricsMap.get(this.xaxis.getSelectedItem());
@@ -128,18 +128,26 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
 
     /**
      * Gets the appropriate matric based on the currently selected item
-     * @return
+     * @return the selected y axis
      */
     public ParametricFunction getSelectedYAxis() {
         return this.metricsMap.get(this.yaxis.getSelectedItem());
     }
 
+    /**
+     * Sets up the check boxes for the composite funtions
+     */
     private void setupCompositeFunctionOptions() {
         addCheckBox(new VerticalAverageFunction(), "Display Vertical Average");
         addCheckBox(new VarianceFunction(), "Display Variance");
         addCheckBox(new StandardDeviationFunction(), "Display Standard Deviation");
     }
 
+    /**
+     * Adds a checkbox with the given name and function
+     * @param function function of the checkbox
+     * @param text text the checkbox displays
+     */
     private void addCheckBox(CompositeFunction function, String text) {
         ParametrizedCheckBox<CompositeFunction> checkBox = new ParametrizedCheckBox<CompositeFunction>(text, function);
         checkBox.addActionWhenChecked(addCompositeFunctionAction);

@@ -136,7 +136,7 @@ public class BasicGraphableData implements GraphableData<Double> {
     /**
      * Gets the point with the largest x less than the given x value
      * @param x The given x value
-     * @return
+     * @return graph point with the largest x less than the given x value
      */
     public GraphPoint getPointLessOrEqual(double x) {
         GraphPoint lastLessThan = null;
@@ -153,7 +153,7 @@ public class BasicGraphableData implements GraphableData<Double> {
     /**
      * Gets the point with the smallest x greater than the given x value
      * @param x The given x value
-     * @return
+     * @return graph point with the smallest x greater than the given x value
      */
     public GraphPoint getPointGreaterOrEqual(double x) {
         GraphPoint firstGreaterThan = null;
@@ -207,5 +207,4 @@ public class BasicGraphableData implements GraphableData<Double> {
             return 0;
         }
     }
-
 }

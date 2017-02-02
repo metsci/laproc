@@ -32,5 +32,4 @@ import org.junit.runners.Suite;
         DataSetTableModelTest.class,
         DataSetTableTest.class})
 public class AllTests {
-
 }

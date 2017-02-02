@@ -10,6 +10,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
+ * Tests ClassifierDataSet
  * Created by malinocr on 1/21/2017.
  */
 public class ClassifierDataSetTest {

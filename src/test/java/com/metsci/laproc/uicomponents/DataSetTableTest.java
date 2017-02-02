@@ -1,15 +1,14 @@
 package com.metsci.laproc.uicomponents;
 
 import com.metsci.laproc.plotting.GraphableData;
-import it.unimi.dsi.fastutil.objects.ObjectBigArrayBigList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 import org.easymock.EasyMock;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Table for classifier data sets
  * Created by malinocr on 1/20/2017.
  */
 public class DataSetTableTest {

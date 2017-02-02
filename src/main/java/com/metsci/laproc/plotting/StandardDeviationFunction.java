@@ -6,7 +6,9 @@ package com.metsci.laproc.plotting;
  */
 public class StandardDeviationFunction extends VarianceFunction {
 
-    /** Constructor */
+    /**
+     * Constructor
+     */
     public StandardDeviationFunction() {
         super();
         this.setName("Standard Deviation");
@@ -21,5 +23,4 @@ public class StandardDeviationFunction extends VarianceFunction {
         double variance = super.computeFromYValues(yValues);
         return Math.sqrt(variance);
     }
-
 }

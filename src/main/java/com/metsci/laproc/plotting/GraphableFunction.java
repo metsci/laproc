@@ -11,5 +11,4 @@ public interface GraphableFunction<T> {
      * @return GraphableData
      */
     GraphableData compute(T input);
-
 }

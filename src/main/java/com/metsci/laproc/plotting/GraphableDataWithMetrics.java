@@ -157,7 +157,7 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
     /**
      * Gets the point with the largest x less than the given x value
      * @param x The given x value
-     * @return
+     * @return data point with the largest x less than the given x value
      */
     public GraphPoint getPointLessOrEqual(double x) {
         T lastLessThan = null;
@@ -175,7 +175,7 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
     /**
      * Gets the point with the smallest x greater than the given x value
      * @param x The given x value
-     * @return
+     * @return data point with the smallest x greater than the given x value
      */
     public GraphPoint getPointGreaterOrEqual(double x) {
         T firstGreaterThan = null;
@@ -239,5 +239,4 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
         resort.addAll(this.points);
         this.points = resort;
     }
-
 }
