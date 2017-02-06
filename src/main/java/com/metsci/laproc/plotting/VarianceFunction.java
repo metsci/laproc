@@ -26,5 +26,4 @@ public class VarianceFunction extends CompositeFunction {
         }
         return sum / yValues.length;
     }
-
 }

@@ -83,7 +83,5 @@ public class ROCCurveFunction implements GraphableFunction<ClassifierDataSet> {
         }
         // Create a point with the resulting values
         return new ClassifierSetPoint(threshold, truePositives, trueNegatives, falsePositives, falseNegatives);
-
     }
-
 }

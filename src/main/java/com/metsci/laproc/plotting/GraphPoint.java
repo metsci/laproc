@@ -25,5 +25,4 @@ public interface GraphPoint {
      * @return A map representing any additional data associated with this point
      */
     Map<String, Double> getAnalytics();
-
 }

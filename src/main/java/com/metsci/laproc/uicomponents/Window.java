@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Abstract class for a window in the application
  * Created by porterjc on 9/22/2016.
  */
 public abstract class Window {
@@ -17,6 +18,9 @@ public abstract class Window {
     private Tile spreadTile;
     private Tile graphTile;
 
+    /**
+     * Default constructor for a window
+     */
     public Window(){
         tiles = new ArrayList<Tile>();
 
@@ -60,6 +64,11 @@ public abstract class Window {
         frame.setVisible(true);
     }
 
+    /**
+     * Adds the given view to the window
+     * @param v view to add
+     * @param tileValue value of the tile to add
+     */
     public void addViewToTile(View v, int tileValue) {
         int tilesTotalViews = this.tiles.get(tileValue).numViews();
         if(tilesTotalViews == 0)

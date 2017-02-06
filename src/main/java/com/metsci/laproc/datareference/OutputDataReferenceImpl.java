@@ -11,6 +11,7 @@ import com.metsci.laproc.utils.Observable;
 import java.util.*;
 
 /**
+ * This class allows tools to access the graphable data calculated as the result of executing a function
  *
  * Created by robinsat on 1/23/2017.
  */
@@ -24,6 +25,9 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     private ParametricFunction xAxisFunc;
     private ParametricFunction yAxisFunc;
 
+    /**
+     * Default constructor for an output data reference
+     */
     public OutputDataReferenceImpl() {
         graph = new BasicGraph();
 

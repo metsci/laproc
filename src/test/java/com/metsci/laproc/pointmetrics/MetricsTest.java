@@ -61,5 +61,4 @@ public class MetricsTest {
         F1Score f = new F1Score();
         assertEquals(0.173913, f.compute(point1), PRECISION);
     }
-
 }

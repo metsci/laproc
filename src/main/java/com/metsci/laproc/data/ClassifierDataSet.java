@@ -2,8 +2,6 @@ package com.metsci.laproc.data;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -48,7 +46,7 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
 
     /**
      * Returns the complete set of data points.
-     * @return
+     * @return set of all data points
      */
     public Set<DataPoint> getAllPoints() {
         return this.data;

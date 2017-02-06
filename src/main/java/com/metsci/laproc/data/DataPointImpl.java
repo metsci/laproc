@@ -1,8 +1,5 @@
 package com.metsci.laproc.data;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 /**
  * The implementation of a data point from the input
  * Created by robinsat on 9/20/2016.

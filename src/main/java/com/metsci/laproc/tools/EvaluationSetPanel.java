@@ -43,10 +43,9 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 		setDataSheet(ref);
 	}
 
-	/**
-     * Return DataSheet, composed of JTable
-     *
-     * @params: InputDataReference
+    /**
+     * Sets the data sheet for the panel
+     * @param ref reference to create the data sheet
      */
 	private void setDataSheet(InputDataReference ref) {
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
@@ -174,7 +173,11 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 	public int getDefaultPosition() {
 		return ITool.LEFTPOSITION;
 	}
-	
+
+	/**
+	 * Gets the value of the name text field
+	 * @return value of the name text field
+	 */
 	public String getNameText(){
 		return nameTextField.getText();
 	}

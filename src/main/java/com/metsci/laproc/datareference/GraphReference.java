@@ -2,7 +2,6 @@ package com.metsci.laproc.datareference;
 
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.utils.IObservable;
-import com.metsci.laproc.utils.IObserver;
 
 /**
  * An interface allowing a tool to observe a Graph object and update itself accordingly.

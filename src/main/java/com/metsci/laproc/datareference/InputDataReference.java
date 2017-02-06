@@ -1,13 +1,10 @@
 package com.metsci.laproc.datareference;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
-import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IObservable;
 
 /**

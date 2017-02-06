@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  * Created by malinocr on 1/19/2017.
  */
 public class DataSetTableModelTest {
-    DataSetTableModel model;
+    private DataSetTableModel model;
 
     @Before
     public void setUp(){
@@ -219,5 +219,4 @@ public class DataSetTableModelTest {
         assertEquals(0,model.getRowOfObject(data));
         assertEquals(1,model.getRowOfObject(data1));
     }
-
 }

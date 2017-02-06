@@ -22,5 +22,4 @@ public interface GraphDisplayManager extends IObservable, IObserver<GraphReferen
      * @param func The function to disable
      */
     void disableCompositeFunction(CompositeFunction func);
-
 }

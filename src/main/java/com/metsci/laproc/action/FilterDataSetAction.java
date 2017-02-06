@@ -49,4 +49,3 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
         //TODO: Is this bad?
     }
 }
-

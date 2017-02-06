@@ -16,7 +16,7 @@ import com.metsci.laproc.uicomponents.Window;
  * This class represents the highest level of an application.
  * Created by robinsat on 12/16/2016.
  */
-public class Application {
+public class Application implements Runnable{
 
     /** The Toolbox that provides all features in this application */
     private ToolBox globalToolBox;
@@ -25,7 +25,11 @@ public class Application {
     /** A global reference to the output data (represented as GraphableData) that is used by Tools */
     private OutputDataReference globalOutputDataReference;
 
-
+    /**
+     * Constructor for the applicatoin
+     * @param dataSets initial evaluation sets for the application
+     * @param tagHeaders tag headers for the evaluation sets
+     */
     public Application(List<ClassifierDataSet> dataSets, List<TagHeader> tagHeaders) {
         globalInputDataReference = new InputDataReferenceImpl(tagHeaders);
         globalOutputDataReference = new OutputDataReferenceImpl();

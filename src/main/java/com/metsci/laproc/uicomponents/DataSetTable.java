@@ -1,12 +1,9 @@
 package com.metsci.laproc.uicomponents;
 
 import com.metsci.laproc.plotting.GraphableData;
-import com.sun.javaws.exceptions.InvalidArgumentException;
-import it.unimi.dsi.fastutil.objects.ObjectBigArrayBigList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * A JTable that displays the names of the data sets and is able to access the sets by index
@@ -68,7 +65,6 @@ public class DataSetTable extends JTable{
         }
     }
 
-
     /**
      * Sets the selected values in the table to a set of Graphable Data Objects
      * @param dataSet set of Graphable Data objects to set as selected
@@ -82,5 +78,4 @@ public class DataSetTable extends JTable{
             }
         }
     }
-
 }

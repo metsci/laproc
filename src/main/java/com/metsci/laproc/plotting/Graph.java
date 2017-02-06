@@ -1,10 +1,5 @@
 package com.metsci.laproc.plotting;
 
-import com.metsci.laproc.pointmetrics.ParametricFunction;
-import javafx.util.Pair;
-
-import java.util.List;
-
 /**
  * This interface represents a graph with customizable axes that can be rendered with Glimpse.
  * Created by robinsat on 9/19/2016.
@@ -72,5 +67,4 @@ public interface Graph {
      * @param graphSet The data to remove
      */
 	void removeData(GraphableData<?> graphSet);
-
 }

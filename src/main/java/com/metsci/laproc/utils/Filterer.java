@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
+ * Class to handle filtering evaluation sets into group classifier sets
  *
  * Created by malinocr on 1/14/2017.
  */

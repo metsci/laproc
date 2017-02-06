@@ -23,7 +23,8 @@ public class UpdateAxesAction implements IAction<ParametricFunction[]> {
     /**
      * Provides updated axes to the graph object and notifies data reference observers
      *
-     * @param argument
+     * @param argument array of peremetric function to use for the graph where index
+     *                 index 0 is the xaxis and index 1 is the yaxis
      */
     public void doAction(ParametricFunction[] argument) {
         this.reference.useAxisFunctions(argument[0], argument[1]);

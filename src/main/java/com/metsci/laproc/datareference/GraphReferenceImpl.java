@@ -13,6 +13,10 @@ public class GraphReferenceImpl extends Observable implements GraphReference, IO
     /** The graph referenced by this object */
     private Graph graph;
 
+    /**
+     * Default constructor for Graph Reference Impl
+     * @param reference data reference for the graph reference
+     */
     public GraphReferenceImpl(OutputDataReference reference) {
         reference.addObserver(this);
     }
