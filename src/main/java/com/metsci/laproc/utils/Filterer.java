@@ -3,6 +3,7 @@ package com.metsci.laproc.utils;
 import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.DataPoint;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -21,6 +22,13 @@ public class Filterer {
     public static void filterAndUnion(ClassifierDataSet updateSet, List<List<String>> tags, List<ClassifierDataSet> evalSets){
         String setOperation = "";
         if(!tags.isEmpty()) {
+            List<ClassifierDataSet> newEvalSets = new ArrayList<ClassifierDataSet>();
+            for(ClassifierDataSet set: evalSets){
+                if(!updateSet.getTags().contains(set.getTags().get(0))){
+                    newEvalSets.add(set);
+                }
+            }
+            evalSets = newEvalSets;
             HashSet<ClassifierDataSet> initialSets = new HashSet<ClassifierDataSet>();
             int startingIndex = 0;
             while (startingIndex < tags.size() && tags.get(startingIndex).isEmpty()) {
@@ -32,6 +40,7 @@ public class Filterer {
                     for(DataPoint point: eval.getAllPoints()){
                         updateSet.add(point);
                     }
+                    updateSet.addTagSet(eval.getTags().get(0));
                 }
             } else {
                 for (String tag : tags.get(startingIndex)) {
@@ -41,7 +50,7 @@ public class Filterer {
                         setOperation += " V " + tag;
                     }
                     for (ClassifierDataSet set : evalSets) {
-                        if (set.getTags().contains(tag)) {
+                        if (set.getTags().get(0).contains(tag)) {
                             initialSets.add(set);
                         }
                     }
@@ -60,7 +69,7 @@ public class Filterer {
                         if (!tags.get(i).isEmpty()) {
                             boolean containsTag = false;
                             for (String tag : tags.get(i)) {
-                                if (set.getTags().contains(tag)) {
+                                if (set.getTags().get(0).contains(tag)) {
                                     containsTag = true;
                                     break;
                                 }
@@ -79,6 +88,7 @@ public class Filterer {
                     for (DataPoint point : set.getAllPoints()) {
                         updateSet.add(point);
                     }
+                    updateSet.addTagSet(set.getTags().get(0));
                 }
             }
         }

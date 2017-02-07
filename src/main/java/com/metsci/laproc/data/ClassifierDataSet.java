@@ -13,7 +13,7 @@ import java.util.Set;
 public class ClassifierDataSet implements Iterable<DataPoint> {
 
     /** Represents the set of tags used to categorize this data */
-    private List<String> tags;
+    private List<List<String>> tags;
 
     /** The actual data set */
     private ObjectOpenHashBigSet<DataPoint> data;
@@ -29,7 +29,7 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
      * @param givenTags tags that uniquely identify the classifier data set (if it is an evaluation set)
      * @param name name of the classifier data set
      */
-    public ClassifierDataSet(List<String> givenTags, String name) {
+    public ClassifierDataSet(List<List<String>> givenTags, String name) {
         this.tags = givenTags;
         this.data = new ObjectOpenHashBigSet<DataPoint>();
         this.name = name;
@@ -64,8 +64,16 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
      * Getter for the set of tags used to categorize this data
      * @return The set of tags used to categorize this data
      */
-    public List<String> getTags() {
+    public List<List<String>> getTags() {
         return this.tags;
+    }
+
+    /**
+     * Add tag set to the list of tags
+     * @param tagSet tag set to add
+     */
+    public void addTagSet(List<String> tagSet) {
+        this.tags.add(tagSet);
     }
 
     /**

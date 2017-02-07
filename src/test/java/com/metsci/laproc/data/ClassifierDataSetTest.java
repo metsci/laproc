@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 public class ClassifierDataSetTest {
     @Test
     public void TestData(){
-        List<String> tagHeaders = new ArrayList<String>();
+        List<List<String>> tagHeaders = new ArrayList<List<String>>();
         String name = "Name";
         ClassifierDataSet dataSet = new ClassifierDataSet(tagHeaders, name);
         DataPoint dataPoint = EasyMock.strictMock(DataPoint.class);
@@ -46,7 +46,7 @@ public class ClassifierDataSetTest {
 
     @Test
     public void TestName(){
-        List<String> tagHeaders = new ArrayList<String>();
+        List<List<String>> tagHeaders = new ArrayList<List<String>>();
         String name = "Name";
         ClassifierDataSet dataSet = new ClassifierDataSet(tagHeaders, name);
         assertEquals(name, dataSet.getName());
@@ -60,21 +60,25 @@ public class ClassifierDataSetTest {
 
     @Test
     public void TestTags(){
-        List<String> tagHeaders = new ArrayList<String>();
+        List<List<String>> tagHeaders = new ArrayList<List<String>>();
+        List<String> tagSet = new ArrayList<String>();
         String tag1 = "tag1";
-        tagHeaders.add(tag1);
+        tagSet.add(tag1);
         String tag2 = "tag2";
-        tagHeaders.add(tag2);
+        tagSet.add(tag2);
         String name = "Name";
+        tagHeaders.add(tagSet);
         ClassifierDataSet dataSet = new ClassifierDataSet(tagHeaders, name);
-        assertEquals(2, dataSet.getTags().size());
-        assertTrue(dataSet.getTags().contains(tag1));
-        assertTrue(dataSet.getTags().contains(tag2));
+        assertEquals(1, dataSet.getTags().size());
+        assertTrue(dataSet.getTags().contains(tagSet));
+        assertEquals(2, dataSet.getTags().get(0).size());
+        assertTrue(dataSet.getTags().get(0).contains(tag1));
+        assertTrue(dataSet.getTags().get(0).contains(tag2));
     }
 
     @Test
     public void TestSetOperations(){
-        List<String> tagHeaders = new ArrayList<String>();
+        List<List<String>> tagHeaders = new ArrayList<List<String>>();
         String name = "Name";
         ClassifierDataSet dataSet = new ClassifierDataSet(tagHeaders, name);
         assertEquals("", dataSet.getSetOperations());

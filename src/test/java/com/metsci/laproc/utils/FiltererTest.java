@@ -18,56 +18,66 @@ import static org.junit.Assert.*;
  */
 public class FiltererTest {
     ClassifierDataSet dataSet;
-    List<List<String>> tags;
+    List<List<String>> tagSet;
     List<ClassifierDataSet> evalSets;
 
     @Before
     public void setUp() {
-        dataSet = new ClassifierDataSet(new ArrayList<String>(), "Update");
+        dataSet = new ClassifierDataSet(new ArrayList<List<String>>(), "Update");
 
-        initializeTags();
+        initializetagSet();
 
         evalSets = new ArrayList<ClassifierDataSet>();
 
-        ArrayList<String> tags1 =  new ArrayList<String>();
-        tags1.add("a1");
-        tags1.add("b1");
-        ClassifierDataSet evalSet1 =  new ClassifierDataSet(tags1, "EvalSet1");
+        List<List<String>> tagHeaders1 = new ArrayList<List<String>>();
+        List<String> tagSet1 = new ArrayList<String>();
+        tagHeaders1.add(tagSet1);
+        tagSet1.add("a1");
+        tagSet1.add("b1");
+        ClassifierDataSet evalSet1 =  new ClassifierDataSet(tagHeaders1, "EvalSet1");
         evalSet1.add(new DataPointImpl(false, 1, 1));
         evalSets.add(evalSet1);
 
-        ArrayList<String> tags2 =  new ArrayList<String>();
-        tags2.add("a2");
-        tags2.add("b1");
-        ClassifierDataSet evalSet2 =  new ClassifierDataSet(tags2, "EvalSet2");
+        List<List<String>> tagHeaders2 = new ArrayList<List<String>>();
+        ArrayList<String> tagSet2 =  new ArrayList<String>();
+        tagHeaders2.add(tagSet2);
+        tagSet2.add("a2");
+        tagSet2.add("b1");
+        ClassifierDataSet evalSet2 =  new ClassifierDataSet(tagHeaders2, "EvalSet2");
         evalSet2.add(new DataPointImpl(false, 2, 1));
         evalSets.add(evalSet2);
 
-        ArrayList<String> tags3 =  new ArrayList<String>();
-        tags3.add("a1");
-        tags3.add("b2");
-        ClassifierDataSet evalSet3 =  new ClassifierDataSet(tags3, "EvalSet3");
+        List<List<String>> tagHeaders3 = new ArrayList<List<String>>();
+        ArrayList<String> tagSet3 =  new ArrayList<String>();
+        tagHeaders3.add(tagSet3);
+        tagSet3.add("a1");
+        tagSet3.add("b2");
+        ClassifierDataSet evalSet3 =  new ClassifierDataSet(tagHeaders3, "EvalSet3");
         evalSet3.add(new DataPointImpl(false, 1, 2));
         evalSets.add(evalSet3);
 
-        ArrayList<String> tags4 =  new ArrayList<String>();
-        tags4.add("a2");
-        tags4.add("b2");
-        ClassifierDataSet evalSet4 =  new ClassifierDataSet(tags4, "EvalSet4");
+        List<List<String>> tagHeaders4 = new ArrayList<List<String>>();
+        ArrayList<String> tagSet4 =  new ArrayList<String>();
+        tagHeaders4.add(tagSet4);
+        tagSet4.add("a2");
+        tagSet4.add("b2");
+        ClassifierDataSet evalSet4 =  new ClassifierDataSet(tagHeaders4, "EvalSet4");
         evalSet4.add(new DataPointImpl(false, 2, 2));
         evalSets.add(evalSet4);
 
-        ArrayList<String> tags5 =  new ArrayList<String>();
-        tags5.add("a3");
-        tags5.add("b1");
-        ClassifierDataSet evalSet5 =  new ClassifierDataSet(tags5, "EvalSet5");
+        List<List<String>> tagHeaders5 = new ArrayList<List<String>>();
+        ArrayList<String> tagSet5 =  new ArrayList<String>();
+        tagHeaders5.add(tagSet5);
+        tagSet5.add("a3");
+        tagSet5.add("b1");
+        ClassifierDataSet evalSet5 =  new ClassifierDataSet(tagHeaders5, "EvalSet5");
         evalSet5.add(new DataPointImpl(false, 3, 1));
         evalSets.add(evalSet5);
     }
 
     @Test
-    public void testDefaultTags(){
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+    public void testDefaulttagSet(){
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 5 , points.size());
@@ -84,8 +94,8 @@ public class FiltererTest {
 
     @Test
     public void testSingleSet(){
-        this.tags.get(0).add("a3");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(0).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 1 , points.size());
@@ -98,8 +108,8 @@ public class FiltererTest {
 
     @Test
     public void testUnionSingleTag(){
-        this.tags.get(0).add("a1");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(0).add("a1");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 2 , points.size());
@@ -112,10 +122,10 @@ public class FiltererTest {
     }
 
     @Test
-    public void testUnionMultipleTags(){
-        this.tags.get(0).add("a1");
-        this.tags.get(0).add("a2");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+    public void testUnionMultipletagSet(){
+        this.tagSet.get(0).add("a1");
+        this.tagSet.get(0).add("a2");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 4 , points.size());
@@ -131,9 +141,9 @@ public class FiltererTest {
 
     @Test
     public void testIntersect(){
-        this.tags.get(0).add("a1");
-        this.tags.get(1).add("b1");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(0).add("a1");
+        this.tagSet.get(1).add("b1");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 1 , points.size());
@@ -146,10 +156,10 @@ public class FiltererTest {
 
     @Test
     public void testIntersectAndUnionMultipleBefore(){
-        this.tags.get(0).add("a1");
-        this.tags.get(0).add("a2");
-        this.tags.get(1).add("b2");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(0).add("a1");
+        this.tagSet.get(0).add("a2");
+        this.tagSet.get(1).add("b2");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 2 , points.size());
@@ -163,10 +173,10 @@ public class FiltererTest {
 
     @Test
     public void testIntersectAndUnionMultipleAfter(){
-        this.tags.get(0).add("a1");
-        this.tags.get(1).add("b1");
-        this.tags.get(1).add("b2");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(0).add("a1");
+        this.tagSet.get(1).add("b1");
+        this.tagSet.get(1).add("b2");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 2 , points.size());
@@ -180,8 +190,8 @@ public class FiltererTest {
 
     @Test
     public void testFilerTwiceSingleOperation(){
-        this.tags.get(0).add("a1");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(0).add("a1");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 2 , points.size());
@@ -192,10 +202,10 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a1 )", setOperations);
 
-        this.initializeTags();
+        this.initializetagSet();
 
-        this.tags.get(1).add("b1");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(1).add("b1");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         points = this.dataSet.getAllPoints();
 
         assertEquals( 4 , points.size());
@@ -211,9 +221,9 @@ public class FiltererTest {
 
     @Test
     public void testFilerTwiceDoubleOperationIntersectBefore(){
-        this.tags.get(0).add("a1");
-        this.tags.get(1).add("b1");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(0).add("a1");
+        this.tagSet.get(1).add("b1");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 1 , points.size());
@@ -223,10 +233,10 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a1 ) /\\ ( b1 )", setOperations);
 
-        this.initializeTags();
+        this.initializetagSet();
 
-        this.tags.get(1).add("a3");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         points = this.dataSet.getAllPoints();
 
         assertEquals( 2 , points.size());
@@ -240,8 +250,8 @@ public class FiltererTest {
 
     @Test
     public void testFilerTwiceDoubleOperationIntersectAfter(){
-        this.tags.get(1).add("a3");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 1 , points.size());
@@ -251,11 +261,11 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a3 )", setOperations);
 
-        initializeTags();
+        initializetagSet();
 
-        this.tags.get(0).add("a1");
-        this.tags.get(1).add("b1");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(0).add("a1");
+        this.tagSet.get(1).add("b1");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         points = this.dataSet.getAllPoints();
 
         assertEquals( 2 , points.size());
@@ -266,14 +276,14 @@ public class FiltererTest {
         setOperations = this.dataSet.getSetOperations();
         assertEquals("[ ( a3 ) ] V ( a1 ) /\\ ( b1 )", setOperations);
 
-        this.initializeTags();
+        this.initializetagSet();
     }
 
     @Test
     public void testFilerTwiceDoubleOperationUnionBefore(){
-        this.tags.get(0).add("a1");
-        this.tags.get(0).add("a2");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(0).add("a1");
+        this.tagSet.get(0).add("a2");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 4 , points.size());
@@ -286,10 +296,10 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a1 V a2 )", setOperations);
 
-        this.initializeTags();
+        this.initializetagSet();
 
-        this.tags.get(1).add("a3");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         points = this.dataSet.getAllPoints();
 
         assertEquals( 5 , points.size());
@@ -306,8 +316,8 @@ public class FiltererTest {
 
     @Test
     public void testFilerTwiceDoubleOperationUnionAfter(){
-        this.tags.get(1).add("a3");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 1 , points.size());
@@ -317,11 +327,11 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a3 )", setOperations);
 
-        this.initializeTags();
+        this.initializetagSet();
 
-        this.tags.get(0).add("a1");
-        this.tags.get(0).add("a2");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(0).add("a1");
+        this.tagSet.get(0).add("a2");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         points = this.dataSet.getAllPoints();
 
         assertEquals( 5 , points.size());
@@ -339,7 +349,7 @@ public class FiltererTest {
 
     @Test
     public void testFilerTwiceAllBefore(){
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 5 , points.size());
@@ -353,10 +363,10 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( all )", setOperations);
 
-        this.initializeTags();
+        this.initializetagSet();
 
-        this.tags.get(1).add("a3");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         points = this.dataSet.getAllPoints();
 
         assertEquals( 5 , points.size());
@@ -373,8 +383,8 @@ public class FiltererTest {
 
     @Test
     public void testFilerTwiceAllAfter(){
-        this.tags.get(1).add("a3");
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        this.tagSet.get(1).add("a3");
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
         assertEquals( 1 , points.size());
@@ -384,9 +394,9 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a3 )", setOperations);
 
-        this.initializeTags();
+        this.initializetagSet();
 
-        Filterer.filterAndUnion(this.dataSet, this.tags, this.evalSets);
+        Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         points = this.dataSet.getAllPoints();
 
         assertEquals( 5 , points.size());
@@ -405,10 +415,10 @@ public class FiltererTest {
         return evalSets.get(i).getAllPoints().iterator().next();
     }
 
-    private void initializeTags(){
-        tags = new ArrayList<List<String>>();
+    private void initializetagSet(){
+        tagSet = new ArrayList<List<String>>();
 
-        tags.add(new ArrayList<String>());
-        tags.add(new ArrayList<String>());
+        tagSet.add(new ArrayList<String>());
+        tagSet.add(new ArrayList<String>());
     }
 }
