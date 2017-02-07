@@ -50,6 +50,21 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 	private void setDataSheet(InputDataReference ref) {
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 
+        JTextField nameTextField = new JTextField();
+        this.nameTextField = nameTextField;
+        this.nameTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 12));
+        nameTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.panel.add(nameTextField);
+
+        JButton newEvalSetButton = new JButton("Create New Eval Set");
+        ActionListener createListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                createAction.doAction(EvaluationSetPanel.this);
+            }
+        };
+        newEvalSetButton.addActionListener(createListener);
+        this.panel.add(newEvalSetButton);
+
 		List<TagHeader> headers = ref.getTagHeaders();
 		JPanel tagPanel = new JPanel();
 		this.tagPanel = tagPanel;
@@ -70,32 +85,11 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 
 		JScrollPane tagScrollPane = new JScrollPane(tagPanel);
 		tagScrollPane.setViewportView(tagPanel);
-//		table.setFillsViewportHeight(true);
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 		if (defaults.get("Table.alternateRowColor") == null)
 			defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
-
-		//ENTER NAME HERE
-		JTextField nameTextField = new JTextField();
-		this.nameTextField = nameTextField;
-		this.nameTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 12));
-		nameTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
-		this.panel.add(nameTextField);
-		
-		JButton newEvalSetButton = new JButton("Create New Eval Set");
-		ActionListener createListener = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				createAction.doAction(EvaluationSetPanel.this);
-			}
-		};
-		newEvalSetButton.addActionListener(createListener);
-		//CREATE NEW EVAL SET BUTTON HERE
-		this.panel.add(newEvalSetButton);
-		//TAG SCROLL PANE HERE
-		tagScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-		this.panel.add(tagScrollPane);
-
-
+        tagScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.panel.add(tagScrollPane);
 
 		JButton unionEvalSetButton = new JButton("Union with Eval Set");
 		ActionListener unionListener = new ActionListener() {
@@ -104,12 +98,11 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 			}
 		};
 		unionEvalSetButton.addActionListener(unionListener);
-		//UNION WITH EVAL SET BUTTON HERE
 		this.panel.add(unionEvalSetButton);
 
 		
 		final JTextArea setOperationHistoryTextArea = new JTextArea();
-		final JComboBox dataSets = new JComboBox();
+		this.dataSets = new JComboBox();
 		ActionListener changeDataSet = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(dataSets.getSelectedItem() != null) {
@@ -122,18 +115,17 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 		dataSets.addActionListener(changeDataSet);
 		dataSets.setAlignmentX(Component.LEFT_ALIGNMENT);
 		this.panel.add(dataSets);
-		this.dataSets = dataSets;
 
 		
 		final JLabel setOperationTitle = new JLabel("Set Operations:");
-	    
+        this.panel.add(setOperationTitle);
+
 	    setOperationHistoryTextArea.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    setOperationHistoryTextArea.setWrapStyleWord(true);
 	    setOperationHistoryTextArea.setLineWrap(true);
 	    setOperationHistoryTextArea.setOpaque(false);
 	    setOperationHistoryTextArea.setEditable(false);
 	    setOperationHistoryTextArea.setFocusable(false);
-		this.panel.add(setOperationTitle);
 		this.panel.add(setOperationHistoryTextArea);
 
 	}
