@@ -16,9 +16,9 @@ public class HideGraphDataActionTest {
         GraphableData graphableData = EasyMock.strictMock(GraphableData.class);
         ref.hideData(graphableData);
         EasyMock.expectLastCall().times(1);
-        EasyMock.replay(ref);
+        EasyMock.replay(ref, graphableData);
         HideGraphDataAction action = new HideGraphDataAction(ref);
         action.doAction(graphableData);
-        EasyMock.verify(ref);
+        EasyMock.verify(ref, graphableData);
     }
 }

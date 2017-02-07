@@ -25,6 +25,7 @@ import org.junit.runners.Suite;
         AddCompositeFunctionActionTest.class,
         DisplayGraphDataActionTest.class,
         HideGraphDataActionTest.class,
+        RemoveCompositeFunctionActionTest.class,
         UpdateAxesActionTest.class,
         ClassifierDataSetTest.class,
         DataPointImplTest.class,
