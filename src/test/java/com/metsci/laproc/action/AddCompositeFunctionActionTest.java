@@ -18,9 +18,9 @@ public class AddCompositeFunctionActionTest {
         CompositeFunction func = EasyMock.strictMock(CompositeFunction.class);
         manager.enableCompositeFunction(func);
         EasyMock.expectLastCall().times(1);
-        EasyMock.replay(manager);
+        EasyMock.replay(manager,func);
         AddCompositeFunctionAction action = new AddCompositeFunctionAction(manager);
         action.doAction(func);
-        EasyMock.verify(manager);
+        EasyMock.verify(manager,func);
     }
 }
