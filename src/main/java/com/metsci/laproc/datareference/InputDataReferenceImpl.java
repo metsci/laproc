@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class InputDataReferenceImpl extends Observable implements InputDataReference {
     private List<ClassifierDataSet> evalSets;
-    //TODO:using a normal classifier data set to store groups is slow
     private List<ClassifierDataSet> dataSetGroups;
     private HashMap<ClassifierDataSet, GraphableData> dataSetGraphMap;
     private List<TagHeader> tagHeaders;
