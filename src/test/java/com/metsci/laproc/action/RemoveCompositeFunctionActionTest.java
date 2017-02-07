@@ -6,7 +6,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 /**
- * Tests AddCompositeFunctionAction
+ * Tests RemoveCompositeFunctionAction
  * Created by malinocr on 1/21/2017.
  */
 public class RemoveCompositeFunctionActionTest {

@@ -12,6 +12,7 @@ import com.metsci.laproc.uicomponents.DataSetTableModelTest;
 import com.metsci.laproc.uicomponents.DataSetTableTest;
 import com.metsci.laproc.utils.FiltererTest;
 import com.metsci.laproc.utils.ObservableTest;
+import com.metsci.laproc.utils.UtilsTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -38,6 +39,7 @@ import org.junit.runners.Suite;
         DataSetTableTest.class,
         FiltererTest.class,
         ObservableTest.class,
+        UtilsTest.class,
         AppTest.class})
 public class AllTests {
 }

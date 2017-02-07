@@ -1,5 +1,7 @@
 package com.metsci.laproc.utils;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.util.List;
 
 /**
@@ -14,6 +16,9 @@ public class Utils {
      * @return The output array with identical contents to the input list
      */
     public static double[] toPrimitiveArray(List<Double> list) {
+        if(list == null){
+            throw new IllegalArgumentException("Null list cannot be converted to an array");
+        }
         double[] array = new double[list.size()];
         int index = 0;
         for(Double d : list) {
