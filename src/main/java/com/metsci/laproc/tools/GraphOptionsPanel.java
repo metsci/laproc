@@ -44,29 +44,34 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         this.updateAxesAction = new UpdateAxesAction(reference);
         this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
-        this.xaxis = new JComboBox();
-        this.xaxis.setName("X-Axis");
-        this.yaxis = new JComboBox();
-        this.yaxis.setName("Y-Axis");
-        this.xaxis.setMaximumRowCount(6);
-        this.yaxis.setMaximumRowCount(6);
-        this.xaxis.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
-        this.yaxis.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
 
-        this.panel.add(new JLabel("X-Axis"));
+        addJLabel("X-Axis");
+
+        this.xaxis = createJComboBox("X-Axis");
         this.panel.add(xaxis);
-        this.panel.add(new JLabel("Y-Axis"));
-        this.panel.add(yaxis);
 
-        this.updateButton = new JButton("Update");
-        this.panel.add(updateButton);
+        addJLabel("Y-Axis");
+
+        this.yaxis = createJComboBox("Y-Axis");
+        this.panel.add(yaxis);
 
         this.addCompositeFunctionAction = new AddCompositeFunctionAction(manager);
         this.removeCompositeFunctionAction = new RemoveCompositeFunctionAction(manager);
         setupCompositeFunctionOptions();
-        JButton exportButton = new JButton("Export Graph");
+
+        this.updateButton = new JButton("Update");
+        this.updateButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.panel.add(updateButton);
+
+        addJLabel("Export Graph File Path:");
+
         final JTextField exportTextField = new JTextField();
         exportTextField.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
+        exportTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.panel.add(exportTextField);
+
+        JButton exportButton = new JButton("Export Graph");
+        exportButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -76,7 +81,6 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
                 }
             }
         });
-        this.panel.add(exportTextField);
         this.panel.add(exportButton);
     }
 
@@ -111,8 +115,8 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         }
 
         this.xaxis.revalidate();
-        this.yaxis.revalidate();
         this.xaxis.repaint();
+        this.yaxis.revalidate();
         this.yaxis.repaint();
         this.panel.revalidate();
         this.panel.repaint();
@@ -132,6 +136,18 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
      */
     public ParametricFunction getSelectedYAxis() {
         return this.metricsMap.get(this.yaxis.getSelectedItem());
+    }
+
+    public View getView() {
+        return new View("Options", this.panel, "Options", true);
+    }
+
+    public int getDefaultPosition() {
+        return ITool.LEFTPOSITION;
+    }
+
+    public void update(OutputDataReference graphReference) {
+        populateOptions(graphReference.getAxisFunctions());
     }
 
     /**
@@ -155,15 +171,27 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         this.panel.add(checkBox);
     }
 
-    public View getView() {
-        return new View("Options", this.panel, "Options", true);
+    /**
+     * Creates a combo box with default settings
+     * @param name name of the combo box
+     * @return combo box with default settings
+     */
+    private JComboBox createJComboBox(String name){
+        JComboBox box = new JComboBox();
+        box.setName(name);
+        box.setAlignmentX(Component.LEFT_ALIGNMENT);
+        box.setMaximumRowCount(6);
+        box.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
+        return box;
     }
 
-    public int getDefaultPosition() {
-        return ITool.LEFTPOSITION;
-    }
-
-    public void update(OutputDataReference graphReference) {
-        populateOptions(graphReference.getAxisFunctions());
+    /**
+     * Adds a JLabel with a given text to the panel
+     * @param text text of the lable
+     */
+    private void addJLabel(String text){
+        JLabel label = new JLabel(text);
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.panel.add(label);
     }
 }

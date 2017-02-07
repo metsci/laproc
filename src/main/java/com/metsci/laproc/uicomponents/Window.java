@@ -71,11 +71,6 @@ public abstract class Window {
      */
     public void addViewToTile(View v, int tileValue) {
         int tilesTotalViews = this.tiles.get(tileValue).numViews();
-        if(tilesTotalViews == 0)
-            this.tiles.get(tileValue).addView(v, 0);
-        else if(tilesTotalViews == 1)
-            this.tiles.get(tileValue).addView(v, 1);
-        else
-            this.tiles.get(tileValue).addView(v, tilesTotalViews - 1);
+        this.tiles.get(tileValue).addView(v, tilesTotalViews);
     }
 }
