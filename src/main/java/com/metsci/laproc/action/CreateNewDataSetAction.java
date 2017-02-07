@@ -39,11 +39,9 @@ public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
      * @param dataSheetPanel data sheet panel to get selected tags
      */
     public void doAction(EvaluationSetPanel dataSheetPanel) {
-    	String dataName;
-    	if(dataSheetPanel.getNameText().equals("") || dataSheetPanel.getNameText().length() < 1){
+    	String dataName = dataSheetPanel.getNameText();;
+    	if(dataName.length() < 1){
     		dataName = "New Data Set " + currentAddedIndex++;
-    	}else{
-    		dataName = dataSheetPanel.getNameText();
     	}
         ClassifierDataSet dataSetGroup = new ClassifierDataSet(new ArrayList<List<String>>(), dataName);
         List<List<String>> tags = dataSheetPanel.getSelectedTags();
