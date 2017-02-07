@@ -3,7 +3,9 @@ package com.metsci.laproc.tools;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.docking.View;
+import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.laproc.datareference.GraphReference;
+import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.uicomponents.GraphDisplayer;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.utils.IAction;
@@ -15,6 +17,7 @@ import com.metsci.laproc.utils.IObserver;
  */
 public class GraphPanel implements ITool, IObserver<GraphReference> {
     private NewtSwingGlimpseCanvas canvas;
+    private GraphDisplayManager graphDisplayManager;
     private GraphDisplayer graphDisplayer;
 
     /**
@@ -22,10 +25,11 @@ public class GraphPanel implements ITool, IObserver<GraphReference> {
      * Creaded by porterjc on 9/22/2016
      */
 
-    public GraphPanel(GraphReference reference, IAction<GraphPoint[]>... clickActions){
+    public GraphPanel(GraphReference reference, GraphDisplayManager manager, IAction<GraphPoint[]>... clickActions){
         reference.addObserver(this);
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
+        graphDisplayManager = manager;
         graphDisplayer = new GraphDisplayer(clickActions);
         this.addGraphToCanvas(graphDisplayer);
     }
@@ -36,7 +40,8 @@ public class GraphPanel implements ITool, IObserver<GraphReference> {
      */
     public void addGraphToCanvas(GraphDisplayer displayer) {
         canvas.removeAllLayouts();
-        canvas.addLayout(displayer.getLayout());
+        Plot2D plot = displayer.getLayout();
+        canvas.addLayout(plot);
         this.graphDisplayer = displayer;
     }
 
@@ -58,7 +63,10 @@ public class GraphPanel implements ITool, IObserver<GraphReference> {
 
     public void update(GraphReference reference) {
         canvas.removeAllLayouts();
+        Graph graph = reference.getGraph();
         graphDisplayer.setGraph(reference.getGraph());
-        canvas.addLayout(graphDisplayer.getLayout());
+        Plot2D plot2D = graphDisplayer.getLayout();
+        graphDisplayManager.updateGraph(graph, plot2D);
+        canvas.addLayout(plot2D);
     }
 }

@@ -1,6 +1,8 @@
 package com.metsci.laproc.uicomponents;
 
 import com.metsci.glimpse.painter.plot.XYLinePainter;
+import com.metsci.glimpse.painter.shape.PolygonPainter;
+import com.metsci.glimpse.support.color.GlimpseColor;
 
 /**
  * A factory class to initialize painters with the provided defaults
@@ -45,5 +47,28 @@ public class PainterFactory {
         linePainter.setLineThickness(properties.getLineThickness());
         linePainter.showPoints(properties.shouldShowPoints());
         return linePainter;
+    }
+
+    /**
+     * Constructs an Area Shader
+     * @return A new AreaShader instance
+     */
+    public AreaShader getAreaShader () {
+        return getAreaShader(properties.getShadeColor());
+    }
+
+    /**
+     * Constructs an Area Shader
+     * @param color The color to use for the shader
+     * @return A new AreaShader instance
+     */
+    public AreaShader getAreaShader (float[] color) {
+        AreaShader shader = new AreaShader();
+        shader.setFill(0, true);
+        //Make polygon transparent
+        color[3] = GraphVisualProperties.SHADE_ALPHA;
+        shader.setFillColor(0,color);
+        shader.setShowLines(0,false);
+        return shader;
     }
 }

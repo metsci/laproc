@@ -4,6 +4,7 @@ import com.metsci.glimpse.canvas.FBOGlimpseCanvas;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.gl.util.GLUtils;
 import com.metsci.glimpse.painter.decoration.LegendPainter;
+import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.font.FontUtils;
 import com.metsci.laproc.plotting.*;
@@ -26,13 +27,17 @@ public class GraphExporter{
      * @throws IOException
      */
     public static void exportGraph(String filePath, Graph graph) throws IOException {
+        GraphRenderer renderer = new GraphRenderer();
+        SimplePlot2D plot = renderer.getLayout(graph);
+        // Only show the x and y crosshairs
+        plot.getCrosshairPainter().setVisible(false);
+
         NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas();
-        SimplePlot2D plot = GraphExporter.getLayout(graph);
         plot.setTitleFont( FontUtils.getDefaultBold( 18 ) );
-        canvas.addLayout(GraphExporter.getLayout(graph));
+        canvas.addLayout(plot);
         GLOffscreenAutoDrawable glDrawable = GLUtils.newOffscreenDrawable( canvas.getGLProfile() );
         FBOGlimpseCanvas offscreenCanvas = new FBOGlimpseCanvas(glDrawable.getContext(), 1000, 1000 );
-        offscreenCanvas.addLayout(GraphExporter.getLayout(graph));
+        offscreenCanvas.addLayout(plot);
 
         BufferedImage image = offscreenCanvas.toBufferedImage();
         ImageIO.write(image, "PNG", new File(filePath));
@@ -43,7 +48,7 @@ public class GraphExporter{
      * @param graph graph to display the layout
      * @return glimpse layout of the graph
      */
-    private static SimplePlot2D getLayout(Graph graph)
+   /* private static SimplePlot2D getLayout(Graph graph)
     {
         // Create a plot frame
         SimplePlot2D plot = new SimplePlot2D( );
@@ -65,5 +70,5 @@ public class GraphExporter{
         plot.getLayoutCenter().addPainter(legend);
 
         return plot;
-    }
+    }*/
 }

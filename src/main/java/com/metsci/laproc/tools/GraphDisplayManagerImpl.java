@@ -1,12 +1,8 @@
 package com.metsci.laproc.tools;
 
-import com.google.common.collect.Lists;
-import com.metsci.laproc.datareference.GraphReference;
-import com.metsci.laproc.plotting.CompositeFunction;
+import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.plotting.GraphableData;
-import com.metsci.laproc.utils.IObserver;
-import com.metsci.laproc.utils.Observable;
+import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
 
 import java.util.*;
 
@@ -14,60 +10,43 @@ import java.util.*;
  * Applies composite functions to the Graph
  * Created by robinsat on 1/30/2017.
  */
-public class GraphDisplayManagerImpl extends Observable implements GraphDisplayManager {
+public class GraphDisplayManagerImpl implements GraphDisplayManager {
 
-    /** The set of composite functions that will be applied to the graph */
-    private Collection<CompositeFunction> compositeFunctions;
-    /** A field to store the current Graph object */
-    private Graph graph;
+    /** The set of features that will be applied to the graph */
+    private Collection<GraphFeature> graphFeatures;
 
     /**
      * Constructor
-     * @param graphReference The GraphReference that this object will observe
-     * @param graphDisplay The object observing the graph that will observe this
      */
-    public GraphDisplayManagerImpl(GraphReference graphReference, IObserver<GraphReference> graphDisplay) {
-        compositeFunctions = new ArrayList<CompositeFunction>();
-        graphReference.addObserver(this);
-        graphReference.removeObserver(graphDisplay);
-        this.addObserver(graphDisplay);
+    public GraphDisplayManagerImpl() {
+        graphFeatures = new ArrayList<GraphFeature>();
     }
 
     /**
-     * Adds a composite function to the set of functions applied to the graph
-     * @param func The function to apply
+     * Adds an item to the set of features applied to the graph
+     * @param feature The feature to enable
      */
-    public void enableCompositeFunction(CompositeFunction func) {
-        this.compositeFunctions.add(func);
+    public void enableGraphFeature(GraphFeature feature) {
+        this.graphFeatures.add(feature);
     }
 
     /**
-     * Removes a composite function to the set of functions applied to the graph
-     * @param func The function to disable
+     * Removes an item from the set of features applied to the graph
+     * @param feature The feature to disable
      */
-    public void disableCompositeFunction(CompositeFunction func) {
-        this.compositeFunctions.remove(func);
+    public void disableGraphFeature(GraphFeature feature) {
+        this.graphFeatures.remove(feature);
     }
 
+
     /**
-     * Method called whenever the observed object updates
-     * @param graphReference The observed object
+     * Called whenever the Graph needs to update
+     * @param graph The graph to use for the features
+     * @param plot The plot on which to draw the features
      */
-    public void update(GraphReference graphReference) {
-        graph = graphReference.getGraph();
-        Iterable<GraphableData> data = graph.getData();
-        List<GraphableData> dataList = Lists.newArrayList(data);
-        for(CompositeFunction function : this.compositeFunctions) {
-            graph.addData(function.compute(dataList));
+    public void updateGraph(Graph graph, Plot2D plot) {
+        for(GraphFeature feature : this.graphFeatures) {
+            feature.applyToPlot(graph, plot);
         }
-        notifyObservers();
-    }
-
-    /**
-     * Getter for the Graph object
-     * @return The Graph object
-     */
-    public Graph getGraph() {
-        return this.graph;
     }
 }

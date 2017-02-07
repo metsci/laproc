@@ -6,6 +6,8 @@ import com.metsci.laproc.plotting.*;
 import com.metsci.laproc.uicomponents.ParametrizedCheckBox;
 import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.uicomponents.GraphExporter;
+import com.metsci.laproc.uicomponents.graphfeatures.CompositeFunctionDrawer;
+import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IObserver;
@@ -30,8 +32,8 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     private IAction updateAxesAction;
     private GraphDisplayManager manager;
 
-    private IAction<CompositeFunction> addCompositeFunctionAction;
-    private IAction<CompositeFunction> removeCompositeFunctionAction;
+    private IAction<GraphFeature> addGraphFeatureAction;
+    private IAction<GraphFeature> removeGraphFeatureAction;
 
     /**
      * Default constructor for Graphoptions Panel
@@ -61,8 +63,8 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         this.updateButton = new JButton("Update");
         this.panel.add(updateButton);
 
-        this.addCompositeFunctionAction = new AddCompositeFunctionAction(manager);
-        this.removeCompositeFunctionAction = new RemoveCompositeFunctionAction(manager);
+        this.addGraphFeatureAction = new AddGraphFeatureAction(manager);
+        this.removeGraphFeatureAction = new RemoveGraphFeatureAction(manager);
         setupCompositeFunctionOptions();
         JButton exportButton = new JButton("Export Graph");
         final JTextField exportTextField = new JTextField();
@@ -138,20 +140,20 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
      * Sets up the check boxes for the composite funtions
      */
     private void setupCompositeFunctionOptions() {
-        addCheckBox(new VerticalAverageFunction(), "Display Vertical Average");
-        addCheckBox(new VarianceFunction(), "Display Variance");
-        addCheckBox(new StandardDeviationFunction(), "Display Standard Deviation");
+        addCheckBox(new CompositeFunctionDrawer(new VerticalAverageFunction()), "Display Vertical Average");
+        addCheckBox(new CompositeFunctionDrawer(new VarianceFunction()), "Display Variance");
+        addCheckBox(new CompositeFunctionDrawer(new StandardDeviationFunction()), "Display Standard Deviation");
     }
 
     /**
      * Adds a checkbox with the given name and function
-     * @param function function of the checkbox
-     * @param text text the checkbox displays
+     * @param feature The feature associated with this checkbox
+     * @param text Text the checkbox displays
      */
-    private void addCheckBox(CompositeFunction function, String text) {
-        ParametrizedCheckBox<CompositeFunction> checkBox = new ParametrizedCheckBox<CompositeFunction>(text, function);
-        checkBox.addActionWhenChecked(addCompositeFunctionAction);
-        checkBox.addActionWhenUnchecked(removeCompositeFunctionAction);
+    private void addCheckBox(GraphFeature feature, String text) {
+        ParametrizedCheckBox<GraphFeature> checkBox = new ParametrizedCheckBox<GraphFeature>(text, feature);
+        checkBox.addActionWhenChecked(addGraphFeatureAction);
+        checkBox.addActionWhenUnchecked(removeGraphFeatureAction);
         this.panel.add(checkBox);
     }
 

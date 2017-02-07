@@ -29,14 +29,15 @@ public class DefaultToolBox extends ToolBox {
         GraphReference graphReference = new GraphReferenceImpl(getOutputReference());
         ConfusionPanel confusionPanel = new ConfusionPanel();
         PointInfoPanel pointInfoPanel = new PointInfoPanel();
-        GraphPanel graphPanel = new GraphPanel(graphReference,
+        GraphDisplayManager manager = new GraphDisplayManagerImpl();
+        GraphPanel graphPanel = new GraphPanel(graphReference, manager,
                 new UpdateGenericDisplayAction<GraphPoint[]>(confusionPanel),
                 new UpdateGenericDisplayAction<GraphPoint[]>(pointInfoPanel));
 
         this.addTool(new EvaluationSetPanel(getInputReference(), getOutputReference()));
         this.addTool(new DataSetPanel(getOutputReference()));
         this.addTool(new GraphOptionsPanel(getOutputReference(),
-                new GraphDisplayManagerImpl(graphReference, graphPanel)));
+                manager));
         this.addTool(graphPanel);
         this.addTool(confusionPanel);
         this.addTool(pointInfoPanel);

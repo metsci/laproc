@@ -11,8 +11,11 @@ import java.util.Random;
 public class GraphVisualProperties {
 
     static final float[] defaultAverageColor = GlimpseColor.fromColorRgb(0f, 1f, 0f);
+    static final float[] defaultShadeColor = GlimpseColor.fromColorRgb(0.6f,0.6f,0.6f);
     static final float[][] possibleColors = new float[8][4];
     static final float defaultLineThickness = 1.5f;
+
+    public static final float SHADE_ALPHA = 0.5f;
 
     static {
         possibleColors[0] = GlimpseColor.fromColorRgb(0f, 0f, 0f);
@@ -26,6 +29,8 @@ public class GraphVisualProperties {
 
     /** The color used to display the vertical average */
     private float[] averageColor;
+    /** The color used to shade a portion of the graph */
+    private float[] shadeColor;
     /** The thickness of the line used to draw each data set */
     private float lineThickness;
     /** Whether or not to show the individual points on the graph */
@@ -36,6 +41,7 @@ public class GraphVisualProperties {
      */
     public GraphVisualProperties() {
         averageColor = defaultAverageColor;
+        shadeColor = defaultShadeColor;
         lineThickness = defaultLineThickness;
         showPoints = false;
     }
@@ -65,6 +71,14 @@ public class GraphVisualProperties {
     }
 
     /**
+     * Getter for the shade color value
+     * @return The shade color value
+     */
+    public float[] getShadeColor() {
+        return shadeColor;
+    }
+
+    /**
      * Setter for the line thickness value
      * @param newValue The line thickness value
      */
@@ -86,6 +100,14 @@ public class GraphVisualProperties {
      */
     public void setAverageColor(float[] newColor) {
         averageColor = newColor;
+    }
+
+    /**
+     * Setter for the shade color value
+     * @param newColor The shade color value
+     */
+    public void setShadeColor(float[] newColor) {
+        shadeColor = newColor;
     }
 
     /**
