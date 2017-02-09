@@ -18,6 +18,7 @@ public class GraphReferenceImpl extends Observable implements GraphReference, IO
      * @param reference data reference for the graph reference
      */
     public GraphReferenceImpl(OutputDataReference reference) {
+        this.graph = reference.createGraph();
         reference.addObserver(this);
     }
 
