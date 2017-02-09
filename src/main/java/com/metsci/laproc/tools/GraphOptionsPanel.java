@@ -75,7 +75,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    GraphExporter.exportGraph(exportTextField.getText() + ".png", reference.createGraph());
+                    GraphExporter.exportGraph(exportTextField.getText() + ".png", manager.getGraph());
                 } catch (IOException exe){
                     exe.printStackTrace();
                 }
