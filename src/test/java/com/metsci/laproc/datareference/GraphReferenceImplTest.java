@@ -17,10 +17,10 @@ public class GraphReferenceImplTest {
         OutputDataReference ref = EasyMock.niceMock(OutputDataReference.class);
         Graph graph = EasyMock.niceMock(Graph.class);
         EasyMock.expect(ref.createGraph()).andReturn(graph);
-        EasyMock.replay(ref);
-        GraphReference graphRef = new GraphReferenceImpl(ref);
+        EasyMock.replay(ref,graph);
+        GraphReferenceImpl graphRef = new GraphReferenceImpl(ref);
         assertEquals(graph, graphRef.getGraph());
-        EasyMock.verify(ref);
+        EasyMock.verify(ref,graph);
     }
 
     @Test
@@ -28,11 +28,20 @@ public class GraphReferenceImplTest {
         OutputDataReference ref = EasyMock.niceMock(OutputDataReference.class);
         IObserver observer = EasyMock.strictMock(IObserver.class);
         Graph graph = EasyMock.niceMock(Graph.class);
+        Graph graph1 = EasyMock.niceMock(Graph.class);
         EasyMock.expect(ref.createGraph()).andReturn(graph);
-        EasyMock.replay(ref);
-        GraphReference graphRef = new GraphReferenceImpl(ref);
+        EasyMock.expect(ref.createGraph()).andReturn(graph1);
+        EasyMock.replay(ref,graph,graph1);
+
+        GraphReferenceImpl graphRef = new GraphReferenceImpl(ref);
+
+        observer.update(graphRef);
+        EasyMock.expectLastCall().times(1);
+        EasyMock.replay(observer);
+
         graphRef.addObserver(observer);
-        assertEquals(graph, graphRef.getGraph());
-        EasyMock.verify(ref);
+        graphRef.update(ref);
+        assertEquals(graph1, graphRef.getGraph());
+        EasyMock.verify(ref,graph,graph1,observer);
     }
 }
