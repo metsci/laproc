@@ -51,6 +51,15 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
 		notifyObservers();
 	}
 
+    public void removeDataSetGroup(ClassifierDataSet dataSetGroup){
+        this.dataSetGroups.remove(dataSetGroup);
+        notifyObservers();
+    }
+
+    public List<ClassifierDataSet> getDataSetGroups(){
+        return this.dataSetGroups;
+    }
+
 	public void addToDataSetGraphMap(ClassifierDataSet dataSetGroup, GraphableData<?> graphSet){
         this.dataSetGraphMap.put(dataSetGroup, graphSet);
         notifyObservers();
@@ -59,15 +68,6 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
     public GraphableData<?> getGraphfromDataSet(ClassifierDataSet dataSetGroup){
         return this.dataSetGraphMap.get(dataSetGroup);
     }
-
-	public void removeDataSetGroup(ClassifierDataSet dataSetGroup){
-		this.dataSetGroups.remove(dataSetGroup);
-		notifyObservers();
-	}
-
-	public List<ClassifierDataSet> getDataSetGroups(){
-		return this.dataSetGroups;
-	}
 
 	public List<TagHeader> getTagHeaders() {
 		return this.tagHeaders;
