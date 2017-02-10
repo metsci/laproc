@@ -96,7 +96,7 @@ public class Filterer {
             if(updateSet.getSetOperations().equals("")){
                 updateSet.setSetOperation(setOperation);
             } else {
-                updateSet.setSetOperation("[ " + updateSet.getSetOperations() + " ] V " + setOperation);
+                updateSet.setSetOperation("[ " + updateSet.getSetOperations() + " ] V [ " + setOperation + " ]");
             }
         }
     }

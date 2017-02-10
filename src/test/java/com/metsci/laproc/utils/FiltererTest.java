@@ -216,7 +216,7 @@ public class FiltererTest {
         assertTrue(points.contains(this.getEvalSetPoint(4)));
 
         setOperations = this.dataSet.getSetOperations();
-        assertEquals("[ ( a1 ) ] V ( b1 )", setOperations);
+        assertEquals("[ ( a1 ) ] V [ ( b1 ) ]", setOperations);
     }
 
     @Test
@@ -245,7 +245,7 @@ public class FiltererTest {
         assertTrue(points.contains(this.getEvalSetPoint(4)));
 
         setOperations = this.dataSet.getSetOperations();
-        assertEquals("[ ( a1 ) /\\ ( b1 ) ] V ( a3 )", setOperations);
+        assertEquals("[ ( a1 ) /\\ ( b1 ) ] V [ ( a3 ) ]", setOperations);
     }
 
     @Test
@@ -274,7 +274,7 @@ public class FiltererTest {
         assertTrue(points.contains(this.getEvalSetPoint(4)));
 
         setOperations = this.dataSet.getSetOperations();
-        assertEquals("[ ( a3 ) ] V ( a1 ) /\\ ( b1 )", setOperations);
+        assertEquals("[ ( a3 ) ] V [ ( a1 ) /\\ ( b1 ) ]", setOperations);
 
         this.initializetagSet();
     }
@@ -311,7 +311,7 @@ public class FiltererTest {
         assertTrue(points.contains(this.getEvalSetPoint(4)));
 
         setOperations = this.dataSet.getSetOperations();
-        assertEquals("[ ( a1 V a2 ) ] V ( a3 )", setOperations);
+        assertEquals("[ ( a1 V a2 ) ] V [ ( a3 ) ]", setOperations);
     }
 
     @Test
@@ -343,7 +343,7 @@ public class FiltererTest {
         assertTrue(points.contains(this.getEvalSetPoint(4)));
 
         setOperations = this.dataSet.getSetOperations();
-        assertEquals("[ ( a3 ) ] V ( a1 V a2 )", setOperations);
+        assertEquals("[ ( a3 ) ] V [ ( a1 V a2 ) ]", setOperations);
 
     }
 
@@ -378,7 +378,7 @@ public class FiltererTest {
         assertTrue(points.contains(this.getEvalSetPoint(4)));
 
         setOperations = this.dataSet.getSetOperations();
-        assertEquals("[ ( all ) ] V ( a3 )", setOperations);
+        assertEquals("[ ( all ) ] V [ ( a3 ) ]", setOperations);
     }
 
     @Test
@@ -408,7 +408,7 @@ public class FiltererTest {
         assertTrue(points.contains(this.getEvalSetPoint(4)));
 
         setOperations = this.dataSet.getSetOperations();
-        assertEquals("[ ( a3 ) ] V ( all )", setOperations);
+        assertEquals("[ ( a3 ) ] V [ ( all ) ]", setOperations);
     }
 
     private DataPoint getEvalSetPoint(int i){
