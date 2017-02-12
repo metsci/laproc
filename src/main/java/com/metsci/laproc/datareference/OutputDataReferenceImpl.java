@@ -17,8 +17,6 @@ import java.util.*;
  */
 public class OutputDataReferenceImpl extends Observable implements OutputDataReference {
 
-    private Graph graph;
-
     /** The internal collection of GraphableData */
     private Map<GraphableData, Boolean> allData;
 
@@ -29,8 +27,6 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
      * Default constructor for an output data reference
      */
     public OutputDataReferenceImpl() {
-        graph = new BasicGraph();
-
         this.allData = new LinkedHashMap<GraphableData, Boolean>();
 
         xAxisFunc = new FalsePositiveRate();
@@ -42,20 +38,26 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
      * @param data The GraphableData to add
      */
     public void addGraphableData(GraphableData data) {
-        allData.put(data, true);
-        this.notifyObservers();
+        if(!allData.containsKey(data)) {
+            allData.put(data, true);
+            this.notifyObservers();
+        }
     }
 
     public void deleteGraphableData(GraphableData<?> data) {
-        allData.remove(data);
-        notifyObservers();
+        if(allData.containsKey(data)) {
+            allData.remove(data);
+            notifyObservers();
+        }
     }
 
     public void replaceDataOnGraph(GraphableData<?> graphSet, GraphableData<?> newGraphSet) {
-        boolean display = allData.get(graphSet);
-        allData.remove(graphSet);
-        allData.put(newGraphSet, display);
-        notifyObservers();
+        if(!allData.keySet().contains(newGraphSet) && allData.keySet().contains(graphSet)) {
+            boolean display = allData.get(graphSet);
+            allData.remove(graphSet);
+            allData.put(newGraphSet, display);
+            notifyObservers();
+        }
     }
 
     /**
@@ -63,7 +65,7 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
      * @param data The data to set as displayed or active
      */
     public void showData(GraphableData data) {
-        if(allData.containsKey(data)) {
+        if(allData.containsKey(data) && !allData.get(data)) {
             allData.put(data, true);
             notifyObservers();
         }
@@ -74,7 +76,7 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
      * @param data The data to set as hidden or inactive
      */
     public void hideData(GraphableData data) {
-        if(allData.containsKey(data)) {
+        if(allData.containsKey(data)  && allData.get(data)) {
             allData.put(data, false);
             notifyObservers();
         }
@@ -136,9 +138,11 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     }
 
     public void useAxisFunctions(ParametricFunction x, ParametricFunction y) {
-        this.xAxisFunc = x;
-        this.yAxisFunc = y;
-        this.notifyObservers();
+        if(!(x.equals(this.xAxisFunc) && y.equals(this.yAxisFunc))) {
+            this.xAxisFunc = x;
+            this.yAxisFunc = y;
+            this.notifyObservers();
+        }
 
     }
 

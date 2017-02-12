@@ -4,9 +4,9 @@ import com.metsci.laproc.action.*;
 import com.metsci.laproc.data.ClassifierDataSetTest;
 import com.metsci.laproc.data.DataPointImplTest;
 import com.metsci.laproc.data.TagHeaderTest;
-import com.metsci.laproc.datareference.GraphReference;
 import com.metsci.laproc.datareference.GraphReferenceImplTest;
-import com.metsci.laproc.datareference.TestInputDataReferenceImpl;
+import com.metsci.laproc.datareference.InputDataReferenceImplTest;
+import com.metsci.laproc.datareference.OutputDataReferenceImplTest;
 import com.metsci.laproc.plotting.CompositeFunctionTest;
 import com.metsci.laproc.plotting.GraphableDataTest;
 import com.metsci.laproc.plotting.ROCCurveTest;
@@ -35,7 +35,8 @@ import org.junit.runners.Suite;
         DataPointImplTest.class,
         TagHeaderTest.class,
         GraphReferenceImplTest.class,
-        TestInputDataReferenceImpl.class,
+        InputDataReferenceImplTest.class,
+        OutputDataReferenceImplTest.class,
         CompositeFunctionTest.class,
         GraphableDataTest.class,
         ROCCurveTest.class,

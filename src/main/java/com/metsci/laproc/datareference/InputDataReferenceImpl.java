@@ -32,13 +32,17 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
     }
 
     public void addEvalSet(ClassifierDataSet dataSet) {
-        this.evalSets.add(dataSet);
-        notifyObservers();
+        if(!this.evalSets.contains(dataSet)){
+            this.evalSets.add(dataSet);
+            notifyObservers();
+        }
     }
 
     public void removeEvalSet(ClassifierDataSet dataSet) {
-        this.evalSets.remove(dataSet);
-        notifyObservers();
+        if(this.evalSets.contains(dataSet)) {
+            this.evalSets.remove(dataSet);
+            notifyObservers();
+        }
     }
 
     public List<ClassifierDataSet> getEvaluationSets() {
@@ -47,13 +51,17 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
 
 
 	public void addDataSetGroup(ClassifierDataSet dataSetGroup){
-		this.dataSetGroups.add(dataSetGroup);
-		notifyObservers();
+        if(!this.dataSetGroups.contains(dataSetGroup)) {
+            this.dataSetGroups.add(dataSetGroup);
+            notifyObservers();
+        }
 	}
 
     public void removeDataSetGroup(ClassifierDataSet dataSetGroup){
-        this.dataSetGroups.remove(dataSetGroup);
-        notifyObservers();
+        if(this.dataSetGroups.remove(dataSetGroup)) {
+            this.dataSetGroups.remove(dataSetGroup);
+            notifyObservers();
+        }
     }
 
     public List<ClassifierDataSet> getDataSetGroups(){
@@ -61,8 +69,17 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
     }
 
 	public void addToDataSetGraphMap(ClassifierDataSet dataSetGroup, GraphableData<?> graphSet){
-        this.dataSetGraphMap.put(dataSetGroup, graphSet);
-        notifyObservers();
+        if(!this.dataSetGraphMap.containsKey(dataSetGroup)) {
+            this.dataSetGraphMap.put(dataSetGroup, graphSet);
+            notifyObservers();
+        }
+    }
+
+    public void replaceDataSetGraphMap(ClassifierDataSet dataSetGroup, GraphableData<?> graphSet){
+        if(this.dataSetGraphMap.containsKey(dataSetGroup) && !this.dataSetGraphMap.get(dataSetGroup).equals(graphSet)) {
+            this.dataSetGraphMap.put(dataSetGroup, graphSet);
+            notifyObservers();
+        }
     }
 
     public GraphableData<?> getGraphfromDataSet(ClassifierDataSet dataSetGroup){
