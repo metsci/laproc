@@ -7,6 +7,7 @@ import com.metsci.laproc.data.TagHeaderTest;
 import com.metsci.laproc.datareference.GraphReferenceImplTest;
 import com.metsci.laproc.datareference.InputDataReferenceImplTest;
 import com.metsci.laproc.datareference.OutputDataReferenceImplTest;
+import com.metsci.laproc.plotting.BasicAxisTest;
 import com.metsci.laproc.plotting.CompositeFunctionTest;
 import com.metsci.laproc.plotting.GraphableDataTest;
 import com.metsci.laproc.plotting.ROCCurveTest;
@@ -37,6 +38,7 @@ import org.junit.runners.Suite;
         GraphReferenceImplTest.class,
         InputDataReferenceImplTest.class,
         OutputDataReferenceImplTest.class,
+        BasicAxisTest.class,
         CompositeFunctionTest.class,
         GraphableDataTest.class,
         ROCCurveTest.class,

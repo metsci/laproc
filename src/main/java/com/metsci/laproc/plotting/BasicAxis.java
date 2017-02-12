@@ -102,6 +102,9 @@ public class BasicAxis implements Axis{
      * @param max The upper bound, inclusive
      */
     public void setBounds(double min, double max) {
+        if(min > max){
+            throw new IllegalArgumentException("Minimum value cannot exceed the maximum");
+        }
         this.min = min;
         this.max = max;
     }
