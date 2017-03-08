@@ -57,6 +57,13 @@ public interface InputDataReference extends IObservable {
     void addToDataSetGraphMap(ClassifierDataSet dataSetGroup, GraphableData<?> graphSet);
 
     /**
+     * Updates a data set group/graph set pair to the map that associates the two kinds of sets
+     * @param dataSetGroup data set to update with a new graph set
+     * @param graphSet new graph set to associate with the data set
+     */
+    void replaceDataSetGraphMap(ClassifierDataSet dataSetGroup, GraphableData<?> graphSet);
+
+    /**
      * Get the associated graph set for a given data set group
      * @param dataSetGroup data set group to get the associate graph for
      * @return associated graph for the data set group
