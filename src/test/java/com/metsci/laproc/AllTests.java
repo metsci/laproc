@@ -28,6 +28,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         AddCompositeFunctionActionTest.class,
+        CreateNewDataSetActionTest.class,
         DisplayGraphDataActionTest.class,
         HideGraphDataActionTest.class,
         RemoveCompositeFunctionActionTest.class,
