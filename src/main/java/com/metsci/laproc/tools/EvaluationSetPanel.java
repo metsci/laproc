@@ -40,7 +40,7 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 		ref.addObserver(this);
 		this.panel = new JPanel();
 		this.createAction = new CreateNewDataSetAction(ref, outref, new ROCCurveFunction());
-		this.unionAction = new FilterDataSetAction(ref, outref);
+		this.unionAction = new FilterDataSetAction(ref, outref, new ROCCurveFunction());
 		setDataSheet(ref);
 	}
 

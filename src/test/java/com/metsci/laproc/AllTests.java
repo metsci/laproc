@@ -30,6 +30,7 @@ import org.junit.runners.Suite;
         AddCompositeFunctionActionTest.class,
         CreateNewDataSetActionTest.class,
         DisplayGraphDataActionTest.class,
+        FilterDataSetActionTest.class,
         HideGraphDataActionTest.class,
         RemoveCompositeFunctionActionTest.class,
         UpdateAxesActionTest.class,

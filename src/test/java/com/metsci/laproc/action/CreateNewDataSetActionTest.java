@@ -13,7 +13,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.easymock.EasyMock.anyObject;
 import static org.junit.Assert.assertEquals;
 
 /**
