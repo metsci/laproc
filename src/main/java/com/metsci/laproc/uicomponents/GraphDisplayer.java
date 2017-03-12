@@ -16,7 +16,7 @@ import com.metsci.laproc.utils.IAction;
  */
 public class GraphDisplayer implements GlimpseLayoutProvider
 {
-    private PainterFactory factory;
+    private GraphRenderer graphRenderer;
     private IAction<GraphPoint[]>[] pointClickActions;
     private Graph graph;
 
@@ -40,7 +40,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
         this.pointClickActions = pointClickActions;
         //By default, display an empty graph
         this.graph = new BasicGraph();
-        this.factory = new PainterFactory();
+        this.graphRenderer = new GraphRenderer();
     }
 
     /**
@@ -48,7 +48,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
      * @param properties The new set of properties to use
      */
     public void useGraphProperties(GraphVisualProperties properties) {
-        this.factory = new PainterFactory(properties);
+        graphRenderer.useGraphProperties(properties);
     }
 
     /**
@@ -67,10 +67,9 @@ public class GraphDisplayer implements GlimpseLayoutProvider
      */
     public SimplePlot2D getLayout()
     {
-        GraphRenderer renderer = new GraphRenderer();
-
         // Create a plot frame
-        SimplePlot2D plot = renderer.getLayout(graph);
+        SimplePlot2D plot = graphRenderer.getLayout(graph);
+
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().showSelectionBox(false);
 

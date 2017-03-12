@@ -3,11 +3,15 @@ package com.metsci.laproc.tools;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.docking.View;
+import com.metsci.glimpse.painter.plot.XYLinePainter;
 import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.laproc.datareference.GraphReference;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.uicomponents.GraphDisplayer;
 import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.uicomponents.GraphVisualProperties;
+import com.metsci.laproc.uicomponents.PainterFactory;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.utils.IObserver;
 
@@ -64,9 +68,9 @@ public class GraphPanel implements ITool, IObserver<GraphReference> {
     public void update(GraphReference reference) {
         canvas.removeAllLayouts();
         Graph graph = reference.getGraph();
-        graphDisplayer.setGraph(reference.getGraph());
+        graphDisplayer.setGraph(graph);
         Plot2D plot2D = graphDisplayer.getLayout();
-        graphDisplayManager.updateGraph(graph, plot2D);
+        graphDisplayManager.updateGraph(graph, plot2D, new GraphVisualProperties());
         canvas.addLayout(plot2D);
     }
 }

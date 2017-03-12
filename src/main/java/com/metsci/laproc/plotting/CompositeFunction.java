@@ -11,7 +11,7 @@ import java.util.List;
  * An abstract for a "composite" function, or a function that computes based on the output of other functions.
  * Created by robinsat on 12/13/2016.
  */
-public abstract class CompositeFunction implements GraphableFunction<Iterable<GraphableData>> {
+public class CompositeFunction implements GraphableFunction<Iterable<GraphableData>> {
 
     /** The name of this function, to assign to the GraphableData result */
     private String name;
@@ -36,7 +36,8 @@ public abstract class CompositeFunction implements GraphableFunction<Iterable<Gr
      * @return GraphableData
      */
     public GraphableData compute(Iterable<GraphableData> input) {
-        BasicGraphableData data = new BasicGraphableData(this.name);
+        GraphableDataWithMetrics<CompositePoint> data = new GraphableDataWithMetrics<CompositePoint>(
+               "", new CompositePointXMetric(), new AverageMetric());
         if(!input.iterator().hasNext()) // Avoid null pointers and index out of bounds exceptions
             return data;
 
@@ -70,19 +71,17 @@ public abstract class CompositeFunction implements GraphableFunction<Iterable<Gr
             }
 
             // Use the set of Y values to finish executing the function
-            double result = computeFromYValues(Utils.toPrimitiveArray(calculatedYVals));
-            data.addPoint(currentValue, result);
+            double[] yVals = Utils.toPrimitiveArray(calculatedYVals);
+            data.addDataPoint(new CompositePoint(currentValue, yVals));
         }
+
+        data.addAxisMetric(new CompositePointXMetric());
+        data.addAxisMetric(new AverageMetric());
+        data.addAxisMetric(new VarianceMetric());
+        data.addAxisMetric(new StandardDeviationMetric());
 
         return data;
     }
-
-    /**
-     * Uses the y values for several data sets at a given x to compute output
-     * @param yValues The y values for several data sets at a given x
-     * @return The function output
-     */
-    protected abstract double computeFromYValues(double[] yValues);
 
     /**
      * A helper method to find the bounds to use for interpolation
@@ -105,19 +104,6 @@ public abstract class CompositeFunction implements GraphableFunction<Iterable<Gr
             }
         }
         return new Pair<Double, Double>(min, max);
-    }
-
-    /**
-     * Calculates the average. This is useful for multiple functions
-     * @param values The values to use for the average
-     * @return The average of the values
-     */
-    protected double calculateAverage(double[] values) {
-        double sum = 0;
-        for(int i = 0; i < values.length; i++) {
-            sum += values[i];
-        }
-        return sum / values.length;
     }
 
     /**

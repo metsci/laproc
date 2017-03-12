@@ -5,9 +5,9 @@ import com.metsci.laproc.action.*;
 import com.metsci.laproc.plotting.*;
 import com.metsci.laproc.uicomponents.ParametrizedCheckBox;
 import com.metsci.laproc.datareference.OutputDataReference;
-import com.metsci.laproc.uicomponents.GraphExporter;
-import com.metsci.laproc.uicomponents.graphfeatures.CompositeFunctionDrawer;
+import com.metsci.laproc.uicomponents.graphfeatures.AverageDrawer;
 import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
+import com.metsci.laproc.uicomponents.graphfeatures.VarianceDrawer;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IObserver;
@@ -61,6 +61,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         this.panel.add(yaxis);
 
         this.updateButton = new JButton("Update");
+        this.updateButton.addActionListener(new ButtonListener());
         this.panel.add(updateButton);
 
         this.addGraphFeatureAction = new AddGraphFeatureAction(manager);
@@ -86,21 +87,6 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
      * Updates the combo boxes with the metrics from the graph
      */
     public void populateOptions(Iterable<ParametricFunction> metrics) {
-
-        if(updateButton.getActionListeners() != null) {
-            this.updateButton.removeAll();
-        }
-
-        ActionListener listener = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ParametricFunction[] axes = new ParametricFunction[2];
-                axes[0] = getSelectedXAxis();
-                axes[1] = getSelectedYAxis();
-                updateAxesAction.doAction(axes);
-
-            }
-        };
-        this.updateButton.addActionListener(listener);
 
         Iterator<ParametricFunction> metricIterator = metrics.iterator();
         while(metricIterator.hasNext()) {
@@ -140,9 +126,9 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
      * Sets up the check boxes for the composite funtions
      */
     private void setupCompositeFunctionOptions() {
-        addCheckBox(new CompositeFunctionDrawer(new VerticalAverageFunction()), "Display Vertical Average");
-        addCheckBox(new CompositeFunctionDrawer(new VarianceFunction()), "Display Variance");
-        addCheckBox(new CompositeFunctionDrawer(new StandardDeviationFunction()), "Display Standard Deviation");
+        addCheckBox(new AverageDrawer(), "Display Vertical Average");
+        addCheckBox(new VarianceDrawer(), "Display Variance");
+        //addCheckBox(new AverageDrawer(new StandardDeviationFunction()), "Display Standard Deviation");
     }
 
     /**
@@ -167,5 +153,14 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
 
     public void update(OutputDataReference graphReference) {
         populateOptions(graphReference.getAxisFunctions());
+    }
+
+    private class ButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            ParametricFunction[] axes = new ParametricFunction[2];
+            axes[0] = getSelectedXAxis();
+            axes[1] = getSelectedYAxis();
+            updateAxesAction.doAction(axes);
+        }
     }
 }

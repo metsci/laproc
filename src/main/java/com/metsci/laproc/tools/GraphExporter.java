@@ -1,13 +1,12 @@
-package com.metsci.laproc.uicomponents;
+package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.canvas.FBOGlimpseCanvas;
 import com.metsci.glimpse.canvas.NewtSwingGlimpseCanvas;
 import com.metsci.glimpse.gl.util.GLUtils;
-import com.metsci.glimpse.painter.decoration.LegendPainter;
-import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.font.FontUtils;
 import com.metsci.laproc.plotting.*;
+import com.metsci.laproc.uicomponents.GraphRenderer;
 
 import javax.imageio.ImageIO;
 import javax.media.opengl.GLOffscreenAutoDrawable;
@@ -42,33 +41,4 @@ public class GraphExporter{
         BufferedImage image = offscreenCanvas.toBufferedImage();
         ImageIO.write(image, "PNG", new File(filePath));
     }
-
-    /**
-     * Gets the glimpse layout that will be displayed for the graph
-     * @param graph graph to display the layout
-     * @return glimpse layout of the graph
-     */
-   /* private static SimplePlot2D getLayout(Graph graph)
-    {
-        // Create a plot frame
-        SimplePlot2D plot = new SimplePlot2D( );
-
-        // Set axis labels and chart title
-        plot.setTitle(graph.getTitle());
-        GraphDisplayer.setPlotAxis(graph.getXAxis(), graph.getYAxis(), plot);
-
-        // Only show the x and y crosshairs
-        plot.getCrosshairPainter().setVisible(false);
-
-        //Set up Legend
-        LegendPainter.LineLegendPainter legend = GraphDisplayer.createLineLegendPainter();
-
-        //Draws each graphable data
-        GraphDisplayer.drawGraphableData(graph.getData(), plot, legend);
-
-        // Add the legend painter to the top of the center GlimpseLayout
-        plot.getLayoutCenter().addPainter(legend);
-
-        return plot;
-    }*/
 }

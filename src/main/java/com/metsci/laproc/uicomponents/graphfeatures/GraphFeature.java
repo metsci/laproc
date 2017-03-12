@@ -2,6 +2,7 @@ package com.metsci.laproc.uicomponents.graphfeatures;
 
 import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.uicomponents.GraphVisualProperties;
 
 /**
  * An interface representing some feature that can be added on to a graph in addition to the raw data
@@ -11,7 +12,10 @@ public interface GraphFeature {
 
     /**
      * Applies this feature to the graph
-     * @param plot The graph on which to draw this feature
+     * @param graph The Graph object containing the data that will be drawn
+     * @param plot  The graph on which to draw this feature
+     * @param properties The properties to use when drawing the graph
      */
-    void applyToPlot(Graph graph, Plot2D plot);
+    void applyToPlot(Graph graph, Plot2D plot, GraphVisualProperties properties);
+
 }

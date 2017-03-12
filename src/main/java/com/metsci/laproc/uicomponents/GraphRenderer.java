@@ -16,8 +16,11 @@ public class GraphRenderer {
     /** The factory to use for constructing painters */
     private PainterFactory factory;
 
+    /**
+     * Constructor
+     */
     public GraphRenderer() {
-        this.factory = new PainterFactory();
+        this.factory = new PainterFactory(new GraphVisualProperties());
     }
 
     /**
@@ -30,7 +33,6 @@ public class GraphRenderer {
 
     /**
      * Gets the glimpse layout that will be displayed for the graph
-     * @param graph graph to display the layout
      * @return glimpse layout of the graph
      */
     public SimplePlot2D getLayout(Graph graph)
@@ -43,7 +45,7 @@ public class GraphRenderer {
         setPlotAxis(graph.getXAxis(), graph.getYAxis(), plot);
 
         //Set up Legend
-        LegendPainter.LineLegendPainter legend = createLineLegendPainter();
+        LegendPainter.LineLegendPainter legend = factory.getLineLegendPainter(LegendPainter.LegendPlacement.SE);
 
         //Draws each graphable data
         drawGraphableData(graph.getData(), plot, legend);
@@ -55,24 +57,12 @@ public class GraphRenderer {
     }
 
     /**
-     * Creates a XYLinePainter for a set of GraphableData that connects them with a colored line
-     * @param data data that the line painter should draw
-     * @return the XYLinePainter for the GraphableData
-     */
-    private static XYLinePainter createXYLinePainter(GraphableData data, float[] color)
-    {
-        XYLinePainter linePainter = new PainterFactory().getLinePainter(color);
-        linePainter.setData(data.getXValues(),data.getYValues());
-        return linePainter;
-    }
-
-    /**
      * Sets the values on the plot to the appropriate values according to the x and y axes
      * @param xAxis x axis of the plot
      * @param yAxis y axis of the plot
      * @param plot plot to set values
      */
-    public static void setPlotAxis(Axis xAxis, Axis yAxis, SimplePlot2D plot){
+    public void setPlotAxis(Axis xAxis, Axis yAxis, SimplePlot2D plot){
         plot.setAxisLabelX(xAxis.getName());
         plot.setAxisLabelY(yAxis.getName());
         plot.setMinX(xAxis.getMin());
@@ -82,33 +72,23 @@ public class GraphRenderer {
     }
 
     /**
-     * Creates a legend painter with a default layout
-     * @return legend painter
-     */
-    public static LegendPainter.LineLegendPainter createLineLegendPainter(){
-        LegendPainter.LineLegendPainter legend = new LegendPainter.LineLegendPainter(LegendPainter.LegendPlacement.SE);
-        legend.setOffsetY(10);
-        legend.setOffsetX(100);
-        legend.setLegendItemWidth(60);
-        return legend;
-    }
-
-    /**
      * Draws the graphable data on the plot and adds that data to the legend
      * @param data iterable of the data to draw
      * @param plot plot to draw the data on
      * @param legend legend to add the data to
      */
-    public static void drawGraphableData(Iterable<GraphableData> data, SimplePlot2D plot, LegendPainter.LineLegendPainter legend){
+    public void drawGraphableData(Iterable<GraphableData> data, SimplePlot2D plot, LegendPainter.LineLegendPainter legend){
         int currentColor = 0;
         for(GraphableData lineData : data){
             float[] color = GraphDisplayer.possibleColors[currentColor];
             if (currentColor != GraphDisplayer.possibleColors.length - 1) {
                 currentColor++;
             }
-            XYLinePainter linePainter = createXYLinePainter(lineData, color);
+            XYLinePainter linePainter = factory.getLinePainter(color);
+            linePainter.setData(lineData.getXValues(), lineData.getYValues());
             plot.addPainter(linePainter);
             legend.addItem(lineData.getName(), color);
         }
     }
+
 }

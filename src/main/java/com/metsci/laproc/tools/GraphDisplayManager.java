@@ -3,6 +3,7 @@ package com.metsci.laproc.tools;
 import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.laproc.datareference.GraphReference;
 import com.metsci.laproc.plotting.Graph;
+import com.metsci.laproc.uicomponents.GraphVisualProperties;
 import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
 import com.metsci.laproc.utils.IObservable;
 import com.metsci.laproc.utils.IObserver;
@@ -29,6 +30,7 @@ public interface GraphDisplayManager {
      * Called whenever the Graph needs to update
      * @param graph The graph to use for the features
      * @param plot The plot on which to draw the features
+     * @param properties The properties to use for drawing the features
      */
-    void updateGraph(Graph graph, Plot2D plot);
+    void updateGraph(Graph graph, Plot2D plot, GraphVisualProperties properties);
 }

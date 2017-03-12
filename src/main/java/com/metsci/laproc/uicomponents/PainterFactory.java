@@ -1,8 +1,13 @@
 package com.metsci.laproc.uicomponents;
 
+import com.metsci.glimpse.painter.decoration.LegendPainter;
 import com.metsci.glimpse.painter.plot.XYLinePainter;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.support.color.GlimpseColor;
+
+import java.text.ParseException;
+
+import static com.metsci.laproc.uicomponents.GraphVisualProperties.*;
 
 /**
  * A factory class to initialize painters with the provided defaults
@@ -44,8 +49,8 @@ public class PainterFactory {
     public XYLinePainter getLinePainter(float[] lineColor) {
         XYLinePainter linePainter = new XYLinePainter();
         linePainter.setLineColor(lineColor);
-        linePainter.setLineThickness(properties.getLineThickness());
-        linePainter.showPoints(properties.shouldShowPoints());
+        linePainter.setLineThickness(Float.parseFloat(properties.getProperty(LINE_THICKNESS)));
+        linePainter.showPoints(Boolean.parseBoolean(properties.getProperty(SHOW_POINTS)));
         return linePainter;
     }
 
@@ -54,7 +59,13 @@ public class PainterFactory {
      * @return A new AreaShader instance
      */
     public AreaShader getAreaShader () {
-        return getAreaShader(properties.getShadeColor());
+        String hex = properties.getProperty(SHADE_COLOR);
+        try {
+            return getAreaShader(GlimpseColor.fromColorHex(hex));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -70,5 +81,20 @@ public class PainterFactory {
         shader.setFillColor(0,color);
         shader.setShowLines(0,false);
         return shader;
+    }
+
+    /**
+     * Creates a line legend painter
+     * @return A line legend painter
+     */
+    public LegendPainter.LineLegendPainter getLineLegendPainter(LegendPainter.LegendPlacement placement) {
+        LegendPainter.LineLegendPainter legend = new LegendPainter.LineLegendPainter(placement);
+        int xOffset = Integer.parseInt(properties.getProperty(LEGEND_OFFSET_X));
+        int yOffset = Integer.parseInt(properties.getProperty(LEGEND_OFFSET_Y));
+        int width = Integer.parseInt(properties.getProperty(LEGEND_WIDTH));
+        legend.setOffsetY(xOffset);
+        legend.setOffsetX(yOffset);
+        legend.setLegendItemWidth(width);
+        return legend;
     }
 }
