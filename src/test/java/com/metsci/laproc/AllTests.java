@@ -12,6 +12,8 @@ import com.metsci.laproc.plotting.CompositeFunctionTest;
 import com.metsci.laproc.plotting.GraphableDataTest;
 import com.metsci.laproc.plotting.ROCCurveTest;
 import com.metsci.laproc.pointmetrics.MetricsTest;
+import com.metsci.laproc.uicomponents.AllUIComponentsTest;
+import com.metsci.laproc.uicomponents.DataSetTableCheckBoxListenerTest;
 import com.metsci.laproc.uicomponents.DataSetTableModelTest;
 import com.metsci.laproc.uicomponents.DataSetTableTest;
 import com.metsci.laproc.utils.FiltererTest;
@@ -45,8 +47,7 @@ import org.junit.runners.Suite;
         GraphableDataTest.class,
         ROCCurveTest.class,
         MetricsTest.class,
-        DataSetTableModelTest.class,
-        DataSetTableTest.class,
+        AllUIComponentsTest.class,
         FiltererTest.class,
         ObservableTest.class,
         UtilsTest.class,
