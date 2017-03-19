@@ -41,7 +41,7 @@ public class DataSetPanel implements ITool, IObserver<OutputDataReference> {
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
         
-        this.table.getModel().addTableModelListener(new DataSetTableCheckBoxListener(showAction, hideAction, table));
+        this.table.getModel().addTableModelListener(new DataSetTableCheckBoxListener(showAction, hideAction));
 
         JScrollPane scrollPane = new JScrollPane(table);
         this.panel.add(scrollPane);

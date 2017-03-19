@@ -21,43 +21,44 @@ import java.util.List;
 public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
     private InputDataReference inputDataReference;
     private OutputDataReference outputDataReference;
+    private GraphableFunction graphableFunction;
     private int currentAddedIndex = 1;
 
     /**
      * Default constructor
      * @param inref the input data reference to use for input data
      * @param outref the output data reference to use for output data
+     * @param graphFunc the graphable function to create graphable data
      */
-    public CreateNewDataSetAction(InputDataReference inref, OutputDataReference outref) {
+    public CreateNewDataSetAction(InputDataReference inref, OutputDataReference outref, GraphableFunction graphFunc) {
         inputDataReference = inref;
         outputDataReference = outref;
+        graphableFunction = graphFunc;
     }
 
-    //TODO: This is not the appropriate place to determine what kind of function we need.
     /**
      * Create new classifier data set in the data reference object and the graph object
-     * @param dataSheetPanel data sheet panel to get selected tags
+     * @param evaluationSetPanel data sheet panel to get selected tags
      */
-    public void doAction(EvaluationSetPanel dataSheetPanel) {
-    	String dataName = dataSheetPanel.getNameText();;
+    public void doAction(EvaluationSetPanel evaluationSetPanel) {
+    	String dataName = evaluationSetPanel.getNameText();
     	if(dataName.length() < 1){
     		dataName = "New Data Set " + currentAddedIndex++;
     	}
         ClassifierDataSet dataSetGroup = new ClassifierDataSet(new ArrayList<List<String>>(), dataName);
-        List<List<String>> tags = dataSheetPanel.getSelectedTags();
+        List<List<String>> tags = evaluationSetPanel.getSelectedTags();
         List<ClassifierDataSet> evalSets = inputDataReference.getEvaluationSets();
 
         Filterer.filterAndUnion(dataSetGroup, tags, evalSets);
 
-        GraphableFunction func = new ROCCurveFunction();
-        GraphableData output = func.compute(dataSetGroup);
+        GraphableData output = graphableFunction.compute(dataSetGroup);
         output.setName(dataName);
 
         outputDataReference.addGraphableData(output);
         inputDataReference.addDataSetGroup(dataSetGroup);
         inputDataReference.addToDataSetGraphMap(dataSetGroup,output);
         
-        dataSheetPanel.setSelectedDataSet(dataSetGroup);
+        evaluationSetPanel.setSelectedDataSet(dataSetGroup);
 
     }
 }

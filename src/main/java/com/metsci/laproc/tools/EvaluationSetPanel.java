@@ -16,6 +16,7 @@ import com.metsci.laproc.data.ClassifierDataSet;
 import com.metsci.laproc.data.TagHeader;
 import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
+import com.metsci.laproc.plotting.ROCCurveFunction;
 import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.utils.IObserver;
 
@@ -38,8 +39,8 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 	public EvaluationSetPanel(InputDataReference ref, OutputDataReference outref){
 		ref.addObserver(this);
 		this.panel = new JPanel();
-		this.createAction = new CreateNewDataSetAction(ref, outref);
-		this.unionAction = new FilterDataSetAction(ref, outref);
+		this.createAction = new CreateNewDataSetAction(ref, outref, new ROCCurveFunction());
+		this.unionAction = new FilterDataSetAction(ref, outref, new ROCCurveFunction());
 		setDataSheet(ref);
 	}
 
