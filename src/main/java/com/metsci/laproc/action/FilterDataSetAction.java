@@ -19,30 +19,31 @@ import java.util.List;
 public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
     private InputDataReference inputDataReference;
     private OutputDataReference outputDataReference;
+    private GraphableFunction graphableFunction;
 
 
     /**
      * Basic constructor that takes data reference objects
      */
-    public FilterDataSetAction(InputDataReference inref, OutputDataReference outref){
+    public FilterDataSetAction(InputDataReference inref, OutputDataReference outref, GraphableFunction graphFunc){
         this.inputDataReference = inref;
         this.outputDataReference = outref;
+        this.graphableFunction = graphFunc;
     }
 
     /**
      * Union all selected evaluation set into the selected classifier set in the datasheet panel
-     * @param dataSheetPanel panel used to determine selected evaluation sets and classifier sets
+     * @param evaluationSetPanel panel used to determine selected evaluation sets and classifier sets
      */
-    public void doAction(EvaluationSetPanel dataSheetPanel) {
-        ClassifierDataSet updateSet = dataSheetPanel.getSelectedDataSet();
-        List<List<String>> tags = dataSheetPanel.getSelectedTags();
+    public void doAction(EvaluationSetPanel evaluationSetPanel) {
+        ClassifierDataSet updateSet = evaluationSetPanel.getSelectedDataSet();
+        List<List<String>> tags = evaluationSetPanel.getSelectedTags();
 
         List<ClassifierDataSet> evalSets = inputDataReference.getEvaluationSets();
         Filterer.filterAndUnion(updateSet,tags,evalSets);
         GraphableData<?> oldGraph = this.inputDataReference.getGraphfromDataSet(updateSet);
 
-        GraphableFunction func = new ROCCurveFunction();
-        GraphableData output = func.compute(updateSet);
+        GraphableData output = graphableFunction.compute(updateSet);
         output.setName(updateSet.getName());
         this.outputDataReference.replaceDataOnGraph(oldGraph, output);
         this.inputDataReference.replaceDataSetGraphMap(updateSet, output);

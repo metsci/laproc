@@ -22,25 +22,27 @@ public class App {
 		List<ClassifierDataSet> dataSetList = new ArrayList<ClassifierDataSet>();
 		List<TagHeader> tagHeaders = new ArrayList<TagHeader>();
         importData(dataSetList, tagHeaders);
-        System.out.println("IM DONE!");
 
         Application application = new Application(dataSetList, tagHeaders);
         application.run();
     }
 
     private static void importData(List<ClassifierDataSet> dataSetList, List<TagHeader> tagHeaders) {
-	    int count = 0;
         try {
             CSVReader reader = new CSVReader("..\\laproc\\test-data\\dataset1.csv");
             String[] line = reader.getLine();
-            TagHeader tag0 = new TagHeader("Classifier");
+
+            TagHeader tag0 = new TagHeader("classifier");
             TagHeader tag1 = new TagHeader(line[0]);
             TagHeader tag2 = new TagHeader(line[1]);
             TagHeader tag3 = new TagHeader(line[2]);
+
             tagHeaders.add(tag0);
             tagHeaders.add(tag1);
             tagHeaders.add(tag2);
             tagHeaders.add(tag3);
+            int count = 0;
+
             while(true) {
                 line = reader.getLine();
                 if(line == null)
@@ -53,10 +55,10 @@ public class App {
                 boolean found = false;
                 for(ClassifierDataSet set : dataSetList){
                 	List<List<String>> tags = set.getTags();
-                	if(tags.get(0).contains("Classifier0") &&
+                	if(tags.get(0).contains("classifier0") &&
+                	        tags.get(0).contains(line[0]) &&
                             tags.get(0).contains(line[1]) &&
-                            tags.get(0).contains(line[2]) &&
-                            tags.get(0).contains(line[3])){
+                            tags.get(0).contains(line[2])){
                 		set.add(point);
                 		found = true;
                 		break;
@@ -65,7 +67,7 @@ public class App {
                 if(!found){
                 	ArrayList<List<String>> tags = new ArrayList<List<String>>();
                     ArrayList<String> tagSet = new ArrayList<String>();
-                    tagSet.add("Classifier0");
+                    tagSet.add("classifier0");
                 	tagSet.add(line[0]);
                 	tagSet.add(line[1]);
                 	tagSet.add(line[2]);
@@ -84,10 +86,10 @@ public class App {
                 found = false;
                 for(ClassifierDataSet set : dataSetList){
                     List<List<String>> tags = set.getTags();
-                    if(tags.get(0).contains("Classifier1") &&
+                    if(tags.get(0).contains("classifier1") &&
+                            tags.get(0).contains(line[0]) &&
                             tags.get(0).contains(line[1]) &&
-                            tags.get(0).contains(line[2]) &&
-                            tags.get(0).contains(line[3])){
+                            tags.get(0).contains(line[2])){
                         set.add(point1);
                         found = true;
                         break;
@@ -96,7 +98,7 @@ public class App {
                 if(!found){
                     ArrayList<List<String>> tags = new ArrayList<List<String>>();
                     ArrayList<String> tagSet = new ArrayList<String>();
-                    tagSet.add("Classifier1");
+                    tagSet.add("classifier1");
                     tagSet.add(line[0]);
                     tagSet.add(line[1]);
                     tagSet.add(line[2]);
@@ -107,6 +109,7 @@ public class App {
                 }
                 System.out.println(count++);
             }
+            
             for(ClassifierDataSet dataSet : dataSetList){
             	List<List<String>> tags = dataSet.getTags();
                 List<String> tagSet = tags.get(0);
