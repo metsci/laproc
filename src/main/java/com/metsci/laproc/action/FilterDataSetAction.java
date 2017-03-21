@@ -45,6 +45,6 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
         GraphableData output = func.compute(updateSet);
         output.setName(updateSet.getName());
         this.outputDataReference.replaceDataOnGraph(oldGraph, output);
-        this.inputDataReference.addToDataSetGraphMap(updateSet, output);
+        this.inputDataReference.replaceDataSetGraphMap(updateSet, output);
     }
 }
