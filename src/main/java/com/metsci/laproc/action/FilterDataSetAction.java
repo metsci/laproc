@@ -46,6 +46,5 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
         output.setName(updateSet.getName());
         this.outputDataReference.replaceDataOnGraph(oldGraph, output);
         this.inputDataReference.addToDataSetGraphMap(updateSet, output);
-        //TODO: Is this bad?
     }
 }
