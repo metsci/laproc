@@ -2,6 +2,7 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IActionReceiver;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ import java.util.Map;
  *
  * Created by porterjc on 10/21/2016.
  */
-public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
+public class PointInfoPanel implements ITool, IActionReceiver<Map<GraphableData, GraphPoint>>{
     private JScrollPane pane;
     private JPanel panel;
 
@@ -31,18 +32,20 @@ public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
     /**
      * updates the rows of the point info panel for each displayed graph
      */
-    public void update(GraphPoint[] points){
+    public void update(Map<GraphableData, GraphPoint> dataMap){
         this.panel.remove(pane);
         pane = new JScrollPane();
         JPanel supPanel = new JPanel();
 
-        for (GraphPoint point : points) {
-            Map<String, Double> data = point.getAnalytics();
+        for(GraphableData gDta : dataMap.keySet()) {
+            Map<String, Double> data = dataMap.get(gDta).getAnalytics();
 
             JPanel panel = new JPanel();
-            GridLayout matri = new GridLayout(data.size(), 2);
+            GridLayout matri = new GridLayout(data.size() + 1, 2);
             panel.setLayout(matri);
 
+            panel.add(new JLabel(gDta.getName()));
+            panel.add(new JLabel(""));
             for (String key : data.keySet()) {
                 panel.add(new JLabel(key));
                 panel.add(new JLabel(Math.floor(data.get(key) * 10000) / 10000 + ""));
@@ -66,7 +69,7 @@ public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
         return ITool.BOTTOMPOSITION;
     }
 
-    public void respondToAction(GraphPoint[] points) {
+    public void respondToAction(Map<GraphableData, GraphPoint> points) {
         update(points);
     }
 }

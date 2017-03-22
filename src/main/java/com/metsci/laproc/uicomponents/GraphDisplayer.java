@@ -10,13 +10,15 @@ import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.*;
 import com.metsci.laproc.utils.IAction;
 
+import java.util.Map;
+
 /**
  * Creates a Glimpse plot for a Graph
  * Created by malinocr on 9/20/2016.
  */
 public class GraphDisplayer implements GlimpseLayoutProvider
 {
-    private IAction<GraphPoint[]>[] pointClickActions;
+    private IAction<Map<GraphableData, GraphPoint>>[] pointClickActions;
     private Graph graph;
 
     static final float[][] possibleColors = new float[8][4];
@@ -36,7 +38,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
      * Default constructor for the graph displayer
      * @param pointClickActions point click actions for the graph displayer
      */
-    public GraphDisplayer(IAction<GraphPoint[]>... pointClickActions) {
+    public GraphDisplayer(IAction<Map<GraphableData, GraphPoint>>... pointClickActions) {
         this.pointClickActions = pointClickActions;
         //By default, display an empty graph
         this.graph = new BasicGraph();

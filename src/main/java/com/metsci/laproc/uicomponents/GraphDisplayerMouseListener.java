@@ -6,7 +6,12 @@ import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IAction;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Mouse listener for selecting a set of points
@@ -20,7 +25,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private boolean doubleClicked = false;
     private boolean displayDoubleClick = false;
     private boolean isDisplayingPolygon = false;
-    private IAction<GraphPoint[]>[] actionsOnClick;
+    private IAction<Map<GraphableData, GraphPoint>>[] actionsOnClick;
     private GlimpseMouseEvent firstClick;
 
     private static final int MOUSE_CLICK_NANOSECONDS = 500000000;
@@ -29,7 +34,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      * General constructor for GraphDisplayerMouseListener
      * @param polygonPainter polygon painter for selection area
      */
-    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<GraphPoint[]>... actionsOnClick){
+    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<Map<GraphableData, GraphPoint>>... actionsOnClick){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
         this.actionsOnClick = actionsOnClick;
@@ -88,8 +93,15 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
         GraphPoint[] points = graph.getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
-        for(IAction<GraphPoint[]> action : this.actionsOnClick) {
-            action.doAction(points);
+        Map<GraphableData, GraphPoint> datapoints = new HashMap<GraphableData, GraphPoint>();
+        Iterator<GraphableData> dataList = graph.getData().iterator();
+
+        for(int i = 0; i < points.length; i++) {
+            datapoints.put(dataList.next(), points[i]);
+        }
+
+        for(IAction<Map<GraphableData, GraphPoint>> action : this.actionsOnClick) {
+            action.doAction(datapoints);
         }
 
         return ret;
