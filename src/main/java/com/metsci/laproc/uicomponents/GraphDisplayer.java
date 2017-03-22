@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class GraphDisplayer implements GlimpseLayoutProvider
 {
-    private IAction<Map<GraphableData, GraphPoint>>[] pointClickActions;
+    private IAction<Map<String, GraphPoint>>[] pointClickActions;
     private Graph graph;
 
     static final float[][] possibleColors = new float[8][4];
@@ -38,7 +38,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
      * Default constructor for the graph displayer
      * @param pointClickActions point click actions for the graph displayer
      */
-    public GraphDisplayer(IAction<Map<GraphableData, GraphPoint>>... pointClickActions) {
+    public GraphDisplayer(IAction<Map<String, GraphPoint>>... pointClickActions) {
         this.pointClickActions = pointClickActions;
         //By default, display an empty graph
         this.graph = new BasicGraph();

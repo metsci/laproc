@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * Created by porterjc on 10/14/2016.
  */
-public class ConfusionPanel implements ITool, IActionReceiver<Map<GraphableData, GraphPoint>> {
+public class ConfusionPanel implements ITool, IActionReceiver<Map<String, GraphPoint>> {
     private JPanel masterPanel;
     private JScrollPane pane;
 
@@ -50,19 +50,19 @@ public class ConfusionPanel implements ITool, IActionReceiver<Map<GraphableData,
     /**
      * Updates the columns and rows of the confusion matrix for each displayed graph
      */
-    public void updateConfusionMatrix(Map<GraphableData, GraphPoint> dataMap) {
+    public void updateConfusionMatrix(Map<String, GraphPoint> dataMap) {
         masterPanel.remove(pane);
         pane = new JScrollPane();
         JPanel supPanel = new JPanel();
 
-        for(GraphableData gDta : dataMap.keySet()) {
-            Map<String, Double> data = dataMap.get(gDta).getAnalytics();
+        for(String name : dataMap.keySet()) {
+            Map<String, Double> data = dataMap.get(name).getAnalytics();
 
             JPanel panel = new JPanel();
             GridLayout matri = new GridLayout(3, 3);
             panel.setLayout(matri);
 
-            panel.add(new JLabel(gDta.getName()));
+            panel.add(new JLabel(name));
             panel.add(new JLabel("Predicted Positives"));
             panel.add(new JLabel("Predicted Negatives"));
             panel.add(new JLabel("True Positives"));
@@ -102,7 +102,7 @@ public class ConfusionPanel implements ITool, IActionReceiver<Map<GraphableData,
      * Responds to action that provides this object with an array of points by updating the panel
      * @param points points for updating the panel
      */
-    public void respondToAction(Map<GraphableData, GraphPoint> points) {
+    public void respondToAction(Map<String, GraphPoint> points) {
         updateConfusionMatrix(points);
     }
 }

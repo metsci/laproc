@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * Created by porterjc on 10/21/2016.
  */
-public class PointInfoPanel implements ITool, IActionReceiver<Map<GraphableData, GraphPoint>>{
+public class PointInfoPanel implements ITool, IActionReceiver<Map<String, GraphPoint>>{
     private JScrollPane pane;
     private JPanel panel;
 
@@ -32,19 +32,19 @@ public class PointInfoPanel implements ITool, IActionReceiver<Map<GraphableData,
     /**
      * updates the rows of the point info panel for each displayed graph
      */
-    public void update(Map<GraphableData, GraphPoint> dataMap){
+    public void update(Map<String, GraphPoint> dataMap){
         this.panel.remove(pane);
         pane = new JScrollPane();
         JPanel supPanel = new JPanel();
 
-        for(GraphableData gDta : dataMap.keySet()) {
-            Map<String, Double> data = dataMap.get(gDta).getAnalytics();
+        for(String name : dataMap.keySet()) {
+            Map<String, Double> data = dataMap.get(name).getAnalytics();
 
             JPanel panel = new JPanel();
             GridLayout matri = new GridLayout(data.size() + 1, 2);
             panel.setLayout(matri);
 
-            panel.add(new JLabel(gDta.getName()));
+            panel.add(new JLabel(name));
             panel.add(new JLabel(""));
             for (String key : data.keySet()) {
                 panel.add(new JLabel(key));
@@ -69,7 +69,7 @@ public class PointInfoPanel implements ITool, IActionReceiver<Map<GraphableData,
         return ITool.BOTTOMPOSITION;
     }
 
-    public void respondToAction(Map<GraphableData, GraphPoint> points) {
+    public void respondToAction(Map<String, GraphPoint> points) {
         update(points);
     }
 }

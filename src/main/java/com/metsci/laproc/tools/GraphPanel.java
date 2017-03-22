@@ -25,7 +25,7 @@ public class GraphPanel implements ITool, IObserver<GraphReference> {
      * Creaded by porterjc on 9/22/2016
      */
 
-    public GraphPanel(GraphReference reference, IAction<Map<GraphableData, GraphPoint>>... clickActions){
+    public GraphPanel(GraphReference reference, IAction<Map<String, GraphPoint>>... clickActions){
         reference.addObserver(this);
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();

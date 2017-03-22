@@ -33,8 +33,8 @@ public class DefaultToolBox extends ToolBox {
         ConfusionPanel confusionPanel = new ConfusionPanel();
         PointInfoPanel pointInfoPanel = new PointInfoPanel();
         GraphPanel graphPanel = new GraphPanel(graphReference,
-                new UpdateGenericDisplayAction<Map<GraphableData, GraphPoint>>(confusionPanel),
-                new UpdateGenericDisplayAction<Map<GraphableData, GraphPoint>>(pointInfoPanel));
+                new UpdateGenericDisplayAction<Map<String, GraphPoint>>(confusionPanel),
+                new UpdateGenericDisplayAction<Map<String, GraphPoint>>(pointInfoPanel));
 
         this.addTool(new EvaluationSetPanel(getInputReference(), getOutputReference()));
         this.addTool(new DataSetPanel(getOutputReference()));

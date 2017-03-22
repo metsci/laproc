@@ -25,7 +25,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private boolean doubleClicked = false;
     private boolean displayDoubleClick = false;
     private boolean isDisplayingPolygon = false;
-    private IAction<Map<GraphableData, GraphPoint>>[] actionsOnClick;
+    private IAction<Map<String, GraphPoint>>[] actionsOnClick;
     private GlimpseMouseEvent firstClick;
 
     private static final int MOUSE_CLICK_NANOSECONDS = 500000000;
@@ -34,7 +34,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      * General constructor for GraphDisplayerMouseListener
      * @param polygonPainter polygon painter for selection area
      */
-    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<Map<GraphableData, GraphPoint>>... actionsOnClick){
+    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<Map<String, GraphPoint>>... actionsOnClick){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
         this.actionsOnClick = actionsOnClick;
@@ -93,14 +93,14 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
         GraphPoint[] points = graph.getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
-        Map<GraphableData, GraphPoint> datapoints = new HashMap<GraphableData, GraphPoint>();
+        Map<String, GraphPoint> datapoints = new HashMap<String, GraphPoint>();
         Iterator<GraphableData> dataList = graph.getData().iterator();
 
         for(int i = 0; i < points.length; i++) {
-            datapoints.put(dataList.next(), points[i]);
+            datapoints.put(dataList.next().getName(), points[i]);
         }
 
-        for(IAction<Map<GraphableData, GraphPoint>> action : this.actionsOnClick) {
+        for(IAction<Map<String, GraphPoint>> action : this.actionsOnClick) {
             action.doAction(datapoints);
         }
 
