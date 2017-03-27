@@ -93,6 +93,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
 
     /**
      * Updates the combo boxes with the metrics from the graph
+     * @param  metrics current metrics from graph
      */
     public void populateOptions(Iterable<ParametricFunction> metrics) {
         //Update the action listener on the update button to use the selected axes
