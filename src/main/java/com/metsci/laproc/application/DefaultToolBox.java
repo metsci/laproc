@@ -6,7 +6,6 @@ import com.metsci.laproc.datareference.GraphReferenceImpl;
 import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphPoint;
-import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.tools.*;
 
 import java.util.Map;
@@ -37,7 +36,7 @@ public class DefaultToolBox extends ToolBox {
                 new UpdateGenericDisplayAction<Map<String, GraphPoint>>(pointInfoPanel));
 
         this.addTool(new EvaluationSetPanel(getInputReference(), getOutputReference()));
-        this.addTool(new DataSetPanel(getOutputReference()));
+        this.addTool(new GraphableDataPanel(getOutputReference()));
         this.addTool(new GraphOptionsPanel(getOutputReference(),
                 new GraphDisplayManagerImpl(graphReference, graphPanel)));
         this.addTool(graphPanel);
