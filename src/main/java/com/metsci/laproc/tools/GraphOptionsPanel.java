@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Panel for selecting graph options
+ * Example Panel for selecting graph options
  * Created by porterjc on 10/26/2016.
  */
 public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
@@ -34,10 +34,12 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     private IAction<CompositeFunction> removeCompositeFunctionAction;
 
     /**
-     * Default constructor for Graphoptions Panel
-     * Created by porterjc on 10/26/2016.
+     * Default constructor
+     * @param reference output data reference for the application
+     * @param displayManager display manager for the application
      */
     public GraphOptionsPanel(final OutputDataReference reference, GraphDisplayManager displayManager) {
+        //Initialize fields for the tool
         manager = displayManager;
         reference.addObserver(this);
         this.panel = new JPanel();
@@ -45,33 +47,38 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 
+        //Create a combo box for the x axis
         addJLabel("X-Axis");
-
         this.xaxis = createJComboBox("X-Axis");
         this.panel.add(xaxis);
 
+        //Create a combo box for the y axis
         addJLabel("Y-Axis");
-
         this.yaxis = createJComboBox("Y-Axis");
         this.panel.add(yaxis);
 
+        //Set up composite function actions
         this.addCompositeFunctionAction = new AddCompositeFunctionAction(manager);
         this.removeCompositeFunctionAction = new RemoveCompositeFunctionAction(manager);
         setupCompositeFunctionOptions();
 
+        //Create update button for updating the graph
         this.updateButton = new JButton("Update");
         this.updateButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.panel.add(updateButton);
 
+        //Add text field for exporting the graph
         addJLabel("Export Graph File Path:");
-
         final JTextField exportTextField = new JTextField();
         exportTextField.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
         exportTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.panel.add(exportTextField);
 
+        //Add button to submit a request to update the graph
         JButton exportButton = new JButton("Export Graph");
         exportButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        //Clicking the button causes the graph exporter to export the graph to an image using the text field as
+        //a file path.
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -88,22 +95,21 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
      * Updates the combo boxes with the metrics from the graph
      */
     public void populateOptions(Iterable<ParametricFunction> metrics) {
-
+        //Update the action listener on the update button to use the selected axes
         if(updateButton.getActionListeners() != null) {
             this.updateButton.removeAll();
         }
-
         ActionListener listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ParametricFunction[] axes = new ParametricFunction[2];
                 axes[0] = getSelectedXAxis();
                 axes[1] = getSelectedYAxis();
                 updateAxesAction.doAction(axes);
-
             }
         };
         this.updateButton.addActionListener(listener);
 
+        //Add all the new metrics for axes to the metrics map
         Iterator<ParametricFunction> metricIterator = metrics.iterator();
         while(metricIterator.hasNext()) {
             ParametricFunction temp = metricIterator.next();
@@ -151,7 +157,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     }
 
     /**
-     * Sets up the check boxes for the composite funtions
+     * Sets up the check boxes for the composite functions specific to this application
      */
     private void setupCompositeFunctionOptions() {
         addCheckBox(new VerticalAverageFunction(), "Display Vertical Average");
@@ -187,7 +193,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
 
     /**
      * Adds a JLabel with a given text to the panel
-     * @param text text of the lable
+     * @param text text of the label
      */
     private void addJLabel(String text){
         JLabel label = new JLabel(text);
