@@ -5,7 +5,7 @@ import com.metsci.laproc.pointmetrics.ParametricFunction;
 import java.util.*;
 
 /**
- * Represents a continuous line that can be represented on a graph.
+ * An example implementation of basic graphable data
  * Created by robinsat on 9/20/2016.
  */
 public class BasicGraphableData implements GraphableData<Double> {
