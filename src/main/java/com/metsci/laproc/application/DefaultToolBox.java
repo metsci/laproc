@@ -27,7 +27,7 @@ public class DefaultToolBox extends ToolBox {
     }
 
     protected void initializeTools() {
-
+        //Create various tools and a graph reference
         GraphReference graphReference = new GraphReferenceImpl(getOutputReference());
         ConfusionPanel confusionPanel = new ConfusionPanel();
         PointInfoPanel pointInfoPanel = new PointInfoPanel();
@@ -35,6 +35,7 @@ public class DefaultToolBox extends ToolBox {
                 new UpdateGenericDisplayAction<Map<String, GraphPoint>>(confusionPanel),
                 new UpdateGenericDisplayAction<Map<String, GraphPoint>>(pointInfoPanel));
 
+        //Add created tools and reference to the toolbox
         this.addTool(new EvaluationSetPanel(getInputReference(), getOutputReference()));
         this.addTool(new GraphableDataPanel(getOutputReference()));
         this.addTool(new GraphOptionsPanel(getOutputReference(),
