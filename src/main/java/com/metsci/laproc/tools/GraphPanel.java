@@ -60,6 +60,10 @@ public class GraphPanel implements ITool, IObserver<GraphReference> {
         return ITool.CENTERPOSITION;
     }
 
+    /**
+     * Update the graph when the reference is updated
+     * @param reference graph reference for the application
+     */
     public void update(GraphReference reference) {
         canvas.removeAllLayouts();
         graphDisplayer.setGraph(reference.getGraph());
