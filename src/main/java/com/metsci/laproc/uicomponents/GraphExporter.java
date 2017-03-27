@@ -15,25 +15,27 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Handles exporting for graphs
+ * A class that handles exporting graphs to an image
  * Created by malinocr on 1/21/2017.
  */
 public class GraphExporter{
     /**
-     * Exports an image of the given graph to the give file path
-     * @param filePath filepath to export the graph to
+     * Exports an image of the given graph to the given file path
+     * @param filePath filepath to export the graph
      * @param graph graph to export image
      * @throws IOException
      */
     public static void exportGraph(String filePath, Graph graph) throws IOException {
+        //Create a new canvas with specific settings for an exported graph
         NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas();
         SimplePlot2D plot = GraphExporter.getLayout(graph);
         plot.setTitleFont( FontUtils.getDefaultBold( 18 ) );
         canvas.addLayout(GraphExporter.getLayout(graph));
+
+        //Create a drawable that can create an image of its layout
         GLOffscreenAutoDrawable glDrawable = GLUtils.newOffscreenDrawable( canvas.getGLProfile() );
         FBOGlimpseCanvas offscreenCanvas = new FBOGlimpseCanvas(glDrawable.getContext(), 1000, 1000 );
         offscreenCanvas.addLayout(GraphExporter.getLayout(graph));
-
         BufferedImage image = offscreenCanvas.toBufferedImage();
         ImageIO.write(image, "PNG", new File(filePath));
     }
