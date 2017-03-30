@@ -29,10 +29,8 @@ public class MetricComparator<T> implements Comparator<T> {
         double val1 = function.compute(o1);
         double val2 = function.compute(o2);
 
-        if(val1 > val2) {
+        if(val1 >= val2) {
             return 1;
-        } else if (val1 == val2) {
-            return 0;
         } else {
             return -1;
         }
