@@ -80,9 +80,9 @@ public class App {
                 //Create Second Classifer With Random Values for Points
                 DataPoint point1;
                 if(line[3].equals("1"))
-                    point1 = new DataPointImpl(true, 1);
+                    point1 = new DataPointImpl(true, Math.random());
                 else
-                    point1 = new DataPointImpl(false, 1);
+                    point1 = new DataPointImpl(false, Math.random());
                 found = false;
                 for(ClassifierDataSet set : dataSetList){
                     List<List<String>> tags = set.getTags();
