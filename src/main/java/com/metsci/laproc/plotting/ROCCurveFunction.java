@@ -22,8 +22,9 @@ public class ROCCurveFunction implements GraphableFunction<ClassifierDataSet> {
                 new FalsePositiveRate(), new TruePositiveRate());
 
         // Metrics that must be calculated for each point in the data set
-        double interval = 1.0 / NUMPOINTS;
-        double cutpoint = 0;
+        double cutpoint = getMinWithoutInf(input);
+        double max = getMaxWithoutInf(input);
+        double interval = (max - cutpoint) / NUMPOINTS;
 
         //Iterate over all points in the set to compute the values for each point
         for(int i = 0; i < NUMPOINTS; i++) {
@@ -83,5 +84,43 @@ public class ROCCurveFunction implements GraphableFunction<ClassifierDataSet> {
         }
         // Create a point with the resulting values
         return new ClassifierSetPoint(threshold, truePositives, trueNegatives, falsePositives, falseNegatives);
+    }
+
+    /**
+     * Get the minimum value of a classifier data set without infinite
+     * @param data data set
+     * @return minimum value
+     */
+    private double getMinWithoutInf(ClassifierDataSet data){
+        if(data.getAllPoints().size() == 0){
+            throw new IllegalArgumentException();
+        }
+        //Get a value in the data set as a starting point
+        double min = data.getAllPoints().iterator().next().getValues()[0];
+        for(DataPoint point : data.getAllPoints()){
+            if(point.getValues()[0] < min && point.getValues()[0] != Double.NEGATIVE_INFINITY){
+                min = point.getValues()[0];
+            }
+        }
+        return min;
+    }
+
+    /**
+     * Get the maximum value of a classifier data set without infinite
+     * @param data data set
+     * @return maximum value
+     */
+    private double getMaxWithoutInf(ClassifierDataSet data){
+        if(data.getAllPoints().size() == 0){
+            throw new IllegalArgumentException();
+        }
+        //Get a value in the data set as a starting point
+        double max = data.getAllPoints().iterator().next().getValues()[0];
+        for(DataPoint point : data.getAllPoints()){
+            if(point.getValues()[0] > max && point.getValues()[0] != Double.POSITIVE_INFINITY){
+                max = point.getValues()[0];
+            }
+        }
+        return max;
     }
 }
