@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.Map;
 
 /**
- * Panel with general data stored in a data point.
+ * Example panel with general data stored in a data point.
  *
  * Created by porterjc on 10/21/2016.
  */
@@ -30,13 +30,15 @@ public class PointInfoPanel implements ITool, IActionReceiver<Map<String, GraphP
     }
 
     /**
-     * updates the rows of the point info panel for each displayed graph
+     * Updates the rows of the point info panel for each displayed graph
+     * @param dataMap data map from the graphable data set containing a point to the point
      */
     public void update(Map<String, GraphPoint> dataMap){
         this.panel.remove(pane);
         pane = new JScrollPane();
         JPanel supPanel = new JPanel();
 
+        //For each name in the map, display the name and the analytics
         for(String name : dataMap.keySet()) {
             Map<String, Double> data = dataMap.get(name).getAnalytics();
 

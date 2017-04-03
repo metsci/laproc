@@ -5,7 +5,7 @@ import com.metsci.laproc.tools.GraphDisplayManager;
 import com.metsci.laproc.utils.IAction;
 
 /**
- * This action allows a user to add a composite function to the graph
+ * This action allows a user to remove a composite function from the graph
  * Created by robinsat on 1/31/2017.
  */
 public class RemoveCompositeFunctionAction implements IAction<CompositeFunction> {
@@ -22,8 +22,8 @@ public class RemoveCompositeFunctionAction implements IAction<CompositeFunction>
     }
 
     /**
-     * Perform some action for some on click interaction
-     * @param compositeFunction The function to add to the graph
+     * Remove composite function from the graph
+     * @param compositeFunction The function to remove from the graph
      */
     public void doAction(CompositeFunction compositeFunction) {
         this.displayManager.disableCompositeFunction(compositeFunction);

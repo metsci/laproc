@@ -5,7 +5,7 @@ import com.metsci.laproc.pointmetrics.ParametricFunction;
 import java.util.List;
 
 /**
- * Represents a set of data points to be plotted on a graph
+ * An interface that represents a set of data points to be plotted on a graph
  * Created by robinsat on 9/20/2016.
  */
 public interface GraphableData<T> {

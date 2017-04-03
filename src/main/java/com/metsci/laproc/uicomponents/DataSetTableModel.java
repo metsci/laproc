@@ -7,7 +7,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 /**
- * Table model for displaying data sets
+ * Table model for displaying graphable data sets
  * Created by malinocr on 12/8/2016.
  */
 public class DataSetTableModel extends AbstractTableModel {
@@ -65,6 +65,7 @@ public class DataSetTableModel extends AbstractTableModel {
     /**
      * Adds a row of graphable data to the table
      * @param data data to add
+     * @param display true if the data is displayed
      */
     public void addRow(GraphableData data, boolean display){
         this.dataObjects.add(data);
@@ -73,7 +74,7 @@ public class DataSetTableModel extends AbstractTableModel {
     }
 
     /**
-     * Gets the object associated with a row in the table
+     * Gets the graphable data object associated with a row in the table
      * @param row row in the table
      * @return associated graphable data object
      */
@@ -92,9 +93,9 @@ public class DataSetTableModel extends AbstractTableModel {
 	}
 
     /**
-     * Gets the row index of a specified object
-     * @param data object to get the row index of
-     * @return row index
+     * Gets the row index of a specified graphable data object
+     * @param data graphable data object to get the row index of
+     * @return row index of specified graphable data object
      */
 	public int getRowOfObject(GraphableData data){
         return (int)dataObjects.indexOf(data);

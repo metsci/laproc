@@ -11,7 +11,7 @@ public class CSVReader {
 
     /**
      * Construtor for the CSV Reader
-     * @param filePath file of the CSV
+     * @param filePath CSV file to read
      * @throws IOException
      */
     public CSVReader(String filePath) throws IOException{
@@ -19,8 +19,8 @@ public class CSVReader {
     }
 
     /**
-     * Gets a row of the CSV
-     * @return A string array where the collumn index of a cell matches the index in the array
+     * Gets the next row of the CSV file
+     * @return A string array where the column index of each cell matches the index in the array
      * @throws IOException
      */
     public String[] getLine() throws IOException{

@@ -12,7 +12,7 @@ public class UpdateGenericDisplayAction<T> implements IAction<T> {
     private IActionReceiver<T> receiver;
 
     /**
-     * Basic constuctor that takes a Action Reciever object
+     * Basic constuctor that takes a Action Receiver object
      * @param receiver reciever of the action
      */
     public UpdateGenericDisplayAction(IActionReceiver<T> receiver) {
@@ -20,7 +20,7 @@ public class UpdateGenericDisplayAction<T> implements IAction<T> {
     }
 
     /**
-     * Action to perform on the reciever
+     * Action to perform on the receiver
      * @param argument argument for the action
      */
     public void doAction(T argument) {
