@@ -1,7 +1,7 @@
 package com.metsci.laproc.plotting;
 
 /**
- * Interface representing a single axis of a graph
+ * An example implementation of an axis of a graph
  * Created by robinsat on 9/20/2016.
  */
 public class BasicAxis implements Axis{

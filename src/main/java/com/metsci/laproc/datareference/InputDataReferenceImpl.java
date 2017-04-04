@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * This reference allows tools to access the raw input data represented as ClassifierDataSets
+ * This example reference allows tools to access the raw input data represented as ClassifierDataSets
  * Created by porterjc on 12/14/2016.
  */
 public class InputDataReferenceImpl extends Observable implements InputDataReference {

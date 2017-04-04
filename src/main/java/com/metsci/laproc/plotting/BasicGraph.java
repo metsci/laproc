@@ -3,7 +3,7 @@ package com.metsci.laproc.plotting;
 import java.util.*;
 
 /**
- * A basic implementation of a graph
+ * An example implementation of a graph
  * Created by robinsat on 9/20/2016.
  */
 public class BasicGraph implements Graph {
@@ -29,7 +29,7 @@ public class BasicGraph implements Graph {
 
     /**
      * Constructor
-     * @param title The title
+     * @param title title of the graph
      */
     public BasicGraph(String title) {
         this.title = title;

@@ -8,6 +8,8 @@ import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.tools.*;
 
+import java.util.Map;
+
 /**
  * The default implementation of the Abstract ToolBox class. This provides all the basic tools
  * that will be used by the application
@@ -25,16 +27,17 @@ public class DefaultToolBox extends ToolBox {
     }
 
     protected void initializeTools() {
-
+        //Create various tools and a graph reference
         GraphReference graphReference = new GraphReferenceImpl(getOutputReference());
         ConfusionPanel confusionPanel = new ConfusionPanel();
         PointInfoPanel pointInfoPanel = new PointInfoPanel();
         GraphPanel graphPanel = new GraphPanel(graphReference,
-                new UpdateGenericDisplayAction<GraphPoint[]>(confusionPanel),
-                new UpdateGenericDisplayAction<GraphPoint[]>(pointInfoPanel));
+                new UpdateGenericDisplayAction<Map<String, GraphPoint>>(confusionPanel),
+                new UpdateGenericDisplayAction<Map<String, GraphPoint>>(pointInfoPanel));
 
+        //Add created tools and reference to the toolbox
         this.addTool(new EvaluationSetPanel(getInputReference(), getOutputReference()));
-        this.addTool(new DataSetPanel(getOutputReference()));
+        this.addTool(new GraphableDataPanel(getOutputReference()));
         this.addTool(new GraphOptionsPanel(getOutputReference(),
                 new GraphDisplayManagerImpl(graphReference, graphPanel)));
         this.addTool(graphPanel);
