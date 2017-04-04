@@ -19,6 +19,7 @@ import java.util.List;
 public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
     private InputDataReference inputDataReference;
     private OutputDataReference outputDataReference;
+    private GraphableFunction graphableFunction;
 
 
     /**
@@ -26,9 +27,10 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
      * @param inref input data reference for the application
      * @param outref output data reference for the application
      */
-    public FilterDataSetAction(InputDataReference inref, OutputDataReference outref){
+    public FilterDataSetAction(InputDataReference inref, OutputDataReference outref, GraphableFunction graphFunc){
         this.inputDataReference = inref;
         this.outputDataReference = outref;
+        this.graphableFunction = graphFunc;
     }
 
     /**
@@ -46,8 +48,8 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
 
         //Update data references to include the new classifier data set
         GraphableData<?> oldGraph = this.inputDataReference.getGraphfromDataSet(updateSet);
-        GraphableFunction func = new ROCCurveFunction();
-        GraphableData output = func.compute(updateSet);
+
+        GraphableData output = graphableFunction.compute(updateSet);
         output.setName(updateSet.getName());
         this.outputDataReference.replaceDataOnGraph(oldGraph, output);
         this.inputDataReference.replaceDataSetGraphMap(updateSet, output);

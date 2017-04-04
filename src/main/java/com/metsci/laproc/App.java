@@ -45,9 +45,12 @@ public class App {
             //Note: In this example, the 4th "header" is the truth value and the 5th is the classifier score.
             //      These values will be stored separately from the other tags as their values will be used in many
             //      calculations for the points.
-            TagHeader tag1 = new TagHeader(line[0]); //fold
-            TagHeader tag2 = new TagHeader(line[1]); //environment
-            TagHeader tag3 = new TagHeader(line[2]); //exercise
+            TagHeader tag0 = new TagHeader("classifier"); //Create a tag header to distinguish classifiers
+            TagHeader tag1 = new TagHeader(line[0]);//fold
+            TagHeader tag2 = new TagHeader(line[1]);//environment
+            TagHeader tag3 = new TagHeader(line[2]);//exercise
+
+            tagHeaders.add(tag0);
             tagHeaders.add(tag1);
             tagHeaders.add(tag2);
             tagHeaders.add(tag3);
@@ -74,7 +77,10 @@ public class App {
                 boolean found = false;
                 for(ClassifierDataSet set : dataSetList){
                 	List<List<String>> tags = set.getTags();
-                	if(tags.get(0).contains(line[0]) && tags.get(0).contains(line[1]) && tags.get(0).contains(line[2])){
+                	if(tags.get(0).contains("classifier0") &&
+                	        tags.get(0).contains(line[0]) &&
+                            tags.get(0).contains(line[1]) &&
+                            tags.get(0).contains(line[2])){
                 		//If a matching classifier data set is found, add the point to the set
                 	    set.add(point);
                 		found = true;
@@ -85,6 +91,7 @@ public class App {
                 if(!found){
                 	ArrayList<List<String>> tags = new ArrayList<List<String>>();
                     ArrayList<String> tagSet = new ArrayList<String>();
+                    tagSet.add("classifier0");
                 	tagSet.add(line[0]);
                 	tagSet.add(line[1]);
                 	tagSet.add(line[2]);
@@ -93,6 +100,37 @@ public class App {
                 	ClassifierDataSet newSet = new ClassifierDataSet(tags, "meaningless");
                 	newSet.add(point);
                 	dataSetList.add(newSet);
+                }
+
+                //Create second classifier With random values for classifier scores in the same manner as the first
+                DataPoint point1;
+                if(line[3].equals("1"))
+                    point1 = new DataPointImpl(true, Math.random());
+                else
+                    point1 = new DataPointImpl(false, Math.random());
+                found = false;
+                for(ClassifierDataSet set : dataSetList){
+                    List<List<String>> tags = set.getTags();
+                    if(tags.get(0).contains("classifier1") &&
+                            tags.get(0).contains(line[0]) &&
+                            tags.get(0).contains(line[1]) &&
+                            tags.get(0).contains(line[2])){
+                        set.add(point1);
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    ArrayList<List<String>> tags = new ArrayList<List<String>>();
+                    ArrayList<String> tagSet = new ArrayList<String>();
+                    tagSet.add("classifier1");
+                    tagSet.add(line[0]);
+                    tagSet.add(line[1]);
+                    tagSet.add(line[2]);
+                    tags.add(tagSet);
+                    ClassifierDataSet newSet = new ClassifierDataSet(tags, "meaningless");
+                    newSet.add(point1);
+                    dataSetList.add(newSet);
                 }
             }
 

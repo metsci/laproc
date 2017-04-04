@@ -11,7 +11,6 @@ import com.metsci.laproc.utils.IAction;
  * Created by malinocr on 12/8/2016.
  */
 public class DataSetTableCheckBoxListener implements TableModelListener{
-    private DataSetTable table;
     private IAction<GraphableData> show;
     private IAction<GraphableData> hide;
 
@@ -19,10 +18,8 @@ public class DataSetTableCheckBoxListener implements TableModelListener{
      * Constructor for the checkbox listener
      * @param show action to perform when a checkbox is turned on
      * @param hide action to perform when a checkbox is turned off
-     * @param table table to observe
      */
-    public DataSetTableCheckBoxListener(IAction<GraphableData> show, IAction<GraphableData> hide, DataSetTable table){
-        this.table = table;
+    public DataSetTableCheckBoxListener(IAction<GraphableData> show, IAction<GraphableData> hide){
         this.show = show;
         this.hide = hide;
     }

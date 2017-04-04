@@ -47,7 +47,7 @@ public class GraphableDataPanel implements ITool, IObserver<OutputDataReference>
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
 
         //Add the listener for checkboxes to the table using a custom listener and the show and hide actions
-        this.table.getModel().addTableModelListener(new DataSetTableCheckBoxListener(showAction, hideAction, table));
+        this.table.getModel().addTableModelListener(new DataSetTableCheckBoxListener(showAction, hideAction));
 
         JScrollPane scrollPane = new JScrollPane(table);
         this.panel.add(scrollPane);
