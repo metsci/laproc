@@ -45,7 +45,7 @@ public class App {
             //Note: In this example, the 4th "header" is the truth value and the 5th is the classifier score.
             //      These values will be stored separately from the other tags as their values will be used in many
             //      calculations for the points.
-            TagHeader tag0 = new TagHeader("classifier");
+            TagHeader tag0 = new TagHeader("classifier"); //Create a tag header to distinguish classifiers
             TagHeader tag1 = new TagHeader(line[0]);//fold
             TagHeader tag2 = new TagHeader(line[1]);//environment
             TagHeader tag3 = new TagHeader(line[2]);//exercise
@@ -54,7 +54,6 @@ public class App {
             tagHeaders.add(tag1);
             tagHeaders.add(tag2);
             tagHeaders.add(tag3);
-            int count = 0;
 
             while(true) {
                 line = reader.getLine();
@@ -103,7 +102,7 @@ public class App {
                 	dataSetList.add(newSet);
                 }
 
-                //Create Second Classifer With Random Values for Points
+                //Create second classifier With random values for classifier scores in the same manner as the first
                 DataPoint point1;
                 if(line[3].equals("1"))
                     point1 = new DataPointImpl(true, Math.random());
@@ -133,7 +132,6 @@ public class App {
                     newSet.add(point1);
                     dataSetList.add(newSet);
                 }
-                System.out.println(count++);
             }
 
             //Populate all the tag headers with the corresponding tags
