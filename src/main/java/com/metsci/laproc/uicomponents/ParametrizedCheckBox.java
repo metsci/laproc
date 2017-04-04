@@ -48,11 +48,6 @@ public class ParametrizedCheckBox<T> extends JCheckBox {
 
     /** Private class to listen for the user interacting with checkboxes */
     private class Listener implements ActionListener {
-
-        /**
-         * Invoked when an action occurs.
-         * @param e
-         */
         public void actionPerformed(ActionEvent e) {
             if (isSelected()) {
                 if (actionWhenSelected != null)

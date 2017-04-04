@@ -24,6 +24,8 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
 
     /**
      * Basic constructor that takes data reference objects
+     * @param inref input data reference for the application
+     * @param outref output data reference for the application
      */
     public FilterDataSetAction(InputDataReference inref, OutputDataReference outref, GraphableFunction graphFunc){
         this.inputDataReference = inref;
@@ -33,14 +35,18 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
 
     /**
      * Union all selected evaluation set into the selected classifier set in the datasheet panel
-     * @param evaluationSetPanel panel used to determine selected evaluation sets and classifier sets
+     * @param dataSheetPanel panel used to determine selected evaluation sets and classifier sets
      */
-    public void doAction(EvaluationSetPanel evaluationSetPanel) {
-        ClassifierDataSet updateSet = evaluationSetPanel.getSelectedDataSet();
-        List<List<String>> tags = evaluationSetPanel.getSelectedTags();
-
+    public void doAction(EvaluationSetPanel dataSheetPanel) {
+        //Find the selected classifier data set, evaluation sets, and tags to filter
+        ClassifierDataSet updateSet = dataSheetPanel.getSelectedDataSet();
+        List<List<String>> tags = dataSheetPanel.getSelectedTags();
         List<ClassifierDataSet> evalSets = inputDataReference.getEvaluationSets();
+
+        //Filter the selected values
         Filterer.filterAndUnion(updateSet,tags,evalSets);
+
+        //Update data references to include the new classifier data set
         GraphableData<?> oldGraph = this.inputDataReference.getGraphfromDataSet(updateSet);
 
         GraphableData output = graphableFunction.compute(updateSet);

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An abstract for a "composite" function, or a function that computes based on the output of other functions.
+ * An abstract class for a "composite" function, or a function that computes based on the output of other functions.
  * Created by robinsat on 12/13/2016.
  */
 public abstract class CompositeFunction implements GraphableFunction<List<GraphableData>> {

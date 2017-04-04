@@ -22,7 +22,7 @@ public class AddCompositeFunctionAction implements IAction<CompositeFunction> {
     }
 
     /**
-     * Perform some action for some on click interaction
+     * Add composite function to the graph
      * @param compositeFunction The function to add to the graph
      */
     public void doAction(CompositeFunction compositeFunction) {

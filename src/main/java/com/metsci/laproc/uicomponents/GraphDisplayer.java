@@ -10,17 +10,19 @@ import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.*;
 import com.metsci.laproc.utils.IAction;
 
+import java.util.Map;
+
 /**
  * Creates a Glimpse plot for a Graph
  * Created by malinocr on 9/20/2016.
  */
 public class GraphDisplayer implements GlimpseLayoutProvider
 {
-    private IAction<GraphPoint[]>[] pointClickActions;
+    private IAction<Map<String, GraphPoint>>[] pointClickActions;
     private Graph graph;
 
+    //Restricts the line painters to use these selected colors that are easily visible
     static final float[][] possibleColors = new float[8][4];
-
     static {
         possibleColors[0] = GlimpseColor.fromColorRgb(0f, 0f, 0f);
         possibleColors[1] = GlimpseColor.fromColorRgb(1f, 0f, 0f);
@@ -36,7 +38,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
      * Default constructor for the graph displayer
      * @param pointClickActions point click actions for the graph displayer
      */
-    public GraphDisplayer(IAction<GraphPoint[]>... pointClickActions) {
+    public GraphDisplayer(IAction<Map<String, GraphPoint>>... pointClickActions) {
         this.pointClickActions = pointClickActions;
         //By default, display an empty graph
         this.graph = new BasicGraph();
@@ -44,8 +46,6 @@ public class GraphDisplayer implements GlimpseLayoutProvider
 
     /**
      * This should be called before getLayout to update the graph that the canvas should display.
-     * Because getLayout() is an interface method from Glimpse, we can't give it a Graph as a parameter
-     * So use this method instead
      * @param graph The graph to display on this GraphDisplayer
      */
     public void setGraph(Graph graph) {
@@ -53,7 +53,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider
     }
 
     /**
-     * Gets the plot for the graph
+     * Gets the Glimpse plot for the graph
      * @return GlimpseLayout plot of the graph
      */
     public SimplePlot2D getLayout()

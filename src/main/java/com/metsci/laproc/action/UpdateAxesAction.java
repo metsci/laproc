@@ -5,7 +5,7 @@ import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.utils.IAction;
 
 /**
- * Action to update axis in the graph object
+ * Action to update axis in the graph
  * Created by porterjc on 12/16/2016.
  */
 public class UpdateAxesAction implements IAction<ParametricFunction[]> {
@@ -14,7 +14,7 @@ public class UpdateAxesAction implements IAction<ParametricFunction[]> {
 
     /**
      * Basic constructor that takes a data reference object
-     * @param reference References
+     * @param reference output date reference for the application
      */
     public UpdateAxesAction(OutputDataReference reference){
         this.reference = reference;

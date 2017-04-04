@@ -2,6 +2,7 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IActionReceiver;
 
 import javax.swing.*;
@@ -9,11 +10,11 @@ import java.awt.*;
 import java.util.Map;
 
 /**
- * Panel with general data stored in a data point.
+ * Example panel with general data stored in a data point.
  *
  * Created by porterjc on 10/21/2016.
  */
-public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
+public class PointInfoPanel implements ITool, IActionReceiver<Map<String, GraphPoint>>{
     private JScrollPane pane;
     private JPanel panel;
 
@@ -29,20 +30,24 @@ public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
     }
 
     /**
-     * updates the rows of the point info panel for each displayed graph
+     * Updates the rows of the point info panel for each displayed graph
+     * @param dataMap data map from the graphable data set containing a point to the point
      */
-    public void update(GraphPoint[] points){
+    public void update(Map<String, GraphPoint> dataMap){
         this.panel.remove(pane);
         pane = new JScrollPane();
         JPanel supPanel = new JPanel();
 
-        for (GraphPoint point : points) {
-            Map<String, Double> data = point.getAnalytics();
+        //For each name in the map, display the name and the analytics
+        for(String name : dataMap.keySet()) {
+            Map<String, Double> data = dataMap.get(name).getAnalytics();
 
             JPanel panel = new JPanel();
-            GridLayout matri = new GridLayout(data.size(), 2);
+            GridLayout matri = new GridLayout(data.size() + 1, 2);
             panel.setLayout(matri);
 
+            panel.add(new JLabel(name));
+            panel.add(new JLabel(""));
             for (String key : data.keySet()) {
                 panel.add(new JLabel(key));
                 panel.add(new JLabel(Math.floor(data.get(key) * 10000) / 10000 + ""));
@@ -66,7 +71,7 @@ public class PointInfoPanel implements ITool, IActionReceiver<GraphPoint[]>{
         return ITool.BOTTOMPOSITION;
     }
 
-    public void respondToAction(GraphPoint[] points) {
+    public void respondToAction(Map<String, GraphPoint> points) {
         update(points);
     }
 }

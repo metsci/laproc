@@ -41,7 +41,6 @@ public abstract class Window {
 
     /**
      * Puts together a docking group and docks in default views
-     * Creaded by porterjc on 9/22/2016
      */
     public void display() {
         JPanel keyPanel = new JPanel();

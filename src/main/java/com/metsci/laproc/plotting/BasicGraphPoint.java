@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * A basic implementation of a graph point. Currently does not support adding analytics
+ * An example implementation of a graph point. Currently does not support adding analytics
  * Created by robinsat on 10/25/2016.
  */
 public class BasicGraphPoint implements GraphPoint {

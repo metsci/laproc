@@ -21,8 +21,7 @@ import com.metsci.laproc.utils.IAction;
 import com.metsci.laproc.utils.IObserver;
 
 /**
- * 
- * Panel for manipulating evaluation sets into dataset groups
+ * Example Panel for manipulating evaluation sets into classifier data sets
  * Created by patterjm on 10/5/2016.
  *
  */
@@ -33,44 +32,51 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 	private JPanel tagPanel;
 	private JComboBox dataSets;
 	private JTextField nameTextField;
-	/**
-	 * Default constructor, requires a window for context
-	 */
+
+    /**
+     * Default constructor
+     * @param ref input data reference for the application
+     * @param outref output data reference for the application
+     */
 	public EvaluationSetPanel(InputDataReference ref, OutputDataReference outref){
 		ref.addObserver(this);
 		this.panel = new JPanel();
 		this.createAction = new CreateNewDataSetAction(ref, outref, new ROCCurveFunction());
 		this.unionAction = new FilterDataSetAction(ref, outref, new ROCCurveFunction());
-		setDataSheet(ref);
+		createUI(ref);
 	}
 
     /**
-     * Sets the data sheet for the panel
-     * @param ref reference to create the data sheet
+     * Creates the UI elements of the tool
+     * @param ref input data reference for the application
      */
-	private void setDataSheet(InputDataReference ref) {
+	private void createUI(InputDataReference ref) {
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 
+		//Create text field for the user to input the name of a new classifier data set.
         JTextField nameTextField = new JTextField();
         this.nameTextField = nameTextField;
         this.nameTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 12));
         nameTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.panel.add(nameTextField);
 
-        JButton newEvalSetButton = new JButton("Create New Eval Set");
+        //Create a button to press to create a new classifier set.
+        JButton newClassifierSetButton = new JButton("Create New Classifier Set");
         ActionListener createListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                //The create action will handle the creating logic for a classifier set.
                 createAction.doAction(EvaluationSetPanel.this);
             }
         };
-        newEvalSetButton.addActionListener(createListener);
-        this.panel.add(newEvalSetButton);
+        newClassifierSetButton.addActionListener(createListener);
+        this.panel.add(newClassifierSetButton);
 
+        //Create a panel to display the tag headers and their associated tags.
 		List<TagHeader> headers = ref.getTagHeaders();
 		JPanel tagPanel = new JPanel();
 		this.tagPanel = tagPanel;
 		tagPanel.setLayout(new BoxLayout(tagPanel, BoxLayout.Y_AXIS));
-
+		//Each tag header will have a JLable displaying its name and a table with its tags.
 		for(TagHeader header: headers){
 			DefaultTableModel model = new DefaultTableModel();
 			JLabel label = new JLabel(header.getName());
@@ -83,7 +89,6 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 			tagPanel.add(label);
 			tagPanel.add(table);
 		}
-
 		JScrollPane tagScrollPane = new JScrollPane(tagPanel);
 		tagScrollPane.setViewportView(tagPanel);
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
@@ -92,17 +97,21 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
         tagScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
         this.panel.add(tagScrollPane);
 
-		JButton unionEvalSetButton = new JButton("Union with Eval Set");
+        //Create a button to union additional evaluation sets into a created classifier set.
+		JButton unionEvalSetButton = new JButton("Union with Classifier Set");
 		ActionListener unionListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			    //The union action will handle the logic for unioning selected evaluation sets into the selected
+                //classifier set.
 				unionAction.doAction(EvaluationSetPanel.this);
 			}
 		};
 		unionEvalSetButton.addActionListener(unionListener);
 		this.panel.add(unionEvalSetButton);
 
-		
 		final JTextArea setOperationHistoryTextArea = new JTextArea();
+
+		//Create a combo box to display the created classifier data sets
 		this.dataSets = new JComboBox();
 		ActionListener changeDataSet = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -117,10 +126,9 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 		dataSets.setAlignmentX(Component.LEFT_ALIGNMENT);
 		this.panel.add(dataSets);
 
-		
+        //Create a text area to display the operation history for
 		final JLabel setOperationTitle = new JLabel("Set Operations:");
         this.panel.add(setOperationTitle);
-
 	    setOperationHistoryTextArea.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    setOperationHistoryTextArea.setWrapStyleWord(true);
 	    setOperationHistoryTextArea.setLineWrap(true);
@@ -175,6 +183,10 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 		return nameTextField.getText();
 	}
 
+    /**
+     * Repopulates the combo box of classifier data sets when the input data reference is updated
+     * @param ref input data reference for the application
+     */
 	public void update(InputDataReference ref) {
 		ClassifierDataSet selectedDataSet = (ClassifierDataSet)this.dataSets.getSelectedItem();
 		this.dataSets.removeAllItems();
@@ -186,8 +198,12 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 		}
 		this.dataSets.repaint();
 	}
-	
-	public void setSelectedDataSet(ClassifierDataSet dataSetRef){
-		this.dataSets.setSelectedItem(dataSetRef);
+
+    /**
+     * Sets the selected data set to the given data set
+     * @param dataSet data set to set as selected
+     */
+	public void setSelectedDataSet(ClassifierDataSet dataSet){
+		this.dataSets.setSelectedItem(dataSet);
 	}
 }

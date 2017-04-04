@@ -6,10 +6,15 @@ import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
+import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IAction;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
- * Mouse listener for selecting a set of points
+ * Mouse listener for selecting a set of points on a graph
  * Created by malinocr on 10/3/2016.
  */
 public class GraphDisplayerMouseListener implements GlimpseMouseListener {
@@ -20,16 +25,19 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private boolean doubleClicked = false;
     private boolean displayDoubleClick = false;
     private boolean isDisplayingPolygon = false;
-    private IAction<GraphPoint[]>[] actionsOnClick;
+    private IAction<Map<String, GraphPoint>>[] actionsOnClick;
     private GlimpseMouseEvent firstClick;
 
+    //Defines maximum amount of time between two clicks to consider them together as a double click
     private static final int MOUSE_CLICK_NANOSECONDS = 500000000;
 
     /**
      * General constructor for GraphDisplayerMouseListener
+     * @param graph graph to observe
      * @param polygonPainter polygon painter for selection area
+     * @param actionsOnClick actions to perform on click
      */
-    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<GraphPoint[]>... actionsOnClick){
+    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<Map<String, GraphPoint>>... actionsOnClick){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
         this.actionsOnClick = actionsOnClick;
@@ -46,22 +54,22 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     }
 
     public void mousePressed(GlimpseMouseEvent glimpseMouseEvent) {
-        if(isDisplayingPolygon){
+        if(isDisplayingPolygon){ //Remove the previous polygon if the graph is clicked
             polygonPainter.deletePolygon(0,0);
             isDisplayingPolygon = false;
         }
-        if(doubleClicked){
+        if(doubleClicked){ //If the graph was previously double clicked, display the selected region
             doubleClicked = false;
             displayDoubleClick = true;
-        } else if(System.nanoTime() - lastClickTime < MOUSE_CLICK_NANOSECONDS){ //This is based on the normal double click time
+        } else if(System.nanoTime() - lastClickTime < MOUSE_CLICK_NANOSECONDS){ //Set the graph a
             doubleClicked = true;
-        } else {
+        } else {//Log clicked time to see if the next click is a double click
             lastClickTime = System.nanoTime();
         }
     }
 
     public void mouseReleased(GlimpseMouseEvent glimpseMouseEvent) {
-        if(displayDoubleClick){
+        if(displayDoubleClick){ //If a region is selected to be displayed, display it on the graph
             System.out.println("Double Click: ");
             float x1 = (float)displayClosestPoint(firstClick);
             float x2 = (float)displayClosestPoint(glimpseMouseEvent);
@@ -72,7 +80,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
             float[] yValues = {-1,2,2,-1};
             this.polygonPainter.addPolygon(0,0,xValues,yValues,0);
             isDisplayingPolygon = true;
-        } else if(doubleClicked){
+        } else if(doubleClicked){ // Log the second click for a double click for selecting the region
             firstClick = glimpseMouseEvent;
         } else {
             System.out.println("Single Click: ");
@@ -88,8 +96,15 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private double displayClosestPoint(GlimpseMouseEvent glimpseMouseEvent){
         double ret = 0;
         GraphPoint[] points = graph.getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
-        for(IAction<GraphPoint[]> action : this.actionsOnClick) {
-            action.doAction(points);
+        Map<String, GraphPoint> datapoints = new HashMap<String, GraphPoint>();
+        Iterator<GraphableData> dataList = graph.getData().iterator();
+
+        for(int i = 0; i < points.length; i++) {
+            datapoints.put(dataList.next().getName(), points[i]);
+        }
+
+        for(IAction<Map<String, GraphPoint>> action : this.actionsOnClick) {
+            action.doAction(datapoints);
         }
 
         return ret;
