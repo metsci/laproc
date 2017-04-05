@@ -21,13 +21,18 @@ public class ROCCurveFunction implements GraphableFunction<ClassifierDataSet> {
         GraphableDataWithMetrics<ClassifierSetPoint> out = new GraphableDataWithMetrics<ClassifierSetPoint>("ROC Curve",
                 new FalsePositiveRate(), new TruePositiveRate());
 
+        double max = 1.0;
+        double min = 0.0;
+
         // Metrics that must be calculated for each point in the data set
-        double interval = 1.0 / NUMPOINTS;
-        double cutpoint = 0;
+        double interval = (max - min) / NUMPOINTS;
+        double cutpoint = min;
 
         //Iterate over all points in the set to compute the values for each point
         for(int i = 0; i < NUMPOINTS; i++) {
             cutpoint += interval;
+            if (cutpoint > max)
+                break;
             out.addDataPoint(createPointAtThreshold(input, cutpoint));
         }
 
@@ -81,6 +86,7 @@ public class ROCCurveFunction implements GraphableFunction<ClassifierDataSet> {
                     trueNegatives++;
             }
         }
+
         // Create a point with the resulting values
         return new ClassifierSetPoint(threshold, truePositives, trueNegatives, falsePositives, falseNegatives);
     }

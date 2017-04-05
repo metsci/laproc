@@ -60,13 +60,15 @@ public class CompositeFunction implements GraphableFunction<Iterable<GraphableDa
                 GraphPoint lowPoint = item.getPointLessOrEqual(currentValue);
                 GraphPoint highPoint = item.getPointGreaterOrEqual(currentValue);
 
-                if(lowPoint != null && highPoint != null) {
-                    if(lowPoint.getY() == highPoint.getY()) {
+                if(lowPoint != null) {
+                    if(highPoint == null || lowPoint.getY() == highPoint.getY()) {
                         calculatedYVals.add(lowPoint.getY());
                     } else {
                         calculatedYVals.add(lowPoint.getY() + (highPoint.getY() - lowPoint.getY()) *
                                 (currentValue - lowPoint.getX()) / (highPoint.getX() - lowPoint.getX()));
                     }
+                } else if (highPoint != null) {
+                    calculatedYVals.add(highPoint.getY());
                 }
             }
 

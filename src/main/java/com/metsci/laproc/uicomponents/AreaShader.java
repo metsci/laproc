@@ -76,7 +76,7 @@ public class AreaShader extends PolygonPainter {
         yValues = lowerBound.getYValues();
         int lowerBoundSize = xValues.length - 1;
 
-        for(int j = 0; j < lowerBoundSize; j++) {
+        for(int j = 0; j <= lowerBoundSize; j++) {
             areaX[i + j] = (float) xValues[lowerBoundSize - j];
             areaY[i + j] = (float) yValues[lowerBoundSize - j];
         }
