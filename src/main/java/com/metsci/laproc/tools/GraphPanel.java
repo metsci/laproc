@@ -21,7 +21,6 @@ import com.metsci.laproc.utils.IObserver;
  */
 public class GraphPanel implements ITool, IObserver<GraphReference> {
     private NewtSwingGlimpseCanvas canvas;
-    private GraphDisplayManager graphDisplayManager;
     private GraphDisplayer graphDisplayer;
 
     /**
@@ -29,12 +28,11 @@ public class GraphPanel implements ITool, IObserver<GraphReference> {
      * Creaded by porterjc on 9/22/2016
      */
 
-    public GraphPanel(GraphReference reference, GraphDisplayManager manager, IAction<GraphPoint[]>... clickActions){
+    public GraphPanel(GraphReference reference, GraphDisplayer graphDisplayer){
         reference.addObserver(this);
         canvas = new NewtSwingGlimpseCanvas();
         new FPSAnimator(canvas.getGLDrawable(), 120).start();
-        graphDisplayManager = manager;
-        graphDisplayer = new GraphDisplayer(clickActions);
+        this.graphDisplayer = graphDisplayer;
         this.addGraphToCanvas(graphDisplayer);
     }
 
@@ -70,7 +68,6 @@ public class GraphPanel implements ITool, IObserver<GraphReference> {
         Graph graph = reference.getGraph();
         graphDisplayer.setGraph(graph);
         Plot2D plot2D = graphDisplayer.getLayout();
-        graphDisplayManager.updateGraph(graph, plot2D, new GraphVisualProperties());
         canvas.addLayout(plot2D);
     }
 }

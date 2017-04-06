@@ -26,11 +26,4 @@ public interface GraphDisplayManager {
      */
     void disableGraphFeature(GraphFeature feature);
 
-    /**
-     * Called whenever the Graph needs to update
-     * @param graph The graph to use for the features
-     * @param plot The plot on which to draw the features
-     * @param properties The properties to use for drawing the features
-     */
-    void updateGraph(Graph graph, Plot2D plot, GraphVisualProperties properties);
 }

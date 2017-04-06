@@ -2,33 +2,56 @@ package com.metsci.laproc.uicomponents;
 
 import com.metsci.glimpse.painter.decoration.LegendPainter;
 import com.metsci.glimpse.painter.plot.XYLinePainter;
+import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.laproc.plotting.Axis;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
+import com.metsci.laproc.tools.GraphDisplayManager;
+import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Given a graph object, creates a Plot2D
  * Created by robinsat on 2/7/2017.
  */
-public class GraphRenderer {
+public class GraphRenderer implements GraphDisplayManager {
 
-    /** The factory to use for constructing painters */
-    private PainterFactory factory;
+    private GraphVisualProperties properties;
+    private List<GraphFeature> graphFeatures;
 
     /**
      * Constructor
      */
     public GraphRenderer() {
-        this.factory = new PainterFactory(new GraphVisualProperties());
+        this.properties = new GraphVisualProperties();
+        this.graphFeatures = new ArrayList<GraphFeature>();
     }
 
     /**
      * Sets the graph displayer to use the properties provided
      * @param properties The new set of properties to use
      */
-    public void useGraphProperties(GraphVisualProperties properties) {
-        this.factory = new PainterFactory(properties);
+    public void setGraphProperties(GraphVisualProperties properties) {
+        this.properties = properties;
+    }
+
+    /**
+     * Adds an item to the set of features applied to the graph
+     * @param feature The feature to enable
+     */
+    public void enableGraphFeature(GraphFeature feature) {
+        this.graphFeatures.add(feature);
+    }
+
+    /**
+     * Removes an item from the set of features applied to the graph
+     * @param feature The feature to disable
+     */
+    public void disableGraphFeature(GraphFeature feature) {
+        this.graphFeatures.remove(feature);
     }
 
     /**
@@ -40,6 +63,8 @@ public class GraphRenderer {
         // Create a plot frame
         SimplePlot2D plot = new SimplePlot2D( );
 
+        PainterFactory factory = new PainterFactory(this.properties);
+
         // Set axis labels and chart title
         plot.setTitle(graph.getTitle());
         setPlotAxis(graph.getXAxis(), graph.getYAxis(), plot);
@@ -48,7 +73,8 @@ public class GraphRenderer {
         LegendPainter.LineLegendPainter legend = factory.getLineLegendPainter(LegendPainter.LegendPlacement.SE);
 
         //Draws each graphable data
-        drawGraphableData(graph.getData(), plot, legend);
+        drawGraphableData(graph.getData(), plot, factory, legend);
+        applyFeatures(graph, plot, properties);
 
         // Add the legend painter to the top of the center GlimpseLayout
         plot.getLayoutCenter().addPainter(legend);
@@ -77,7 +103,7 @@ public class GraphRenderer {
      * @param plot plot to draw the data on
      * @param legend legend to add the data to
      */
-    public void drawGraphableData(Iterable<GraphableData> data, SimplePlot2D plot, LegendPainter.LineLegendPainter legend){
+    public void drawGraphableData(Iterable<GraphableData> data, SimplePlot2D plot, PainterFactory factory, LegendPainter.LineLegendPainter legend){
         int currentColor = 0;
         for(GraphableData lineData : data){
             float[] color = GraphDisplayer.possibleColors[currentColor];
@@ -88,6 +114,18 @@ public class GraphRenderer {
             linePainter.setData(lineData.getXValues(), lineData.getYValues());
             plot.addPainter(linePainter);
             legend.addItem(lineData.getName(), color);
+        }
+    }
+
+    /**
+     * Called whenever the Graph needs to update
+     * @param graph The graph to use for the features
+     * @param plot The plot on which to draw the features
+     * @param properties The properties to use for drawing the features
+     */
+    private void applyFeatures(Graph graph, Plot2D plot, GraphVisualProperties properties) {
+        for(GraphFeature feature : this.graphFeatures) {
+            feature.applyToPlot(graph, plot, properties);
         }
     }
 

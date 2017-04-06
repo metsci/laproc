@@ -1,21 +1,41 @@
 package com.metsci.laproc.uicomponents;
 
 import com.metsci.glimpse.layout.GlimpseLayoutProvider;
-import com.metsci.glimpse.painter.decoration.LegendPainter.*;
 import com.metsci.glimpse.painter.info.CursorTextPainter;
-import com.metsci.glimpse.painter.plot.XYLinePainter;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
+import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.*;
+import com.metsci.laproc.tools.GraphDisplayManager;
+import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
 import com.metsci.laproc.utils.IAction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Creates a Glimpse plot for a Graph
  * Created by malinocr on 9/20/2016.
  */
-public class GraphDisplayer implements GlimpseLayoutProvider
+public class GraphDisplayer implements GlimpseLayoutProvider, GraphDisplayManager
 {
+    /**
+     * Adds an item to the set of features applied to the graph
+     * @param feature The feature to enable
+     */
+    public void enableGraphFeature(GraphFeature feature) {
+        this.graphRenderer.enableGraphFeature(feature);
+    }
+
+    /**
+     * Removes an item from the set of features applied to the graph
+     * @param feature The feature to disable
+     */
+    public void disableGraphFeature(GraphFeature feature) {
+        this.graphRenderer.disableGraphFeature(feature);
+    }
+
     private GraphRenderer graphRenderer;
     private IAction<GraphPoint[]>[] pointClickActions;
     private Graph graph;
@@ -47,8 +67,8 @@ public class GraphDisplayer implements GlimpseLayoutProvider
      * Sets the graph displayer to use the properties provided
      * @param properties The new set of properties to use
      */
-    public void useGraphProperties(GraphVisualProperties properties) {
-        graphRenderer.useGraphProperties(properties);
+    public void setGraphProperties(GraphVisualProperties properties) {
+        this.graphRenderer.setGraphProperties(properties);
     }
 
     /**
@@ -87,6 +107,5 @@ public class GraphDisplayer implements GlimpseLayoutProvider
 
         return plot;
     }
-
 
 }
