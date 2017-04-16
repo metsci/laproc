@@ -26,27 +26,30 @@ public class Application implements Runnable{
     private OutputDataReference globalOutputDataReference;
 
     /**
-     * Constructor for the applicatoin
+     * Constructor for the application
      * @param dataSets initial evaluation sets for the application
      * @param tagHeaders tag headers for the evaluation sets
      */
     public Application(List<ClassifierDataSet> dataSets, List<TagHeader> tagHeaders) {
+        //Initialize all the data references for the application
         globalInputDataReference = new InputDataReferenceImpl(tagHeaders);
         globalOutputDataReference = new OutputDataReferenceImpl();
         for(ClassifierDataSet data : dataSets){
         	globalInputDataReference.addEvalSet(data);
         }
+        //Create a toolbox for the tools for the application
         globalToolBox = new DefaultToolBox(globalInputDataReference, globalOutputDataReference);
     }
 
     public void run() {
+        //Initialize all the tools in the toolbox
         globalToolBox.initializeTools();
-        Window window = new BasicWindow();
 
+        //Add each tool from the toolbox to the window and display the window
+        Window window = new BasicWindow();
         for(ITool t : globalToolBox.getTools()) {
             window.addViewToTile(t.getView(), t.getDefaultPosition());
         }
-
         window.display();
     }
 }

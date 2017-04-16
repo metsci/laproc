@@ -1,7 +1,7 @@
 package com.metsci.laproc.plotting;
 
 /**
- * Interface representing a single axis of a graph
+ * An example implementation of an axis of a graph
  * Created by robinsat on 9/20/2016.
  */
 public class BasicAxis implements Axis{
@@ -102,6 +102,9 @@ public class BasicAxis implements Axis{
      * @param max The upper bound, inclusive
      */
     public void setBounds(double min, double max) {
+        if(min > max){
+            throw new IllegalArgumentException("Minimum value cannot exceed the maximum");
+        }
         this.min = min;
         this.max = max;
     }

@@ -16,10 +16,10 @@ import javax.swing.*;
 import java.awt.Color;
 
 /**
- * A JPanel that handles interacting with classifer data sets
+ * Example tool that allows the user to show and hide graphable data using checkboxes
  * Created by malinocr on 10/17/2016.
  */
-public class DataSetPanel implements ITool, IObserver<OutputDataReference> {
+public class GraphableDataPanel implements ITool, IObserver<OutputDataReference> {
     private JPanel panel;
     private DataSetTable table;
     private OutputDataReference reference;
@@ -27,21 +27,27 @@ public class DataSetPanel implements ITool, IObserver<OutputDataReference> {
     private IAction hideAction;
 
     /**
-     * Default constructor for the DataSetPanel
+     * Default constructor for the GraphableDataPanel
+     * @param ref output data reference containing graphable data to show and hide
      */
-    public DataSetPanel(OutputDataReference ref){
+    public GraphableDataPanel(OutputDataReference ref){
+        //When the graphable data (contained in the output data reference set) this tool should update as well
         ref.addObserver(this);
         this.panel = new JPanel();
         this.reference = ref;
+
+        //These are the actions that should be taken when a checkbox next to the graphable data is toggled
         this.showAction = new DisplayGraphDataAction(reference);
         this.hideAction = new HideGraphDataAction(reference);
+
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
         this.table = new DataSetTable();
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
         if (defaults.get("Table.alternateRowColor") == null)
             defaults.put("Table.alternateRowColor", new Color(240, 240, 240));
-        
-        this.table.getModel().addTableModelListener(new DataSetTableCheckBoxListener(showAction, hideAction, table));
+
+        //Add the listener for checkboxes to the table using a custom listener and the show and hide actions
+        this.table.getModel().addTableModelListener(new DataSetTableCheckBoxListener(showAction, hideAction));
 
         JScrollPane scrollPane = new JScrollPane(table);
         this.panel.add(scrollPane);
@@ -80,7 +86,7 @@ public class DataSetPanel implements ITool, IObserver<OutputDataReference> {
     }
 
     /**
-     * Updates the panel when the reference is updated
+     * Repopulates the table containing graphable data when the reference is updated
      * @param reference referance to observe
      */
     public void update(OutputDataReference reference) {

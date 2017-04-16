@@ -41,7 +41,6 @@ public abstract class Window {
 
     /**
      * Puts together a docking group and docks in default views
-     * Creaded by porterjc on 9/22/2016
      */
     public void display() {
         JPanel keyPanel = new JPanel();
@@ -71,11 +70,6 @@ public abstract class Window {
      */
     public void addViewToTile(View v, int tileValue) {
         int tilesTotalViews = this.tiles.get(tileValue).numViews();
-        if(tilesTotalViews == 0)
-            this.tiles.get(tileValue).addView(v, 0);
-        else if(tilesTotalViews == 1)
-            this.tiles.get(tileValue).addView(v, 1);
-        else
-            this.tiles.get(tileValue).addView(v, tilesTotalViews - 1);
+        this.tiles.get(tileValue).addView(v, tilesTotalViews);
     }
 }

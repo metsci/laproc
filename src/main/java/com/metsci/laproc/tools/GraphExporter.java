@@ -15,13 +15,13 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Handles exporting for graphs
+ * A class that handles exporting graphs to an image
  * Created by malinocr on 1/21/2017.
  */
 public class GraphExporter{
     /**
-     * Exports an image of the given graph to the give file path
-     * @param filePath filepath to export the graph to
+     * Exports an image of the given graph to the given file path
+     * @param filePath filepath to export the graph
      * @param graph graph to export image
      * @throws IOException
      */
@@ -31,13 +31,14 @@ public class GraphExporter{
         // Only show the x and y crosshairs
         plot.getCrosshairPainter().setVisible(false);
 
+        //Create a new canvas with specific settings for an exported graph
         NewtSwingGlimpseCanvas canvas = new NewtSwingGlimpseCanvas();
         plot.setTitleFont( FontUtils.getDefaultBold( 18 ) );
+
         canvas.addLayout(plot);
         GLOffscreenAutoDrawable glDrawable = GLUtils.newOffscreenDrawable( canvas.getGLProfile() );
         FBOGlimpseCanvas offscreenCanvas = new FBOGlimpseCanvas(glDrawable.getContext(), 1000, 1000 );
         offscreenCanvas.addLayout(plot);
-
         BufferedImage image = offscreenCanvas.toBufferedImage();
         ImageIO.write(image, "PNG", new File(filePath));
     }

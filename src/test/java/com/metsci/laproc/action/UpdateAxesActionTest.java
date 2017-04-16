@@ -17,9 +17,9 @@ public class UpdateAxesActionTest {
         ParametricFunction yAxis = EasyMock.strictMock(ParametricFunction.class);
         ref.useAxisFunctions(xAxis, yAxis);
         EasyMock.expectLastCall().times(1);
-        EasyMock.replay(ref);
+        EasyMock.replay(ref, xAxis, yAxis);
         UpdateAxesAction action = new UpdateAxesAction(ref);
         action.doAction(new ParametricFunction[]{xAxis, yAxis});
-        EasyMock.verify(ref);
+        EasyMock.verify(ref, xAxis, yAxis);
     }
 }

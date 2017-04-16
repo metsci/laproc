@@ -5,7 +5,7 @@ import com.metsci.laproc.utils.IObserver;
 import com.metsci.laproc.utils.Observable;
 
 /**
- * An implementation of GraphReference that allows tools to observe a graph and receive updates
+ * An example implementation of GraphReference that allows tools to observe a graph and receive updates
  * Created by robinsat on 1/30/2017.
  */
 public class GraphReferenceImpl extends Observable implements GraphReference, IObserver<OutputDataReference> {
@@ -18,6 +18,7 @@ public class GraphReferenceImpl extends Observable implements GraphReference, IO
      * @param reference data reference for the graph reference
      */
     public GraphReferenceImpl(OutputDataReference reference) {
+        this.graph = reference.createGraph();
         reference.addObserver(this);
     }
 

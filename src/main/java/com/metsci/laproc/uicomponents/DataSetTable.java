@@ -6,7 +6,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashBigSet;
 import javax.swing.*;
 
 /**
- * A JTable that displays the names of the data sets and is able to access the sets by index
+ * A JTable that displays the names of the data sets and has functions to access the selected data sets.
  * Created by malinocr on 10/17/2016.
  */
 public class DataSetTable extends JTable{
@@ -25,14 +25,14 @@ public class DataSetTable extends JTable{
     }
     
     /**
-     * Removes all the data sets
+     * Removes all the data sets in the table
      */
     public void clear(){
         this.model.clear();
     }
 
     /**
-     * Adds a data set
+     * Adds a data set to the table
      * @param dataSet data set to add
      * @param display true if the data is displayed
      */
@@ -41,7 +41,7 @@ public class DataSetTable extends JTable{
     }
 
     /**
-     * Gets the selected data sets based on selected names
+     * Gets the data sets selected in the table
      * @return selected data sets
      */
     public ObjectOpenHashBigSet<GraphableData> getSelectedValues(){

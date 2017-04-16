@@ -16,9 +16,9 @@ public class DisplayGraphDataActionTest {
         GraphableData graphableData = EasyMock.strictMock(GraphableData.class);
         ref.showData(graphableData);
         EasyMock.expectLastCall().times(1);
-        EasyMock.replay(ref);
+        EasyMock.replay(ref, graphableData);
         DisplayGraphDataAction action = new DisplayGraphDataAction(ref);
         action.doAction(graphableData);
-        EasyMock.verify(ref);
+        EasyMock.verify(ref, graphableData);
     }
 }
