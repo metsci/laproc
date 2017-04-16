@@ -9,6 +9,7 @@ import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.tools.GraphDisplayManager;
 import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
+import com.metsci.laproc.uicomponents.graphfeatures.Legend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,14 +71,17 @@ public class GraphRenderer implements GraphDisplayManager {
         setPlotAxis(graph.getXAxis(), graph.getYAxis(), plot);
 
         //Set up Legend
-        LegendPainter.LineLegendPainter legend = factory.getLineLegendPainter(LegendPainter.LegendPlacement.SE);
+        //LegendPainter.LineLegendPainter legend = factory.getLineLegendPainter(LegendPainter.LegendPlacement.SE);
+
+        Legend legend = new Legend();
 
         //Draws each graphable data
         drawGraphableData(graph.getData(), plot, factory, legend);
-        applyFeatures(graph, plot, properties);
+        applyFeatures(graph, plot, legend, properties);
+        legend.applyToPlot(graph, plot, legend, properties);
 
         // Add the legend painter to the top of the center GlimpseLayout
-        plot.getLayoutCenter().addPainter(legend);
+       // plot.getLayoutCenter().addPainter(legend);
 
         return plot;
     }
@@ -103,7 +107,7 @@ public class GraphRenderer implements GraphDisplayManager {
      * @param plot plot to draw the data on
      * @param legend legend to add the data to
      */
-    public void drawGraphableData(Iterable<GraphableData> data, SimplePlot2D plot, PainterFactory factory, LegendPainter.LineLegendPainter legend){
+    public void drawGraphableData(Iterable<GraphableData> data, SimplePlot2D plot, PainterFactory factory, Legend legend){
         int currentColor = 0;
         for(GraphableData lineData : data){
             float[] color = GraphDisplayer.possibleColors[currentColor];
@@ -113,7 +117,7 @@ public class GraphRenderer implements GraphDisplayManager {
             XYLinePainter linePainter = factory.getLinePainter(color);
             linePainter.setData(lineData.getXValues(), lineData.getYValues());
             plot.addPainter(linePainter);
-            legend.addItem(lineData.getName(), color);
+            legend.addLineEntry(lineData.getName(), color);
         }
     }
 
@@ -123,9 +127,9 @@ public class GraphRenderer implements GraphDisplayManager {
      * @param plot The plot on which to draw the features
      * @param properties The properties to use for drawing the features
      */
-    private void applyFeatures(Graph graph, Plot2D plot, GraphVisualProperties properties) {
+    private void applyFeatures(Graph graph, Plot2D plot, Legend legend, GraphVisualProperties properties) {
         for(GraphFeature feature : this.graphFeatures) {
-            feature.applyToPlot(graph, plot, properties);
+            feature.applyToPlot(graph, plot, legend, properties);
         }
     }
 

@@ -14,8 +14,9 @@ public interface GraphFeature {
      * Applies this feature to the graph
      * @param graph The Graph object containing the data that will be drawn
      * @param plot  The graph on which to draw this feature
+     * @param legend The graph's legend, which the feature may add to
      * @param properties The properties to use when drawing the graph
      */
-    void applyToPlot(Graph graph, Plot2D plot, GraphVisualProperties properties);
+    void applyToPlot(Graph graph, Plot2D plot, Legend legend, GraphVisualProperties properties);
 
 }

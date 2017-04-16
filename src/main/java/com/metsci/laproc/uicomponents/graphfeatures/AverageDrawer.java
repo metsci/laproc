@@ -22,7 +22,7 @@ public class AverageDrawer implements GraphFeature {
      * @param plot  The graph on which to draw this feature
      * @param properties The properties to use when drawing the graph
      */
-    public void applyToPlot(Graph graph, Plot2D plot, GraphVisualProperties properties) {
+    public void applyToPlot(Graph graph, Plot2D plot, Legend legend, GraphVisualProperties properties) {
         PainterFactory factory = new PainterFactory(properties);
         AverageMetric averageMetric = new AverageMetric();
         CompositePointXMetric xMetric = new CompositePointXMetric();
@@ -30,12 +30,14 @@ public class AverageDrawer implements GraphFeature {
 
         //TODO explicitly throw a class cast exception here if needed
         GraphableData<CompositePoint> data = compositeFunction.compute(graph.getData());
+        data.setName("Vertical Average");
         data.useAxes(xMetric, averageMetric);
         try {
             float[] color = GlimpseColor.fromColorHex(properties.getProperty(GraphVisualProperties.AVERAGE_COLOR));
             XYLinePainter painter = factory.getLinePainter(color);
             painter.setData(data.getXValues(), data.getYValues());
             plot.addPainter(painter);
+            legend.addLineEntry(data.getName(), color);
         } catch (ParseException e) {
             e.printStackTrace();
         }

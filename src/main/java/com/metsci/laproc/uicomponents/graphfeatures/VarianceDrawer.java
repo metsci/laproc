@@ -27,7 +27,7 @@ public class VarianceDrawer implements GraphFeature {
      * @param plot  The graph on which to draw this feature
      * @param properties The properties to use when drawing the graph
      */
-    public void applyToPlot(Graph graph, Plot2D plot, GraphVisualProperties properties) {
+    public void applyToPlot(Graph graph, Plot2D plot, Legend legend, GraphVisualProperties properties) {
         PainterFactory factory = new PainterFactory(properties);
         CompositePointXMetric xMetric = new CompositePointXMetric();
         AverageMetric averageMetric = new AverageMetric();
@@ -53,6 +53,7 @@ public class VarianceDrawer implements GraphFeature {
             AreaShader shader = factory.getAreaShader(color);
             plot.addPainter(shader);
             shader.drawArea(upper, lower);
+            legend.addBlockEntry("Variance", color);
         } catch (ParseException e) {
             e.printStackTrace();
         }
