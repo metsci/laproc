@@ -7,6 +7,8 @@ import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.tools.*;
+import com.metsci.laproc.uicomponents.GraphDisplayer;
+import com.metsci.laproc.uicomponents.GraphRenderer;
 
 import java.util.Map;
 
@@ -31,15 +33,15 @@ public class DefaultToolBox extends ToolBox {
         GraphReference graphReference = new GraphReferenceImpl(getOutputReference());
         ConfusionPanel confusionPanel = new ConfusionPanel();
         PointInfoPanel pointInfoPanel = new PointInfoPanel();
-        GraphPanel graphPanel = new GraphPanel(graphReference,
-                new UpdateGenericDisplayAction<Map<String, GraphPoint>>(confusionPanel),
+        GraphDisplayer graphDisplayer = new GraphDisplayer(new UpdateGenericDisplayAction<Map<String, GraphPoint>>(confusionPanel),
                 new UpdateGenericDisplayAction<Map<String, GraphPoint>>(pointInfoPanel));
+        GraphPanel graphPanel = new GraphPanel(graphReference, graphDisplayer);
 
         //Add created tools and reference to the toolbox
         this.addTool(new EvaluationSetPanel(getInputReference(), getOutputReference()));
         this.addTool(new GraphableDataPanel(getOutputReference()));
         this.addTool(new GraphOptionsPanel(getOutputReference(),
-                new GraphDisplayManagerImpl(graphReference, graphPanel)));
+                graphDisplayer));
         this.addTool(graphPanel);
         this.addTool(confusionPanel);
         this.addTool(pointInfoPanel);

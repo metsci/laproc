@@ -4,13 +4,14 @@ import com.metsci.glimpse.util.Pair;
 import com.metsci.laproc.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * An abstract class for a "composite" function, or a function that computes based on the output of other functions.
  * Created by robinsat on 12/13/2016.
  */
-public abstract class CompositeFunction implements GraphableFunction<List<GraphableData>> {
+public class CompositeFunction implements GraphableFunction<Iterable<GraphableData>> {
 
     /** The name of this function, to assign to the GraphableData result */
     private String name;
@@ -34,9 +35,10 @@ public abstract class CompositeFunction implements GraphableFunction<List<Grapha
      * Executes the function and returns the resulting data set
      * @return GraphableData
      */
-    public GraphableData compute(List<GraphableData> input) {
-        BasicGraphableData data = new BasicGraphableData(this.name);
-        if(input.isEmpty()) // Avoid null pointers and index out of bounds exceptions
+    public GraphableData compute(Iterable<GraphableData> input) {
+        GraphableDataWithMetrics<CompositePoint> data = new GraphableDataWithMetrics<CompositePoint>(
+               "", new CompositePointXMetric(), new AverageMetric());
+        if(!input.iterator().hasNext()) // Avoid null pointers and index out of bounds exceptions
             return data;
 
         Pair<Double, Double> bounds = getInterpolationBounds(input); // Find the bounds of the data to analyze
@@ -51,35 +53,37 @@ public abstract class CompositeFunction implements GraphableFunction<List<Grapha
             List<Double> calculatedYVals = new ArrayList<Double>();
 
             // Iterate over all data sets in the input
-            for(int j = 0; j < input.size(); j++) {
+            Iterator<GraphableData> iterator = input.iterator();
+            while(iterator.hasNext()) {
+                GraphableData item = iterator.next();
                 // Use linear interpolation
-                GraphPoint lowPoint = input.get(j).getPointLessOrEqual(currentValue);
-                GraphPoint highPoint = input.get(j).getPointGreaterOrEqual(currentValue);
+                GraphPoint lowPoint = item.getPointLessOrEqual(currentValue);
+                GraphPoint highPoint = item.getPointGreaterOrEqual(currentValue);
 
-                if(lowPoint != null && highPoint != null) {
-                    if(lowPoint.getY() == highPoint.getY()) {
+                if(lowPoint != null) {
+                    if(highPoint == null || lowPoint.getY() == highPoint.getY()) {
                         calculatedYVals.add(lowPoint.getY());
                     } else {
                         calculatedYVals.add(lowPoint.getY() + (highPoint.getY() - lowPoint.getY()) *
                                 (currentValue - lowPoint.getX()) / (highPoint.getX() - lowPoint.getX()));
                     }
+                } else if (highPoint != null) {
+                    calculatedYVals.add(highPoint.getY());
                 }
             }
 
             // Use the set of Y values to finish executing the function
-            double result = computeFromYValues(Utils.toPrimitiveArray(calculatedYVals));
-            data.addPoint(currentValue, result);
+            double[] yVals = Utils.toPrimitiveArray(calculatedYVals);
+            data.addDataPoint(new CompositePoint(currentValue, yVals));
         }
+
+        data.addAxisMetric(new CompositePointXMetric());
+        data.addAxisMetric(new AverageMetric());
+        data.addAxisMetric(new VarianceMetric());
+        data.addAxisMetric(new StandardDeviationMetric());
 
         return data;
     }
-
-    /**
-     * Uses the y values for several data sets at a given x to compute output
-     * @param yValues The y values for several data sets at a given x
-     * @return The function output
-     */
-    protected abstract double computeFromYValues(double[] yValues);
 
     /**
      * A helper method to find the bounds to use for interpolation
@@ -87,12 +91,13 @@ public abstract class CompositeFunction implements GraphableFunction<List<Grapha
      * This assumes that the input has size >= 1, which the compute method should check for
      * @return An interval across which all x values on all data sets can be found by interpolation
      */
-    private Pair<Double, Double> getInterpolationBounds(List<GraphableData> input) {
-        Axis first = input.get(0).getXBounds();
+    private Pair<Double, Double> getInterpolationBounds(Iterable<GraphableData> input) {
+        Iterator<GraphableData> iterator = input.iterator();
+        Axis first = iterator.next().getXBounds();
         double min = first.getMin();
         double max = first.getMax();
-        for(int i = 1; i < input.size(); i++) {
-            Axis currentBounds = input.get(i).getXBounds();
+        while(iterator.hasNext()) {
+            Axis currentBounds = iterator.next().getXBounds();
             if(currentBounds.getMin() < min) {
                 min = currentBounds.getMin();
             }
@@ -101,19 +106,6 @@ public abstract class CompositeFunction implements GraphableFunction<List<Grapha
             }
         }
         return new Pair<Double, Double>(min, max);
-    }
-
-    /**
-     * Calculates the average. This is useful for multiple functions
-     * @param values The values to use for the average
-     * @return The average of the values
-     */
-    protected double calculateAverage(double[] values) {
-        double sum = 0;
-        for(int i = 0; i < values.length; i++) {
-            sum += values[i];
-        }
-        return sum / values.length;
     }
 
     /**
