@@ -12,7 +12,10 @@ public class Precision implements Metric {
      * @return The precision
      */
     public double compute(ClassifierSetPoint point) {
-        return ((double) point.getTruePositives()) / (point.getTruePositives() + point.getFalsePositives());
+        if (point.getTruePositives() == 0)
+            return 0;
+        double truePositives = point.getTruePositives();
+        return truePositives / (truePositives + point.getFalsePositives());
     }
 
     /**

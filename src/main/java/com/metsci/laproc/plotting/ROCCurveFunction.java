@@ -29,6 +29,8 @@ public class ROCCurveFunction implements GraphableFunction<ClassifierDataSet> {
         //Iterate over all points in the set to compute the values for each point
         for(int i = 0; i < NUMPOINTS; i++) {
             cutpoint += interval;
+            if (cutpoint > max)
+                break;
             out.addDataPoint(createPointAtThreshold(input, cutpoint));
         }
 
@@ -82,6 +84,7 @@ public class ROCCurveFunction implements GraphableFunction<ClassifierDataSet> {
                     trueNegatives++;
             }
         }
+
         // Create a point with the resulting values
         return new ClassifierSetPoint(threshold, truePositives, trueNegatives, falsePositives, falseNegatives);
     }
