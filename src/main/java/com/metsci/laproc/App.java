@@ -16,6 +16,8 @@ import com.metsci.laproc.data.TagHeader;
  * Example starting application for the laproc library
  */
 public class App {
+    private static boolean useFirstDataSet = true;
+
 	public static void main( String[] args )
     {
         //Create an empty list of classifier data sets to populate with data sets from the example CSV file.
@@ -23,7 +25,11 @@ public class App {
 
         //Create an empty list of tag headers to populate with tags from the example CSV file.
 		List<TagHeader> tagHeaders = new ArrayList<TagHeader>();
-        importData(dataSetList, tagHeaders);
+        if(useFirstDataSet) {
+            importData(dataSetList, tagHeaders);
+        } else {
+            importData2(dataSetList, tagHeaders);
+        }
 
         //Initialize and run the application with data from the CSV file.
         Application application = new Application(dataSetList, tagHeaders);
@@ -76,9 +82,9 @@ public class App {
                 //Check if the a classifier data set with the new point's tags has already been created
                 boolean found = false;
                 for(ClassifierDataSet set : dataSetList){
-                	List<List<String>> tags = set.getTags();
-                	if(tags.get(0).contains("classifier0") &&
-                	        tags.get(0).contains(line[0]) &&
+                    List<List<String>> tags = set.getTags();
+                    if(tags.get(0).contains("classifier0") &&
+                            tags.get(0).contains(line[0]) &&
                             tags.get(0).contains(line[1]) &&
                             tags.get(0).contains(line[2])){
                 		//If a matching classifier data set is found, add the point to the set
@@ -89,12 +95,12 @@ public class App {
                 }
                 //If no matching classifier data set is found, create a new one with the point's tags
                 if(!found){
-                	ArrayList<List<String>> tags = new ArrayList<List<String>>();
+                    ArrayList<List<String>> tags = new ArrayList<List<String>>();
                     ArrayList<String> tagSet = new ArrayList<String>();
                     tagSet.add("classifier0");
-                	tagSet.add(line[0]);
-                	tagSet.add(line[1]);
-                	tagSet.add(line[2]);
+                    tagSet.add(line[0]);
+                    tagSet.add(line[1]);
+                    tagSet.add(line[2]);
                     tags.add(tagSet);
                     //Note: The name for classifier data sets will not be used until the sets are grouped together
                 	ClassifierDataSet newSet = new ClassifierDataSet(tags, "meaningless");
@@ -135,14 +141,72 @@ public class App {
             }
 
             //Populate all the tag headers with the corresponding tags
+
             for(ClassifierDataSet dataSet : dataSetList){
-            	List<List<String>> tags = dataSet.getTags();
+                List<List<String>> tags = dataSet.getTags();
                 List<String> tagSet = tags.get(0);
-            	for(int i = 0; i < tagSet.size(); i++){
-            		if(!tagHeaders.get(i).getTags().contains(tagSet.get(i))){
-            			tagHeaders.get(i).addTag(tagSet.get(i));
-            		}
-            	}
+                for(int i = 0; i < tagSet.size(); i++){
+                    if(!tagHeaders.get(i).getTags().contains(tagSet.get(i))){
+                        tagHeaders.get(i).addTag(tagSet.get(i));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    private static void importData2(List<ClassifierDataSet> dataSetList, List<TagHeader> tagHeaders) {
+        try {
+            CSVReader reader = new CSVReader("..\\laproc\\test-data\\dataset2.csv");
+            String[] firstLine = reader.getLine();
+
+            TagHeader tag0 = new TagHeader("Feature");
+            TagHeader tag1 = new TagHeader("Exercise");
+
+            tagHeaders.add(tag0);
+            tagHeaders.add(tag1);
+
+            while(true) {
+                String[] line = reader.getLine();
+                if (line == null)
+                    break;
+                for (int i = 0; i < line.length - 2; i++) {
+                    DataPoint point;
+                    if (line[line.length-2].equals("1"))
+                        point = new DataPointImpl(true, Double.parseDouble(line[i]));
+                    else
+                        point = new DataPointImpl(false, Double.parseDouble(line[i]));
+                    boolean found = false;
+                    for (ClassifierDataSet set : dataSetList) {
+                        List<List<String>> tags = set.getTags();
+                        if (tags.get(0).contains(firstLine[i]) &&
+                                tags.get(0).contains(line[line.length-1])) {
+                            set.add(point);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        ArrayList<List<String>> tags = new ArrayList<List<String>>();
+                        ArrayList<String> tagSet = new ArrayList<String>();
+                        tagSet.add(firstLine[i]);
+                        tagSet.add(line[line.length-1]);
+                        tags.add(tagSet);
+                        ClassifierDataSet newSet = new ClassifierDataSet(tags, "meaningless");
+                        newSet.add(point);
+                        dataSetList.add(newSet);
+                    }
+                }
+            }
+            for(ClassifierDataSet dataSet : dataSetList){
+                List<List<String>> tags = dataSet.getTags();
+                List<String> tagSet = tags.get(0);
+                for(int i = 0; i < tagSet.size(); i++){
+                    if(!tagHeaders.get(i).getTags().contains(tagSet.get(i))){
+                        tagHeaders.get(i).addTag(tagSet.get(i));
+                    }
+                }
             }
         } catch (IOException e) {
             System.out.println(e);
