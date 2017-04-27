@@ -42,18 +42,6 @@ public class GraphDisplayer implements GlimpseLayoutProvider, GraphDisplayManage
     private IAction<Map<String, GraphPoint>>[] pointClickActions;
     private Graph graph;
 
-    //Restricts the line painters to use these selected colors that are easily visible
-    static final float[][] possibleColors = new float[8][4];
-    static {
-        possibleColors[0] = GlimpseColor.fromColorRgb(0f, 0f, 0f);
-        possibleColors[1] = GlimpseColor.fromColorRgb(1f, 0f, 0f);
-        possibleColors[2] = GlimpseColor.fromColorRgb(0f, 0f, 1f);
-        possibleColors[3] = GlimpseColor.fromColorRgb(0.2f, 0.5f, 0.5f);
-        possibleColors[4] = GlimpseColor.fromColorRgb(0.4f, 0.4f, 0f);
-        possibleColors[5] = GlimpseColor.fromColorRgb(1f, 0f, 1f);
-        possibleColors[6] = GlimpseColor.fromColorRgb(0.4f, 0f, 0.4f);
-    }
-
     /**
      * Default constructor for the graph displayer
      * @param pointClickActions point click actions for the graph displayer
