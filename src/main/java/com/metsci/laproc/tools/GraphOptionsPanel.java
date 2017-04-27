@@ -98,7 +98,8 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
      * Updates the combo boxes with the metrics from the graph
      * @param  metrics current metrics from graph
      */
-    public void populateOptions(Iterable<ParametricFunction> metrics) {
+    private void populateOptions(Iterable<ParametricFunction> metrics,
+                                ParametricFunction selectedX, ParametricFunction selectedY) {
         //Add all the new metrics for axes to the metrics map
         Iterator<ParametricFunction> metricIterator = metrics.iterator();
         while(metricIterator.hasNext()) {
@@ -109,6 +110,9 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
             }
             this.metricsMap.put(temp.getDescriptor(), temp);
         }
+
+        this.xaxis.setSelectedItem(selectedX.getDescriptor());
+        this.yaxis.setSelectedItem(selectedY.getDescriptor());
 
         this.xaxis.revalidate();
         this.xaxis.repaint();
@@ -143,7 +147,8 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     }
 
     public void update(OutputDataReference graphReference) {
-        populateOptions(graphReference.getAxisFunctions());
+        populateOptions(graphReference.getAxisFunctions(), graphReference.getXAxisFunction(),
+                graphReference.getYAxisFunction());
     }
 
     /**
@@ -152,7 +157,6 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     private void setupCompositeFunctionOptions() {
         addCheckBox(new AverageDrawer(), "Display Vertical Average");
         addCheckBox(new VarianceDrawer(), "Display Variance");
-        //addCheckBox(new AverageDrawer(new StandardDeviationFunction()), "Display Standard Deviation");
     }
 
     /**

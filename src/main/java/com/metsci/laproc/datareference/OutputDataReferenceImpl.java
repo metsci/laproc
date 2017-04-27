@@ -137,6 +137,22 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         return functionUnion.values();
     }
 
+    /**
+     * Gets the function currently being used for the X axis
+     * @return The function currently being used for the X axis
+     */
+    public ParametricFunction getXAxisFunction() {
+        return this.xAxisFunc;
+    }
+
+    /**
+     * Gets the function currently being used for the Y axis
+     * @return The function currently being used for the Y axis
+     */
+    public ParametricFunction getYAxisFunction() {
+        return this.yAxisFunc;
+    }
+
     public void useAxisFunctions(ParametricFunction x, ParametricFunction y) {
         if(!(x.equals(this.xAxisFunc) && y.equals(this.yAxisFunc))) {
             this.xAxisFunc = x;
