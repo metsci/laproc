@@ -15,10 +15,10 @@ public class UpdateAxesActionTest {
         OutputDataReference ref = EasyMock.strictMock(OutputDataReference.class);
         ParametricFunction xAxis = EasyMock.strictMock(ParametricFunction.class);
         ParametricFunction yAxis = EasyMock.strictMock(ParametricFunction.class);
-        ref.useAxisFunctions(xAxis, yAxis);
+        ref.updateGraphWithAxes(xAxis, yAxis);
         EasyMock.expectLastCall().times(1);
         EasyMock.replay(ref, xAxis, yAxis);
-        UpdateAxesAction action = new UpdateAxesAction(ref);
+        UpdateGraphAction action = new UpdateGraphAction(ref);
         action.doAction(new ParametricFunction[]{xAxis, yAxis});
         EasyMock.verify(ref, xAxis, yAxis);
     }

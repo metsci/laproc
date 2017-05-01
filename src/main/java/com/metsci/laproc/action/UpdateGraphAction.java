@@ -8,7 +8,7 @@ import com.metsci.laproc.utils.IAction;
  * Action to update axis in the graph
  * Created by porterjc on 12/16/2016.
  */
-public class UpdateAxesAction implements IAction<ParametricFunction[]> {
+public class UpdateGraphAction implements IAction<ParametricFunction[]> {
     private OutputDataReference reference;
 
 
@@ -16,7 +16,7 @@ public class UpdateAxesAction implements IAction<ParametricFunction[]> {
      * Basic constructor that takes a data reference object
      * @param reference output date reference for the application
      */
-    public UpdateAxesAction(OutputDataReference reference){
+    public UpdateGraphAction(OutputDataReference reference){
         this.reference = reference;
     }
 
@@ -27,6 +27,6 @@ public class UpdateAxesAction implements IAction<ParametricFunction[]> {
      *                 index 0 is the xaxis and index 1 is the yaxis
      */
     public void doAction(ParametricFunction[] argument) {
-        this.reference.useAxisFunctions(argument[0], argument[1]);
+        this.reference.updateGraphWithAxes(argument[0], argument[1]);
     }
 }

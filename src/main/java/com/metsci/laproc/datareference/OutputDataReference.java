@@ -86,7 +86,7 @@ public interface OutputDataReference extends IObservable {
      * @param x xaxis to set
      * @param y yaxis to set
      */
-    void useAxisFunctions(ParametricFunction x, ParametricFunction y);
+    void updateGraphWithAxes(ParametricFunction x, ParametricFunction y);
 
     /**
      * Creates a Graph using the given functions as axes

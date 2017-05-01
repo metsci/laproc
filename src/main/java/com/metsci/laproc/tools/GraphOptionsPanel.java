@@ -2,8 +2,6 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.action.*;
-import com.metsci.laproc.plotting.*;
-import com.metsci.laproc.uicomponents.ParametrizedCheckBox;
 import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.uicomponents.graphfeatures.AverageDrawer;
 import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
@@ -16,6 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.util.*;
 
@@ -28,12 +28,13 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     private JComboBox xaxis;
     private JComboBox yaxis;
     private Map<String, ParametricFunction> metricsMap;
-    private JButton updateButton;
-    private IAction updateAxesAction;
     private GraphDisplayManager manager;
+    private OutputDataReference reference;
 
     private IAction<GraphFeature> addGraphFeatureAction;
     private IAction<GraphFeature> removeGraphFeatureAction;
+
+    private boolean listenersEnabled = false;
 
     /**
      * Default constructor
@@ -42,10 +43,10 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
      */
     public GraphOptionsPanel(final OutputDataReference reference, GraphDisplayManager displayManager) {
         //Initialize fields for the tool
+        this.reference = reference;
         manager = displayManager;
         reference.addObserver(this);
         this.panel = new JPanel();
-        this.updateAxesAction = new UpdateAxesAction(reference);
         this.metricsMap = new HashMap<String, ParametricFunction>();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.Y_AXIS));
 
@@ -65,10 +66,10 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         setupCompositeFunctionOptions();
 
         //Create update button for updating the graph
-        this.updateButton = new JButton("Update");
+       /* this.updateButton = new JButton("Update");
         this.updateButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        this.updateButton.addActionListener(new ButtonListener());
-        this.panel.add(updateButton);
+        this.updateButton.addActionListener(new UpdateListener());
+        this.panel.add(updateButton);*/
 
         //Add text field for exporting the graph
         addJLabel("Export Graph File Path:");
@@ -92,6 +93,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
             }
         });
         this.panel.add(exportButton);
+        this.listenersEnabled = true;
     }
 
     /**
@@ -101,6 +103,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     private void populateOptions(Iterable<ParametricFunction> metrics,
                                 ParametricFunction selectedX, ParametricFunction selectedY) {
         //Add all the new metrics for axes to the metrics map
+        listenersEnabled = false;
         Iterator<ParametricFunction> metricIterator = metrics.iterator();
         while(metricIterator.hasNext()) {
             ParametricFunction temp = metricIterator.next();
@@ -120,6 +123,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         this.yaxis.repaint();
         this.panel.revalidate();
         this.panel.repaint();
+        listenersEnabled = true;
     }
 
     /**
@@ -164,10 +168,18 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
      * @param feature The feature associated with this checkbox
      * @param text Text the checkbox displays
      */
-    private void addCheckBox(GraphFeature feature, String text) {
-        ParametrizedCheckBox<GraphFeature> checkBox = new ParametrizedCheckBox<GraphFeature>(text, feature);
-        checkBox.addActionWhenChecked(addGraphFeatureAction);
-        checkBox.addActionWhenUnchecked(removeGraphFeatureAction);
+    private void addCheckBox(final GraphFeature feature, String text) {
+        final JCheckBox checkBox = new JCheckBox(text);
+        checkBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if(checkBox.isSelected()) {
+                    addGraphFeatureAction.doAction(feature);
+                } else {
+                    removeGraphFeatureAction.doAction(feature);
+                }
+                updateGraph();
+            }
+        });
         this.panel.add(checkBox);
     }
 
@@ -182,6 +194,13 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         box.setAlignmentX(Component.LEFT_ALIGNMENT);
         box.setMaximumRowCount(6);
         box.setMaximumSize(new Dimension(Short.MAX_VALUE, 25));
+        box.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (listenersEnabled && e.getStateChange() == ItemEvent.SELECTED) {
+                    updateGraph();
+                }
+            }
+        });
         return box;
     }
 
@@ -195,12 +214,11 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
         this.panel.add(label);
     }
 
-    private class ButtonListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            ParametricFunction[] axes = new ParametricFunction[2];
-            axes[0] = getSelectedXAxis();
-            axes[1] = getSelectedYAxis();
-            updateAxesAction.doAction(axes);
-        }
+    /**
+     * Calling this method whenever a change is made to the graph options will cause the graph to update
+     */
+    private void updateGraph() {
+        reference.updateGraphWithAxes(getSelectedXAxis(), getSelectedYAxis());
     }
+
 }

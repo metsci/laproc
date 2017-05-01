@@ -6,8 +6,6 @@ import com.metsci.laproc.utils.IObserver;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import java.util.Iterator;
-
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -210,11 +208,11 @@ public class OutputDataReferenceImplTest {
 
         graphRef.addObserver(observer);
 
-        graphRef.useAxisFunctions(function1,function1);
-        graphRef.useAxisFunctions(function1,function2);
-        graphRef.useAxisFunctions(function1,function1);
-        graphRef.useAxisFunctions(function2,function1);
-        graphRef.useAxisFunctions(function2,function1);
+        graphRef.updateGraphWithAxes(function1,function1);
+        graphRef.updateGraphWithAxes(function1,function2);
+        graphRef.updateGraphWithAxes(function1,function1);
+        graphRef.updateGraphWithAxes(function2,function1);
+        graphRef.updateGraphWithAxes(function2,function1);
 
         //TODO:Test getAxisFunctions
 
