@@ -1,14 +1,13 @@
 package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
-import com.metsci.glimpse.util.PrimitiveVector;
-import com.metsci.laproc.data.DataPoint;
-import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.utils.IActionReceiver;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by porterjc on 5/2/2017.
@@ -43,12 +42,17 @@ public class AreaPanel implements ITool, IActionReceiver<Map<String, Map<Double,
         //For each name in the map, display the name and the area
         for(String name : dataMap.keySet()) {
             Map<Double, Double> xyPairs = dataMap.get(name);
-            for (double x : xyPairs.keySet()) {
+
+            SortedSet<Double> sorted = new TreeSet<Double>(xyPairs.keySet());
+
+            for (double x : sorted) {
                 if (lastX == -1 && lastY == -1) {
                     lastX = x;
                     lastY = xyPairs.get(x);
                 } else {
-                    area += Math.floor(Math.abs(x - lastX) * Math.abs(xyPairs.get(x) - lastY) * 1000) / 1000;
+                    area += Math.abs(x - lastX) * Math.abs(xyPairs.get(x) - lastY);
+                    lastX = x;
+                    lastY = xyPairs.get(x);
                 }
             }
             JPanel panel = new JPanel();

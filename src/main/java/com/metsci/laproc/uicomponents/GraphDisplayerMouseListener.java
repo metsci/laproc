@@ -113,6 +113,8 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
             action.doAction(datapoints);
         }
 
+        ret = glimpseMouseEvent.getAxisCoordinatesX();
+
         return ret;
     }
 
@@ -144,14 +146,20 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         float x2 = (float)displayClosestPoint(glimpseMouseEvent);
 
         List<GraphableData> data = graph.getData();
+
+        GraphPoint[] firstpoints = graph.getClosestPoints(firstClick.getAxisCoordinatesX(), firstClick.getAxisCoordinatesY());
+        GraphPoint[] lastpoints = graph.getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+
         for (int j = 0; j < data.size(); j++) {
             Map<Double, Double> values = new HashMap<Double, Double>();
-            values.put(firstClick.getAxisCoordinatesX(), firstClick.getAxisCoordinatesY());
+            GraphPoint first = firstpoints[j];
+            values.put(first.getX(), first.getY());
             for (float i = x1; i < x2; i += 0.01f) {
                 GraphPoint point = data.get(j).getPointGreaterOrEqual(i);
-                values.put(point.getAnalytics().get(graph.getXAxis()), point.getAnalytics().get(graph.getYAxis()));
+                values.put(point.getX(), point.getY());
             }
-            values.put(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+            GraphPoint last = lastpoints[j];
+            values.put(last.getX(), last.getY());
             graphValueRanges.put(data.get(j).getName(), values);
         }
 
