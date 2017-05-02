@@ -10,11 +10,13 @@ import com.metsci.laproc.plotting.*;
 import com.metsci.laproc.tools.GraphDisplayManager;
 import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
 import com.metsci.laproc.utils.IAction;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Creates a Glimpse plot for a Graph
@@ -40,7 +42,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider, GraphDisplayManage
 
     private GraphRenderer graphRenderer;
     private IAction<Map<String, GraphPoint>>[] pointClickActions;
-    private IAction<Map<String, Map<Double, Double>>> doubleClickAction;
+    private IAction<Map<String, List<GraphPoint>>> doubleClickAction;
     private Graph graph;
 
     //Restricts the line painters to use these selected colors that are easily visible
@@ -59,7 +61,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider, GraphDisplayManage
      * Default constructor for the graph displayer
      * @param pointClickActions point click actions for the graph displayer
      */
-    public GraphDisplayer(IAction<Map<String, Map<Double, Double>>> doubleClickAction, IAction<Map<String, GraphPoint>>... pointClickActions) {
+    public GraphDisplayer(IAction<Map<String, List<GraphPoint>>> doubleClickAction, IAction<Map<String, GraphPoint>>... pointClickActions) {
         this.pointClickActions = pointClickActions;
         this.doubleClickAction = doubleClickAction;
         //By default, display an empty graph

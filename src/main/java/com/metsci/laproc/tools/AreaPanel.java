@@ -1,20 +1,20 @@
 package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
+import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.utils.IActionReceiver;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.List;
 
 /**
  * Tool used for analysis of the area under graphable datas
  *
  * Created by porterjc on 5/2/2017.
  */
-public class AreaPanel implements ITool, IActionReceiver<Map<String, Map<Double, Double>>> {
+public class AreaPanel implements ITool, IActionReceiver<Map<String, List<GraphPoint>>> {
     private JScrollPane pane;
     private JPanel panel;
 
@@ -30,7 +30,7 @@ public class AreaPanel implements ITool, IActionReceiver<Map<String, Map<Double,
      * Updates the rows of the Area Panel for each displayed graph
      * @param dataMap data map from the graphable data set containing a String mapped to a map of doubles
      */
-    public void update(Map<String, Map<Double, Double>> dataMap){
+    public void update(Map<String, List<GraphPoint>> dataMap){
         this.panel.remove(pane);
         pane = new JScrollPane();
         JPanel supPanel = new JPanel();
@@ -43,18 +43,16 @@ public class AreaPanel implements ITool, IActionReceiver<Map<String, Map<Double,
 
         //For each name in the map, display the name and the area
         for(String name : dataMap.keySet()) {
-            Map<Double, Double> xyPairs = dataMap.get(name);
+            List<GraphPoint> xyPairs = dataMap.get(name);
 
-            SortedSet<Double> sorted = new TreeSet<Double>(xyPairs.keySet());
-
-            for (double x : sorted) {
+            for (GraphPoint p : xyPairs) {
                 if (lastX == -1 && lastY == -1) {
-                    lastX = x;
-                    lastY = xyPairs.get(x);
+                    lastX = p.getX();
+                    lastY = p.getY();
                 } else {
-                        area += Math.abs(x - lastX) * ((xyPairs.get(x) + lastY) / 2);
-                    lastX = x;
-                    lastY = xyPairs.get(x);
+                    area += Math.abs(p.getX() - lastX) * ((p.getY() + lastY) / 2);
+                    lastX = p.getX();
+                    lastY = p.getY();
                 }
             }
             JPanel panel = new JPanel();
@@ -77,7 +75,7 @@ public class AreaPanel implements ITool, IActionReceiver<Map<String, Map<Double,
         this.panel.repaint();
     }
 
-    public void respondToAction(Map<String, Map<Double, Double>> argument) {
+    public void respondToAction(Map<String, List<GraphPoint>> argument) {
         update(argument);
     }
 

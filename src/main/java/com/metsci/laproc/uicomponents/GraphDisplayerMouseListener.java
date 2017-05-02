@@ -4,15 +4,14 @@ import com.metsci.glimpse.event.mouse.GlimpseMouseEvent;
 import com.metsci.glimpse.event.mouse.GlimpseMouseListener;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.support.color.GlimpseColor;
+import com.metsci.laproc.plotting.BasicGraphPoint;
 import com.metsci.laproc.plotting.Graph;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IAction;
+import javafx.util.Pair;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Mouse listener for selecting a set of points on a graph
@@ -27,7 +26,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private boolean displayDoubleClick = false;
     private boolean isDisplayingPolygon = false;
     private IAction<Map<String, GraphPoint>>[] actionsOnClick;
-    private IAction<Map<String, Map<Double, Double>>> actionOnDoubleClick;
+    private IAction<Map<String, List<GraphPoint>>> actionOnDoubleClick;
     private GlimpseMouseEvent firstClick;
 
     //Defines maximum amount of time between two clicks to consider them together as a double click
@@ -39,7 +38,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      * @param polygonPainter polygon painter for selection area
      * @param actionsOnClick actions to perform on click
      */
-    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<Map<String, Map<Double, Double>>> actionOnDoubleClick, IAction<Map<String, GraphPoint>>... actionsOnClick){
+    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<Map<String, List<GraphPoint>>> actionOnDoubleClick, IAction<Map<String, GraphPoint>>... actionsOnClick){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
         this.actionsOnClick = actionsOnClick;
@@ -140,27 +139,25 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      * @param glimpseMouseEvent
      */
     private void datasetAreaPairs(GlimpseMouseEvent glimpseMouseEvent) {
-        Map<String, Map<Double, Double>> graphValueRanges = new HashMap<String, Map<Double, Double>>();
+        Map<String, List<GraphPoint>> graphValueRanges = new HashMap<String, List<GraphPoint>>();
 
         float x1 = (float)displayClosestPoint(firstClick);
         float x2 = (float)displayClosestPoint(glimpseMouseEvent);
 
         List<GraphableData> data = graph.getData();
 
-        GraphPoint[] firstpoints = graph.getClosestPoints(firstClick.getAxisCoordinatesX(), firstClick.getAxisCoordinatesY());
-        GraphPoint[] lastpoints = graph.getClosestPoints(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
-
         for (int j = 0; j < data.size(); j++) {
-            Map<Double, Double> values = new HashMap<Double, Double>();
-            GraphPoint first = firstpoints[j];
-            values.put(first.getX(), first.getY());
-            for (float i = x1; i < x2; i += 0.001f) {
-                GraphPoint point = data.get(j).getPointGreaterOrEqual(i);
-                values.put(point.getX(), point.getY());
+            List<GraphPoint> points = new ArrayList<GraphPoint>();
+            double[] xValues = data.get(j).getXValues();
+            double[] yValues = data.get(j).getYValues();
+            for(int i = 0; i < xValues.length; i++) {
+                if (xValues[i] > x2)
+                    break;
+                if(xValues[i] >= x1) {
+                    points.add(new BasicGraphPoint(xValues[i], yValues[i]));
+                }
             }
-            GraphPoint last = lastpoints[j];
-            values.put(last.getX(), last.getY());
-            graphValueRanges.put(data.get(j).getName(), values);
+            graphValueRanges.put(data.get(j).getName(), points);
         }
 
         this.actionOnDoubleClick.doAction(graphValueRanges);
