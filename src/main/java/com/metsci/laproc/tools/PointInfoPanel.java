@@ -64,7 +64,7 @@ public class PointInfoPanel implements ITool, IActionReceiver<Map<String, GraphP
     }
 
     public View getView() {
-        return new View("Point Info", this.panel, "Point Info", true);
+        return new View("Point Info", this.panel, "Point Info", false);
     }
 
     public int getDefaultPosition() {

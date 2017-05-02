@@ -40,6 +40,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider, GraphDisplayManage
 
     private GraphRenderer graphRenderer;
     private IAction<Map<String, GraphPoint>>[] pointClickActions;
+    private IAction<Map<String, Map<Double, Double>>> doubleClickAction;
     private Graph graph;
 
     //Restricts the line painters to use these selected colors that are easily visible
@@ -58,8 +59,9 @@ public class GraphDisplayer implements GlimpseLayoutProvider, GraphDisplayManage
      * Default constructor for the graph displayer
      * @param pointClickActions point click actions for the graph displayer
      */
-    public GraphDisplayer(IAction<Map<String, GraphPoint>>... pointClickActions) {
+    public GraphDisplayer(IAction<Map<String, Map<Double, Double>>> doubleClickAction, IAction<Map<String, GraphPoint>>... pointClickActions) {
         this.pointClickActions = pointClickActions;
+        this.doubleClickAction = doubleClickAction;
         //By default, display an empty graph
         this.graph = new BasicGraph();
         this.graphRenderer = new GraphRenderer();
@@ -96,7 +98,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider, GraphDisplayManage
         // Add mouse listener
         PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
-        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter, this.pointClickActions));
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter, this.doubleClickAction, this.pointClickActions));
 
         // Add a painter to uicomponents the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter();

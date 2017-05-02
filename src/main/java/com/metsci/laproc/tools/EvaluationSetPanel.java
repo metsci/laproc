@@ -168,7 +168,7 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 	}
 
 	public View getView() {
-		return new View("Data Sheet", this.panel, "Data Sheet", true);
+		return new View("Data Sheet", this.panel, "Data Sheet", false);
 	}
 
 	public int getDefaultPosition() {

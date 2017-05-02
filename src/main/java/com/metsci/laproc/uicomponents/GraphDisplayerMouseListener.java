@@ -11,6 +11,7 @@ import com.metsci.laproc.utils.IAction;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,6 +27,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
     private boolean displayDoubleClick = false;
     private boolean isDisplayingPolygon = false;
     private IAction<Map<String, GraphPoint>>[] actionsOnClick;
+    private IAction<Map<String, Map<Double, Double>>> actionOnDoubleClick;
     private GlimpseMouseEvent firstClick;
 
     //Defines maximum amount of time between two clicks to consider them together as a double click
@@ -37,10 +39,11 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
      * @param polygonPainter polygon painter for selection area
      * @param actionsOnClick actions to perform on click
      */
-    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<Map<String, GraphPoint>>... actionsOnClick){
+    protected GraphDisplayerMouseListener(Graph graph, PolygonPainter polygonPainter, IAction<Map<String, Map<Double, Double>>> actionOnDoubleClick, IAction<Map<String, GraphPoint>>... actionsOnClick){
         this.graph = graph;
         this.polygonPainter = polygonPainter;
         this.actionsOnClick = actionsOnClick;
+        this.actionOnDoubleClick = actionOnDoubleClick;
 
         configurePolygonPainter();
     }
@@ -76,9 +79,12 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
             displayDoubleClick = false;
             float[] xValues = {x1,x1,x2,x2};
 
+            datasetAreaPairs(glimpseMouseEvent);
+
             //Set to bigger than normal view so that edges are not seen
             float[] yValues = {-1,2,2,-1};
             this.polygonPainter.addPolygon(0,0,xValues,yValues,0);
+            this.polygonPainter.setVisible(true);
             isDisplayingPolygon = true;
         } else if(doubleClicked){ // Log the second click for a double click for selecting the region
             firstClick = glimpseMouseEvent;
@@ -124,5 +130,31 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         float[] lineColor = GlimpseColor.fromColorRgb(0f,0f,0f);
         this.polygonPainter.setLineColor(0,lineColor);
         this.polygonPainter.setLineWidth(0,2);
+    }
+
+    /**
+     * Creates a map of key value pairs representing data sets mapped to maps of values that correspond to the selected areas values.
+     *
+     * @param glimpseMouseEvent
+     */
+    private void datasetAreaPairs(GlimpseMouseEvent glimpseMouseEvent) {
+        Map<String, Map<Double, Double>> graphValueRanges = new HashMap<String, Map<Double, Double>>();
+
+        float x1 = (float)displayClosestPoint(firstClick);
+        float x2 = (float)displayClosestPoint(glimpseMouseEvent);
+
+        List<GraphableData> data = graph.getData();
+        for (int j = 0; j < data.size(); j++) {
+            Map<Double, Double> values = new HashMap<Double, Double>();
+            values.put(firstClick.getAxisCoordinatesX(), firstClick.getAxisCoordinatesY());
+            for (float i = x1; i < x2; i += 0.01f) {
+                GraphPoint point = data.get(j).getPointGreaterOrEqual(i);
+                values.put(point.getAnalytics().get(graph.getXAxis()), point.getAnalytics().get(graph.getYAxis()));
+            }
+            values.put(glimpseMouseEvent.getAxisCoordinatesX(), glimpseMouseEvent.getAxisCoordinatesY());
+            graphValueRanges.put(data.get(j).getName(), values);
+        }
+
+        this.actionOnDoubleClick.doAction(graphValueRanges);
     }
 }
