@@ -203,7 +203,7 @@ public class OutputDataReferenceImplTest {
         OutputDataReferenceImpl graphRef = new OutputDataReferenceImpl();
 
         observer.update(graphRef);
-        EasyMock.expectLastCall().times(4);
+        EasyMock.expectLastCall().times(5);
         EasyMock.replay(observer,function1,function2);
 
         graphRef.addObserver(observer);

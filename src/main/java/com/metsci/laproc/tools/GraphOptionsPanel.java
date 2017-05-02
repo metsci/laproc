@@ -65,12 +65,6 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
 
         setupCompositeFunctionOptions();
 
-        //Create update button for updating the graph
-       /* this.updateButton = new JButton("Update");
-        this.updateButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        this.updateButton.addActionListener(new UpdateListener());
-        this.panel.add(updateButton);*/
-
         //Add text field for exporting the graph
         addJLabel("Export Graph File Path:");
         final JTextField exportTextField = new JTextField();
