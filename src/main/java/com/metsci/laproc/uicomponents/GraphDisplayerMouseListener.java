@@ -144,6 +144,17 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
         float x1 = (float)displayClosestPoint(firstClick);
         float x2 = (float)displayClosestPoint(glimpseMouseEvent);
 
+        double start = 0;
+        double finish = 0;
+
+        if(x1 > x2) {
+            start = x2;
+            finish = x1;
+        } else {
+            start = x1;
+            finish = x2;
+        }
+
         List<GraphableData> data = graph.getData();
 
         for (int j = 0; j < data.size(); j++) {
@@ -151,9 +162,9 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
             double[] xValues = data.get(j).getXValues();
             double[] yValues = data.get(j).getYValues();
             for(int i = 0; i < xValues.length; i++) {
-                if (xValues[i] > x2)
+                if (xValues[i] > finish)
                     break;
-                if(xValues[i] >= x1) {
+                if(xValues[i] >= start) {
                     points.add(new BasicGraphPoint(xValues[i], yValues[i]));
                 }
             }
