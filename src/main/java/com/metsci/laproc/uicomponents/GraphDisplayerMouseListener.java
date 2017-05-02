@@ -154,7 +154,7 @@ public class GraphDisplayerMouseListener implements GlimpseMouseListener {
             Map<Double, Double> values = new HashMap<Double, Double>();
             GraphPoint first = firstpoints[j];
             values.put(first.getX(), first.getY());
-            for (float i = x1; i < x2; i += 0.01f) {
+            for (float i = x1; i < x2; i += 0.001f) {
                 GraphPoint point = data.get(j).getPointGreaterOrEqual(i);
                 values.put(point.getX(), point.getY());
             }

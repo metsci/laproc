@@ -10,6 +10,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
+ * Tool used for analysis of the area under graphable datas
+ *
  * Created by porterjc on 5/2/2017.
  */
 public class AreaPanel implements ITool, IActionReceiver<Map<String, Map<Double, Double>>> {
@@ -50,7 +52,7 @@ public class AreaPanel implements ITool, IActionReceiver<Map<String, Map<Double,
                     lastX = x;
                     lastY = xyPairs.get(x);
                 } else {
-                    area += Math.abs(x - lastX) * Math.abs(xyPairs.get(x) - lastY);
+                        area += Math.abs(x - lastX) * ((xyPairs.get(x) + lastY) / 2);
                     lastX = x;
                     lastY = xyPairs.get(x);
                 }
@@ -58,8 +60,9 @@ public class AreaPanel implements ITool, IActionReceiver<Map<String, Map<Double,
             JPanel panel = new JPanel();
 
             panel.setLayout(matri);
-            panel.add(new JLabel(name));
-            panel.add(new JLabel(area + ""));
+            panel.add(new JLabel(name + ": "));
+            String areaString = String.format("%1$f", area);
+            panel.add(new JLabel(areaString + ""));
 
             supPanel.add(panel);
             lastX = -1;
