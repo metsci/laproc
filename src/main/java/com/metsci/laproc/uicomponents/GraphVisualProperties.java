@@ -21,7 +21,7 @@ public class GraphVisualProperties extends Properties {
 
     static final float[] defaultAverageColor = GlimpseColor.fromColorRgb(0f, 1f, 0f);
     static final float[] defaultShadeColor = GlimpseColor.fromColorRgb(0.6f,0.6f,0.6f);
-    static final float[][] possibleColors = new float[8][4];
+    static final float[][] possibleColors = new float[7][4];
     static final float defaultLineThickness = 1.5f;
     static final int defaultLegendXOffset = 100;
     static final int defaultLegendYOffset = 10;
