@@ -76,7 +76,7 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
     /**
      * A helper method to reuse code for getXValues and getYValues
      * @param m The metric to use for this data
-     * @return A set of doubles based on the metrivc's calculations
+     * @return A set of doubles based on the metric's calculations
      */
     private double[] getDataForMetric(ParametricFunction<T> m) {
         double[] values = new double[this.getSize()];
@@ -219,7 +219,7 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
 
     /**
      * Adds a metric to the list of statistics derived for each point in the set.
-     * This metrics are for uicomponents purposes only
+     * These metrics are for display purposes only
      * @param m The metric to add
      */
     protected void addStatisticMetric(ParametricFunction<T> m) {

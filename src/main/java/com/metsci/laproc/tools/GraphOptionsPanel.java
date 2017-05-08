@@ -121,7 +121,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     }
 
     /**
-     * Gets the appropriate matric based on the currently selected item
+     * Gets the appropriate metric based on the currently selected item
      * @return the selected x axis
      */
     public ParametricFunction getSelectedXAxis() {
@@ -129,7 +129,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     }
 
     /**
-     * Gets the appropriate matric based on the currently selected item
+     * Gets the appropriate metric based on the currently selected item
      * @return the selected y axis
      */
     public ParametricFunction getSelectedYAxis() {

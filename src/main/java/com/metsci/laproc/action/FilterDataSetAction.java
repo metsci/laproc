@@ -46,7 +46,7 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
         Filterer.filterAndUnion(updateSet,tags,evalSets);
 
         //Update data references to include the new classifier data set
-        GraphableData<?> oldGraph = this.inputDataReference.getGraphfromDataSet(updateSet);
+        GraphableData<?> oldGraph = this.inputDataReference.getGraphFromDataSet(updateSet);
 
         GraphableData output = graphableFunction.compute(updateSet);
         output.setName(updateSet.getName());

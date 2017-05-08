@@ -38,7 +38,7 @@ public class Legend implements GraphFeature {
     /**
      * Adds an entry to the legend to display as a color block
      * @param label The string to display on the legend
-     * @param color The color to display on the legent
+     * @param color The color to display on the legend
      */
     public void addBlockEntry(String label, float[] color) {
         this.blockEntries.add(new Pair<String, float[]>(label, color));

@@ -25,7 +25,7 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
     private String setOperations;
 
     /**
-     * Constructor for a classifer data set
+     * Constructor for a classifier data set
      * @param givenTags tags that uniquely identify the classifier data set (if it is an evaluation set)
      * @param name name of the classifier data set
      */

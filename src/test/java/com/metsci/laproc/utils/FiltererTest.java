@@ -25,7 +25,7 @@ public class FiltererTest {
     public void setUp() {
         dataSet = new ClassifierDataSet(new ArrayList<List<String>>(), "Update");
 
-        initializetagSet();
+        initializeTagSet();
 
         evalSets = new ArrayList<ClassifierDataSet>();
 
@@ -76,7 +76,7 @@ public class FiltererTest {
     }
 
     @Test
-    public void testDefaulttagSet(){
+    public void testDefaultTagSet(){
         Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         Set<DataPoint> points = this.dataSet.getAllPoints();
 
@@ -122,7 +122,7 @@ public class FiltererTest {
     }
 
     @Test
-    public void testUnionMultipletagSet(){
+    public void testUnionMultipleTagSet(){
         this.tagSet.get(0).add("a1");
         this.tagSet.get(0).add("a2");
         Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
@@ -202,7 +202,7 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a1 )", setOperations);
 
-        this.initializetagSet();
+        this.initializeTagSet();
 
         this.tagSet.get(1).add("b1");
         Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
@@ -233,7 +233,7 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a1 ) /\\ ( b1 )", setOperations);
 
-        this.initializetagSet();
+        this.initializeTagSet();
 
         this.tagSet.get(1).add("a3");
         Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
@@ -261,7 +261,7 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a3 )", setOperations);
 
-        initializetagSet();
+        initializeTagSet();
 
         this.tagSet.get(0).add("a1");
         this.tagSet.get(1).add("b1");
@@ -276,7 +276,7 @@ public class FiltererTest {
         setOperations = this.dataSet.getSetOperations();
         assertEquals("[ ( a3 ) ] V [ ( a1 ) /\\ ( b1 ) ]", setOperations);
 
-        this.initializetagSet();
+        this.initializeTagSet();
     }
 
     @Test
@@ -296,7 +296,7 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a1 V a2 )", setOperations);
 
-        this.initializetagSet();
+        this.initializeTagSet();
 
         this.tagSet.get(1).add("a3");
         Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
@@ -327,7 +327,7 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a3 )", setOperations);
 
-        this.initializetagSet();
+        this.initializeTagSet();
 
         this.tagSet.get(0).add("a1");
         this.tagSet.get(0).add("a2");
@@ -363,7 +363,7 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( all )", setOperations);
 
-        this.initializetagSet();
+        this.initializeTagSet();
 
         this.tagSet.get(1).add("a3");
         Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
@@ -394,7 +394,7 @@ public class FiltererTest {
         String setOperations = this.dataSet.getSetOperations();
         assertEquals("( a3 )", setOperations);
 
-        this.initializetagSet();
+        this.initializeTagSet();
 
         Filterer.filterAndUnion(this.dataSet, this.tagSet, this.evalSets);
         points = this.dataSet.getAllPoints();
@@ -415,7 +415,7 @@ public class FiltererTest {
         return evalSets.get(i).getAllPoints().iterator().next();
     }
 
-    private void initializetagSet(){
+    private void initializeTagSet(){
         tagSet = new ArrayList<List<String>>();
 
         tagSet.add(new ArrayList<String>());

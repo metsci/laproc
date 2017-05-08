@@ -68,7 +68,7 @@ public interface InputDataReference extends IObservable {
      * @param dataSetGroup data set group to get the associate graph for
      * @return associated graph for the data set group
      */
-    GraphableData<?> getGraphfromDataSet(ClassifierDataSet dataSetGroup);
+    GraphableData<?> getGraphFromDataSet(ClassifierDataSet dataSetGroup);
 
     /**
      * Getter for the tag headers in the data reference

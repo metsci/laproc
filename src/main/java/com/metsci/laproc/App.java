@@ -69,7 +69,7 @@ public class App {
                 //Each line beyond the first represents a single data point.
                 DataPoint point;
 
-                //Given that the 4th column is the truth value and the 5th column is the classifer score,
+                //Given that the 4th column is the truth value and the 5th column is the classifier score,
                 //create a data point accordingly.
                 if(line[3].equals("1"))
                     point = new DataPointImpl(true, Double.parseDouble(line[4]));

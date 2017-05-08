@@ -82,7 +82,7 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
         }
     }
 
-    public GraphableData<?> getGraphfromDataSet(ClassifierDataSet dataSetGroup){
+    public GraphableData<?> getGraphFromDataSet(ClassifierDataSet dataSetGroup){
         return this.dataSetGraphMap.get(dataSetGroup);
     }
 

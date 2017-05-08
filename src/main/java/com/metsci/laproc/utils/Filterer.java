@@ -65,7 +65,7 @@ public class Filterer {
                         }
                     }
                 }
-                //Remove all sets form initial sets that dont have the tags from other sets of tags
+                //Remove all sets form initial sets that don't have the tags from other sets of tags
                 for (int i = startingIndex + 1; i < tags.size(); i++) {
                     if (!tags.get(i).isEmpty()) {
                         setOperation += " ) /\\ ( ";

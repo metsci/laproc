@@ -29,8 +29,10 @@ public class AppTest
     }
 
     /**
-     * Rigourous Test :-)
+     * Rigorous Test :-)
      */
+
+    //TODO what purpose does this serve?
     public void testApp()
     {
         assertTrue( true );

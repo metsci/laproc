@@ -87,7 +87,7 @@ public class GraphableDataPanel implements ITool, IObserver<OutputDataReference>
 
     /**
      * Repopulates the table containing graphable data when the reference is updated
-     * @param reference referance to observe
+     * @param reference reference to observe
      */
     public void update(OutputDataReference reference) {
         ObjectOpenHashBigSet<GraphableData> selected = this.table.getSelectedValues();

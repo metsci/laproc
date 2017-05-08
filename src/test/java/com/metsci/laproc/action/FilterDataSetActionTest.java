@@ -35,7 +35,7 @@ public class FilterDataSetActionTest {
         ArrayList<ClassifierDataSet> evalSets = new ArrayList<ClassifierDataSet>();
         EasyMock.expect(inputRef.getEvaluationSets()).andReturn(evalSets);
 
-        EasyMock.expect(inputRef.getGraphfromDataSet(updateSet)).andReturn(oldGraph);
+        EasyMock.expect(inputRef.getGraphFromDataSet(updateSet)).andReturn(oldGraph);
 
         EasyMock.expect(graphFunction.compute(updateSet)).andReturn(output);
 
