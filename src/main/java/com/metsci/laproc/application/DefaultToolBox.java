@@ -8,7 +8,6 @@ import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphPoint;
 import com.metsci.laproc.tools.*;
 import com.metsci.laproc.uicomponents.GraphDisplayer;
-import com.metsci.laproc.uicomponents.GraphRenderer;
 
 import java.util.Map;
 

@@ -5,7 +5,6 @@ import com.metsci.laproc.datareference.InputDataReference;
 import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
-import com.metsci.laproc.plotting.ROCCurveFunction;
 import com.metsci.laproc.tools.EvaluationSetPanel;
 import com.metsci.laproc.utils.Filterer;
 import com.metsci.laproc.utils.IAction;

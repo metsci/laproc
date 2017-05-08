@@ -1,12 +1,6 @@
 package com.metsci.laproc.tools;
 
-import com.metsci.glimpse.plot.Plot2D;
-import com.metsci.laproc.datareference.GraphReference;
-import com.metsci.laproc.plotting.Graph;
-import com.metsci.laproc.uicomponents.GraphVisualProperties;
 import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
-import com.metsci.laproc.utils.IObservable;
-import com.metsci.laproc.utils.IObserver;
 
 /**
  * Applies composite functions to the Graph

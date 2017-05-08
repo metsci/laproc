@@ -2,7 +2,6 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.plotting.GraphPoint;
-import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IActionReceiver;
 
 import javax.swing.*;

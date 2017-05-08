@@ -6,14 +6,11 @@ import com.metsci.laproc.datareference.OutputDataReference;
 import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.plotting.GraphableFunction;
 import com.metsci.laproc.tools.EvaluationSetPanel;
-import org.easymock.Capture;
 import org.easymock.EasyMock;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test FilterDataSetAction

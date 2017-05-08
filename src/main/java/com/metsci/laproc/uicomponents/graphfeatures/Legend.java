@@ -8,9 +8,7 @@ import com.metsci.laproc.uicomponents.GraphVisualProperties;
 import com.metsci.laproc.uicomponents.PainterFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Adds a legend to the plot
