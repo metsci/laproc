@@ -150,7 +150,7 @@ public class App {
                 }
             }
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -207,7 +207,7 @@ public class App {
                 }
             }
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }

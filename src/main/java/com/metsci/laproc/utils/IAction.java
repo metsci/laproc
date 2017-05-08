@@ -7,8 +7,7 @@ package com.metsci.laproc.utils;
 public interface IAction<T> {
     /**
      * Perform some action for some on click interaction
-     *
-     * @param argument
+     * @param argument The argument to use for this action function
      */
     void doAction(T argument);
 }
