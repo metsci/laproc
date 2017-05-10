@@ -9,6 +9,7 @@ import com.metsci.laproc.utils.IActionReceiver;
  */
 public class UpdateGenericDisplayAction<T> implements IAction<T> {
 
+    /** The receiver of this action */
     private IActionReceiver<T> receiver;
 
     /**

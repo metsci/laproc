@@ -12,13 +12,13 @@ import com.metsci.laproc.utils.IAction;
 import java.util.List;
 
 /**
- * Action to union the selected evaluation sets into the selected classifier sets in a datasheet panel
+ * Action to union the selected evaluation sets into the selected classifier sets in a data sheet panel
  * Created by malinocr on 1/3/2017.
  */
 public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
     private InputDataReference inputDataReference;
     private OutputDataReference outputDataReference;
-    private GraphableFunction graphableFunction;
+    private GraphableFunction<ClassifierDataSet> graphableFunction;
 
 
     /**
@@ -26,7 +26,8 @@ public class FilterDataSetAction implements IAction<EvaluationSetPanel> {
      * @param inref input data reference for the application
      * @param outref output data reference for the application
      */
-    public FilterDataSetAction(InputDataReference inref, OutputDataReference outref, GraphableFunction graphFunc){
+    public FilterDataSetAction(InputDataReference inref, OutputDataReference outref,
+                               GraphableFunction<ClassifierDataSet> graphFunc){
         this.inputDataReference = inref;
         this.outputDataReference = outref;
         this.graphableFunction = graphFunc;

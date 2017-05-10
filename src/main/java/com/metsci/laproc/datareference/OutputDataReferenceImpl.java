@@ -12,7 +12,6 @@ import java.util.*;
 
 /**
  * This class allows tools to access the graphable data calculated as the result of executing a function
- *
  * Created by robinsat on 1/23/2017.
  */
 public class OutputDataReferenceImpl extends Observable implements OutputDataReference {
@@ -20,7 +19,9 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
     /** The internal collection of GraphableData */
     private Map<GraphableData, Boolean> allData;
 
+    /** The function currently being plotted along the x axis */
     private ParametricFunction xAxisFunc;
+    /** The function currently being plotted along the y axis */
     private ParametricFunction yAxisFunc;
 
     /**
@@ -44,6 +45,10 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         }
     }
 
+    /**
+     * Removes a GraphableData object from this global set
+     * @param data The GraphableData to remove
+     */
     public void deleteGraphableData(GraphableData<?> data) {
         if(allData.containsKey(data)) {
             allData.remove(data);
@@ -51,6 +56,11 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
         }
     }
 
+    /**
+     * Replaces a GraphableData object with a new one
+     * @param graphSet Old graphable data set to replace
+     * @param newGraphSet New graphable data set used to replace the old data set
+     */
     public void replaceDataOnGraph(GraphableData<?> graphSet, GraphableData<?> newGraphSet) {
         if(!allData.keySet().contains(newGraphSet) && allData.keySet().contains(graphSet)) {
             boolean display = allData.get(graphSet);
@@ -164,11 +174,14 @@ public class OutputDataReferenceImpl extends Observable implements OutputDataRef
      * @return A new Graph object using the given axes, displaying the appropriate data.
      */
     public Graph createGraph() {
-        //TODO add error check here
         Graph graph = new BasicGraph();
         for(GraphableData data : this.getDisplayedData()) {
-            data.useAxes(this.xAxisFunc, this.yAxisFunc);
-            graph.addData(data);
+            try {
+                data.useAxes(this.xAxisFunc, this.yAxisFunc);
+                graph.addData(data);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         graph.setXAxisDescriptor(this.xAxisFunc.getDescriptor());
         graph.setYAxisDescriptor(this.yAxisFunc.getDescriptor());

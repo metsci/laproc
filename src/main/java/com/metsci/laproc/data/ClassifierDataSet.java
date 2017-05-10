@@ -108,6 +108,10 @@ public class ClassifierDataSet implements Iterable<DataPoint> {
         this.setOperations = setOperations;
     }
 
+    /**
+     * toString implementation that returns the name of this data set
+     * @return The name of this data set
+     */
     @Override
     public String toString(){
         return this.getName();

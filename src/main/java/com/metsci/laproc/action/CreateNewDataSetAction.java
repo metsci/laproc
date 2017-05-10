@@ -18,9 +18,14 @@ import java.util.List;
  */
 
 public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
+
+    /** A reference to the classifier data that comprises the input to some graphable function */
     private InputDataReference inputDataReference;
+    /** A reference to the set of data output by some graphable function */
     private OutputDataReference outputDataReference;
-    private GraphableFunction graphableFunction;
+    /** The function to use for plotting this new data set */
+    private GraphableFunction<ClassifierDataSet> graphableFunction;
+    /** Tracks the current number of data sets, used to generate a default name */
     private int currentAddedIndex = 1;
 
     /**
@@ -29,7 +34,8 @@ public class CreateNewDataSetAction implements IAction<EvaluationSetPanel> {
      * @param outref the output data reference to use for output data
      * @param graphFunc the graphable function to create graphable data
      */
-    public CreateNewDataSetAction(InputDataReference inref, OutputDataReference outref, GraphableFunction graphFunc) {
+    public CreateNewDataSetAction(InputDataReference inref, OutputDataReference outref,
+                                  GraphableFunction<ClassifierDataSet> graphFunc) {
         inputDataReference = inref;
         outputDataReference = outref;
         graphableFunction = graphFunc;

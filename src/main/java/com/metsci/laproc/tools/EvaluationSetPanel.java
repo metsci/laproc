@@ -167,10 +167,18 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 		return (ClassifierDataSet)this.dataSets.getSelectedItem();
 	}
 
+	/**
+	 * Gets this tool's displayable View
+	 * @return A displayable view
+     */
 	public View getView() {
 		return new View("Data Sheet", this.panel, "Data Sheet", true);
 	}
 
+	/**
+	 * By default, display this panel in the leftmost pane
+	 * @return A value representing the leftmost position
+     */
 	public int getDefaultPosition() {
 		return ITool.LEFTPOSITION;
 	}

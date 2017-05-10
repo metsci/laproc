@@ -3,7 +3,7 @@ package com.metsci.laproc.plotting;
 import java.util.*;
 
 /**
- * An example implementation of a graph
+ * A basic implementation of a graph
  * Created by robinsat on 9/20/2016.
  */
 public class BasicGraph implements Graph {
@@ -115,6 +115,10 @@ public class BasicGraph implements Graph {
         this.title = title;
     }
 
+    /**
+     * Gets a list of all graphable data present on the graph
+     * @return a list of all graphable data present on the graph
+     */
     public List<GraphableData> getData() {
         return this.data;
     }
@@ -134,12 +138,20 @@ public class BasicGraph implements Graph {
         return closestPoints;
     }
 
+    /**
+     * Adds a set of graphable data to the graph
+     * @param data The data to add
+     */
     public void addData(GraphableData<?> data) {
         this.data.add(data);
     }
 
-	public void removeData(GraphableData<?> graphSet) {
-        this.data.remove(graphSet);
+    /**
+     * Removes a set of graphable data from the graph
+     * @param data The data to remove
+     */
+	public void removeData(GraphableData<?> data) {
+        this.data.remove(data);
 	}
 
 }

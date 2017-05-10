@@ -14,9 +14,14 @@ import java.util.List;
  * Created by porterjc on 12/14/2016.
  */
 public class InputDataReferenceImpl extends Observable implements InputDataReference {
+    /** A list of all the raw classifier data sets that comprise the initial program input */
     private List<ClassifierDataSet> evalSets;
+    /** A list of all data sets that have been created.
+     * These sets contain some subset of the initial data, and correspond to some graph element. */
     private List<ClassifierDataSet> dataSetGroups;
+    /** A mapping of data set groups to GraphableFunction output. */
     private HashMap<ClassifierDataSet, GraphableData> dataSetGraphMap;
+    /** A list of tag headers in the initial data set */
     private List<TagHeader> tagHeaders;
 
     /**
@@ -31,6 +36,10 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
         this.tagHeaders = tagHeaders;
     }
 
+    /**
+     * Adds a ClassifierDataSet to the collection of Evaluation Sets
+     * @param dataSet The set to add
+     */
     public void addEvalSet(ClassifierDataSet dataSet) {
         if(!this.evalSets.contains(dataSet)){
             this.evalSets.add(dataSet);
@@ -38,6 +47,10 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
         }
     }
 
+    /**
+     * Removes a ClassifierDataSet from the collection of Evaluation Sets
+     * @param dataSet The set to remove
+     */
     public void removeEvalSet(ClassifierDataSet dataSet) {
         if(this.evalSets.contains(dataSet)) {
             this.evalSets.remove(dataSet);
@@ -45,11 +58,18 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
         }
     }
 
+    /**
+     * Gets a list of all evaluation sets
+     * @return A list of all evaluation sets
+     */
     public List<ClassifierDataSet> getEvaluationSets() {
         return this.evalSets;
     }
 
-
+    /**
+     * Add a data set group to the data reference
+     * @param dataSetGroup new group to add
+     */
 	public void addDataSetGroup(ClassifierDataSet dataSetGroup){
         if(!this.dataSetGroups.contains(dataSetGroup)) {
             this.dataSetGroups.add(dataSetGroup);
@@ -57,6 +77,10 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
         }
 	}
 
+    /**
+     * Remove a data set group from the data reference
+     * @param dataSetGroup group to remove
+     */
     public void removeDataSetGroup(ClassifierDataSet dataSetGroup){
         if(this.dataSetGroups.remove(dataSetGroup)) {
             this.dataSetGroups.remove(dataSetGroup);
@@ -64,10 +88,19 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
         }
     }
 
+    /**
+     * Getter from the data set groups in the data reference
+     * @return data set groups
+     */
     public List<ClassifierDataSet> getDataSetGroups(){
         return this.dataSetGroups;
     }
 
+    /**
+     * Add a data set group/graph set pair to the map that associates the two kinds of sets
+     * @param dataSetGroup data set to associate with the graph set
+     * @param graphSet graph set to associate with the data set
+     */
 	public void addToDataSetGraphMap(ClassifierDataSet dataSetGroup, GraphableData<?> graphSet){
         if(!this.dataSetGraphMap.containsKey(dataSetGroup)) {
             this.dataSetGraphMap.put(dataSetGroup, graphSet);
@@ -75,6 +108,11 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
         }
     }
 
+    /**
+     * Updates a data set group/graph set pair to the map that associates the two kinds of sets
+     * @param dataSetGroup data set to update with a new graph set
+     * @param graphSet new graph set to associate with the data set
+     */
     public void replaceDataSetGraphMap(ClassifierDataSet dataSetGroup, GraphableData<?> graphSet){
         if(this.dataSetGraphMap.containsKey(dataSetGroup) && !this.dataSetGraphMap.get(dataSetGroup).equals(graphSet)) {
             this.dataSetGraphMap.put(dataSetGroup, graphSet);
@@ -82,10 +120,19 @@ public class InputDataReferenceImpl extends Observable implements InputDataRefer
         }
     }
 
+    /**
+     * Get the associated graph set for a given data set group
+     * @param dataSetGroup data set group to get the associate graph for
+     * @return associated graph for the data set group
+     */
     public GraphableData<?> getGraphFromDataSet(ClassifierDataSet dataSetGroup){
         return this.dataSetGraphMap.get(dataSetGroup);
     }
 
+    /**
+     * Getter for the tag headers in the data reference
+     * @return tag headers
+     */
 	public List<TagHeader> getTagHeaders() {
 		return this.tagHeaders;
 	}

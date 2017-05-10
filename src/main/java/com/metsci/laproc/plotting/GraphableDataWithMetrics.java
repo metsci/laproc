@@ -27,6 +27,8 @@ public class GraphableDataWithMetrics<T> implements GraphableData<T>{
     /**
      * Constructor
      * @param name The name to give to this set of data
+     * @param defaultXMetric The default X axis metric
+     * @param defaultYMetric The default Y axis metric
      */
     public GraphableDataWithMetrics(String name, ParametricFunction<T> defaultXMetric,
                                     ParametricFunction<T> defaultYMetric) {
