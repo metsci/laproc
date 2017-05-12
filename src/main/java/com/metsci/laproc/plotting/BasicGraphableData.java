@@ -5,7 +5,7 @@ import com.metsci.laproc.pointmetrics.ParametricFunction;
 import java.util.*;
 
 /**
- * An example implementation of basic graphable data
+ * A basic implementation of graphable data
  * Created by robinsat on 9/20/2016.
  */
 public class BasicGraphableData implements GraphableData<Double> {
@@ -180,7 +180,7 @@ public class BasicGraphableData implements GraphableData<Double> {
      * @param yAxis The metric to use for the y axis
      */
     public void useAxes(ParametricFunction xAxis, ParametricFunction yAxis) {
-       //For now, do nothing.
+       // This implementation stores x/y values only and does not use parametric functions. Therefore, do nothing.
     }
 
     /**

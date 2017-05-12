@@ -9,11 +9,12 @@ import com.metsci.laproc.utils.IActionReceiver;
  */
 public class UpdateGenericDisplayAction<T> implements IAction<T> {
 
+    /** The receiver of this action */
     private IActionReceiver<T> receiver;
 
     /**
-     * Basic constuctor that takes a Action Receiver object
-     * @param receiver reciever of the action
+     * Basic constructor that takes a Action Receiver object
+     * @param receiver receiver of the action
      */
     public UpdateGenericDisplayAction(IActionReceiver<T> receiver) {
         this.receiver = receiver;

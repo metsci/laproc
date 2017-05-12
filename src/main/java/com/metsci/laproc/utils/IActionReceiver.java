@@ -7,8 +7,7 @@ package com.metsci.laproc.utils;
 public interface IActionReceiver<T> {
     /**
      * Perform some action in response to the result of some IAction object
-     *
-     * @param argument
+     * @param argument The argument to use for this action function
      */
     void respondToAction(T argument);
 }

@@ -123,28 +123,28 @@ public class InputDataReferenceImplTest {
         graphRef.addObserver(observer);
         graphRef.addToDataSetGraphMap(classDataSet1, graphDataSet1);
         graphRef.addToDataSetGraphMap(classDataSet2, graphDataSet2);
-        assertEquals(graphDataSet1, graphRef.getGraphfromDataSet(classDataSet1));
-        assertEquals(graphDataSet2, graphRef.getGraphfromDataSet(classDataSet2));
+        assertEquals(graphDataSet1, graphRef.getGraphFromDataSet(classDataSet1));
+        assertEquals(graphDataSet2, graphRef.getGraphFromDataSet(classDataSet2));
 
         graphRef.addToDataSetGraphMap(classDataSet2, graphDataSet2);
-        assertEquals(graphDataSet1, graphRef.getGraphfromDataSet(classDataSet1));
-        assertEquals(graphDataSet2, graphRef.getGraphfromDataSet(classDataSet2));
+        assertEquals(graphDataSet1, graphRef.getGraphFromDataSet(classDataSet1));
+        assertEquals(graphDataSet2, graphRef.getGraphFromDataSet(classDataSet2));
 
         graphRef.replaceDataSetGraphMap(classDataSet2, graphDataSet1);
-        assertEquals(graphDataSet1, graphRef.getGraphfromDataSet(classDataSet1));
-        assertEquals(graphDataSet1, graphRef.getGraphfromDataSet(classDataSet2));
+        assertEquals(graphDataSet1, graphRef.getGraphFromDataSet(classDataSet1));
+        assertEquals(graphDataSet1, graphRef.getGraphFromDataSet(classDataSet2));
 
         graphRef.replaceDataSetGraphMap(classDataSet1, graphDataSet2);
-        assertEquals(graphDataSet2, graphRef.getGraphfromDataSet(classDataSet1));
-        assertEquals(graphDataSet1, graphRef.getGraphfromDataSet(classDataSet2));
+        assertEquals(graphDataSet2, graphRef.getGraphFromDataSet(classDataSet1));
+        assertEquals(graphDataSet1, graphRef.getGraphFromDataSet(classDataSet2));
 
         graphRef.replaceDataSetGraphMap(classDataSet3, graphDataSet2);
-        assertEquals(graphDataSet2, graphRef.getGraphfromDataSet(classDataSet1));
-        assertEquals(graphDataSet1, graphRef.getGraphfromDataSet(classDataSet2));
+        assertEquals(graphDataSet2, graphRef.getGraphFromDataSet(classDataSet1));
+        assertEquals(graphDataSet1, graphRef.getGraphFromDataSet(classDataSet2));
 
         graphRef.replaceDataSetGraphMap(classDataSet1, graphDataSet2);
-        assertEquals(graphDataSet2, graphRef.getGraphfromDataSet(classDataSet1));
-        assertEquals(graphDataSet1, graphRef.getGraphfromDataSet(classDataSet2));
+        assertEquals(graphDataSet2, graphRef.getGraphFromDataSet(classDataSet1));
+        assertEquals(graphDataSet1, graphRef.getGraphFromDataSet(classDataSet2));
 
         EasyMock.verify(observer,classDataSet1,classDataSet2,classDataSet3,graphDataSet1,graphDataSet2);
     }

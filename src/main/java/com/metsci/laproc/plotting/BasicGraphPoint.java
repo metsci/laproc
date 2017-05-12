@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * An example implementation of a graph point. Currently does not support adding analytics
+ * A basic implementation of a graph point
  * Created by robinsat on 10/25/2016.
  */
 public class BasicGraphPoint implements GraphPoint {
@@ -57,7 +57,7 @@ public class BasicGraphPoint implements GraphPoint {
      * @param key The key, which is a string descriptor
      * @param value The value of the statistic
      */
-    protected void addStatistic(String key, Double value) {
+    public void addStatistic(String key, Double value) {
         this.analytics.put(key, value);
     }
 }

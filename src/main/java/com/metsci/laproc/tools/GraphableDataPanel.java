@@ -20,10 +20,15 @@ import java.awt.Color;
  * Created by malinocr on 10/17/2016.
  */
 public class GraphableDataPanel implements ITool, IObserver<OutputDataReference> {
+    /** The displayable panel to store smaller components */
     private JPanel panel;
+    /** A table to display all data sets */
     private DataSetTable table;
+    /** The OutputDataReference observed by this tool */
     private OutputDataReference reference;
+    /** The action to execute when the user "shows" a data set */
     private IAction showAction;
+    /** The action to execute when the user "hides" a data set */
     private IAction hideAction;
 
     /**
@@ -87,7 +92,7 @@ public class GraphableDataPanel implements ITool, IObserver<OutputDataReference>
 
     /**
      * Repopulates the table containing graphable data when the reference is updated
-     * @param reference referance to observe
+     * @param reference reference to observe
      */
     public void update(OutputDataReference reference) {
         ObjectOpenHashBigSet<GraphableData> selected = this.table.getSelectedValues();

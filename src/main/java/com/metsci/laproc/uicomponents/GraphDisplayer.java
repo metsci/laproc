@@ -3,7 +3,6 @@ package com.metsci.laproc.uicomponents;
 import com.metsci.glimpse.layout.GlimpseLayoutProvider;
 import com.metsci.glimpse.painter.info.CursorTextPainter;
 import com.metsci.glimpse.painter.shape.PolygonPainter;
-import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.glimpse.plot.SimplePlot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.*;
@@ -11,9 +10,6 @@ import com.metsci.laproc.tools.GraphDisplayManager;
 import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
 import com.metsci.laproc.utils.IAction;
 import javafx.util.Pair;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import java.util.Map;
 import java.util.Set;

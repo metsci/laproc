@@ -2,7 +2,6 @@ package com.metsci.laproc.tools;
 
 import com.metsci.glimpse.docking.View;
 import com.metsci.laproc.plotting.GraphPoint;
-import com.metsci.laproc.plotting.GraphableData;
 import com.metsci.laproc.utils.IActionReceiver;
 
 import javax.swing.*;
@@ -15,7 +14,9 @@ import java.util.Map;
  * Created by porterjc on 10/14/2016.
  */
 public class ConfusionPanel implements ITool, IActionReceiver<Map<String, GraphPoint>> {
+    /** The panel storing the individual matrices */
     private JPanel masterPanel;
+    /** A scrollable container for the display panels */
     private JScrollPane pane;
 
     /**

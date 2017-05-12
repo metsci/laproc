@@ -8,7 +8,7 @@ public class Precision implements Metric {
 
     /**
      * Computes the precision for a given point
-     * @param point The point for which to calculate the precisioin
+     * @param point The point for which to calculate the precision
      * @return The precision
      */
     public double compute(ClassifierSetPoint point) {

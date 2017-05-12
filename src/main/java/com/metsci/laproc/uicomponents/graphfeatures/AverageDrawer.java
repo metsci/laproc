@@ -4,7 +4,6 @@ import com.metsci.glimpse.painter.plot.XYLinePainter;
 import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.glimpse.support.color.GlimpseColor;
 import com.metsci.laproc.plotting.*;
-import com.metsci.laproc.pointmetrics.ParametricFunction;
 import com.metsci.laproc.uicomponents.GraphVisualProperties;
 import com.metsci.laproc.uicomponents.PainterFactory;
 

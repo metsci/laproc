@@ -76,7 +76,7 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 		JPanel tagPanel = new JPanel();
 		this.tagPanel = tagPanel;
 		tagPanel.setLayout(new BoxLayout(tagPanel, BoxLayout.Y_AXIS));
-		//Each tag header will have a JLable displaying its name and a table with its tags.
+		//Each tag header will have a JLabel displaying its name and a table with its tags.
 		for(TagHeader header: headers){
 			DefaultTableModel model = new DefaultTableModel();
 			JLabel label = new JLabel(header.getName());
@@ -141,7 +141,7 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 
 	/**
 	 * Getter for the selected tags in the tag panel
-	 * @return A list of tags seperated into lists based on tag headers
+	 * @return A list of tags separated into lists based on tag headers
 	 */
 	public List<List<String>> getSelectedTags(){
 		Component[] components = this.tagPanel.getComponents();
@@ -167,10 +167,18 @@ public class EvaluationSetPanel implements ITool, IObserver<InputDataReference> 
 		return (ClassifierDataSet)this.dataSets.getSelectedItem();
 	}
 
+	/**
+	 * Gets this tool's displayable View
+	 * @return A displayable view
+     */
 	public View getView() {
 		return new View("Data Sheet", this.panel, "Data Sheet", false);
 	}
 
+	/**
+	 * By default, display this panel in the leftmost pane
+	 * @return A value representing the leftmost position
+     */
 	public int getDefaultPosition() {
 		return ITool.LEFTPOSITION;
 	}

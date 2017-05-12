@@ -1,6 +1,5 @@
 package com.metsci.laproc.uicomponents;
 
-import com.metsci.glimpse.painter.decoration.LegendPainter;
 import com.metsci.glimpse.painter.plot.XYLinePainter;
 import com.metsci.glimpse.plot.Plot2D;
 import com.metsci.glimpse.plot.SimplePlot2D;

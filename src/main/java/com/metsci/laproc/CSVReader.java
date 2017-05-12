@@ -10,7 +10,7 @@ public class CSVReader {
     private BufferedReader reader;
 
     /**
-     * Construtor for the CSV Reader
+     * Constructor for the CSV Reader
      * @param filePath CSV file to read
      * @throws IOException
      */

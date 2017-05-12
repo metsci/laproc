@@ -2,7 +2,6 @@ package com.metsci.laproc.uicomponents;
 
 import com.metsci.glimpse.painter.decoration.LegendPainter;
 import com.metsci.glimpse.painter.plot.XYLinePainter;
-import com.metsci.glimpse.painter.shape.PolygonPainter;
 import com.metsci.glimpse.support.color.GlimpseColor;
 
 import java.text.ParseException;

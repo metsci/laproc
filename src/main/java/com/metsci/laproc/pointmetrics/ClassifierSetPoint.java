@@ -1,7 +1,7 @@
 package com.metsci.laproc.pointmetrics;
 
 /**
- * A data class that stores the classifer data for a single point on a curve
+ * A data class that stores the classifier data for a single point on a curve
  * Created by robinsat on 10/25/2016.
  */
 public class ClassifierSetPoint {
