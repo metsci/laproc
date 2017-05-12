@@ -10,11 +10,13 @@ import com.metsci.laproc.plotting.*;
 import com.metsci.laproc.tools.GraphDisplayManager;
 import com.metsci.laproc.uicomponents.graphfeatures.GraphFeature;
 import com.metsci.laproc.utils.IAction;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Creates a Glimpse plot for a Graph
@@ -40,14 +42,16 @@ public class GraphDisplayer implements GlimpseLayoutProvider, GraphDisplayManage
 
     private GraphRenderer graphRenderer;
     private IAction<Map<String, GraphPoint>>[] pointClickActions;
+    private IAction<Map<String, List<GraphPoint>>> doubleClickAction;
     private Graph graph;
 
     /**
      * Default constructor for the graph displayer
      * @param pointClickActions point click actions for the graph displayer
      */
-    public GraphDisplayer(IAction<Map<String, GraphPoint>>... pointClickActions) {
+    public GraphDisplayer(IAction<Map<String, List<GraphPoint>>> doubleClickAction, IAction<Map<String, GraphPoint>>... pointClickActions) {
         this.pointClickActions = pointClickActions;
+        this.doubleClickAction = doubleClickAction;
         //By default, display an empty graph
         this.graph = new BasicGraph();
         this.graphRenderer = new GraphRenderer();
@@ -84,7 +88,7 @@ public class GraphDisplayer implements GlimpseLayoutProvider, GraphDisplayManage
         // Add mouse listener
         PolygonPainter selectedAreaPainter = new PolygonPainter();
         plot.addPainter(selectedAreaPainter);
-        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter, this.pointClickActions));
+        plot.addGlimpseMouseListener(new GraphDisplayerMouseListener(graph, selectedAreaPainter, this.doubleClickAction, this.pointClickActions));
 
         // Add a painter to uicomponents the x and y position of the cursor
         CursorTextPainter cursorPainter = new CursorTextPainter();

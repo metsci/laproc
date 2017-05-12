@@ -74,7 +74,7 @@ public class GraphableDataPanel implements ITool, IObserver<OutputDataReference>
      * @return data set panel view
      */
     public View getView() {
-        return new View("Data Set", this.panel, "Data Set", true);
+        return new View("Data Set", this.panel, "Data Set", false);
     }
 
     /**

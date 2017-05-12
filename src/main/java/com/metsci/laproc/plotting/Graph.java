@@ -1,5 +1,7 @@
 package com.metsci.laproc.plotting;
 
+import java.util.List;
+
 /**
  * This interface represents a graph with customizable axes that can be rendered with Glimpse.
  * Created by robinsat on 9/19/2016.
@@ -46,7 +48,7 @@ public interface Graph {
      * Getter for all of the graphable data associated with the graph
      * @return The graphable data associated with this graph
      */
-    Iterable<GraphableData> getData();
+    List<GraphableData> getData();
 
     /**
      * Gets the closest value on the plot to the value provided. This is probably a point that was clicked

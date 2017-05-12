@@ -51,7 +51,7 @@ public class GraphPanel implements ITool, IObserver<GraphReference> {
     }
 
     public View getView() {
-        return new View("Graph", this.getCanvas(), "Graph", true);
+        return new View("Graph", this.getCanvas(), "Graph", false);
     }
 
     public int getDefaultPosition() {
