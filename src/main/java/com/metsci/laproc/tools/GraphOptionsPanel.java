@@ -137,7 +137,7 @@ public class GraphOptionsPanel implements ITool, IObserver<OutputDataReference>{
     }
 
     public View getView() {
-        return new View("Options", this.panel, "Options", true);
+        return new View("Options", this.panel, "Options", false);
     }
 
     public int getDefaultPosition() {

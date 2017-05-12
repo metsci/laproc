@@ -88,7 +88,7 @@ public class ConfusionPanel implements ITool, IActionReceiver<Map<String, GraphP
      * @return the view for the tool
      */
     public View getView() {
-        return new View("Confusion Matrices", this.masterPanel, "Confusion Matrices", true);
+        return new View("Confusion Matrices", this.masterPanel, "Confusion Matrices", false);
     }
 
     /**

@@ -109,10 +109,9 @@ public class GraphRenderer implements GraphDisplayManager {
     public void drawGraphableData(Iterable<GraphableData> data, SimplePlot2D plot, PainterFactory factory, Legend legend){
         int currentColor = 0;
         for(GraphableData lineData : data){
-            float[] color = GraphDisplayer.possibleColors[currentColor];
-            if (currentColor != GraphDisplayer.possibleColors.length - 1) {
-                currentColor++;
-            }
+            currentColor = currentColor % GraphVisualProperties.possibleColors.length;
+            float[] color = GraphVisualProperties.possibleColors[currentColor];
+            currentColor++;
             XYLinePainter linePainter = factory.getLinePainter(color);
             linePainter.setData(lineData.getXValues(), lineData.getYValues());
             plot.addPainter(linePainter);
